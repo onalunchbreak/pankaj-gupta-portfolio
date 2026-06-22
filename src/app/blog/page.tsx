@@ -4,7 +4,28 @@ import { getAllPosts } from "@/lib/blog";
 export const metadata = {
   title: "Blog - Pankaj Gupta",
   description: "Insights, tutorials, and engineering notes on modern web application architecture and AI agents.",
+  openGraph: {
+    title: "Blog - Pankaj Gupta",
+    description: "Insights, tutorials, and engineering notes on modern web application architecture and AI agents.",
+    url: "https://project-01-kappa-sandy.vercel.app/blog",
+    images: [
+      {
+        url: "https://project-01-kappa-sandy.vercel.app/og-image.jpg",
+        width: 1200,
+        height: 800,
+        alt: "Pankaj Gupta Blog",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog - Pankaj Gupta",
+    description: "Insights, tutorials, and engineering notes on modern web application architecture and AI agents.",
+    images: ["https://project-01-kappa-sandy.vercel.app/og-image.jpg"],
+  },
 };
+
 
 export default function BlogPage() {
   const posts = getAllPosts();

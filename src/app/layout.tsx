@@ -18,7 +18,30 @@ const figtree = Figtree({
 export const metadata: Metadata = {
   title: "Pankaj Gupta Portfolio",
   description: "A responsive Next.js portfolio website built with Tailwind CSS v4.",
+  openGraph: {
+    title: "Pankaj Gupta Portfolio",
+    description: "A responsive Next.js portfolio website built with Tailwind CSS v4.",
+    url: "https://project-01-kappa-sandy.vercel.app",
+    siteName: "Pankaj Gupta Portfolio",
+    images: [
+      {
+        url: "https://project-01-kappa-sandy.vercel.app/og-image.jpg",
+        width: 1200,
+        height: 800,
+        alt: "Pankaj Gupta | Product Portfolio",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pankaj Gupta Portfolio",
+    description: "A responsive Next.js portfolio website built with Tailwind CSS v4.",
+    images: ["https://project-01-kappa-sandy.vercel.app/og-image.jpg"],
+  },
 };
+
 
 export default function RootLayout({
   children,

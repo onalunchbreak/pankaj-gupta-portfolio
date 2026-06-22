@@ -26,8 +26,30 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: `${post.title} - Pankaj Gupta`,
     description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: "article",
+      url: `https://project-01-kappa-sandy.vercel.app/blog/${slug}`,
+      publishedTime: post.date,
+      images: [
+        {
+          url: "https://project-01-kappa-sandy.vercel.app/og-image.jpg",
+          width: 1200,
+          height: 800,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: ["https://project-01-kappa-sandy.vercel.app/og-image.jpg"],
+    },
   };
 }
+
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
