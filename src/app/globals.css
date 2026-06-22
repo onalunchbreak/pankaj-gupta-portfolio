@@ -1,0 +1,212 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fdfcf9; /* Very soft warm-cream paper */
+  --foreground: #1c1917; /* stone-900 / warm charcoal */
+  
+  --card: #ffffff;
+  --card-foreground: #1c1917;
+  
+  --muted: #f4f0ea; /* soft warm gray */
+  --muted-foreground: #78716c; /* stone-500 */
+  
+  --border: #e7e2d8; /* thin warm border */
+  
+  --primary: #d95d39; /* warm terracotta orange */
+  --primary-foreground: #ffffff;
+  
+  --indigo-bg-radial: #faf7f2;
+}
+
+/* Apply dark class variable overrides */
+.dark {
+  --background: #0c0b0a; /* Deep warm black */
+  --foreground: #f4f0ea; /* warm paper text */
+  
+  --card: #141312; /* card background */
+  --card-foreground: #f4f0ea;
+  
+  --muted: #1e1d1b;
+  --muted-foreground: #a8a29e; /* stone-400 */
+  
+  --border: #292724;
+  
+  --primary: #e26d5c; /* warm coral */
+  --primary-foreground: #ffffff;
+  
+  --indigo-bg-radial: #060505;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  
+  --color-border: var(--border);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Custom Blog Content Typographic Rules */
+.blog-content h2 {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
+  color: var(--foreground);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+.blog-content h3 {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+}
+
+.blog-content p {
+  margin-bottom: 1.5rem;
+  font-size: 1.0625rem;
+  color: var(--foreground);
+  opacity: 0.9;
+  line-height: 1.75;
+}
+
+.blog-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.blog-content li {
+  margin-bottom: 0.5rem;
+  font-size: 1.0625rem;
+  color: var(--foreground);
+  opacity: 0.9;
+}
+
+.blog-content a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: opacity 0.2s;
+}
+
+.blog-content a:hover {
+  opacity: 0.8;
+}
+
+.blog-content pre {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  background-color: #0d1117; /* Matches github dark theme background */
+}
+
+.blog-content code {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.875rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  background-color: var(--muted);
+  color: var(--foreground);
+}
+
+.blog-content pre code {
+  padding: 1rem;
+  display: block;
+  background-color: transparent;
+  color: #c9d1d9;
+  border-radius: inherit;
+  overflow-x: auto;
+  border: none;
+}
+
+.blog-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.blog-content th {
+  border-bottom: 2px solid var(--border);
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 700;
+}
+
+.blog-content td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem;
+}
+
+/* PM Translation Engine Flow Animations */
+@keyframes dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.animate-dash {
+  stroke-dasharray: 8 4;
+  animation: dash 2.5s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-150%);
+  }
+  50% {
+    transform: translateX(150%);
+  }
+  100% {
+    transform: translateX(150%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 5s ease-in-out infinite;
+}
+
+/* Premium Grid Mesh Backgrounds (Wispr Flow / Pomelle style) */
+.bg-grid-pattern {
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(28, 25, 23, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(28, 25, 23, 0.03) 1px, transparent 1px);
+}
+
+.dark .bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(244, 240, 234, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(244, 240, 234, 0.015) 1px, transparent 1px);
+}
+
+.mask-radial-fade {
+  mask-image: radial-gradient(circle at center, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 85%);
+  -webkit-mask-image: radial-gradient(circle at center, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 85%);
+}
+
+
+
