@@ -64,7 +64,8 @@ export async function sendContactEmail(
       },
       body: JSON.stringify({
         from: "Pankaj Gupta Portfolio <onboarding@resend.dev>",
-        to: "delivered@resend.dev", // free keys only send to verified account email or delivered@resend.dev
+        to: "connectwithguptapankaj@gmail.com",
+        reply_to: email,
         subject: `New Portfolio Message from ${firstName} ${lastName || ""}`,
         html: `
           <div style="font-family: sans-serif; padding: 20px; color: #1c1917; background-color: #fdfcf9; border: 1px solid #e7e2d8; border-radius: 8px; max-width: 600px;">
