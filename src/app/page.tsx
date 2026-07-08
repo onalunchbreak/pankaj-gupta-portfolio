@@ -11,10 +11,10 @@ import CaseCloseOverlay from "@/components/shell/case-close-overlay";
 import KeyboardRouter from "@/components/shell/keyboard-router";
 
 import Hero from "@/components/sections/hero";
+import NavIndex from "@/components/sections/nav-index";
 import PhilosophyQuote from "@/components/sections/philosophy-quote";
 import BrandMarquee from "@/components/sections/brand-marquee";
-import ViewsCount from "@/components/sections/views-count";
-import CorePhilosophy from "@/components/sections/core-philosophy";
+import Purpose from "@/components/sections/purpose";
 import PlacesHustled from "@/components/sections/places-hustled";
 import StatsTrio from "@/components/sections/stats-trio";
 import Origin from "@/components/sections/origin";
@@ -38,13 +38,13 @@ export default function Home() {
       <CaseCloseOverlay />
       <KeyboardRouter />
 
-      {/* main flow */}
+      {/* main flow — blue → black → black → black → paper → paper → paper → paper → blue → black → black → black+paper */}
       <main className="relative w-full overflow-x-clip pt-9">
         <Hero />
+        <NavIndex />
         <PhilosophyQuote />
         <BrandMarquee />
-        <ViewsCount />
-        <CorePhilosophy />
+        <Purpose />
         <PlacesHustled />
         <StatsTrio />
         <Origin />

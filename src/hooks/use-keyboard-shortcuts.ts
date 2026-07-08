@@ -25,11 +25,13 @@ export const SHORTCUTS: ShortcutDef[] = [
  */
 export function useKeyboardShortcuts(opts?: {
   onArrow?: (dir: "left" | "right" | "up" | "down") => void;
+  onHome?: () => void;
+  onEnd?: () => void;
   onKonami?: () => void;
   onToggleMute?: () => void;
   onSectionJump?: (idx: number) => void;
 }) {
-  const { onArrow, onKonami, onToggleMute, onSectionJump } = opts ?? {};
+  const { onArrow, onHome, onEnd, onKonami, onToggleMute, onSectionJump } = opts ?? {};
   const [open, setOpen] = useState(false);
   const [konamiProgress, setKonamiProgress] = useState(0);
 
@@ -80,6 +82,16 @@ export function useKeyboardShortcuts(opts?: {
       // m → mute toggle
       if (k === "m" || k === "M") {
         onToggleMute?.();
+        return;
+      }
+
+      // Home / End → metro first / last station
+      if (k === "Home") {
+        onHome?.();
+        return;
+      }
+      if (k === "End") {
+        onEnd?.();
         return;
       }
 
@@ -134,7 +146,7 @@ export function useKeyboardShortcuts(opts?: {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, konamiProgress, onArrow, onKonami, onToggleMute, onSectionJump]);
+  }, [open, konamiProgress, onArrow, onHome, onEnd, onKonami, onToggleMute, onSectionJump]);
 
   return { open, setOpen, konamiProgress };
 }

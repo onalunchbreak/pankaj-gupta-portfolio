@@ -28,6 +28,12 @@ export default function KeyboardRouter() {
         new CustomEvent("baaz:arrow", { detail: dir })
       );
     },
+    onHome: () => {
+      window.dispatchEvent(new CustomEvent("baaz:metro-home"));
+    },
+    onEnd: () => {
+      window.dispatchEvent(new CustomEvent("baaz:metro-end"));
+    },
     onSectionJump: (idx) => {
       const item = NAV_ITEMS[idx];
       if (!item) return;

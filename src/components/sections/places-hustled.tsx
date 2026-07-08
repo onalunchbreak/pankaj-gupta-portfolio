@@ -1,13 +1,27 @@
 "use client";
 import { motion } from "framer-motion";
 import { BadgeCheck } from "lucide-react";
-import { Reveal, SectionShell } from "@/components/sections/_shared";
+import { Reveal } from "@/components/sections/_shared";
 import { PLACES } from "@/lib/data";
 import { useSound } from "@/hooks/use-sound";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+/**
+ * Places Hustled — id="places".
+ *
+ * Warm paper environment, flows directly after the Purpose section. The
+ * primary role ("Founding Marketer at RNTL.") is the featured block on the
+ * left with a blue accent on "RNTL.". A rotated VERIFIED badge sits on top
+ * of the title, and the note ("Learned a lot here!") is a handwritten
+ * annotation in blue, rotated. The PLACES.extra paragraph appears below as
+ * a Reveal. The right column lists the five internships as a hairline-
+ * separated list, each with a "// archived" tag; hover plays a tick SFX.
+ * Intentional misalignment throughout — rotated counter, offset primary,
+ * badge rotated -8deg, note rotated -1deg, primary title enters with
+ * rotation correction (2deg → 0deg). Reduced-motion: static reveals.
+ */
 export default function PlacesHustled() {
   const { play } = useSound();
   const reduced = usePrefersReducedMotion();
@@ -15,18 +29,39 @@ export default function PlacesHustled() {
   const total = PLACES.internships.length + 1;
 
   return (
-    <SectionShell id="places" index="" label={"// PLACES I'VE HUSTLED AT"}>
-      <div className="relative">
-        {/* Intentional misalignment — rotated counter, top-right */}
-        <span
-          aria-hidden
-          className="absolute -top-6 right-0 rotate-[5deg] select-none border border-[#FFD400] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400]"
-          data-cursor-label={`// 0${total} places`}
+    <section
+      id="places"
+      className="env-paper paper-texture relative w-full overflow-hidden"
+      aria-labelledby="places-label"
+    >
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-8 sm:py-32 lg:px-12">
+        {/* ---- Subtle header ---- */}
+        <motion.div
+          id="places-label"
+          className="mb-12 flex items-baseline gap-3 border-b border-[#1a1a1a]/15 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#6B6B6B] sm:mb-16"
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-10% 0px" }}
+          transition={{ duration: 0.6, ease: EASE }}
         >
-          {`// 0${total} places`}
-        </span>
+          <span className="text-[#1738D5]">{"//"}</span>
+          <span className="text-[#2a2a2a]/70">
+            {PLACES.index.replace(/^\/\/\s*/, "")}
+          </span>
+          <span className="ml-auto hidden h-px flex-1 bg-[#1a1a1a]/15 sm:block" />
+          <span className="hidden sm:inline">{`// 0${total} entries`}</span>
+        </motion.div>
 
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
+        <div className="relative grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
+          {/* Intentional misalignment — rotated counter, top-right */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -top-6 right-2 rotate-[5deg] select-none border border-[#1738D5] bg-[#F4F1EA] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-[#1738D5] sm:right-8"
+            data-cursor-label={`// 0${total} places`}
+          >
+            {`// 0${total} places`}
+          </span>
+
           {/* PRIMARY — large featured block, offset left */}
           <div className="col-span-1 lg:col-span-7 lg:translate-y-4">
             <Reveal>
@@ -36,23 +71,24 @@ export default function PlacesHustled() {
             </Reveal>
 
             <div className="relative">
+              {/* Title — enters with rotation correction (2deg → 0deg) */}
               <motion.h3
-                className="font-display text-5xl font-bold leading-[0.92] tracking-tighter text-[#F4F1EA] sm:text-7xl lg:text-8xl"
-                initial={reduced ? false : { opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                className="hand-display text-5xl leading-[0.92] tracking-tight text-[#2a2a2a] sm:text-7xl lg:text-8xl"
+                initial={reduced ? false : { opacity: 0, y: 24, rotate: 2 }}
+                whileInView={{ opacity: 1, y: 0, rotate: 0 }}
                 viewport={{ once: true, margin: "-10% 0px" }}
                 transition={{ duration: 0.8, ease: EASE }}
                 data-cursor-label={`${PLACES.primary.role} @ ${PLACES.primary.company}`}
               >
                 <span className="block">{PLACES.primary.role}</span>
-                <span className="mt-1 block text-[#FFD400]">
+                <span className="mt-1 block text-[#1738D5]">
                   at {PLACES.primary.company}
                 </span>
               </motion.h3>
 
-              {/* VERIFIED badge — rotated, accent border, checkmark */}
+              {/* VERIFIED badge — rotated, blue border, checkmark */}
               <motion.span
-                className="absolute -top-4 right-0 flex items-center gap-1.5 -rotate-[8deg] border border-[#FFD400] bg-[#0A0A0A] px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#FFD400] sm:right-2"
+                className="absolute -top-4 right-0 flex items-center gap-1.5 -rotate-[8deg] border border-[#1738D5] bg-[#F4F1EA] px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#1738D5] sm:right-2"
                 initial={reduced ? false : { opacity: 0, scale: 0.6, rotate: -30 }}
                 whileInView={{ opacity: 1, scale: 1, rotate: -8 }}
                 viewport={{ once: true, margin: "-10% 0px" }}
@@ -65,9 +101,17 @@ export default function PlacesHustled() {
               </motion.span>
             </div>
 
+            {/* Note — handwritten, rotated, offset */}
             <Reveal delay={0.5}>
-              <p className="mt-6 max-w-md font-mono text-sm italic text-[#6B6B6B]">
-                {PLACES.note}
+              <p className="hand-display mt-6 max-w-md -rotate-[1deg] text-lg text-[#1738D5] sm:translate-x-4 sm:text-xl">
+                ↳ {PLACES.note}
+              </p>
+            </Reveal>
+
+            {/* Extra — Reveal paragraph */}
+            <Reveal className="mt-10 max-w-xl" delay={0.6}>
+              <p className="font-sans text-base leading-relaxed text-[#2a2a2a]/80 sm:text-lg">
+                {PLACES.extra}
               </p>
             </Reveal>
           </div>
@@ -80,11 +124,11 @@ export default function PlacesHustled() {
               </p>
             </Reveal>
 
-            <ul className="border-t border-white/10" role="list">
+            <ul className="border-t border-[#1a1a1a]/15" role="list">
               {PLACES.internships.map((name, i) => (
                 <motion.li
                   key={name}
-                  className="group flex items-baseline justify-between gap-4 border-b border-white/10 py-4"
+                  className="group flex items-baseline justify-between gap-4 border-b border-[#1a1a1a]/15 py-4"
                   initial={reduced ? false : { opacity: 0, x: -16 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-8% 0px" }}
@@ -97,7 +141,7 @@ export default function PlacesHustled() {
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <div>
-                      <p className="font-display text-xl font-bold tracking-tight text-[#F4F1EA] transition-colors duration-200 group-hover:text-[#FFD400] sm:text-2xl">
+                      <p className="font-display text-xl font-bold tracking-tight text-[#2a2a2a] transition-colors duration-200 group-hover:text-[#1738D5] sm:text-2xl">
                         {name}
                       </p>
                       <p className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#6B6B6B]">
@@ -105,7 +149,7 @@ export default function PlacesHustled() {
                       </p>
                     </div>
                   </div>
-                  <span className="shrink-0 font-mono text-[9px] uppercase tracking-[0.25em] text-[#6B6B6B] transition-colors duration-200 group-hover:text-[#FFD400]">
+                  <span className="shrink-0 font-mono text-[9px] uppercase tracking-[0.25em] text-[#6B6B6B] transition-colors duration-200 group-hover:text-[#1738D5]">
                     {"// archived"}
                   </span>
                 </motion.li>
@@ -114,6 +158,6 @@ export default function PlacesHustled() {
           </div>
         </div>
       </div>
-    </SectionShell>
+    </section>
   );
 }

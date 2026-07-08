@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Space_Mono, Inter, Noto_Sans_Devanagari } from "next/font/google";
+import { Space_Grotesk, Space_Mono, Inter, Noto_Sans_Devanagari, Caveat } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -31,10 +31,20 @@ const notoDeva = Noto_Sans_Devanagari({
   display: "swap",
 });
 
+// Handwritten display font — the source portfolio's visual language is built
+// on hand-rendered typography. Caveat is the closest licensed Google Font
+// with narrow, irregular glyph rhythm and oversized heading proportions.
+const caveat = Caveat({
+  variable: "--font-hand",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Bajkamal Singh — Baaz // Creative Director",
   description:
-    "Bajkamal Singh AKA Baaz — SRCC '27, Delhi. Creative by night, more creative by midnight. Artist manager, brand strategist, creative director. 186M+ views driven.",
+    "Bajkamal Singh AKA Baaz — SRCC '27, Delhi. Creative by night, more creative by midnight. Artist manager, brand strategist, creative director. 193M+ views driven.",
   keywords: [
     "Bajkamal Singh",
     "Baaz",
@@ -62,7 +72,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${spaceGrotesk.variable} ${spaceMono.variable} ${inter.variable} ${notoDeva.variable} antialiased bg-background text-foreground`}
+        className={`${spaceGrotesk.variable} ${spaceMono.variable} ${inter.variable} ${notoDeva.variable} ${caveat.variable} antialiased bg-background text-foreground`}
       >
         {children}
         <Toaster />

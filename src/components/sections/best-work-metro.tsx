@@ -5,9 +5,16 @@ import { X } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CountUp } from "@/components/sections/_shared";
-import { METRO_STATIONS, METRO_INTRO, type MetroStation } from "@/lib/data";
+import {
+  METRO_STATIONS,
+  METRO_INTRO,
+  type MetroStation,
+  type StrategyItem,
+} from "@/lib/data";
 import { useSound } from "@/hooks/use-sound";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
+import { useBodyScrollLock } from "@/hooks/use-body-scroll-lock";
+import { useFocusTrap } from "@/hooks/use-focus-trap";
 import { getLenis } from "@/lib/lenis-instance";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -18,6 +25,12 @@ const EASE = [0.16, 1, 0.3, 1] as const;
    step-out deep-dive overlays, keyboard nav, Hindi announcement
    ticker, door-chime SFX. Degrades to a vertical stacked grid
    below 1024px or when prefers-reduced-motion is set.
+
+   Station content (per spec Section 06):
+   - Each station now carries headline + StrategyItem[] + extras.
+   - The deep-dive overlay exposes the full case study:
+     headline, problem, strategy as numbered steps, impact,
+     all metrics as CountUp grid, plus extras as labelled lists.
    ============================================================ */
 export default function BestWorkMetro() {
   const { play } = useSound();
@@ -40,6 +53,11 @@ export default function BestWorkMetro() {
   const activeRef = useRef(0);
   const playRef = useRef(play);
 
+  // Track the trigger button so focus can be restored when the deep-dive
+  // overlay closes.
+  const triggerRef = useRef<HTMLElement | null>(null);
+  const deepDivePanelRef = useRef<HTMLDivElement | null>(null);
+
   // Keep playRef in sync with the latest play closure without touching refs
   // during render (which would trip react-hooks/refs).
   useEffect(() => {
@@ -52,6 +70,10 @@ export default function BestWorkMetro() {
     METRO_STATIONS.find((s) => s.id === openStationId) ?? null;
   const nextStation =
     METRO_STATIONS[(activeIndex + 1) % METRO_STATIONS.length];
+
+  // Lock scroll + trap focus while the deep-dive overlay is open.
+  useBodyScrollLock(openStationId !== null);
+  useFocusTrap(deepDivePanelRef, openStationId !== null, triggerRef);
 
   /* ---- desktop breakpoint detection ---- */
   useEffect(() => {
@@ -105,6 +127,9 @@ export default function BestWorkMetro() {
               METRO_STATIONS.length - 1,
               Math.floor(self.progress * METRO_STATIONS.length)
             );
+            // State guard: only fire door chime + state update when the
+            // active index actually changes. Prevents repeated sound firing
+            // during minor scrub reversals.
             if (idx !== activeRef.current) {
               activeRef.current = idx;
               setActiveIndex(idx);
@@ -173,8 +198,24 @@ export default function BestWorkMetro() {
       playRef.current("blip");
       scrollToStation(target);
     };
+    const onHome = () => {
+      if (activeRef.current === 0) return;
+      playRef.current("blip");
+      scrollToStation(0);
+    };
+    const onEnd = () => {
+      if (activeRef.current === METRO_STATIONS.length - 1) return;
+      playRef.current("blip");
+      scrollToStation(METRO_STATIONS.length - 1);
+    };
     window.addEventListener("baaz:arrow", onArrow as EventListener);
-    return () => window.removeEventListener("baaz:arrow", onArrow as EventListener);
+    window.addEventListener("baaz:metro-home", onHome);
+    window.addEventListener("baaz:metro-end", onEnd);
+    return () => {
+      window.removeEventListener("baaz:arrow", onArrow as EventListener);
+      window.removeEventListener("baaz:metro-home", onHome);
+      window.removeEventListener("baaz:metro-end", onEnd);
+    };
   }, [inView, showPinned, openStationId, scrollToStation]);
 
   /* ---- Esc closes the deep-dive overlay ---- */
@@ -203,7 +244,8 @@ export default function BestWorkMetro() {
     }
   };
 
-  const openDeepDive = (station: MetroStation) => {
+  const openDeepDive = (e: React.MouseEvent<HTMLElement>, station: MetroStation) => {
+    triggerRef.current = e.currentTarget;
     setOpenStationId(station.id);
     play("door");
   };
@@ -235,7 +277,9 @@ export default function BestWorkMetro() {
     <section
       ref={sectionRef}
       id="best-work"
-      className="relative w-full bg-[#0A0A0A]"
+      className="env-black relative w-full"
+      aria-labelledby="best-work-header"
+      data-cursor-label="best work"
     >
       {/* CSS keyframes for the Hindi ticker marquee */}
       <style>{`
@@ -258,14 +302,19 @@ export default function BestWorkMetro() {
           transition={{ duration: 0.6, ease: EASE }}
         >
           <span className="text-[#FFD400]">04</span>
-          <span className="text-[#F4F1EA]/70">BEST WORK / DELHI METRO</span>
+          <span id="best-work-header" className="text-[#F4F1EA]/70">
+            BEST WORK / DELHI METRO
+          </span>
           <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
           <span className="hidden sm:inline">{"// baaz.sys"}</span>
         </motion.div>
 
         {/* Metro logo mark + blinking "Next train: NOW" */}
         <div className="mb-10 flex flex-wrap items-center gap-4">
-          <div className="flex items-center gap-3" data-cursor-label={METRO_INTRO.line}>
+          <div
+            className="flex items-center gap-3"
+            data-cursor-label={METRO_INTRO.line}
+          >
             <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#FFD400] bg-[#FFD400] text-[#0A0A0A]">
               <span className="font-mono text-sm font-bold">M</span>
             </span>
@@ -462,7 +511,7 @@ export default function BestWorkMetro() {
                   index={i}
                   total={METRO_STATIONS.length}
                   active={i === activeIndex}
-                  onStepOut={() => openDeepDive(station)}
+                  onStepOut={(e) => openDeepDive(e, station)}
                 />
               ))}
             </div>
@@ -517,7 +566,7 @@ export default function BestWorkMetro() {
                 station={station}
                 index={i}
                 total={METRO_STATIONS.length}
-                onStepOut={() => openDeepDive(station)}
+                onStepOut={(e) => openDeepDive(e, station)}
               />
             ))}
           </div>
@@ -570,6 +619,7 @@ export default function BestWorkMetro() {
             onClose={closeDeepDive}
             index={METRO_STATIONS.findIndex((s) => s.id === openStation.id)}
             total={METRO_STATIONS.length}
+            panelRef={deepDivePanelRef}
           />
         )}
       </AnimatePresence>
@@ -591,9 +641,12 @@ function StationPanel({
   index: number;
   total: number;
   active: boolean;
-  onStepOut: () => void;
+  onStepOut: (e: React.MouseEvent<HTMLElement>) => void;
 }) {
   const { play } = useSound();
+
+  // The pinned track shows the headline metric set only (first 3 metrics).
+  const previewMetrics = station.metrics.slice(0, 3);
 
   return (
     <article
@@ -620,7 +673,7 @@ function StationPanel({
             {String(index + 1).padStart(2, "0")} / 0{total}
           </span>
           <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400]">
-            {station.type}
+            {station.theme}
           </span>
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/50">
             {`// ${station.tag}`}
@@ -648,27 +701,34 @@ function StationPanel({
         >
           {station.name}
         </h3>
+
+        {/* Role line */}
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400]/80">
+          {station.role}
+        </p>
+
+        {/* Headline — the case study thesis */}
+        <p
+          className={`max-w-xl font-display text-base leading-snug transition-colors duration-300 sm:text-lg ${
+            active ? "text-[#F4F1EA]/85" : "text-[#F4F1EA]/50"
+          }`}
+        >
+          {station.headline}
+        </p>
       </div>
 
       {/* BOTTOM HALF — metrics + Step Out button */}
       <div className="flex flex-col gap-7">
         <ul className="grid grid-cols-3 gap-4" role="list">
-          {station.metrics.map((m) => (
+          {previewMetrics.map((m) => (
             <li key={m.label} className="border-l border-white/15 pl-3">
               <p className="font-display text-3xl font-bold leading-none tracking-tight text-[#FFD400] lg:text-5xl">
-                {m.display ? (
-                  <CountUp
-                    target={m.value}
-                    display={m.display}
-                    duration={1.2}
-                  />
-                ) : (
-                  <CountUp
-                    target={m.value}
-                    suffix={m.suffix ?? ""}
-                    duration={1.2}
-                  />
-                )}
+                <CountUp
+                  target={m.value}
+                  suffix={m.suffix ?? ""}
+                  display={m.display}
+                  duration={1.2}
+                />
               </p>
               <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[#6B6B6B]">
                 {m.label}
@@ -705,10 +765,11 @@ function StackedStationCard({
   station: MetroStation;
   index: number;
   total: number;
-  onStepOut: () => void;
+  onStepOut: (e: React.MouseEvent<HTMLElement>) => void;
 }) {
   const reduced = usePrefersReducedMotion();
   const { play } = useSound();
+  const previewMetrics = station.metrics.slice(0, 3);
 
   return (
     <motion.article
@@ -729,13 +790,13 @@ function StackedStationCard({
         </span>
       </div>
 
-      {/* Index + type pill + tag */}
+      {/* Index + theme pill + tag */}
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <span className="font-mono text-[11px] tabular-nums uppercase tracking-[0.25em] text-[#6B6B6B]">
           {String(index + 1).padStart(2, "0")} / 0{total}
         </span>
         <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400]">
-          {station.type}
+          {station.theme}
         </span>
         <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/50">
           {`// ${station.tag}`}
@@ -752,29 +813,30 @@ function StackedStationCard({
         </p>
       </div>
 
-      {/* Big station name */}
+      {/* Big station name + role */}
       <h3 className="font-display text-4xl font-bold leading-[0.92] tracking-tight text-[#F4F1EA] sm:text-5xl">
         {station.name}
       </h3>
+      <p className="mt-2 font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400]/80">
+        {station.role}
+      </p>
 
-      {/* Metrics */}
+      {/* Headline */}
+      <p className="mt-4 max-w-md font-display text-base leading-snug text-[#F4F1EA]/80 sm:text-lg">
+        {station.headline}
+      </p>
+
+      {/* Metrics — preview set */}
       <ul className="mt-6 grid grid-cols-3 gap-3" role="list">
-        {station.metrics.map((m) => (
+        {previewMetrics.map((m) => (
           <li key={m.label} className="border-l border-white/15 pl-3">
             <p className="font-display text-2xl font-bold leading-none tracking-tight text-[#FFD400] sm:text-3xl">
-              {m.display ? (
-                <CountUp
-                  target={m.value}
-                  display={m.display}
-                  duration={1.2}
-                />
-              ) : (
-                <CountUp
-                  target={m.value}
-                  suffix={m.suffix ?? ""}
-                  duration={1.2}
-                />
-              )}
+              <CountUp
+                target={m.value}
+                suffix={m.suffix ?? ""}
+                display={m.display}
+                duration={1.2}
+              />
             </p>
             <p className="mt-1.5 font-mono text-[9px] uppercase tracking-[0.2em] text-[#6B6B6B]">
               {m.label}
@@ -799,24 +861,24 @@ function StackedStationCard({
 }
 
 /* ============================================================
-   Deep-dive overlay — Problem / Strategy / Impact
+   Deep-dive overlay — full case study
+   Renders: headline, problem, strategy as numbered steps,
+   impact, all metrics as CountUp grid, extras as labelled lists.
    ============================================================ */
 function DeepDiveOverlay({
   station,
   onClose,
   index,
   total,
+  panelRef,
 }: {
   station: MetroStation;
   onClose: () => void;
   index: number;
   total: number;
+  panelRef: React.RefObject<HTMLDivElement | null>;
 }) {
-  const blocks: { label: string; text: string }[] = [
-    { label: "Problem", text: station.problem },
-    { label: "Strategy", text: station.strategy },
-    { label: "Impact", text: station.impact },
-  ];
+  const { play } = useSound();
 
   return (
     <motion.div
@@ -839,6 +901,7 @@ function DeepDiveOverlay({
 
       {/* Panel — yellow border, scrollable */}
       <motion.div
+        ref={panelRef}
         className="relative z-10 max-h-[90vh] w-full max-w-4xl overflow-y-auto border-2 border-[#FFD400] bg-[#0E0E0E] scroll-styled"
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -857,7 +920,8 @@ function DeepDiveOverlay({
           <button
             type="button"
             onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center border border-white/15 text-[#F4F1EA] transition-colors hover:border-[#FF3B30] hover:text-[#FF3B30]"
+            onMouseEnter={() => play("tick")}
+            className="flex h-8 w-8 items-center justify-center border border-white/15 text-[#F4F1EA] transition-colors hover:border-[#FF3B30] hover:text-[#FF3B30] focus-ring"
             aria-label="Close deep dive"
             data-cursor-label="close"
           >
@@ -866,51 +930,54 @@ function DeepDiveOverlay({
         </div>
 
         <div className="px-6 py-8 sm:px-8 sm:py-10">
-          {/* Index + type pill + tag */}
+          {/* Index + theme pill + tag */}
           <div className="mb-4 flex flex-wrap items-center gap-3">
             <span className="font-mono text-[11px] tabular-nums uppercase tracking-[0.25em] text-[#6B6B6B]">
               {String(index + 1).padStart(2, "0")} / 0{total}
             </span>
             <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400]">
-              {station.type}
+              {station.theme}
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/50">
               {`// ${station.tag}`}
             </span>
           </div>
 
-          {/* Station name + Hindi subtitle */}
+          {/* Station name + role + Hindi subtitle */}
           <h3 className="font-display text-5xl font-bold leading-[0.92] tracking-tight text-[#F4F1EA] sm:text-6xl lg:text-7xl">
             {station.name}
           </h3>
-          <p className="mt-3 font-deva text-xl text-[#F4F1EA]/70">
+          <p className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400]/80">
+            {station.role}
+          </p>
+          <p className="mt-2 font-deva text-xl text-[#F4F1EA]/70">
             {station.name}
           </p>
 
+          {/* Headline — case study thesis */}
+          <blockquote className="mt-6 border-l-2 border-[#FFD400] pl-5">
+            <p className="font-display text-lg leading-snug text-[#F4F1EA]/90 sm:text-2xl">
+              {station.headline}
+            </p>
+          </blockquote>
+
           {/* Metrics — big count-up at top */}
           <ul
-            className="mt-8 grid grid-cols-3 gap-6 border-t border-white/10 pt-7"
+            className="mt-8 grid grid-cols-2 gap-6 border-t border-white/10 pt-7 sm:grid-cols-3"
             role="list"
           >
             {station.metrics.map((m, mi) => (
               <li
                 key={m.label}
-                className={mi === 1 ? "sm:translate-y-3" : ""}
+                className={mi % 3 === 1 ? "sm:translate-y-3" : ""}
               >
-                <p className="font-display text-4xl font-bold leading-none tracking-tight text-[#FFD400] sm:text-6xl">
-                  {m.display ? (
-                    <CountUp
-                      target={m.value}
-                      display={m.display}
-                      duration={1.4}
-                    />
-                  ) : (
-                    <CountUp
-                      target={m.value}
-                      suffix={m.suffix ?? ""}
-                      duration={1.4}
-                    />
-                  )}
+                <p className="font-display text-3xl font-bold leading-none tracking-tight text-[#FFD400] sm:text-5xl">
+                  <CountUp
+                    target={m.value}
+                    suffix={m.suffix ?? ""}
+                    display={m.display}
+                    duration={1.4}
+                  />
                 </p>
                 <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B]">
                   {m.label}
@@ -919,28 +986,75 @@ function DeepDiveOverlay({
             ))}
           </ul>
 
-          {/* Problem → Strategy → Impact */}
-          <div className="mt-10 space-y-8">
-            {blocks.map((block) => (
-              <div
-                key={block.label}
-                className="border-l-2 border-[#FFD400] pl-5"
-              >
-                <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
-                  {block.label}
-                </p>
-                <p className="font-display text-base leading-relaxed text-[#F4F1EA]/90 sm:text-lg">
-                  {block.text}
-                </p>
-              </div>
-            ))}
-          </div>
+          {/* Problem */}
+          <SectionBlock label="Problem">
+            <p className="font-display text-base leading-relaxed text-[#F4F1EA]/90 sm:text-lg">
+              {station.problem}
+            </p>
+          </SectionBlock>
+
+          {/* Strategy — numbered steps with step / title / desc */}
+          <SectionBlock label="Strategy">
+            <ol className="space-y-5" role="list">
+              {station.strategy.map((s: StrategyItem) => (
+                <li
+                  key={s.step}
+                  className="flex gap-4 border-l border-white/10 pl-4"
+                >
+                  <span className="font-mono text-2xl font-bold tabular-nums text-[#FFD400]">
+                    {s.step}
+                  </span>
+                  <div className="flex-1">
+                    <p className="font-display text-base font-bold uppercase tracking-tight text-[#F4F1EA] sm:text-lg">
+                      {s.title}
+                    </p>
+                    <p className="mt-1 font-sans text-sm leading-relaxed text-[#F4F1EA]/75 sm:text-base">
+                      {s.desc}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </SectionBlock>
+
+          {/* Impact */}
+          <SectionBlock label="Impact">
+            <p className="font-display text-base leading-relaxed text-[#F4F1EA]/90 sm:text-lg">
+              {station.impact}
+            </p>
+          </SectionBlock>
+
+          {/* Extras — labelled lists (creator network, lifecycle states, etc.) */}
+          {station.extras && station.extras.length > 0 && (
+            <div className="mt-10 space-y-8 border-t border-white/10 pt-7">
+              {station.extras.map((extra) => (
+                <div key={extra.label}>
+                  <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
+                    {extra.label}
+                  </p>
+                  <ul
+                    className="flex flex-wrap gap-2"
+                    role="list"
+                  >
+                    {extra.items.map((item) => (
+                      <li
+                        key={item}
+                        className="border border-white/15 bg-[#0A0A0A] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-[#F4F1EA]/80"
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Return to Platform link */}
           <button
             type="button"
             onClick={onClose}
-            className="mt-10 inline-flex items-center gap-2 border-t border-white/10 pt-5 font-mono text-[10px] uppercase tracking-[0.3em] text-[#6B6B6B] transition-colors hover:text-[#FFD400]"
+            className="mt-10 inline-flex items-center gap-2 border-t border-white/10 pt-5 font-mono text-[10px] uppercase tracking-[0.3em] text-[#6B6B6B] transition-colors hover:text-[#FFD400] focus-ring"
             data-cursor-label="return to platform"
           >
             <span aria-hidden>←</span>
@@ -954,5 +1068,23 @@ function DeepDiveOverlay({
         </div>
       </motion.div>
     </motion.div>
+  );
+}
+
+/* ---- Tiny helper for the deep-dive labelled blocks (Problem/Strategy/Impact) ---- */
+function SectionBlock({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="mt-10 border-l-2 border-[#FFD400] pl-5">
+      <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
+        {label}
+      </p>
+      {children}
+    </div>
   );
 }
