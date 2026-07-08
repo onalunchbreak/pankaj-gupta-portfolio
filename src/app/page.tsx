@@ -8,6 +8,7 @@ import Grain from "@/components/shell/grain";
 import MuteToggle from "@/components/shell/mute-toggle";
 import SoundManager from "@/components/shell/sound-manager";
 import CaseCloseOverlay from "@/components/shell/case-close-overlay";
+import KeyboardRouter from "@/components/shell/keyboard-router";
 
 import Hero from "@/components/sections/hero";
 import PhilosophyQuote from "@/components/sections/philosophy-quote";
@@ -35,6 +36,7 @@ export default function Home() {
       <Nav />
       <MuteToggle />
       <CaseCloseOverlay />
+      <KeyboardRouter />
 
       {/* main flow */}
       <main className="relative w-full overflow-x-clip pt-9">

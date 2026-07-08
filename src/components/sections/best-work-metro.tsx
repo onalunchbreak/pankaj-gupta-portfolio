@@ -161,20 +161,20 @@ export default function BestWorkMetro() {
 
   useEffect(() => {
     if (!inView || !showPinned || openStationId) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
-      e.preventDefault();
-      const dir = e.key === "ArrowRight" ? 1 : -1;
+    const onArrow = (e: Event) => {
+      const dir = (e as CustomEvent<"left" | "right">).detail;
+      if (dir !== "right" && dir !== "left") return;
+      const delta = dir === "right" ? 1 : -1;
       const target = Math.max(
         0,
-        Math.min(METRO_STATIONS.length - 1, activeRef.current + dir)
+        Math.min(METRO_STATIONS.length - 1, activeRef.current + delta)
       );
       if (target === activeRef.current) return;
       playRef.current("blip");
       scrollToStation(target);
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("baaz:arrow", onArrow as EventListener);
+    return () => window.removeEventListener("baaz:arrow", onArrow as EventListener);
   }, [inView, showPinned, openStationId, scrollToStation]);
 
   /* ---- Esc closes the deep-dive overlay ---- */
@@ -381,6 +381,73 @@ export default function BestWorkMetro() {
                   {METRO_STATIONS.length}
                 </span>
               </div>
+            </div>
+
+            {/* Route-map mini-indicator — all 5 stations as dots with
+                active highlighted + progress fill. Click a dot to jump. */}
+            <div className="absolute left-0 right-0 top-[46px] z-20 hidden items-center gap-2 border-b border-white/5 bg-[#0A0A0A]/60 px-5 py-2 backdrop-blur-sm sm:flex sm:px-8">
+              <span className="mr-1 font-mono text-[9px] uppercase tracking-[0.3em] text-[#6B6B6B]">
+                {"route"}
+              </span>
+              <div className="relative flex flex-1 items-center">
+                {/* base line */}
+                <span className="pointer-events-none absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-white/10" />
+                {/* progress fill — grows to the active station */}
+                <span
+                  className="pointer-events-none absolute left-0 top-1/2 h-px -translate-y-1/2 bg-[#FFD400] transition-[width] duration-500 ease-out"
+                  style={{
+                    width: `${(activeIndex / (METRO_STATIONS.length - 1)) * 100}%`,
+                  }}
+                />
+                {METRO_STATIONS.map((s, i) => {
+                  const isActive = i === activeIndex;
+                  const isVisited = i < activeIndex;
+                  return (
+                    <button
+                      key={s.id}
+                      type="button"
+                      onClick={() => {
+                        playRef.current("blip");
+                        scrollToStation(i);
+                      }}
+                      onMouseEnter={() => playRef.current("tick")}
+                      data-cursor-label={s.name}
+                      className="group relative z-10 flex flex-1 flex-col items-center gap-1 focus-ring"
+                      aria-label={`Jump to station ${i + 1}: ${s.name}`}
+                      aria-current={isActive ? "true" : undefined}
+                    >
+                      <span
+                        className={`h-2.5 w-2.5 rounded-full border transition-all duration-300 ${
+                          isActive
+                            ? "scale-150 border-[#FFD400] bg-[#FFD400]"
+                            : isVisited
+                              ? "border-[#FFD400] bg-[#FFD400]/40"
+                              : "border-white/30 bg-[#0A0A0A] group-hover:border-[#FFD400]"
+                        }`}
+                        style={
+                          isActive
+                            ? { boxShadow: "0 0 10px rgba(255,212,0,0.7)" }
+                            : undefined
+                        }
+                      />
+                      <span
+                        className={`font-mono text-[8px] uppercase tracking-[0.18em] transition-colors duration-300 ${
+                          isActive
+                            ? "text-[#FFD400]"
+                            : isVisited
+                              ? "text-[#F4F1EA]/55"
+                              : "text-[#6B6B6B] group-hover:text-[#F4F1EA]/80"
+                        }`}
+                      >
+                        {s.name.slice(0, 3).toUpperCase()}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              <span className="ml-2 font-mono text-[9px] uppercase tracking-[0.3em] tabular-nums text-[#FFD400]">
+                {String(activeIndex + 1).padStart(2, "0")}/0{METRO_STATIONS.length}
+              </span>
             </div>
 
             {/* Horizontal track of station panels */}

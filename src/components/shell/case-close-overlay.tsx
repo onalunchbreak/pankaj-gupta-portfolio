@@ -68,7 +68,7 @@ export default function CaseCloseOverlay() {
         {nearBottom && !open && (
           <motion.button
             onClick={() => setOpen(true)}
-            className="fixed bottom-5 right-5 z-[78] flex items-center gap-3 border border-[#FFD400]/40 bg-[#0A0A0A]/80 px-4 py-3 font-mono text-[11px] uppercase tracking-widest text-[#F4F1EA] backdrop-blur-md transition-colors hover:border-[#FFD400] focus-ring sm:bottom-7 sm:right-7"
+            className="fixed bottom-20 right-4 z-[78] flex items-center gap-3 border border-[#FFD400]/40 bg-[#0A0A0A]/80 px-4 py-3 font-mono text-[11px] uppercase tracking-widest text-[#F4F1EA] backdrop-blur-md transition-colors hover:border-[#FFD400] focus-ring sm:bottom-24 sm:right-5"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 16 }}

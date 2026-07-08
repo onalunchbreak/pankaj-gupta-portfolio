@@ -23,6 +23,11 @@ export function SectionShell({
       id={id}
       className={`relative mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-8 sm:py-32 lg:px-12 ${className}`}
     >
+      {/* Brutalist corner registration marks — printer's crosshairs at the
+          section's top corners. Reinforces the editorial-brutalist grid. */}
+      <span aria-hidden className="pointer-events-none absolute left-2 top-2 h-3 w-3 border-l border-t border-white/15" />
+      <span aria-hidden className="pointer-events-none absolute right-2 top-2 h-3 w-3 border-r border-t border-white/15" />
+
       {(index || label) && (
         <motion.div
           className="mb-10 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#6B6B6B] sm:mb-14"

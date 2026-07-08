@@ -26,13 +26,15 @@ export default function Hero() {
     return () => clearInterval(t);
   }, [reduced]);
 
-  // Time morph 20:00 -> 00:00 (hour ticks forward, wraps 23->0).
+  // Time morph 20:00 -> 00:00 — hour ticks forward through the night
+  // (20→21→22→23→00) then loops back to 20, so it always stays in the
+  // "creative by night → more creative by midnight" range per spec.
   // When reduced-motion is preferred we render the static final state in JSX,
   // so this effect only sets up the cycling interval.
   useEffect(() => {
     if (reduced) return;
     const t = setInterval(() => {
-      setHour((h) => (h + 1) % 24);
+      setHour((h) => (h === 0 ? 20 : h + 1));
     }, 1400);
     return () => clearInterval(t);
   }, [reduced]);

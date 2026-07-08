@@ -87,17 +87,28 @@ export default function Projects() {
                 transition={{ duration: 0.6, delay: i * 0.08, ease: EASE }}
                 whileHover={reduced ? undefined : { scale: 1.012, rotate: 0 }}
               >
-                {/* Top row: index + rotated Archived tag */}
+                {/* Brutalist corner registration marks (printer's crosshairs) */}
+                <span aria-hidden className="pointer-events-none absolute left-2 top-2 h-2 w-2 border-l border-t border-white/20" />
+                <span aria-hidden className="pointer-events-none absolute right-2 top-2 h-2 w-2 border-r border-t border-white/20" />
+                <span aria-hidden className="pointer-events-none absolute bottom-2 left-2 h-2 w-2 border-b border-l border-white/20" />
+                <span aria-hidden className="pointer-events-none absolute bottom-2 right-2 h-2 w-2 border-b border-r border-white/20" />
+
+                {/* Top row: index + filled Archived stamp */}
                 <div className="mb-6 flex items-start justify-between">
-                  <span className="font-mono text-[11px] tabular-nums uppercase tracking-[0.25em] text-[#6B6B6B]">
-                    {project.index}
-                  </span>
+                  <div className="flex flex-col gap-1">
+                    <span className="font-mono text-[11px] tabular-nums uppercase tracking-[0.25em] text-[#6B6B6B]">
+                      {project.index}
+                    </span>
+                    <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#6B6B6B]/60">
+                      {"// case file"}
+                    </span>
+                  </div>
                   <span
                     aria-hidden
-                    className="-rotate-[6deg] border border-[#FFD400] px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.3em] text-[#FFD400]"
+                    className="-rotate-[6deg] bg-[#FFD400] px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.3em] text-[#0A0A0A] shadow-[3px_3px_0_0_rgba(255,59,48,0.6)] transition-transform duration-300 group-hover:rotate-0"
                     data-cursor-label="archived"
                   >
-                    Archived
+                    ▣ Archived
                   </span>
                 </div>
 
@@ -119,19 +130,25 @@ export default function Projects() {
                   {project.tools.map((tool) => (
                     <li
                       key={tool}
-                      className="border border-white/10 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#F4F1EA]/60"
+                      className="border border-white/10 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#F4F1EA]/60 transition-colors duration-200 group-hover:border-[#FFD400]/40 group-hover:text-[#F4F1EA]/90"
                     >
                       {tool}
                     </li>
                   ))}
                 </ul>
 
-                {/* Expand hint */}
+                {/* Expand hint — full-width with arrow nudge + progress bar */}
                 <div className="mt-6 flex items-center gap-2 border-t border-white/10 pt-3 font-mono text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B] transition-colors duration-200 group-hover:text-[#FFD400]">
-                  <span className="text-[#FFD400]" aria-hidden>
+                  <span className="text-[#FFD400] transition-transform duration-300 group-hover:translate-x-1" aria-hidden>
                     ▸
                   </span>
-                  <span>expand</span>
+                  <span>open case file</span>
+                  <span className="ml-auto flex-1 overflow-hidden">
+                    <span className="block h-px w-0 bg-[#FFD400] transition-all duration-500 ease-out group-hover:w-full" />
+                  </span>
+                  <span className="text-[#6B6B6B] transition-colors duration-200 group-hover:text-[#FFD400]" aria-hidden>
+                    ↗
+                  </span>
                 </div>
               </motion.article>
             );
