@@ -780,3 +780,50 @@ Verification:
 - **Social links**: LinkedIn/GitHub still empty (no resume PDF attached). Update `src/lib/links.ts` if provided.
 - **Audio**: SFX are still synthesized WAV blips. Real recorded SFX would feel more premium.
 - **Command palette mobile**: the palette works on mobile but ⌘K isn't a mobile shortcut. Consider adding a small search button on touch devices that opens the palette.
+
+---
+Task ID: 14 (cron QA round — share/copy-URL + nav hover peek + nav-index contrast)
+Agent: main (orchestrator)
+Task: Assess current status via agent-browser QA, add share/copy-section-URL feature, nav hover peek cards, and nav-index contrast improvements.
+
+## Current project status description/assessment
+- The portfolio is stable and fully re-personalized for Pankaj Gupta. Lint clean, no runtime errors, no mobile horizontal overflow, all 10 sections render. Prior rounds delivered: command palette (⌘K), session stats tracker, metro keyboard fix, scroll-to-top, reading-time estimate, overlay breadcrumbs, achievements hierarchy, word cloud hierarchy.
+- QA via agent-browser + VLM across all 10 sections found: (a) no way to share/copy a direct link to a specific section; (b) nav items lacked hover previews so users didn't know where a click would land; (c) Nav Index handwritten links had slightly low contrast (dimmed siblings at opacity-35, annotation text too muted); (d) stale "// baaz.sys" label in SectionShell header.
+
+## Current goals / completed modifications / verification results
+Goals: add a share/copy-section-URL feature with hash-based deep-linking, add nav hover peek cards, improve nav-index contrast, and fix stale branding.
+
+Completed:
+1. NEW FEATURE — Share/copy-section-URL:
+   - `src/components/shell/share-button.tsx`: a small "share" button (Link2 icon) that copies `${origin}${pathname}#${sectionId}` to clipboard, shows a "COPIED" confirmation (Check icon) for 2s, and updates the URL hash via `history.replaceState`. Robust clipboard fallback (textarea + execCommand). Optimistic visual feedback regardless of clipboard API success (since the hash update is the reliable shareable part). Hover → blue accent, tick SFX.
+   - Added ShareButton to SectionShell (so all SectionShell-based sections get it automatically: philosophy, brand-marquee is full-bleed so no, but the others yes) + manually added to the 3 custom-header sections: work-log, research-archive, best-work-metro, achievements.
+   - `src/components/shell/hash-scroll-on-load.tsx`: on first load (after preloader), if the URL has a #hash matching a section id, smooth-scrolls to that section via Lenis. Makes shared section URLs land the visitor at the right place.
+   - Wired HashScrollOnLoad into page.tsx.
+   - Verified: clicking share shows "COPIED", URL hash updates to `#work-log`, reloading with the hash present scrolls to that section.
+   - Also fixed the stale "// baaz.sys" label in SectionShell → "// mr_onalunchbreak.sys".
+2. NEW FEATURE — Nav hover peek cards (`nav.tsx`):
+   - Added a `PEEK_INFO` map for all 8 nav items: `{ env: "BLUE"|"PAPER"|"BLACK"|"BLACK+PAPER", desc: "one-line description" }`.
+   - On hover, a floating mini-preview card (w-56, bordered blue/40, bg black/95, backdrop-blur) appears to the LEFT of the nav item showing: env label (mono), section name (display bold), 1-line description (mono). Animated entrance/exit (opacity + x + scale).
+   - Also updated the nav active/hover color from yellow (#FFD400) to blue (#1738D5) for consistency with the Pankaj identity, and added `aria-current` on the active item.
+   - VLM confirmed: "small floating preview card showing 'Best Work' with 'env: BLACK' and 'Product Line metro — 6 stations'".
+3. STYLING — Nav Index contrast (`nav-index.tsx`):
+   - Raised dimmed-sibling opacity from 35% to 50% so non-hovered links remain more readable.
+   - Annotation text brightness raised from `text-[#6B6B6B]` to `text-[#F4F1EA]/55` (and `text-[#1738D5]` on hover).
+   - Numbered indices (01, 02…) changed from muted gray to `text-[#1738D5]/70` (blue) so they're visible + on-brand.
+   - Added `group-hover/link:translate-x-1` nudge on the handwritten label + `group-hover/link:translate-x-0.5` on the ArrowUpRight for a more dynamic hover.
+   - VLM confirmed: "Links have good contrast against dark background. Numbered indices visible."
+
+Verification:
+- `bun run lint` → 0 errors, 0 warnings.
+- Dev server compiles cleanly, no runtime errors.
+- agent-browser + VLM confirmed: share button visible in section headers, "COPIED" state + URL hash update works, nav peek card appears on hover, nav-index contrast improved.
+- Mobile (390px): no horizontal overflow. URL hash deep-linking persists through reload.
+
+## Unresolved issues / risks / priority recommendations for next phase
+- **Hero time morph**: VLM previously noted "02:00 → 09:00 → 13:00 is confusing". Low priority — the annotation explains the intent.
+- **Performance / Lighthouse**: still not profiled. Dynamic import of BestWorkMetro + CommandPalette could help reach ≥90.
+- **Real assets**: all visuals are CSS/SVG-generated. Real project screenshots / portrait would make the Lab + Hero feel less abstract.
+- **Social links**: LinkedIn/GitHub still empty (no resume PDF attached). Update `src/lib/links.ts` if provided.
+- **Audio**: SFX are still synthesized WAV blips. Real recorded SFX would feel more premium.
+- **Share button on mobile**: the share button shows "share" text only on sm+ (`hidden sm:inline`), so on mobile it's just the icon. That's fine but could add a label on tap.
+- **Nav peek on mobile/tablet**: the peek cards only appear on xl+ viewports (the nav itself is xl+ only). The right-nav is hidden below xl, so this is expected.

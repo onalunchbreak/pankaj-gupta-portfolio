@@ -12,6 +12,7 @@ import KeyboardRouter from "@/components/shell/keyboard-router";
 import SessionStatsHud from "@/components/shell/session-stats-hud";
 import SectionReachTracker from "@/components/shell/section-reach-tracker";
 import ScrollToTop from "@/components/shell/scroll-to-top";
+import HashScrollOnLoad from "@/components/shell/hash-scroll-on-load";
 
 import Hero from "@/components/sections/hero";
 import NavIndex from "@/components/sections/nav-index";
@@ -43,6 +44,7 @@ export default function Home() {
       <SessionStatsHud />
       <SectionReachTracker />
       <ScrollToTop />
+      <HashScrollOnLoad />
 
       {/* main flow — blue → black → black → black → paper → paper → blue → black → paper → black → paper → black+paper */}
       <main className="relative w-full overflow-x-clip pt-9">

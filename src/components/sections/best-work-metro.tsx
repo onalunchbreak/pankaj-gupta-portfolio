@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CountUp } from "@/components/sections/_shared";
+import ShareButton from "@/components/shell/share-button";
 import {
   METRO_STATIONS,
   METRO_INTRO,
@@ -328,6 +329,7 @@ export default function BestWorkMetro() {
           </span>
           <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
           <span className="hidden sm:inline">{"// mr_onalunchbreak.sys"}</span>
+          <ShareButton sectionId="best-work" />
         </motion.div>
 
         {/* Metro logo mark + blinking "Next train: NOW" */}

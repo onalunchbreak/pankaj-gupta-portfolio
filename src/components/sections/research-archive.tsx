@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { ExternalLink, FileText, Lock } from "lucide-react";
 import { Reveal } from "@/components/sections/_shared";
+import ShareButton from "@/components/shell/share-button";
 import { RESEARCH, type ResearchPaper } from "@/lib/data";
 import { hasLink } from "@/lib/links";
 import { useSound } from "@/hooks/use-sound";
@@ -176,6 +177,7 @@ export default function ResearchArchive() {
           <span className="hidden sm:inline text-[#1738D5]/70">
             {"// "}{RESEARCH.system}
           </span>
+          <ShareButton sectionId="research" />
         </motion.div>
 
         {/* Headline — handwritten/display, large, dark ink */}

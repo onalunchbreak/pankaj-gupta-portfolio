@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { useSound } from "@/hooks/use-sound";
@@ -6,11 +7,24 @@ import { useBootStore } from "@/hooks/use-boot";
 import { NAV_ITEMS } from "@/lib/data";
 import { getLenis } from "@/lib/lenis-instance";
 
+// Mini-preview metadata for each nav item — shown on hover as a floating card.
+const PEEK_INFO: Record<string, { env: string; desc: string }> = {
+  hero: { env: "BLUE", desc: "Mr. Onalunchbreak — product × AI × systems" },
+  origin: { env: "PAPER", desc: "How I accidentally became a product person" },
+  "product-os": { env: "PAPER", desc: "Products with a reason — 1200+ customers" },
+  "work-log": { env: "BLUE", desc: "4 experiences: SenseHQ · CEGIS · Cambridge · Bosch" },
+  "best-work": { env: "BLACK", desc: "Product Line metro — 6 stations" },
+  research: { env: "PAPER", desc: "4 papers — EACL · ECIR · AAAI" },
+  lab: { env: "BLACK", desc: "Side projects + 44-word CV cloud" },
+  contact: { env: "BLACK+PAPER", desc: "Talk product with me" },
+};
+
 export default function Nav() {
   const ids = NAV_ITEMS.map((n) => n.id);
   const active = useActiveSection(ids);
   const { play } = useSound();
   const booted = useBootStore((s) => s.booted);
+  const [hovered, setHovered] = useState<string | null>(null);
 
   const go = (id: string) => {
     play("confirm");
@@ -34,32 +48,65 @@ export default function Nav() {
           exit={{ opacity: 0, x: 24 }}
           transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           aria-label="Section navigation"
+          onMouseLeave={() => setHovered(null)}
         >
           {NAV_ITEMS.map((item) => {
             const isActive = active === item.id;
+            const isHovered = hovered === item.id;
+            const peek = PEEK_INFO[item.id];
             return (
-              <button
-                key={item.id}
-                onClick={() => go(item.id)}
-                onMouseEnter={() => play("tick")}
-                data-cursor-label={isActive ? "here" : "go"}
-                className="group flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest transition-colors focus-ring"
-              >
-                <span
-                  className={`h-px transition-all duration-300 ${
-                    isActive ? "w-8 bg-[#FFD400]" : "w-4 bg-white/25 group-hover:w-7 group-hover:bg-[#FFD400]"
-                  }`}
-                />
-                <span
-                  className={`transition-colors ${
-                    isActive
-                      ? "text-[#FFD400]"
-                      : "text-[#F4F1EA]/55 group-hover:text-[#F4F1EA]"
-                  }`}
+              <div key={item.id} className="relative flex items-center justify-end">
+                {/* Floating peek card — appears on hover to the LEFT of the nav item */}
+                <AnimatePresence>
+                  {isHovered && peek && (
+                    <motion.div
+                      className="pointer-events-none absolute right-full mr-3 top-1/2 -translate-y-1/2 w-56 border border-[#1738D5]/40 bg-[#0A0A0A]/95 p-3 backdrop-blur-md"
+                      initial={{ opacity: 0, x: 8, scale: 0.96 }}
+                      animate={{ opacity: 1, x: 0, scale: 1 }}
+                      exit={{ opacity: 0, x: 8, scale: 0.96 }}
+                      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                      aria-hidden
+                    >
+                      <div className="mb-1 flex items-center gap-2 font-mono text-[8px] uppercase tracking-[0.25em]">
+                        <span className="text-[#1738D5]">{"//"}</span>
+                        <span className="text-[#6B6B6B]">env: {peek.env}</span>
+                      </div>
+                      <p className="font-display text-xs font-bold leading-tight tracking-tight text-[#F4F1EA]">
+                        {item.label}
+                      </p>
+                      <p className="mt-1 font-mono text-[10px] leading-relaxed text-[#F4F1EA]/65">
+                        {peek.desc}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <button
+                  onClick={() => go(item.id)}
+                  onMouseEnter={() => {
+                    play("tick");
+                    setHovered(item.id);
+                  }}
+                  data-cursor-label={isActive ? "here" : "go"}
+                  className="group flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest transition-colors focus-ring"
+                  aria-current={isActive ? "true" : undefined}
                 >
-                  {item.label}
-                </span>
-              </button>
+                  <span
+                    className={`h-px transition-all duration-300 ${
+                      isActive ? "w-8 bg-[#1738D5]" : "w-4 bg-white/25 group-hover:w-7 group-hover:bg-[#1738D5]"
+                    }`}
+                  />
+                  <span
+                    className={`transition-colors ${
+                      isActive
+                        ? "text-[#1738D5]"
+                        : "text-[#F4F1EA]/55 group-hover:text-[#F4F1EA]"
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                </button>
+              </div>
             );
           })}
         </motion.nav>

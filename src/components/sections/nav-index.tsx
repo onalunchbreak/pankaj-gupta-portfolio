@@ -106,7 +106,7 @@ export default function NavIndex() {
                       }}
                       onKeyDown={(e) => onKey(e, item.target)}
                       className={`group/link relative block w-full cursor-pointer rounded-none px-1 py-2 outline-none transition-opacity duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1738D5] ${
-                        dim ? "opacity-35" : "opacity-100"
+                        dim ? "opacity-50" : "opacity-100"
                       }`}
                       initial={{ opacity: 0, y: 18 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -114,19 +114,19 @@ export default function NavIndex() {
                       transition={{ duration: 0.6, delay: i * 0.07, ease: EASE }}
                     >
                       <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-5">
-                        {/* label — oversized handwritten */}
-                        <span className="hand-display flex items-baseline gap-2 text-5xl text-[#F7F4ED] transition-colors duration-300 group-hover/link:text-[#1738D5] sm:text-6xl lg:text-7xl">
-                          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-[#6B6B6B]">
+                        {/* label — oversized handwritten, brighter default for contrast */}
+                        <span className="hand-display flex items-baseline gap-2 text-5xl text-[#F7F4ED] transition-all duration-300 group-hover/link:text-[#1738D5] group-hover/link:translate-x-1 sm:text-6xl lg:text-7xl">
+                          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-[#1738D5]/70 transition-colors duration-300 group-hover/link:text-[#1738D5]">
                             {String(i + 1).padStart(2, "0")}
                           </span>
                           <span>{item.label}</span>
                           <ArrowUpRight
-                            className="hidden h-7 w-7 -translate-y-1 text-[#1738D5] opacity-0 transition-opacity duration-300 group-hover/link:opacity-100 sm:inline-block lg:h-9 lg:w-9"
+                            className="hidden h-7 w-7 -translate-y-1 text-[#1738D5] opacity-0 transition-all duration-300 group-hover/link:opacity-100 group-hover/link:translate-x-0.5 sm:inline-block lg:h-9 lg:w-9"
                             aria-hidden
                           />
                         </span>
-                        {/* annotation — mono, muted, small */}
-                        <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#6B6B6B] transition-colors duration-300 group-hover/link:text-[#F4F1EA]/70 sm:translate-y-1">
+                        {/* annotation — mono, brighter for readability */}
+                        <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#F4F1EA]/55 transition-colors duration-300 group-hover/link:text-[#1738D5] sm:translate-y-1">
                           {item.annotation}
                         </span>
                       </div>

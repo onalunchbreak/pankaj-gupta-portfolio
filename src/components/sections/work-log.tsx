@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { X } from "lucide-react";
 import { CountUp } from "@/components/sections/_shared";
+import ShareButton from "@/components/shell/share-button";
 import { EXPERIENCES, type Experience } from "@/lib/data";
 import { useSound } from "@/hooks/use-sound";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
@@ -159,6 +160,7 @@ export default function WorkLog() {
           <span id="work-log-header">WORK LOG</span>
           <span className="ml-auto hidden h-px flex-1 bg-white/15 sm:block" />
           <span className="hidden sm:inline">{"// mr_onalunchbreak.sys"}</span>
+          <ShareButton sectionId="work-log" />
         </motion.div>
 
         {/* Terminal sub-header */}

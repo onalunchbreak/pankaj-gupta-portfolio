@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { Reveal } from "@/components/sections/_shared";
+import ShareButton from "@/components/shell/share-button";
 import { ACHIEVEMENTS } from "@/lib/data";
 import { useSound } from "@/hooks/use-sound";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
@@ -145,6 +146,7 @@ export default function Achievements() {
           <span className="hidden sm:inline text-[#1738D5]/70">
             {"// signals.log"}
           </span>
+          <ShareButton sectionId="achievements" />
         </motion.div>
 
         {/* Headline — handwritten, large, dark ink */}
