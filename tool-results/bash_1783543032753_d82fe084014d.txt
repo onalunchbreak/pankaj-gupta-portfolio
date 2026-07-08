@@ -9,7 +9,7 @@ import {
   METRO_STATIONS,
   METRO_INTRO,
   type MetroStation,
-  type CaseStudyBlock,
+  type StrategyItem,
 } from "@/lib/data";
 import { useSound } from "@/hooks/use-sound";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
@@ -20,22 +20,17 @@ import { getLenis } from "@/lib/lenis-instance";
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 /* ============================================================
-   SECTION 04 — BEST WORK / PRODUCT LINE METRO
+   SECTION 04 — BEST WORK / DELHI METRO
    Gamified horizontal metro track with pinned GSAP scroll,
    step-out deep-dive overlays, keyboard nav, Hindi announcement
    ticker, door-chime SFX. Degrades to a vertical stacked grid
    below 1024px or when prefers-reduced-motion is set.
 
-   Station content (per spec Section 06, Pankaj re-personalisation):
-   - Each station carries headline + caseStudy: CaseStudyBlock[]
-     (each block has label / title / text) + extras + learning.
+   Station content (per spec Section 06):
+   - Each station now carries headline + StrategyItem[] + extras.
    - The deep-dive overlay exposes the full case study:
-     headline (blockquote), caseStudy blocks as labelled sections,
-     ALL metrics as CountUp grid, extras as labelled lists,
-     learning as a highlighted note.
-   - 6 stations: Bosch · Research Lab · Cambridge JBS · CEGIS ·
-     SenseHQ · Mr. Onalunchbreak.
-   - PRODUCT LINE branding (yellow line identity kept).
+     headline, problem, strategy as numbered steps, impact,
+     all metrics as CountUp grid, plus extras as labelled lists.
    ============================================================ */
 export default function BestWorkMetro() {
   const { play } = useSound();
@@ -101,8 +96,8 @@ export default function BestWorkMetro() {
         setInView(entry.isIntersecting);
         if (entry.isIntersecting) {
           // Show the prominent keyboard hint the first time the user enters
-          // the metro section, then auto-dismiss after 5s.
           setShowKeyHint(true);
+          // Auto-dismiss after 5s (the user will have seen it by then)
           setTimeout(() => setShowKeyHint(false), 5000);
         }
       },
@@ -151,7 +146,7 @@ export default function BestWorkMetro() {
               setActiveIndex(idx);
               playRef.current("door");
             }
-            // Train marker ● travels along the line with progress.
+            // Train marker ● travels along the blue line with progress.
             if (trainRef.current) {
               const tx = self.progress * (window.innerWidth - 40);
               trainRef.current.style.transform = `translate3d(${tx}px, -50%, 0)`;
@@ -301,7 +296,7 @@ export default function BestWorkMetro() {
     >
       {/* CSS keyframes for the Hindi ticker marquee */}
       <style>{`
-        @keyframes pankajMetroTicker {
+        @keyframes baazMetroTicker {
           from { transform: translate3d(0, 0, 0); }
           to   { transform: translate3d(-50%, 0, 0); }
         }
@@ -319,12 +314,12 @@ export default function BestWorkMetro() {
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.6, ease: EASE }}
         >
-          <span className="text-[#1738D5]">04</span>
+          <span className="text-[#FFD400]">04</span>
           <span id="best-work-header" className="text-[#F4F1EA]/70">
-            BEST WORK / PRODUCT LINE
+            BEST WORK / DELHI METRO
           </span>
           <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-          <span className="hidden sm:inline">{"// mr_onalunchbreak.sys"}</span>
+          <span className="hidden sm:inline">{"// baaz.sys"}</span>
         </motion.div>
 
         {/* Metro logo mark + blinking "Next train: NOW" */}
@@ -341,7 +336,7 @@ export default function BestWorkMetro() {
             </span>
           </div>
           <span className="ml-auto flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-[#F4F1EA]/70">
-            <span className="inline-block h-2 w-2 rounded-full bg-[#1738D5] blink" />
+            <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
             Next train: NOW
           </span>
         </div>
@@ -369,47 +364,22 @@ export default function BestWorkMetro() {
           {METRO_INTRO.english}
         </motion.p>
 
-        {/* System message + current status strip — mono, yellow + cream */}
-        <motion.div
-          className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.25em]"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.8, delay: 0.25, ease: EASE }}
-        >
-          <span className="text-[#FFD400]">{`▶ ${METRO_INTRO.systemMessage}`}</span>
-          <span className="text-[#6B6B6B]">/</span>
-          <span className="text-[#F4F1EA]/70">{METRO_INTRO.currentStatus}</span>
-        </motion.div>
-
-        {/* Subtitle — hand-display style */}
-        <motion.p
-          className="mt-6 max-w-3xl font-mono text-xs uppercase tracking-[0.3em] text-[#6B6B6B] sm:text-sm"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.8, delay: 0.35, ease: EASE }}
-        >
-          {METRO_INTRO.subtitle}
-        </motion.p>
-
         {/* CTA + sub copy */}
         <motion.div
           className="mt-12 flex flex-wrap items-center gap-6"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.8, delay: 0.45, ease: EASE }}
+          transition={{ duration: 0.8, delay: 0.3, ease: EASE }}
         >
-          {/* BOARD TRAIN button — electric blue per spec */}
           <button
             type="button"
             onClick={enterMetro}
             onMouseEnter={() => play("tick")}
-            data-cursor-label="board train"
-            className="group inline-flex items-center gap-3 border-2 border-[#1738D5] bg-[#1738D5] px-6 py-3.5 font-mono text-xs uppercase tracking-[0.3em] text-[#F4F1EA] transition-colors hover:bg-transparent hover:text-[#1738D5] focus-ring"
+            data-cursor-label="enter metro"
+            className="group inline-flex items-center gap-3 border-2 border-[#FFD400] bg-[#FFD400] px-6 py-3.5 font-mono text-xs uppercase tracking-[0.3em] text-[#0A0A0A] transition-colors hover:bg-transparent hover:text-[#FFD400] focus-ring"
           >
-            <span className="h-2 w-2 rounded-full bg-[#F4F1EA] transition-colors group-hover:bg-[#1738D5]" />
+            <span className="h-2 w-2 rounded-full bg-[#0A0A0A] transition-colors group-hover:bg-[#FFD400]" />
             {METRO_INTRO.cta}
             <span aria-hidden>→</span>
           </button>
@@ -429,7 +399,7 @@ export default function BestWorkMetro() {
             ref={viewportRef}
             className="relative h-screen w-full overflow-hidden bg-[#0A0A0A]"
           >
-            {/* Yellow horizontal PRODUCT LINE through the middle */}
+            {/* Yellow horizontal BLUE LINE through the middle */}
             <div
               aria-hidden
               className="pointer-events-none absolute left-0 right-0 top-1/2 z-0 h-px -translate-y-1/2 bg-[#FFD400]/70"
@@ -444,7 +414,7 @@ export default function BestWorkMetro() {
               className="pointer-events-none absolute right-0 top-1/2 z-0 h-3 w-1 -translate-y-1/2 bg-[#FFD400]"
             />
 
-            {/* Train marker ● — travels along the line with scroll progress */}
+            {/* Train marker ● — travels along the blue line with scroll progress */}
             <div
               ref={trainRef}
               aria-hidden
@@ -459,9 +429,9 @@ export default function BestWorkMetro() {
             <div className="absolute left-0 right-0 top-0 z-20 flex items-center justify-between gap-4 border-b border-white/10 bg-[#0A0A0A]/80 px-5 py-3 backdrop-blur-sm sm:px-8">
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
                 <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
-                <span className="text-[#FFD400]">{"● PRODUCT LINE"}</span>
+                <span className="text-[#FFD400]">{"● BLUE LINE"}</span>
                 <span className="text-[#6B6B6B]">/</span>
-                <span className="text-[#F4F1EA]/80">MR. ONALUNCHBREAK</span>
+                <span className="text-[#F4F1EA]/80">DELHI METRO</span>
               </div>
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
                 {/* Persistent keyboard hint — animated key icons */}
@@ -522,7 +492,7 @@ export default function BestWorkMetro() {
               )}
             </AnimatePresence>
 
-            {/* Route-map mini-indicator — all 6 stations as dots with
+            {/* Route-map mini-indicator — all 5 stations as dots with
                 active highlighted + progress fill. Click a dot to jump. */}
             <div className="absolute left-0 right-0 top-[46px] z-20 hidden items-center gap-2 border-b border-white/5 bg-[#0A0A0A]/60 px-5 py-2 backdrop-blur-sm sm:flex sm:px-8">
               <span className="mr-1 font-mono text-[9px] uppercase tracking-[0.3em] text-[#6B6B6B]">
@@ -606,14 +576,14 @@ export default function BestWorkMetro() {
               ))}
             </div>
 
-            {/* Bottom Hindi announcement ticker — uses METRO_INTRO.announcements */}
+            {/* Bottom Hindi announcement ticker */}
             <div className="absolute bottom-0 left-0 right-0 z-20 overflow-hidden border-t border-white/10 bg-[#0A0A0A]/80 py-2 backdrop-blur-sm">
               <div
                 className="marquee-track whitespace-nowrap will-change-transform"
                 style={{
                   animation: reduced
                     ? "none"
-                    : "pankajMetroTicker 40s linear infinite",
+                    : "baazMetroTicker 32s linear infinite",
                 }}
               >
                 {Array.from({ length: 6 }).map((_, i) => (
@@ -621,21 +591,17 @@ export default function BestWorkMetro() {
                     key={i}
                     className="font-deva text-sm text-[#F4F1EA]/80"
                   >
-                    {METRO_INTRO.announcements.map((ann, ai) => (
-                      <span key={ai}>
-                        {ai > 0 && (
-                          <span className="px-3 text-[#6B6B6B]">·</span>
-                        )}
-                        <span className="px-3">{ann}</span>
+                    <span className="px-6">
+                      अगला स्टेशन:{" "}
+                      <span className="text-[#FFD400]">
+                        {nextStation.name}
                       </span>
-                    ))}
-                    <span className="px-3 text-[#6B6B6B]">·</span>
-                    <span className="px-3 text-[#FFD400]">
-                      {"● PRODUCT LINE"}
-                    </span>
-                    <span className="px-3 text-[#6B6B6B]">·</span>
-                    <span className="px-3 text-[#FFD400]">
-                      अगला स्टेशन: {nextStation.name}
+                      <span className="px-3 text-[#6B6B6B]">·</span>
+                      Next station: {nextStation.name}
+                      <span className="px-3 text-[#6B6B6B]">·</span>
+                      <span className="text-[#FFD400]">{"● BLUE LINE"}</span>
+                      <span className="px-3 text-[#6B6B6B]">·</span>
+                      दिल्ली मेट्रो
                     </span>
                   </span>
                 ))}
@@ -647,8 +613,8 @@ export default function BestWorkMetro() {
         /* ---- Mobile / reduced-motion: stacked station cards ---- */
         <div className="mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
           <div className="mb-8 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#6B6B6B]">
-            <span className="text-[#FFD400]">{"● PRODUCT LINE"}</span>
-            <span className="text-[#F4F1EA]/70">/ MR. ONALUNCHBREAK</span>
+            <span className="text-[#FFD400]">{"● BLUE LINE"}</span>
+            <span className="text-[#F4F1EA]/70">/ DELHI METRO</span>
             <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
             <span className="hidden sm:inline">{"// stacked"}</span>
           </div>
@@ -747,7 +713,7 @@ function StationPanel({
       className="relative flex h-full w-[85vw] shrink-0 flex-col justify-between px-10 py-24 sm:px-16"
       data-cursor-label={station.name}
     >
-      {/* Station marker dot on the line (vertical middle) */}
+      {/* Station marker dot on the blue line (vertical middle) */}
       <span
         aria-hidden
         className={`absolute left-1/2 top-1/2 z-20 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 transition-all duration-300 ${
@@ -774,10 +740,10 @@ function StationPanel({
           </span>
         </div>
 
-        {/* Platform signboard — PRODUCT LINE label, hindi name, platform no. */}
+        {/* Platform signboard — BLUE LINE label, hindi name, platform no. */}
         <div className="border border-white/15 bg-[#0E0E0E] px-4 py-3">
           <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#FFD400]">
-            {"● PRODUCT LINE"}
+            {"● BLUE LINE"}
           </p>
           <p className="mt-1 font-deva text-lg font-bold text-[#F4F1EA]">
             {station.name}
@@ -880,7 +846,7 @@ function StackedStationCard({
         <span className="inline-block h-3 w-3 rounded-full border-2 border-[#FFD400] bg-[#FFD400]" />
         <span className="h-px flex-1 bg-[#FFD400]/60" />
         <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#FFD400]">
-          {"● PRODUCT LINE"}
+          {"● BLUE LINE"}
         </span>
       </div>
 
@@ -903,7 +869,7 @@ function StackedStationCard({
           {station.name}
         </p>
         <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#6B6B6B]">
-          {`Platform ${index + 1} · PRODUCT LINE`}
+          {`Platform ${index + 1} · BLUE LINE`}
         </p>
       </div>
 
@@ -956,9 +922,8 @@ function StackedStationCard({
 
 /* ============================================================
    Deep-dive overlay — full case study
-   Renders (per spec): headline (blockquote), caseStudy blocks
-   as labelled sections, ALL metrics as CountUp grid, extras as
-   labelled lists, learning as a highlighted note.
+   Renders: headline, problem, strategy as numbered steps,
+   impact, all metrics as CountUp grid, extras as labelled lists.
    ============================================================ */
 function DeepDiveOverlay({
   station,
@@ -1004,11 +969,11 @@ function DeepDiveOverlay({
         transition={{ duration: 0.4, ease: EASE }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Sticky header — "● PRODUCT LINE // {station}" */}
+        {/* Sticky header — "● BLUE LINE // {station}" */}
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#FFD400]/40 bg-[#0E0E0E] px-6 py-3 sm:px-8">
           <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
             <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
-            <span className="text-[#FFD400]">{"● PRODUCT LINE"}</span>
+            <span className="text-[#FFD400]">{"● BLUE LINE"}</span>
             <span className="text-[#6B6B6B]">{"//"}</span>
             <span className="text-[#F4F1EA]/80">{station.name}</span>
           </div>
@@ -1025,16 +990,13 @@ function DeepDiveOverlay({
         </div>
 
         <div className="px-6 py-8 sm:px-8 sm:py-10">
-          {/* Index + theme pill + tag + station type */}
+          {/* Index + theme pill + tag */}
           <div className="mb-4 flex flex-wrap items-center gap-3">
             <span className="font-mono text-[11px] tabular-nums uppercase tracking-[0.25em] text-[#6B6B6B]">
               {String(index + 1).padStart(2, "0")} / 0{total}
             </span>
             <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400]">
               {station.theme}
-            </span>
-            <span className="border border-[#1738D5]/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#1738D5]">
-              {station.stationType.replace("-", " ")}
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/50">
               {`// ${station.tag}`}
@@ -1052,28 +1014,16 @@ function DeepDiveOverlay({
             {station.name}
           </p>
 
-          {/* Headline — case study thesis (blockquote) */}
+          {/* Headline — case study thesis */}
           <blockquote className="mt-6 border-l-2 border-[#FFD400] pl-5">
             <p className="font-display text-lg leading-snug text-[#F4F1EA]/90 sm:text-2xl">
               {station.headline}
             </p>
           </blockquote>
 
-          {/* Case-study blocks — labelled sections.
-              Each CaseStudyBlock has { label, title, text }. The labels
-              differ per stationType (PROBLEM/SYSTEM/IMPACT/LEARNING for
-              professional, QUESTION/METHOD/PAPERS/RESULT/LEARNING for
-              research, IDEA/WHY I BUILT IT/SYSTEM/STATUS/WHAT'S NEXT for
-              side-project). Render as-is per spec. */}
-          <div className="mt-8 space-y-7 border-t border-white/10 pt-7">
-            {station.caseStudy.map((block: CaseStudyBlock, i) => (
-              <CaseStudySection key={`${block.label}-${i}`} block={block} index={i + 1} />
-            ))}
-          </div>
-
-          {/* Metrics — ALL metrics as CountUp grid */}
+          {/* Metrics — big count-up at top */}
           <ul
-            className="mt-10 grid grid-cols-2 gap-6 border-t border-white/10 pt-7 sm:grid-cols-3"
+            className="mt-8 grid grid-cols-2 gap-6 border-t border-white/10 pt-7 sm:grid-cols-3"
             role="list"
           >
             {station.metrics.map((m, mi) => (
@@ -1096,7 +1046,45 @@ function DeepDiveOverlay({
             ))}
           </ul>
 
-          {/* Extras — labelled lists (papers, themes, side projects, etc.) */}
+          {/* Problem */}
+          <SectionBlock label="Problem">
+            <p className="font-display text-base leading-relaxed text-[#F4F1EA]/90 sm:text-lg">
+              {station.problem}
+            </p>
+          </SectionBlock>
+
+          {/* Strategy — numbered steps with step / title / desc */}
+          <SectionBlock label="Strategy">
+            <ol className="space-y-5" role="list">
+              {station.strategy.map((s: StrategyItem) => (
+                <li
+                  key={s.step}
+                  className="flex gap-4 border-l border-white/10 pl-4"
+                >
+                  <span className="font-mono text-2xl font-bold tabular-nums text-[#FFD400]">
+                    {s.step}
+                  </span>
+                  <div className="flex-1">
+                    <p className="font-display text-base font-bold uppercase tracking-tight text-[#F4F1EA] sm:text-lg">
+                      {s.title}
+                    </p>
+                    <p className="mt-1 font-sans text-sm leading-relaxed text-[#F4F1EA]/75 sm:text-base">
+                      {s.desc}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </SectionBlock>
+
+          {/* Impact */}
+          <SectionBlock label="Impact">
+            <p className="font-display text-base leading-relaxed text-[#F4F1EA]/90 sm:text-lg">
+              {station.impact}
+            </p>
+          </SectionBlock>
+
+          {/* Extras — labelled lists (creator network, lifecycle states, etc.) */}
           {station.extras && station.extras.length > 0 && (
             <div className="mt-10 space-y-8 border-t border-white/10 pt-7">
               {station.extras.map((extra) => (
@@ -1122,18 +1110,6 @@ function DeepDiveOverlay({
             </div>
           )}
 
-          {/* Learning — highlighted note */}
-          {station.learning && (
-            <div className="mt-10 border-l-2 border-[#FFD400] bg-[#FFD400]/5 p-5 sm:p-6">
-              <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
-                {"// LEARNING"}
-              </p>
-              <p className="font-display text-base leading-relaxed text-[#F4F1EA] sm:text-lg">
-                {station.learning}
-              </p>
-            </div>
-          )}
-
           {/* Return to Platform link */}
           <button
             type="button"
@@ -1155,32 +1131,20 @@ function DeepDiveOverlay({
   );
 }
 
-/* ---- CaseStudy section block — renders a labelled case-study block.
-   Each block has a small mono label (PROBLEM / SYSTEM / IMPACT etc.),
-   a bold display title, and the body text. ---- */
-function CaseStudySection({
-  block,
-  index,
+/* ---- Tiny helper for the deep-dive labelled blocks (Problem/Strategy/Impact) ---- */
+function SectionBlock({
+  label,
+  children,
 }: {
-  block: CaseStudyBlock;
-  index: number;
+  label: string;
+  children: React.ReactNode;
 }) {
   return (
-    <div className="border-l-2 border-[#FFD400]/60 pl-5">
-      <div className="mb-2 flex items-center gap-3">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
-          {block.label}
-        </span>
-        <span className="font-mono text-[10px] tabular-nums text-[#6B6B6B]">
-          {`0${index}`}
-        </span>
-      </div>
-      <p className="font-display text-lg font-bold uppercase tracking-tight text-[#F4F1EA] sm:text-xl">
-        {block.title}
+    <div className="mt-10 border-l-2 border-[#FFD400] pl-5">
+      <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
+        {label}
       </p>
-      <p className="mt-2 font-sans text-sm leading-relaxed text-[#F4F1EA]/75 sm:text-base">
-        {block.text}
-      </p>
+      {children}
     </div>
   );
 }

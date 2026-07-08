@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { X } from "lucide-react";
 import { CountUp } from "@/components/sections/_shared";
-import { PROJECTS, type Project } from "@/lib/data";
+import { EXPERIENCES, type Experience } from "@/lib/data";
 import { useSound } from "@/hooks/use-sound";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { useBodyScrollLock } from "@/hooks/use-body-scroll-lock";
@@ -19,8 +19,8 @@ const MORPH_TRANSITION = {
 
 /* ============================================================
    Per-theme card + overlay styling.
-   The Projects section lives on the ELECTRIC BLUE environment, so
-   each card's theme creates intentional visual contrast:
+   The Work Log lives on the ELECTRIC BLUE environment, so each
+   card's theme creates intentional visual contrast:
 
    - "blue"  → deeper-blue card with cream ink + white hairline border
    - "paper" → warm paper card with dark ink (standout against blue)
@@ -41,9 +41,10 @@ type ThemeClasses = {
   border: string;
   overlay: string;
   hint: string;
+  chip: string;
 };
 
-const THEME_STYLES: Record<Project["theme"], ThemeClasses> = {
+const THEME_STYLES: Record<Experience["theme"], ThemeClasses> = {
   blue: {
     card: "bg-[#0F2BB0] border-[#F7F4ED]/30",
     cardHover: "hover:border-[#F7F4ED]",
@@ -56,6 +57,7 @@ const THEME_STYLES: Record<Project["theme"], ThemeClasses> = {
     border: "border-[#F7F4ED]/15",
     overlay: "bg-[#0F2BB0] border-[#F7F4ED]/40",
     hint: "text-[#F7F4ED]/60 group-hover:text-[#FFD400]",
+    chip: "border-[#F7F4ED]/25 text-[#F7F4ED]/75",
   },
   paper: {
     card: "bg-[#F4F1EA] paper-texture border-[#2a2a2a]/20",
@@ -69,6 +71,7 @@ const THEME_STYLES: Record<Project["theme"], ThemeClasses> = {
     border: "border-[#2a2a2a]/15",
     overlay: "bg-[#F4F1EA] paper-texture border-[#1738D5]/40",
     hint: "text-[#2a2a2a]/60 group-hover:text-[#1738D5]",
+    chip: "border-[#1738D5]/30 text-[#1738D5]",
   },
   black: {
     card: "bg-[#0A0A0A] border-[#FFD400]/30",
@@ -82,10 +85,19 @@ const THEME_STYLES: Record<Project["theme"], ThemeClasses> = {
     border: "border-white/15",
     overlay: "bg-[#0A0A0A] border-[#FFD400]/40",
     hint: "text-[#6B6B6B] group-hover:text-[#FFD400]",
+    chip: "border-[#FFD400]/30 text-[#FFD400]/80",
   },
 };
 
-export default function Projects() {
+/* ============================================================
+   WORK LOG / EXPERIENCE ARCHIVE
+   Electric-blue environment. 2×2 grid of 4 experience cards.
+   Each card respects its `theme` field for visual contrast
+   (blue / paper / black). Click → shared-layout morph into a
+   full-screen overlay with the full achievements + metrics +
+   headline. Backdrop click, close button, and Esc all close.
+   ============================================================ */
+export default function WorkLog() {
   const { play } = useSound();
   const reduced = usePrefersReducedMotion();
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -94,7 +106,7 @@ export default function Projects() {
   const triggerRef = useRef<HTMLElement | null>(null);
   const overlayPanelRef = useRef<HTMLDivElement | null>(null);
 
-  const selected = PROJECTS.find((p) => p.id === selectedId) ?? null;
+  const selected = EXPERIENCES.find((e) => e.id === selectedId) ?? null;
 
   // Lock scroll + trap focus while the overlay is open.
   useBodyScrollLock(selectedId !== null);
@@ -113,26 +125,26 @@ export default function Projects() {
     return () => window.removeEventListener("keydown", onKey);
   }, [selectedId, play]);
 
-  const openProject = (e: React.MouseEvent<HTMLElement>, id: string) => {
+  const openExperience = (e: React.MouseEvent<HTMLElement>, id: string) => {
     triggerRef.current = e.currentTarget;
     setSelectedId(id);
     play("confirm");
   };
 
-  const closeProject = () => {
+  const closeExperience = () => {
     setSelectedId(null);
     play("confirm");
   };
 
   return (
     <section
-      id="projects"
+      id="work-log"
       className="env-blue relative w-full overflow-hidden"
-      aria-labelledby="projects-header"
-      data-cursor-label="projects"
+      aria-labelledby="work-log-header"
+      data-cursor-label="work log"
     >
       <div className="relative mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-8 sm:py-32 lg:px-12">
-        {/* ---- Section header (mirrors SectionShell layout, blue-env colors) ---- */}
+        {/* ---- Section header (mirrors SectionShell layout, blue-env colours) ---- */}
         <motion.div
           className="mb-10 flex items-baseline gap-3 border-b border-white/15 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#F7F4ED]/70 sm:mb-14"
           initial={{ opacity: 0, y: 14 }}
@@ -141,9 +153,9 @@ export default function Projects() {
           transition={{ duration: 0.6, ease: EASE }}
         >
           <span className="text-[#FFD400]">03</span>
-          <span>Projects</span>
+          <span id="work-log-header">WORK LOG</span>
           <span className="ml-auto hidden h-px flex-1 bg-white/15 sm:block" />
-          <span className="hidden sm:inline">{"// baaz.sys"}</span>
+          <span className="hidden sm:inline">{"// mr_onalunchbreak.sys"}</span>
         </motion.div>
 
         {/* Terminal sub-header */}
@@ -158,27 +170,30 @@ export default function Projects() {
             className="inline-block h-2 w-2 animate-pulse bg-[#FFD400]"
             aria-hidden
           />
-          <span>{"Sector 03 / Alpha · System_Active"}</span>
+          <span>{"Sector 03 / Production · System_Active"}</span>
           <span className="ml-auto hidden font-mono text-[10px] uppercase tracking-[0.25em] text-[#F7F4ED]/55 sm:inline">
-            {`// ${PROJECTS.length} archived`}
+            {`// ${EXPERIENCES.length} archived experiences`}
           </span>
         </motion.div>
 
         <LayoutGroup>
-          {/* 2x2 archived project grid */}
+          {/* 2x2 archived experience grid */}
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
-            {PROJECTS.map((project, i) => {
-              const theme = THEME_STYLES[project.theme];
-              // Intentional misalignment: alternating rotation + staggered vertical offset
+            {EXPERIENCES.map((exp, i) => {
+              const theme = THEME_STYLES[exp.theme];
+              // Deterministic slight rotation — alternating direction.
               const rotate = i % 2 === 0 ? -0.6 : 0.8;
+              // Intentional vertical offset on the right column for misalignment.
               const yOffset = i === 1 || i === 3 ? "sm:translate-y-8" : "";
+              // Card preview shows the first 3 achievements (truncated 2 lines).
+              const previewAchievements = exp.achievements.slice(0, 3);
               return (
                 <motion.article
-                  key={project.id}
-                  layoutId={reduced ? undefined : `project-${project.id}`}
+                  key={exp.id}
+                  layoutId={reduced ? undefined : `exp-${exp.id}`}
                   layout={!reduced}
                   className={`group relative cursor-pointer border p-6 transition-colors duration-200 sm:p-7 ${theme.card} ${theme.cardHover} ${yOffset}`}
-                  onClick={(e) => openProject(e, project.id)}
+                  onClick={(e) => openExperience(e, exp.id)}
                   onMouseEnter={() => play("tick")}
                   data-cursor-label="open"
                   initial={reduced ? false : { opacity: 0, y: 28, rotate }}
@@ -186,7 +201,7 @@ export default function Projects() {
                   viewport={{ once: true, margin: "-8% 0px" }}
                   transition={{ duration: 0.6, delay: i * 0.08, ease: EASE }}
                   whileHover={reduced ? undefined : { scale: 1.012, rotate: 0 }}
-                  aria-labelledby={`proj-${project.id}-title`}
+                  aria-labelledby={`exp-${exp.id}-title`}
                 >
                   {/* Brutalist corner registration marks */}
                   <span aria-hidden className="pointer-events-none absolute left-2 top-2 h-2 w-2 border-l border-t border-current opacity-25" />
@@ -202,10 +217,10 @@ export default function Projects() {
                         aria-hidden
                         className={`flex h-9 w-9 items-center justify-center rounded-full border-2 font-mono text-[11px] tabular-nums ${theme.indexPill}`}
                       >
-                        {project.index}
+                        {exp.index}
                       </span>
                       <span className={`font-mono text-[9px] uppercase tracking-[0.3em] ${theme.inkMuted}`}>
-                        {"// case file"}
+                        {"// experience"}
                       </span>
                     </div>
                     <span
@@ -217,34 +232,53 @@ export default function Projects() {
                     </span>
                   </div>
 
-                  {/* Project name — big display */}
+                  {/* Company name — big display */}
                   <h3
-                    id={`proj-${project.id}-title`}
-                    className={`font-display text-4xl font-bold leading-[0.95] tracking-tight ${theme.ink} sm:text-5xl`}
+                    id={`exp-${exp.id}-title`}
+                    className={`font-display text-3xl font-bold leading-[0.95] tracking-tight ${theme.ink} sm:text-4xl`}
                   >
-                    {project.name}
+                    {exp.company}
                   </h3>
 
-                  {/* Company description */}
-                  <p className={`mt-3 font-sans text-sm leading-relaxed ${theme.inkMuted}`}>
-                    {project.companyDescription}
+                  {/* Role + location + dates */}
+                  <div className="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <p className={`font-mono text-xs uppercase tracking-[0.2em] ${theme.ink}`}>
+                      {exp.role}
+                    </p>
+                    <span className={`font-mono text-[10px] uppercase tracking-[0.25em] ${theme.inkMuted}`}>
+                      ·
+                    </span>
+                    <p className={`font-mono text-[11px] uppercase tracking-[0.2em] ${theme.inkMuted}`}>
+                      {exp.location}
+                    </p>
+                  </div>
+                  <p className={`mt-1 font-mono text-[10px] uppercase tracking-[0.25em] ${theme.inkMuted}`}>
+                    {exp.dates}
                   </p>
 
-                  {/* Role + duration */}
-                  <p className={`mt-4 font-mono text-xs uppercase tracking-[0.2em] ${theme.ink}`}>
-                    {project.role}
-                  </p>
-                  <p className={`mt-1 font-mono text-[11px] uppercase tracking-[0.25em] ${theme.inkMuted}`}>
-                    {project.duration}
+                  {/* systemType chips */}
+                  <ul className="mt-4 flex flex-wrap gap-1.5" role="list">
+                    {exp.systemType.map((chip) => (
+                      <li
+                        key={chip}
+                        className={`border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] ${theme.chip}`}
+                      >
+                        {chip}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Headline — the experience thesis */}
+                  <p className={`mt-4 font-sans text-[13px] leading-snug ${theme.inkMuted}`}>
+                    {exp.headline}
                   </p>
 
-                  {/* Achievements — 2 bullets (full text), only first card-expanded view shows all.
-                      Card view truncates with line-clamp for visual rhythm. */}
+                  {/* Achievements — 2-3 bullets (full text, line-clamped for rhythm) */}
                   <ul className="mt-5 space-y-2" role="list">
-                    {project.achievements.map((a, ai) => (
+                    {previewAchievements.map((a, ai) => (
                       <li
                         key={ai}
-                        className={`flex gap-2 font-sans text-[13px] leading-snug ${theme.inkMuted}`}
+                        className={`flex gap-2 font-sans text-[12px] leading-snug ${theme.inkMuted}`}
                       >
                         <span aria-hidden className={`mt-1.5 inline-block h-1 w-1 shrink-0 ${theme.bullet}`}>
                           ●
@@ -255,10 +289,10 @@ export default function Projects() {
                   </ul>
 
                   {/* Metrics — small CountUp stats */}
-                  <ul className="mt-6 grid grid-cols-3 gap-3 border-t border-current/15 pt-4" role="list">
-                    {project.metrics.map((m) => (
+                  <ul className="mt-6 grid grid-cols-2 gap-3 border-t border-current/15 pt-4 sm:grid-cols-4" role="list">
+                    {exp.metrics.map((m) => (
                       <li key={m.label}>
-                        <p className={`font-display text-2xl font-bold leading-none tracking-tight ${theme.metric}`}>
+                        <p className={`font-display text-xl font-bold leading-none tracking-tight ${theme.metric} sm:text-2xl`}>
                           {reduced ? (
                             m.display ?? `${m.value}${m.suffix ?? ""}`
                           ) : (
@@ -270,7 +304,7 @@ export default function Projects() {
                             />
                           )}
                         </p>
-                        <p className={`mt-1.5 font-mono text-[9px] uppercase tracking-[0.18em] ${theme.inkMuted}`}>
+                        <p className={`mt-1.5 font-mono text-[9px] uppercase tracking-[0.15em] ${theme.inkMuted}`}>
                           {m.label}
                         </p>
                       </li>
@@ -282,7 +316,7 @@ export default function Projects() {
                     <span className="text-current transition-transform duration-300 group-hover:translate-x-1" aria-hidden>
                       ▸
                     </span>
-                    <span>open case file</span>
+                    <span>open experience</span>
                     <span className="ml-auto flex-1 overflow-hidden">
                       <span className="block h-px w-0 bg-current transition-all duration-500 ease-out group-hover:w-full" />
                     </span>
@@ -300,8 +334,8 @@ export default function Projects() {
             {selected && (
               <ExpandedOverlay
                 key={selected.id}
-                project={selected}
-                onClose={closeProject}
+                experience={selected}
+                onClose={closeExperience}
                 reduced={reduced}
                 panelRef={overlayPanelRef}
               />
@@ -315,23 +349,23 @@ export default function Projects() {
 
 /* ============================================================
    Expanded overlay — morphs from clicked card via layoutId.
-   Paper or black themed (per project.theme) so it pops against
-   the blue section backdrop. Backdrop click, close button, and
-   Escape all close. Focus is trapped by the parent's
-   useFocusTrap hook.
+   Paper / blue / black themed (per experience.theme) so it
+   pops against the blue section backdrop. Backdrop click, close
+   button, and Escape all close. Focus is trapped by the
+   parent's useFocusTrap hook.
    ============================================================ */
 function ExpandedOverlay({
-  project,
+  experience,
   onClose,
   reduced,
   panelRef,
 }: {
-  project: Project;
+  experience: Experience;
   onClose: () => void;
   reduced: boolean;
   panelRef: React.RefObject<HTMLDivElement | null>;
 }) {
-  const theme = THEME_STYLES[project.theme];
+  const theme = THEME_STYLES[experience.theme];
   const { play } = useSound();
 
   return (
@@ -345,7 +379,7 @@ function ExpandedOverlay({
       data-cursor-label="close"
       role="dialog"
       aria-modal="true"
-      aria-label={`${project.name} — project detail`}
+      aria-label={`${experience.company} — experience detail`}
     >
       {/* Backdrop: semi-opaque blue + blur */}
       <div
@@ -356,7 +390,7 @@ function ExpandedOverlay({
       {/* Panel — morphs from the clicked card via shared layoutId */}
       <motion.div
         ref={panelRef}
-        layoutId={reduced ? undefined : `project-${project.id}`}
+        layoutId={reduced ? undefined : `exp-${experience.id}`}
         layout={!reduced}
         className={`relative z-10 max-h-[88vh] w-full max-w-3xl overflow-y-auto border p-6 scroll-styled sm:p-10 ${theme.overlay}`}
         onClick={(e) => e.stopPropagation()}
@@ -369,7 +403,7 @@ function ExpandedOverlay({
           onClick={onClose}
           onMouseEnter={() => play("tick")}
           className={`absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center border ${theme.border} ${theme.ink} transition-colors duration-200 hover:border-[#FF3B30] hover:text-[#FF3B30] focus-ring`}
-          aria-label="Close project"
+          aria-label="Close experience"
           data-cursor-label="close"
         >
           <X className="h-4 w-4" aria-hidden />
@@ -382,10 +416,10 @@ function ExpandedOverlay({
               aria-hidden
               className={`flex h-9 w-9 items-center justify-center rounded-full border-2 font-mono text-[11px] tabular-nums ${theme.indexPill}`}
             >
-              {project.index}
+              {experience.index}
             </span>
             <span className={`font-mono text-[9px] uppercase tracking-[0.3em] ${theme.inkMuted}`}>
-              {`${project.index} / 04 · case file`}
+              {`${experience.index} / 04 · experience file`}
             </span>
           </div>
           <span
@@ -396,25 +430,40 @@ function ExpandedOverlay({
           </span>
         </div>
 
-        {/* Project name — huge */}
-        <h3 className={`font-display text-5xl font-bold leading-[0.92] tracking-tight ${theme.ink} sm:text-6xl lg:text-7xl`}>
-          {project.name}
+        {/* Company name — huge */}
+        <h3 className={`font-display text-4xl font-bold leading-[0.92] tracking-tight ${theme.ink} sm:text-5xl lg:text-6xl`}>
+          {experience.company}
         </h3>
 
-        {/* Company description */}
-        <p className={`mt-4 max-w-2xl font-sans text-base leading-relaxed ${theme.inkMuted} sm:text-lg`}>
-          {project.companyDescription}
-        </p>
-
-        {/* Role + duration */}
+        {/* Role + location + dates */}
         <div className="mt-5 flex flex-wrap items-baseline gap-x-4 gap-y-1">
           <p className={`font-mono text-sm uppercase tracking-[0.2em] ${theme.ink}`}>
-            {project.role}
+            {experience.role}
           </p>
-          <p className={`font-mono text-[11px] uppercase tracking-[0.25em] ${theme.inkMuted}`}>
-            {project.duration}
-          </p>
+          <span className={`font-mono text-[11px] uppercase tracking-[0.25em] ${theme.inkMuted}`}>
+            · {experience.location}
+          </span>
         </div>
+        <p className={`mt-1 font-mono text-[11px] uppercase tracking-[0.25em] ${theme.inkMuted}`}>
+          {experience.dates}
+        </p>
+
+        {/* systemType chips */}
+        <ul className="mt-4 flex flex-wrap gap-1.5" role="list">
+          {experience.systemType.map((chip) => (
+            <li
+              key={chip}
+              className={`border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.18em] ${theme.chip}`}
+            >
+              {chip}
+            </li>
+          ))}
+        </ul>
+
+        {/* Headline — the experience thesis */}
+        <p className={`mt-6 max-w-2xl font-sans text-base leading-relaxed ${theme.inkMuted} sm:text-lg`}>
+          {experience.headline}
+        </p>
 
         {/* Achievements — full bullets */}
         <div className="mt-8 border-t border-current/15 pt-6">
@@ -422,7 +471,7 @@ function ExpandedOverlay({
             {"// achievements"}
           </p>
           <ul className="space-y-4" role="list">
-            {project.achievements.map((a, ai) => (
+            {experience.achievements.map((a, ai) => (
               <li
                 key={ai}
                 className={`flex gap-3 font-sans text-base leading-relaxed ${theme.ink}`}
@@ -436,14 +485,14 @@ function ExpandedOverlay({
           </ul>
         </div>
 
-        {/* Metrics — 3 big CountUp numbers, middle offset for misalignment */}
-        <div className="mt-9 grid grid-cols-1 gap-6 border-t border-current/15 pt-7 sm:grid-cols-3">
-          {project.metrics.map((m, mi) => (
+        {/* Metrics — big CountUp grid, middle offset for misalignment */}
+        <div className="mt-9 grid grid-cols-1 gap-6 border-t border-current/15 pt-7 sm:grid-cols-2 lg:grid-cols-4">
+          {experience.metrics.map((m, mi) => (
             <div
               key={m.label}
               className={mi === 1 ? "sm:translate-y-4" : ""}
             >
-              <p className={`font-display text-4xl font-bold leading-none tracking-tight ${theme.metric} sm:text-5xl`}>
+              <p className={`font-display text-3xl font-bold leading-none tracking-tight ${theme.metric} sm:text-4xl`}>
                 {reduced ? (
                   m.display ?? `${m.value}${m.suffix ?? ""}`
                 ) : (

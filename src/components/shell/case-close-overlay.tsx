@@ -104,6 +104,14 @@ export default function CaseCloseOverlay() {
             </div>
 
             <div className="flex flex-col items-center justify-center text-center">
+              <motion.div
+                className="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-[#6B6B6B]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1 }}
+              >
+                {CASE_CLOSE.user} <span className="text-[#1738D5]">·</span> {CASE_CLOSE.alias}
+              </motion.div>
               <motion.h2
                 className="font-display text-5xl font-bold tracking-tighter text-[#F4F1EA] sm:text-8xl"
                 initial={{ opacity: 0, y: 30 }}
@@ -113,6 +121,14 @@ export default function CaseCloseOverlay() {
                 {CASE_CLOSE.subtitle}
               </motion.h2>
               <motion.p
+                className="mt-4 font-mono text-xs uppercase tracking-[0.3em] text-[#1738D5]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+              >
+                {CASE_CLOSE.status}
+              </motion.p>
+              <motion.p
                 className="mt-6 font-mono text-xs uppercase tracking-[0.3em] text-[#6B6B6B]"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -121,17 +137,17 @@ export default function CaseCloseOverlay() {
                 {CASE_CLOSE.hint}
               </motion.p>
               <motion.div
-                className="mt-10 border border-[#FFD400] px-8 py-3 font-mono text-sm uppercase tracking-widest text-[#FFD400]"
+                className="mt-10 border border-[#1738D5] px-8 py-3 font-mono text-sm uppercase tracking-widest text-[#1738D5]"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.7, type: "spring", stiffness: 200 }}
               >
-                [ ESC / CLICK ]
+                [ {CASE_CLOSE.action} · ESC / CLICK ]
               </motion.div>
             </div>
 
             <div className="text-right font-mono text-[10px] uppercase tracking-widest text-[#6B6B6B]">
-              case // bajkamal-singh · closed · {new Date().getFullYear()}
+              session // pankaj-gupta · mr_onalunchbreak · closed · {new Date().getFullYear()}
             </div>
           </motion.div>
         )}

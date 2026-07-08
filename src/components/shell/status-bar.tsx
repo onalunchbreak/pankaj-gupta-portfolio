@@ -35,23 +35,22 @@ export default function StatusBar() {
         <div className="flex items-center gap-2 sm:gap-4">
           <span className="flex items-center gap-1.5">
             <span className="inline-block h-1.5 w-1.5 bg-[#FF3B30] blink" />
-            SYS.TRACK_ACTIVE
+            SYS.PRODUCT_LAB_ACTIVE
           </span>
           <span className="hidden h-3 w-px bg-white/15 sm:block" />
           <span className="hidden items-center gap-1.5 sm:flex">
-            <span className="text-[#FFD400]">●</span>
+            <span className="text-[#1738D5]">●</span>
             LOC: <span className="text-[#F4F1EA]">{activeLabel}</span>
           </span>
         </div>
         <div className="flex items-center gap-2 sm:gap-4">
-          <span className="hidden sm:inline">VOL.2026</span>
+          <span className="hidden sm:inline">USER: PANKAJ_GUPTA</span>
           <span className="hidden h-3 w-px bg-white/15 sm:block" />
           <span className="tabular-nums text-[#F4F1EA]">{clock}</span>
         </div>
       </div>
-      {/* scroll progress hairline */}
       <motion.div
-        className="h-px origin-left bg-[#FFD400]"
+        className="h-px origin-left bg-[#1738D5]"
         style={{ scaleX }}
       />
     </div>

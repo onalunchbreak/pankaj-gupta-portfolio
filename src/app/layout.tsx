@@ -42,24 +42,25 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Bajkamal Singh — Baaz // Creative Director",
+  title: "Pankaj Gupta — Mr. Onalunchbreak // Product × AI × Systems",
   description:
-    "Bajkamal Singh AKA Baaz — SRCC '27, Delhi. Creative by night, more creative by midnight. Artist manager, brand strategist, creative director. 193M+ views driven.",
+    "Pankaj Gupta AKA Mr. Onalunchbreak — DTU '23, Delhi. Product Manager, Applied AI builder, researcher. Product by day, side projects by lunch, overthinking by midnight.",
   keywords: [
-    "Bajkamal Singh",
-    "Baaz",
-    "Creative Director",
-    "SRCC",
+    "Pankaj Gupta",
+    "Mr. Onalunchbreak",
+    "Product Manager",
+    "Applied AI",
+    "Researcher",
+    "DTU",
     "Delhi",
     "Portfolio",
-    "Brand Strategy",
-    "Artist Management",
+    "Product × AI × Systems",
   ],
-  authors: [{ name: "Bajkamal Singh" }],
+  authors: [{ name: "Pankaj Gupta" }],
   openGraph: {
-    title: "Bajkamal Singh — Baaz // Creative Director",
+    title: "Pankaj Gupta — Mr. Onalunchbreak // Product × AI × Systems",
     description:
-      "Creative by night, more creative by midnight. SRCC '27 · Delhi, India.",
+      "Product by day, side projects by lunch, overthinking by midnight. DTU '23 · Delhi, India.",
     type: "website",
   },
 };

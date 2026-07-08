@@ -29,7 +29,7 @@ export default function SideRail() {
           className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.35em] text-[#F4F1EA]/55"
           style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
         >
-          Bajkamal Singh <span className="text-[#FFD400]">AKA</span> Baaz
+          Pankaj Gupta <span className="text-[#1738D5]">AKA</span> Mr. Onalunchbreak
         </span>
       </div>
 
@@ -39,18 +39,18 @@ export default function SideRail() {
           className="whitespace-nowrap font-mono text-[9px] uppercase tracking-[0.3em] text-[#6B6B6B]"
           style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
         >
-          creative by night
+          PRODUCT × AI × SYSTEMS
         </span>
       </div>
 
-      {/* bottom: you've seen X% */}
+      {/* bottom: you've inspected X% */}
       <div className="flex flex-1 items-center justify-center">
         <span
           className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/70"
           style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
         >
-          you&rsquo;ve seen{" "}
-          <span className="font-bold text-[#FFD400] tabular-nums">{pctStr.padStart(2, "0")}%</span>
+          you&rsquo;ve inspected{" "}
+          <span className="font-bold text-[#1738D5] tabular-nums">{pctStr.padStart(2, "0")}%</span>
         </span>
       </div>
     </motion.aside>

@@ -6,9 +6,10 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { Copy, Check, Mail, ArrowRight } from "lucide-react";
+import { Copy, Check, Mail, ArrowRight, Lock } from "lucide-react";
 import { Reveal } from "@/components/sections/_shared";
 import { CONTACT } from "@/lib/data";
+import { hasLink } from "@/lib/links";
 import { useSound } from "@/hooks/use-sound";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
@@ -20,17 +21,33 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 const PULL_RADIUS = 160;
 const MAX_PULL = 12;
 
+/* ============================================================
+   CONTACT — split layout: BLACK upper + WARM PAPER footer.
+   Upper:  stacked handwritten heading (white + blue overlap),
+           body, magnetic mailto CTA, annotation, social row
+           (EMAIL enabled · LINKEDIN/GITHUB rendered as disabled
+           "LINK_UNAVAILABLE" when their href is empty — never
+           fabricated), visible email + copy-to-clipboard button.
+   Footer: handwritten signoff, right-aligned blue signature with
+           blinking cursor, system status mono label, EOF terminal.
+   ============================================================ */
 export default function Contact() {
   const { play } = useSound();
   const reduced = usePrefersReducedMotion();
   const mailto = `mailto:${CONTACT.mail}`;
   const [copied, setCopied] = useState(false);
 
+  /* Split "Talk Product With Me" into two stacked lines so the
+     blue overlap reads cleanly. */
+  const titleWords = CONTACT.title.split(" ");
+  const titleFirst = titleWords.slice(0, 2).join(" "); // "Talk Product"
+  const titleSecond = titleWords.slice(2).join(" "); // "With Me"
+
   /* ---- Magnetic CTA: pointer-driven pull on the button ---- */
   const ctaRef = useRef<HTMLAnchorElement | null>(null);
   const ctaX = useMotionValue(0);
   const ctaY = useMotionValue(0);
-  // Spring-smoothed translation so the pull feels organic, not jittery.
+  // Spring-smoothed translation so the pull feels organic.
   const springX = useSpring(ctaX, { stiffness: 220, damping: 18, mass: 0.5 });
   const springY = useSpring(ctaY, { stiffness: 220, damping: 18, mass: 0.5 });
   // Arrow nudges a touch further than the button for parallax depth.
@@ -42,7 +59,6 @@ export default function Contact() {
     const el = ctaRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    // Center of the CTA in viewport coords.
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
     const dx = e.clientX - cx;
@@ -53,7 +69,6 @@ export default function Contact() {
       ctaY.set(0);
       return;
     }
-    // Linear falloff inside the pull radius, clamped to MAX_PULL.
     const pull = 1 - dist / PULL_RADIUS;
     const tx = (dx / (dist || 1)) * pull * MAX_PULL;
     const ty = (dy / (dist || 1)) * pull * MAX_PULL;
@@ -72,8 +87,7 @@ export default function Contact() {
       await navigator.clipboard.writeText(CONTACT.mail);
       ok = true;
     } catch {
-      // Fallback for non-secure contexts / restricted iframes:
-      // temporary textarea + execCommand.
+      // Fallback for non-secure contexts / restricted iframes.
       try {
         const ta = document.createElement("textarea");
         ta.value = CONTACT.mail;
@@ -93,11 +107,6 @@ export default function Contact() {
     setTimeout(() => setCopied(false), 2200);
   };
 
-  // Split CONTACT.title ("Contact Me") into stacked handwritten "Contact" / "Me"
-  // per spec — white "Contact" + blue "Me", slightly overlapping/offset.
-  const [titleFirst, ...titleRest] = CONTACT.title.split(" ");
-  const titleSecond = titleRest.join(" ") || "";
-
   return (
     <section
       id="contact"
@@ -107,27 +116,27 @@ export default function Contact() {
     >
       {/* ============================================================
           UPPER — BLACK environment
-          Big stacked handwritten heading, body, magnetic CTA,
-          annotation, social row, visible email + copy button.
           ============================================================ */}
       <div className="env-black relative w-full">
         <div className="mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-8 sm:py-32 lg:px-12">
-          {/* ---- Section header (mirrors SectionShell) ---- */}
+          {/* ---- Section header ---- */}
           <motion.div
-            className="mb-10 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#6B6B6B] sm:mb-16"
+            className="mb-10 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#6B6B6B] sm:mb-16"
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10% 0px" }}
             transition={{ duration: 0.6, ease: EASE }}
           >
-            <span className="text-[#FFD400]">06</span>
-            <span className="text-[#F4F1EA]/70">{"// END / CONTACT"}</span>
+            <span className="text-[#1738D5]">{"// "}</span>
+            <span className="text-[#F4F1EA]/70">CONTACT</span>
             <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-            <span className="hidden sm:inline">{"// baaz.sys"}</span>
+            <span className="hidden sm:inline text-[#1738D5]/70">
+              {"// mr_onalunchbreak.sys"}
+            </span>
           </motion.div>
 
-          {/* Stacked handwritten heading — "Contact" / "Me"
-              oversized Caveat via .hand-display, white + blue overlap. */}
+          {/* Stacked handwritten heading — "Talk Product" (white) +
+              "With Me" (blue, overlapping). */}
           <motion.div
             className="relative"
             initial={reduced ? false : { opacity: 0, y: 24 }}
@@ -137,14 +146,14 @@ export default function Contact() {
           >
             <h2
               id="contact-heading"
-              className="hand-display select-none text-[26vw] leading-[0.82] tracking-tight text-[#F4F1EA] sm:text-[22vw] lg:text-[16rem]"
+              className="hand-display select-none text-[18vw] leading-[0.82] tracking-tight text-[#F4F1EA] sm:text-[14vw] lg:text-[11rem]"
             >
               {titleFirst}
             </h2>
             {titleSecond && (
               <h2
                 aria-hidden
-                className="hand-display -mt-[8vw] select-none pl-[18vw] text-[26vw] leading-[0.82] tracking-tight text-[#1738D5] sm:-mt-[6vw] sm:pl-[16vw] sm:text-[22vw] lg:text-[16rem]"
+                className="hand-display -mt-[6vw] select-none pl-[20vw] text-[18vw] leading-[0.82] tracking-tight text-[#1738D5] sm:-mt-[5vw] sm:pl-[22vw] sm:text-[14vw] lg:text-[11rem]"
                 style={{ textShadow: "0 0 50px rgba(23,56,213,0.45)" }}
               >
                 {titleSecond}
@@ -184,7 +193,7 @@ export default function Contact() {
               <span className="font-display text-4xl font-bold leading-[0.95] tracking-tight text-[#F4F1EA] transition-colors duration-300 group-hover:text-[#1738D5] sm:text-6xl lg:text-7xl">
                 {CONTACT.cta}
               </span>
-              {/* Arrow — pulls slightly further than the button for parallax depth */}
+              {/* Arrow — pulls slightly further than the button for parallax */}
               <motion.span
                 aria-hidden
                 style={reduced ? undefined : { x: arrowX, y: arrowY }}
@@ -195,7 +204,7 @@ export default function Contact() {
             </motion.a>
           </Reveal>
 
-          {/* Subtitle below CTA — mono muted */}
+          {/* Annotation — mono muted */}
           <Reveal className="mt-5 sm:mt-6" delay={0.35}>
             <p className="font-mono text-xs uppercase tracking-[0.25em] text-[#6B6B6B] sm:translate-x-3 sm:text-sm">
               {CONTACT.annotation}
@@ -239,7 +248,10 @@ export default function Contact() {
             </div>
           </Reveal>
 
-          {/* LINKS ROW — hairline-separated (·), mono uppercase, hover → accent + tick SFX. */}
+          {/* LINKS ROW — EMAIL is a real mailto. LINKEDIN + GITHUB have
+              empty hrefs per links.ts, so they render as disabled
+              non-clickable text with muted styling + "LINK_UNAVAILABLE".
+              Never fabricated. */}
           <Reveal className="mt-14 sm:mt-20" delay={0.45}>
             <nav
               aria-label="Social links"
@@ -247,6 +259,7 @@ export default function Contact() {
             >
               {CONTACT.links.map((link, i) => {
                 const isMail = link.href.startsWith("mailto:");
+                const available = hasLink(link.href);
                 return (
                   <span key={link.label} className="flex items-center gap-3">
                     {i > 0 && (
@@ -254,23 +267,34 @@ export default function Contact() {
                         ·
                       </span>
                     )}
-                    <a
-                      href={link.href}
-                      onMouseEnter={() => play("tick")}
-                      data-cursor-label={link.label.toLowerCase()}
-                      className="group/link flex items-center gap-2 border-b border-transparent font-mono text-xs uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors duration-200 hover:border-[#1738D5] hover:text-[#1738D5] sm:text-sm"
-                      {...(!isMail
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
-                    >
+                    {available ? (
+                      <a
+                        href={link.href}
+                        onMouseEnter={() => play("tick")}
+                        data-cursor-label={link.label.toLowerCase()}
+                        className="group/link flex items-center gap-2 border-b border-transparent font-mono text-xs uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors duration-200 hover:border-[#1738D5] hover:text-[#1738D5] sm:text-sm"
+                        {...(!isMail
+                          ? { target: "_blank", rel: "noopener noreferrer" }
+                          : {})}
+                      >
+                        <span
+                          aria-hidden
+                          className="h-1 w-1 rounded-full bg-[#6B6B6B] transition-colors duration-200 group-hover/link:bg-[#1738D5]"
+                        />
+                        <span className="inline-block transition-transform duration-200 group-hover/link:-translate-y-0.5">
+                          {link.label}
+                        </span>
+                      </a>
+                    ) : (
                       <span
-                        aria-hidden
-                        className="h-1 w-1 rounded-full bg-[#6B6B6B] transition-colors duration-200 group-hover/link:bg-[#1738D5]"
-                      />
-                      <span className="inline-block transition-transform duration-200 group-hover/link:-translate-y-0.5">
-                        {link.label}
+                        aria-disabled="true"
+                        className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-[#6B6B6B]/60 cursor-not-allowed sm:text-sm"
+                        title="Link unavailable — no URL on file"
+                      >
+                        <Lock className="h-3 w-3" aria-hidden />
+                        <span>{link.label.toLowerCase()}_unavailable</span>
                       </span>
-                    </a>
+                    )}
                   </span>
                 );
               })}
@@ -282,7 +306,8 @@ export default function Contact() {
       {/* ============================================================
           FOOTER — WARM PAPER environment
           Signoff (italic mono, dark ink) + signature (handwritten,
-          blue, right-aligned, blinking cursor) + EOF terminal label.
+          blue, right-aligned, blinking cursor) + system status +
+          EOF terminal label.
           ============================================================ */}
       <footer className="env-paper paper-texture relative w-full">
         <div className="mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
@@ -318,9 +343,22 @@ export default function Contact() {
             </p>
           </motion.div>
 
-          {/* EOF terminal label */}
-          <div className="mt-12 flex items-center justify-end font-mono text-[10px] uppercase tracking-[0.3em] text-[#2a2a2a]/55 sm:mt-16">
-            {"// EOF · baaz.sys"}
+          {/* System status + EOF terminal label */}
+          <div className="mt-12 flex flex-col items-end gap-2 sm:mt-16 sm:flex-row sm:items-center sm:justify-end sm:gap-6">
+            <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#1738D5]">
+              <span
+                aria-hidden
+                className="blink inline-block h-1.5 w-1.5 bg-[#1738D5]"
+              />
+              {CONTACT.systemStatus}
+            </span>
+            <span
+              aria-hidden
+              className="hidden h-3 w-px bg-[#2a2a2a]/25 sm:inline-block"
+            />
+            <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#2a2a2a]/55">
+              {"// EOF · mr_onalunchbreak.sys"}
+            </div>
           </div>
         </div>
       </footer>

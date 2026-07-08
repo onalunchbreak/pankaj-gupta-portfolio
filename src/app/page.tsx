@@ -14,13 +14,13 @@ import Hero from "@/components/sections/hero";
 import NavIndex from "@/components/sections/nav-index";
 import PhilosophyQuote from "@/components/sections/philosophy-quote";
 import BrandMarquee from "@/components/sections/brand-marquee";
-import Purpose from "@/components/sections/purpose";
-import PlacesHustled from "@/components/sections/places-hustled";
-import StatsTrio from "@/components/sections/stats-trio";
 import Origin from "@/components/sections/origin";
-import Projects from "@/components/sections/projects";
+import ProductOS from "@/components/sections/product-os";
+import WorkLog from "@/components/sections/work-log";
 import BestWorkMetro from "@/components/sections/best-work-metro";
-import InsomniacWork from "@/components/sections/insomniac-work";
+import ResearchArchive from "@/components/sections/research-archive";
+import ProductLab from "@/components/sections/product-lab";
+import Achievements from "@/components/sections/achievements";
 import Contact from "@/components/sections/contact";
 
 export default function Home() {
@@ -38,19 +38,19 @@ export default function Home() {
       <CaseCloseOverlay />
       <KeyboardRouter />
 
-      {/* main flow — blue → black → black → black → paper → paper → paper → paper → blue → black → black → black+paper */}
+      {/* main flow — blue → black → black → black → paper → paper → blue → black → paper → black → paper → black+paper */}
       <main className="relative w-full overflow-x-clip pt-9">
         <Hero />
         <NavIndex />
         <PhilosophyQuote />
         <BrandMarquee />
-        <Purpose />
-        <PlacesHustled />
-        <StatsTrio />
         <Origin />
-        <Projects />
+        <ProductOS />
+        <WorkLog />
         <BestWorkMetro />
-        <InsomniacWork />
+        <ResearchArchive />
+        <ProductLab />
+        <Achievements />
         <Contact />
       </main>
     </SmoothScroll>

@@ -11,30 +11,52 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 
 // Year markers spaced along the left timeline rail.
 const YEAR_MARKERS = [
-  { year: "2020", at: 6 },
-  { year: "2022", at: 48 },
-  { year: "2024", at: 90 },
+  { year: "2019", at: 4 },
+  { year: "2022", at: 32 },
+  { year: "2024", at: 60 },
+  { year: "2026", at: 88 },
 ];
 
-// Hand-drawn wiggly SVG path that connects the notebook milestones.
-// Stroke progressively draws as the user scrolls through the section.
+// Hand-drawn wiggly SVG path connecting the notebook milestones. Stroke
+// progressively draws as the user scrolls through the section. Distinct
+// from product-os.tsx's path so the two sections feel different.
 const PATH_D =
-  "M 4 12 C 80 36, 26 60, 110 84 S 200 112, 138 142 S 36 172, 122 200 S 224 228, 140 262";
+  "M 4 8 C 60 36, 26 60, 90 88 S 180 120, 140 152 S 36 180, 110 212 S 220 240, 130 274";
+
+// Scattered annotation placements (relative within the content column).
+// Each tuple: [top%, left%] + rotate deg.
+const ANNOTATION_POSITIONS: Array<{
+  top: string;
+  left: string;
+  rotate: string;
+  mobileHidden?: boolean;
+}> = [
+  { top: "8%", left: "62%", rotate: "-3deg" },
+  { top: "26%", left: "4%", rotate: "2.5deg" },
+  { top: "44%", left: "70%", rotate: "-2deg" },
+  { top: "64%", left: "8%", rotate: "3deg" },
+  { top: "82%", left: "58%", rotate: "-1.5deg", mobileHidden: true },
+];
 
 /**
  * Origin — Section "01 — THE BEGINNING".
  *
- * Warm paper notebook environment. Dark ink body, blue (#1738D5) accents.
- * Hero statement is oversized handwritten Caveat (`.hand-display`) with the
- * word "SNEAKERS" emphasised via a blue underline. A wiggly blue SVG path
- * draws itself via GSAP ScrollTrigger scrub as the user scrolls, visually
- * "writing" the timeline ink line. Three supporting paragraphs sit along
- * the path with blue rail-dots. "GOD'S PLAN" motif stamps appear 3 times
- * (top-right, on paragraph 2, before the footer), rotated -8deg with a
- * blue border. A left-side vertical timeline rail with 2020/2022/2024
- * markers fills (scaleY) as the section scrolls through. Footer is a
- * terminal-style mono line with a blinking blue cursor. Reduced-motion:
- * words full opacity, path fully drawn, rail fully filled (static).
+ * Warm paper notebook environment. Dark ink body, electric-blue (#1738D5)
+ * accents. The hero statement is oversized handwritten Caveat with the
+ * phrase "WHAT SHOULD WE BUILD?" emphasised via a blue underline. A
+ * wiggly blue SVG path draws itself via GSAP ScrollTrigger scrub as the
+ * user scrolls, visually "writing" the timeline ink line. Three
+ * supporting paragraphs sit along the path with blue rail-dots. An
+ * 8-step timeline (2019 DTU → NOW MR. ONALUNCHBREAK) runs as horizontal
+ * milestone cards, each activating sequentially on scroll via
+ * framer-motion's whileInView. Five handwritten annotations are
+ * scattered (rotated, offset) across the section. The recurring
+ * "PRODUCT ROADMAP?" motif stamp — with "ROADMAP" crossed out and
+ * "plans changed." beneath — appears 3 times. A left-side vertical
+ * timeline rail with 2019/2022/2024/2026 markers fills (scaleY) as the
+ * section scrolls through. Footer is a terminal-style mono line with a
+ * blinking blue cursor. Reduced-motion: words full opacity, path fully
+ * drawn, rail fully filled (static).
  */
 export default function Origin() {
   const reduced = usePrefersReducedMotion();
@@ -55,7 +77,6 @@ export default function Origin() {
     gsap.registerPlugin(ScrollTrigger);
 
     if (reduced) {
-      // static fallback — words full opacity, path fully drawn
       const words =
         heroRef.current?.querySelectorAll<HTMLElement>(".origin-word");
       words?.forEach((w) => {
@@ -117,9 +138,37 @@ export default function Origin() {
     return () => ctx.revert();
   }, [reduced]);
 
-  // Split hero on the "SNEAKERS" token so we can render that word with a
-  // blue underline emphasis. Everything else stays dark ink.
-  const parts = ORIGIN.hero.split(/(\bSNEAKERS\b)/);
+  // Split the hero statement on the emphasis phrase so the emphasis can
+  // render with a blue underline + highlight. Everything else stays dark ink.
+  const emphasis = ORIGIN.emphasis; // "WHAT SHOULD WE BUILD?"
+  const parts = ORIGIN.hero.split(emphasis);
+  const before = parts[0] ?? "";
+  const after = parts[1] ?? "";
+
+  // Helper: render a text chunk as a sequence of inline-block words so
+  // GSAP can stagger their opacity.
+  const renderWords = (chunk: string, keyPrefix: string) => {
+    const tokens = chunk.split(/(\s+)/);
+    return tokens.map((tok, i) => {
+      if (/^\s+$/.test(tok)) {
+        return (
+          <span key={`${keyPrefix}-sp-${i}`} aria-hidden>
+            {tok}
+          </span>
+        );
+      }
+      if (tok.length === 0) return null;
+      return (
+        <span
+          key={`${keyPrefix}-w-${i}`}
+          className="origin-word inline-block"
+          style={reduced ? undefined : { opacity: 0.18 }}
+        >
+          {tok}
+        </span>
+      );
+    });
+  };
 
   return (
     <section
@@ -170,11 +219,7 @@ export default function Origin() {
           style={{ height: "calc(100% - 12rem)" }}
         >
           {YEAR_MARKERS.map((m) => (
-            <div
-              key={m.year}
-              className="absolute left-0"
-              style={{ top: `${m.at}%` }}
-            >
+            <div key={m.year} className="absolute left-0" style={{ top: `${m.at}%` }}>
               <span className="absolute left-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 bg-[#1738D5]" />
               <span className="absolute left-2 top-0 -translate-y-1/2 whitespace-nowrap font-mono text-[10px] tracking-[0.25em] text-[#6B6B6B]">
                 {m.year}
@@ -185,13 +230,13 @@ export default function Origin() {
 
         {/* Content offset right to make room for the rail + markers */}
         <div className="lg:pl-16">
-          {/* ---- GOD'S PLAN stamp 1 — top-right of content ---- */}
-          <span
-            aria-hidden
-            className="pointer-events-none absolute right-4 top-32 -rotate-[8deg] select-none border border-[#1738D5] bg-[#F4F1EA] px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.3em] text-[#1738D5] sm:right-12 sm:top-36"
-          >
-            {ORIGIN.motif}
-          </span>
+          {/* ---- Motif stamp 1 — top-right of content ---- */}
+          <MotifStamp
+            className="absolute right-4 top-32 -rotate-[8deg] sm:right-12 sm:top-36"
+            motif={ORIGIN.motif}
+            motifCrossed={ORIGIN.motifCrossed}
+            motifSub={ORIGIN.motifSub}
+          />
 
           {/* ---- HERO STATEMENT — handwritten display, scrubbed word highlight ---- */}
           <h2
@@ -200,42 +245,34 @@ export default function Origin() {
             className="hand-display max-w-4xl text-3xl text-[#2a2a2a] sm:text-5xl lg:text-7xl"
             data-cursor-label="origin / the beginning"
           >
-            {parts.map((part, i) => {
-              if (part === "SNEAKERS") {
-                return (
-                  <span
-                    key={`emp-${i}`}
-                    className="origin-word relative inline-block text-[#1738D5]"
-                  >
-                    {part}
-                    <span
-                      aria-hidden
-                      className="absolute -bottom-1 left-0 h-1 w-full bg-[#1738D5]/70"
-                    />
-                  </span>
-                );
-              }
-              const words = part.split(/(\s+)/);
-              return words.map((w, j) => {
-                if (/^\s+$/.test(w)) {
-                  return (
-                    <span key={`sp-${i}-${j}`} aria-hidden>
-                      {w}
-                    </span>
-                  );
-                }
-                if (w.length === 0) return null;
-                return (
-                  <span
-                    key={`w-${i}-${j}`}
-                    className="origin-word inline-block"
-                    style={reduced ? undefined : { opacity: 0.18 }}
-                  >
-                    {w}
-                  </span>
-                );
-              });
-            })}
+            {renderWords(before, "before")}
+            <span
+              className="origin-word relative inline-block text-[#1738D5]"
+              style={reduced ? undefined : { opacity: 0.18 }}
+            >
+              {emphasis}
+              {/* hand-drawn blue underline — slightly wavy via SVG */}
+              <svg
+                aria-hidden
+                className="absolute -bottom-1 left-0 h-2 w-full"
+                viewBox="0 0 100 8"
+                preserveAspectRatio="none"
+                fill="none"
+              >
+                <path
+                  d="M 1 4 C 18 1, 38 7, 55 4 S 86 1, 99 4"
+                  stroke="#1738D5"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                />
+              </svg>
+              {/* highlight behind the words */}
+              <span
+                aria-hidden
+                className="absolute -z-10 left-0 top-1/2 h-3/4 w-full -translate-y-1/2 bg-[#1738D5]/10"
+              />
+            </span>
+            {renderWords(after, "after")}
           </h2>
 
           {/* ---- SVG scroll-drawn timeline path (decorative, blue) ---- */}
@@ -258,9 +295,9 @@ export default function Origin() {
                 strokeLinejoin="round"
               />
               {/* dots at the path inflections — start, mid, end */}
-              <circle cx="4" cy="12" r="3" fill="#1738D5" />
-              <circle cx="122" cy="200" r="3" fill="#1738D5" />
-              <circle cx="140" cy="262" r="3" fill="#1738D5" />
+              <circle cx="4" cy="8" r="3" fill="#1738D5" />
+              <circle cx="110" cy="212" r="3" fill="#1738D5" />
+              <circle cx="130" cy="274" r="3" fill="#1738D5" />
             </svg>
           </div>
 
@@ -279,14 +316,15 @@ export default function Origin() {
                     {`// 0${i + 1}`}
                   </span>
 
-                  {/* GOD'S PLAN motif — stamp 2, on paragraph 2 */}
+                  {/* Motif stamp 2 — on paragraph 2 */}
                   {i === 1 && (
-                    <span
-                      aria-hidden
-                      className="absolute -top-4 right-0 -rotate-[8deg] select-none border border-[#1738D5] bg-[#F4F1EA] px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.3em] text-[#1738D5]"
-                    >
-                      {ORIGIN.motif}
-                    </span>
+                    <MotifStamp
+                      className="absolute -top-4 right-0 -rotate-[8deg]"
+                      motif={ORIGIN.motif}
+                      motifCrossed={ORIGIN.motifCrossed}
+                      motifSub={ORIGIN.motifSub}
+                      small
+                    />
                   )}
 
                   <p className="font-sans text-base leading-relaxed text-[#2a2a2a]/85 sm:text-lg">
@@ -297,33 +335,105 @@ export default function Origin() {
             ))}
           </div>
 
-          {/* ---- GOD'S PLAN motif — stamp 3, before footer ---- */}
-          <div className="mt-14">
-            <span
-              className="inline-block -rotate-[8deg] select-none border border-[#1738D5] bg-[#F4F1EA] px-3 py-1.5 font-mono text-xs uppercase tracking-[0.3em] text-[#1738D5]"
-              data-cursor-label={ORIGIN.motif}
-            >
-              {ORIGIN.motif}
-            </span>
+          {/* ---- 8-step timeline milestones (sequential activation on scroll) ---- */}
+          <div className="mt-20">
+            <p className="mb-6 font-mono text-[10px] uppercase tracking-[0.3em] text-[#6B6B6B]">
+              {"// timeline — 8 milestones"}
+            </p>
+            <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {ORIGIN.timeline.map((t, i) => (
+                <motion.li
+                  key={`${t.year}-${t.label}`}
+                  className="group relative border border-[#1a1a1a]/15 bg-[#F4F1EA]/40 p-4 transition-colors duration-300 hover:border-[#1738D5]/50"
+                  initial={reduced ? false : { opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-10% 0px" }}
+                  transition={{
+                    duration: 0.55,
+                    delay: (i % 4) * 0.08,
+                    ease: EASE,
+                  }}
+                  data-cursor-label={`${t.year} — ${t.label}`}
+                >
+                  {/* number marker */}
+                  <span className="absolute right-2 top-2 font-mono text-[9px] tracking-[0.25em] text-[#6B6B6B]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {/* blue accent dot */}
+                  <span
+                    className="mb-3 inline-block h-2 w-2 bg-[#1738D5]"
+                    aria-hidden
+                  />
+                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1738D5]">
+                    {t.year}
+                  </p>
+                  <p className="hand-display mt-1 text-2xl leading-none text-[#1a1a1a] sm:text-3xl">
+                    {t.label}
+                  </p>
+                  <p className="mt-2 font-mono text-[10px] leading-snug tracking-[0.05em] text-[#6B6B6B]">
+                    {t.sub}
+                  </p>
+                </motion.li>
+              ))}
+            </ol>
           </div>
 
-          {/* ---- Addictions annotation — handwritten, rotated, offset ---- */}
-          <motion.p
-            className="hand-display mt-12 max-w-md -rotate-[1.2deg] text-xl text-[#1738D5]/85 sm:translate-x-8 sm:text-2xl"
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10% 0px" }}
-            transition={{ duration: 0.7, ease: EASE }}
+          {/* ---- Scattered handwritten annotations (5) ---- */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 hidden lg:block"
           >
-            ↳ {ORIGIN.addictions}
-          </motion.p>
+            {ORIGIN.annotations.map((note, i) => {
+              const pos = ANNOTATION_POSITIONS[i];
+              if (!pos) return null;
+              return (
+                <motion.span
+                  key={i}
+                  className={`hand-display absolute max-w-[200px] text-lg text-[#1738D5]/70 ${pos.mobileHidden ? "xl:block" : ""}`}
+                  style={{ top: pos.top, left: pos.left, rotate: pos.rotate }}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-15% 0px" }}
+                  transition={{ duration: 0.7, delay: 0.2 + i * 0.1, ease: EASE }}
+                >
+                  ↳ {note}
+                </motion.span>
+              );
+            })}
+          </div>
+
+          {/* Mobile annotations — stacked (visible on small screens) */}
+          <div className="mt-12 space-y-4 lg:hidden">
+            {ORIGIN.annotations.map((note, i) => (
+              <motion.p
+                key={i}
+                className="hand-display -rotate-[1deg] text-lg text-[#1738D5]/75"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10% 0px" }}
+                transition={{ duration: 0.6, delay: i * 0.05, ease: EASE }}
+              >
+                ↳ {note}
+              </motion.p>
+            ))}
+          </div>
+
+          {/* ---- Motif stamp 3 — before footer ---- */}
+          <div className="mt-14">
+            <MotifStamp
+              motif={ORIGIN.motif}
+              motifCrossed={ORIGIN.motifCrossed}
+              motifSub={ORIGIN.motifSub}
+              data-cursor-label={ORIGIN.motif}
+            />
+          </div>
 
           {/* ---- Terminal footer — meta with blinking blue cursor ---- */}
           <div className="mt-12 border-t border-[#1a1a1a]/15 pt-6">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#6B6B6B]">
-              <span className="text-[#1738D5]">~/baaz</span>
+              <span className="text-[#1738D5]">~/mr_onalunchbreak</span>
               <span className="mx-1">$</span>
-              {ORIGIN.meta}
+              the beginning, not the destination.
               <span
                 className="ml-1 inline-block h-3 w-2 translate-y-[1px] bg-[#1738D5] blink"
                 aria-hidden
@@ -333,5 +443,66 @@ export default function Origin() {
         </div>
       </div>
     </section>
+  );
+}
+
+/* ------------------------------------------------------------------
+ * Motif stamp — "PRODUCT ROADMAP?" with "ROADMAP" crossed out + a
+ * handwritten "plans changed." sub-line. Recurring visual stamp.
+ * ------------------------------------------------------------------ */
+function MotifStamp({
+  motif,
+  motifCrossed,
+  motifSub,
+  className = "",
+  small = false,
+  dataCursorLabel,
+}: {
+  motif: string;
+  motifCrossed: string;
+  motifSub: string;
+  className?: string;
+  small?: boolean;
+  dataCursorLabel?: string;
+}) {
+  // Split motif on the crossed-out token so we can strike it through.
+  const parts = motif.split(motifCrossed);
+  const before = parts[0] ?? "";
+  const after = parts[1] ?? "";
+
+  const padX = small ? "px-2 py-0.5" : "px-3 py-1.5";
+  const textSize = small ? "text-[9px]" : "text-xs";
+
+  return (
+    <span
+      className={`inline-block -rotate-[8deg] select-none border border-[#1738D5] bg-[#F4F1EA] ${padX} font-mono ${textSize} uppercase tracking-[0.3em] text-[#1738D5] ${className}`}
+      data-cursor-label={dataCursorLabel}
+    >
+      <span className="block">
+        {before}
+        <span className="relative inline-block">
+          {motifCrossed}
+          {/* hand-drawn strike-through */}
+          <svg
+            aria-hidden
+            className="absolute left-0 top-1/2 h-2 w-full -translate-y-1/2"
+            viewBox="0 0 100 6"
+            preserveAspectRatio="none"
+            fill="none"
+          >
+            <path
+              d="M 1 3 C 22 1, 50 5, 78 2 S 99 3, 99 3"
+              stroke="#1738D5"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+          </svg>
+        </span>
+        {after}
+      </span>
+      <span className="hand-display mt-0.5 block text-[10px] normal-case tracking-normal text-[#6B6B6B]">
+        {motifSub}
+      </span>
+    </span>
   );
 }

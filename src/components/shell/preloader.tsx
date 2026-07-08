@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence, animate } from "framer-motion";
 import { useBootStore } from "@/hooks/use-boot";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
-import { PRELOADER_WORDS } from "@/lib/data";
+import { PRELOADER } from "@/lib/data";
 
 function useLiveClock() {
   const [time, setTime] = useState("");
@@ -30,12 +30,12 @@ export default function Preloader() {
       : 0
   );
   const [done, setDone] = useState(false);
+  const [bootIdx, setBootIdx] = useState(0);
   const setBooted = useBootStore((s) => s.setBooted);
   const skip = useBootStore((s) => s.skip);
   const reduced = usePrefersReducedMotion();
   const clock = useLiveClock();
 
-  // counter 00→100
   const finish = () => {
     setDone(true);
     setTimeout(() => setBooted(true), 1100);
@@ -55,6 +55,15 @@ export default function Preloader() {
     return () => controls.stop();
   }, [reduced]);
 
+  // Cycle through boot sequence lines
+  useEffect(() => {
+    if (done) return;
+    const id = setInterval(() => {
+      setBootIdx((i) => (i + 1) % PRELOADER.bootSequence.length);
+    }, 350);
+    return () => clearInterval(id);
+  }, [done]);
+
   return (
     <AnimatePresence>
       {!done && (
@@ -63,9 +72,8 @@ export default function Preloader() {
           exit={{ y: "-100%" }}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >
-          {/* split layers for slide-up reveal */}
           <motion.div
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-full bg-[#FFD400]"
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-full bg-[#1738D5]"
             initial={{ scaleY: 0 }}
             animate={{ scaleY: done ? 1 : 0 }}
             transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
@@ -74,29 +82,46 @@ export default function Preloader() {
 
           {/* top bar: clock */}
           <div className="relative z-10 flex items-start justify-between p-5 font-mono text-[11px] uppercase tracking-widest sm:p-7">
-            <span className="opacity-60">baaz // boot.sys</span>
+            <span className="opacity-60">MR_ONALUNCHBREAK // boot.sys</span>
             <span className="opacity-80">{clock} IST</span>
           </div>
 
-          {/* center: counter + staggered words */}
+          {/* center: counter + boot sequence + statement */}
           <div className="relative z-10 flex flex-1 flex-col justify-center px-5 sm:px-10">
-            <div className="font-mono text-[13px] uppercase tracking-[0.3em] text-[#FFD400]">
-              loading manifest
+            <div className="font-mono text-[13px] uppercase tracking-[0.3em] text-[#1738D5]">
+              <span className="text-[#FFD400]">●</span> {PRELOADER.bootSequence[0]}
+            </div>
+            {/* cycling boot line */}
+            <div className="mt-2 h-5 font-mono text-[11px] uppercase tracking-[0.2em] text-[#6B6B6B]">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={bootIdx}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2 }}
+                  className="inline-block"
+                >
+                  {"> "}loading: {PRELOADER.bootSequence[bootIdx + 1]}
+                  <span className="blink">_</span>
+                </motion.span>
+              </AnimatePresence>
             </div>
             <div className="mt-4 font-display text-[14vw] font-bold leading-none tracking-tighter sm:text-[10vw]">
               {String(count).padStart(3, "0")}
-              <span className="text-[#FFD400]">%</span>
+              <span className="text-[#1738D5]">%</span>
             </div>
+            {/* statement reveal */}
             <div className="mt-8 max-w-3xl">
-              <p className="font-display text-2xl font-bold leading-tight sm:text-4xl">
-                {PRELOADER_WORDS.map((w, i) => (
+              <p className="font-display text-xl font-bold leading-tight sm:text-3xl">
+                {PRELOADER.statement.map((w, i) => (
                   <motion.span
                     key={i}
                     className="mr-[0.28em] inline-block"
                     initial={{ opacity: 0, y: 28, filter: "blur(8px)" }}
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     transition={{
-                      delay: 0.25 + i * 0.22,
+                      delay: 0.4 + i * 0.3,
                       duration: 0.7,
                       ease: [0.16, 1, 0.3, 1],
                     }}
@@ -106,29 +131,33 @@ export default function Preloader() {
                 ))}
               </p>
             </div>
+            {/* margin microcopy */}
+            <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B]">
+              {PRELOADER.marginMicrocopy[0]} <span className="text-[#1738D5]">·</span> {PRELOADER.marginMicrocopy[1]}
+            </div>
           </div>
 
           {/* progress bar */}
           <div className="relative z-10 mx-5 mb-3 h-px overflow-hidden bg-white/10 sm:mx-10">
             <motion.div
-              className="h-full bg-[#FFD400]"
+              className="h-full bg-[#1738D5]"
               style={{ width: `${count}%` }}
             />
           </div>
 
           {/* bottom: skip */}
           <div className="relative z-10 flex items-end justify-between p-5 font-mono text-[11px] uppercase tracking-widest sm:p-7">
-            <span className="opacity-50">v.2026 · delhi</span>
+            <span className="opacity-50">v.2026 · portfolio · still building</span>
             <button
               onClick={() => {
                 setCount(100);
                 finish();
                 skip();
               }}
-              className="group flex items-center gap-2 border border-white/20 px-3 py-2 transition-colors hover:border-[#FFD400] hover:text-[#FFD400] focus-ring"
+              className="group flex items-center gap-2 border border-white/20 px-3 py-2 transition-colors hover:border-[#1738D5] hover:text-[#1738D5] focus-ring"
               data-cursor-label="skip"
             >
-              <span>Skip Animation</span>
+              <span>{PRELOADER.skip}</span>
               <span className="inline-block transition-transform group-hover:translate-x-1">↦</span>
             </button>
           </div>

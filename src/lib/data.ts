@@ -1,511 +1,677 @@
 // ============================================================
-// BAAZ PORTFOLIO — CONTENT DATA
-// Source-of-truth content from the reference PDF + live site.
+// PANKAJ GUPTA — MR. ONALUNCHBREAK
+// Portfolio content data. All professional claims are
+// resume-grounded. No fabricated metrics or URLs.
 // ============================================================
+
+export const IDENTITY = {
+  realName: "Pankaj Gupta",
+  alias: "Mr. Onalunchbreak",
+  aliasSystem: "MR_ONALUNCHBREAK",
+  user: "PANKAJ_GUPTA",
+  session: "PORTFOLIO_2026",
+  status: "BUILDING",
+  mode: "PRODUCT × AI × SYSTEMS",
+  system: "SYS.PRODUCT_LAB_ACTIVE",
+};
 
 export const NAV_ITEMS = [
   { label: "Home", id: "hero" },
   { label: "Origin", id: "origin" },
-  { label: "Projects", id: "projects" },
+  { label: "Product OS", id: "product-os" },
+  { label: "Work", id: "work-log" },
   { label: "Best Work", id: "best-work" },
-  { label: "Visuals", id: "insomniac" },
+  { label: "Research", id: "research" },
+  { label: "Lab", id: "lab" },
   { label: "Contact", id: "contact" },
 ] as const;
 
-export const PRELOADER_WORDS = [
-  "I",
-  "Intentionally",
-  "make",
-  "Misalignment",
-  "look",
-  "Intentional",
-];
+// Preloader
+export const PRELOADER = {
+  bootSequence: [
+    "SYSTEM BOOT",
+    "LOADING:",
+    "PRODUCT INSTINCTS",
+    "RESEARCH HABITS",
+    "ENGINEERING BAGGAGE",
+    "CUSTOMER OBSESSION",
+    "SIDE PROJECTS",
+    "TOO MANY OPEN TABS",
+    "QUESTIONABLE SLEEP SCHEDULE",
+    "MR_ONALUNCHBREAK.EXE",
+  ],
+  statement: [
+    "I started by building systems.",
+    "Then I learned to question",
+    "whether anyone needed them.",
+    "Now I build products.",
+  ],
+  marginMicrocopy: ["BUILDING SOMETHING...", "PROBABLY DURING LUNCH."],
+  readyLabel: "SYSTEM READY",
+  userLabel: "USER IDENTIFIED:",
+  userValue: "PANKAJ GUPTA",
+  aliasLabel: "ALIAS:",
+  aliasValue: "MR. ONALUNCHBREAK",
+  cta: "ENTER WORKSPACE",
+  skip: "SKIP BOOT",
+};
 
 // Hero
-export const HERO_NAME = "baaz";
-export const HERO_TAGLINE = "Creative by night, more creative by midnight";
-export const HERO_ROLES = [
-  "Started As Designer",
-  "Became Artist Manager",
-  "Currently Creative Director",
-];
-export const HERO_LOCATION = "SRCC '27 · Delhi, India";
-export const HERO_TOP_META = "Bajkamal Singh AKA Baaz";
-export const HERO_TOP_LINKS = "Fastest way to know me → Best Work → Contact";
+export const HERO = {
+  identityLines: ["Mr.", "On a", "lunch", "break"],
+  topMeta: "Pankaj Gupta",
+  topMetaSub: "AKA Mr. Onalunchbreak",
+  topLinks: "Fastest way to inspect my work → Best Work → Product Lab → Contact",
+  location: "DTU '23",
+  locationSub: "Delhi, India",
+  tagline: "PRODUCT BY DAY, SIDE PROJECTS BY LUNCH, OVERTHINKING BY MIDNIGHT.",
+  secondary: "Product Manager. Applied AI Builder. Researcher. Systems Thinker.",
+  roles: [
+    "Started As ENGINEER",
+    "Then Became AI RESEARCHER",
+    "Worked As PUBLIC-SECTOR TECHNOLOGIST",
+    "Currently PRODUCT MANAGER",
+    "Still BUILDING THINGS",
+  ],
+  timeMorph: ["09:00", "13:00", "02:00"],
+  timeAnnotation: "apparently lunch breaks can get long.",
+  scrollCta: "GO ON.",
+  scrollCtaSub: "THERE ARE MORE OPEN TABS.",
+  bottomLabel: "Portfolio // Pankaj Gupta",
+  bottomSession: "Session // Mr. Onalunchbreak",
+};
 
-// Navigation Index (Section 02)
+// Navigation Index
 export const NAV_INDEX = {
   index: "02",
   title: "Index",
   items: [
-    { label: "About Me", annotation: "Who I am & how I got here", target: "origin" },
-    { label: "Projects & Internships", annotation: "The work that started it all", target: "projects" },
-    { label: "Best Work", annotation: "Work I'm most proud of", target: "best-work" },
-    { label: "Insomniac Work", annotation: "Designs & ideas I made for fun", target: "insomniac" },
-    { label: "Contact me", annotation: "Quick note card", target: "contact" },
+    { label: "About Me", annotation: "how I ended up here", target: "origin" },
+    { label: "Product OS", annotation: "how I think about products", target: "product-os" },
+    { label: "Work Experience", annotation: "things shipped in the real world", target: "work-log" },
+    { label: "Best Work", annotation: "systems worth inspecting", target: "best-work" },
+    { label: "Research Archive", annotation: "papers I somehow finished", target: "research" },
+    { label: "Side Project Lab", annotation: "things built outside working hours", target: "lab" },
+    { label: "Contact Me", annotation: "no forms. no friction.", target: "contact" },
   ],
   quickNote:
-    "Entire portfolio is Worth a look. But If you're short on time, jump straight to Best Work Section.",
+    "Entire portfolio is worth a look. But if you're short on time, jump straight to Best Work.",
+  bottomMicrocopy: "Directly click on the section name you want to inspect.",
 };
 
-// Philosophy quote
+// Philosophy quote (transitional)
 export const PHILOSOPHY_QUOTE =
-  "If I ever write a book on how I see creativity, it will have infinite pages. And I'll still be figuring it out.";
+  "Building is the easy part. Figuring out what to build — and whether anyone cares — is the actual job.";
 
 // Brand marquee
 export const MARQUEE_ITEMS = [
-  "FIGMA",
-  "COLD",
-  "POP",
-  "PEPSI",
-  "ORIGINAL COLA",
-  "baaz",
-  "Design Lab",
+  "PRODUCT",
+  "AI",
+  "SYSTEMS",
+  "RESEARCH",
+  "BOSCH",
+  "CAMBRIDGE",
+  "CEGIS",
+  "SENSEHQ",
+  "DTU",
+  "Mr. Onalunchbreak",
 ];
-
-// Purpose / Results (combined section 02 — ONE YES LED TO ANOTHER)
-export const PURPOSE = {
-  index: "02",
-  title: "ONE YES LED TO ANOTHER",
-  philosophyTitle: "ART WITH A PURPOSE.",
-  philosophyBody:
-    "I am an artist at heart. I obsess over aesthetics, but I love it even more when my art actually makes people feel something and take action.",
-  tagline: "beautiful design that actually works.",
-  centralMetric: { value: 186, suffix: "M+", label: "Views Driven", sub: "In 3 Months" },
-  annotation: "crazy what happens when you just make weirdly creative stuff.",
-};
-
-// Places hustled
-export const PLACES = {
-  index: "// PLACES I'VE HUSTLED AT",
-  primary: { role: "Founding Marketer", company: "RNTL." },
-  internships: ["Grimbyte", "MusicVerse", "Sinskari", "Frost & Sullivan", "Blue Tea"],
-  extra:
-    "Grew an artist's community from scratch to 200K+ followers, and pulled off a wild campus launch for a Jio Hotstar show.",
-  badge: "VERIFIED",
-  note: "Learned a lot here!",
-};
-
-// Stats trio
-export const STATS = [
-  { value: 33, suffix: "M+", label: "Campaign Reach" },
-  { value: 40, suffix: "+", label: "Live standup Shows" },
-  { value: 1, suffix: " / 5", label: "DU Rank 1 / 5 Subjects — gotta keep parents happy." },
-];
-export const STATS_AFTER = "Still figuring out things.";
-export const STATS_PS =
-  "PS// The goal is simple: find artists and brands making incredible things, and grow together using our respective arts.";
 
 // Origin
 export const ORIGIN = {
   index: "01",
   title: "THE BEGINNING",
-  subtitle: "how it all started.",
-  hero: "I STARTED MAKING CREATIVE STUFF FOUR YEARS AGO COZ' I WANTED TO BUY SOME SNEAKERS ON MY OWN :))",
+  subtitle: "how I accidentally became a product person.",
+  hero: "I STARTED BY BUILDING TECHNICAL THINGS. THEN I REALISED THE HARDER QUESTION WAS: WHAT SHOULD WE BUILD IN THE FIRST PLACE?",
+  emphasis: "WHAT SHOULD WE BUILD?",
   paragraphs: [
-    "I had no idea what a 'marketing strategy' was in 9th grade. I was just making YouTube thumbnails and taking whatever freelance gigs I could find through Insta & Discord...",
-    "I didn't know what a 'value proposition' was. I kept making things because I liked seeing them work.",
-    "It started as making things. Then it became a way of thinking. Strategy came later.",
+    "I studied Engineering Physics at DTU. The obvious path was to keep going deeper into engineering. So naturally, I started working on computer vision, NLP, multimodal AI, AR systems, research papers, public-sector analytics platforms, and whatever else looked technically interesting.",
+    "Somewhere between models, data pipelines, deployments, users, and institutions, the question changed. 'Could I build it?' became 'Should we build it? For whom? What changes if it works?'",
+    "Engineering taught me how systems work. Research taught me how to ask better questions. Product taught me to connect both to actual users.",
   ],
-  motif: "GOD'S PLAN",
-  addictions: "Spotify + Coke Zero addicted",
-  meta: "bajkamal / early phase / initial viral spike",
+  timeline: [
+    { year: "2019", label: "DTU", sub: "Engineering Physics" },
+    { year: "2022", label: "BOSCH", sub: "Applied AI" },
+    { year: "2022–23", label: "AI RESEARCH", sub: "NLP × Multimodal AI" },
+    { year: "2022–23", label: "CAMBRIDGE JBS", sub: "Computer Vision × Microentrepreneurs" },
+    { year: "2023–24", label: "CEGIS", sub: "Public Finance × ML Products" },
+    { year: "2024–25", label: "NEXTLEAP", sub: "Product Management" },
+    { year: "2025–26", label: "SENSEHQ", sub: "Product × HR Tech × AI" },
+    { year: "NOW", label: "MR. ONALUNCHBREAK", sub: "Still Building" },
+  ],
+  annotations: [
+    "engineering was only the beginning.",
+    "yes, there were too many research papers.",
+    "somehow ended up launching products.",
+    "users > models.",
+    "still figuring it out.",
+  ],
+  motif: "PRODUCT ROADMAP?",
+  motifCrossed: "ROADMAP",
+  motifSub: "plans changed.",
 };
 
-// Projects (archived cards) — full content from spec
-export type Project = {
+// Product OS (philosophy + metrics + places + stats)
+export const PRODUCT_OS = {
+  index: "02",
+  title: "BUILDING IS THE EASY PART",
+  headline: "PRODUCTS WITH A REASON.",
+  paragraph:
+    "I like technology. I like AI. I like building systems. But technically impressive products that nobody adopts are still failed products.",
+  secondary:
+    "the best product work happens where USER PROBLEMS, BUSINESS OUTCOMES, TECHNICAL REALITY, and EXECUTION actually meet.",
+  centralMetric: { value: 1200, suffix: "+", label: "GLOBAL CUSTOMERS", sub: "PRODUCT PLATFORM OWNERSHIP" },
+  annotation: "turns out every edge case eventually becomes a Jira ticket.",
+  places: {
+    index: "// PLACES I'VE BUILT AT",
+    companies: ["SenseHQ", "Center for Effective Governance of Indian States", "Judge Business School, University of Cambridge", "Bosch Global Software Technologies"],
+    note: "different industries. same question. what actually moves the outcome?",
+  },
+  stats: [
+    { value: 30, suffix: "%", label: "MoM INCREASE", sub: "in adoption of key talent engagement use cases" },
+    { value: 40, suffix: "%", label: "FEWER SUPPORT TICKETS", sub: "through AI-assisted internal query-resolution systems" },
+    { value: 70, suffix: "%", label: "FASTER ONBOARDING", sub: "4–5 weeks → 1.5 weeks" },
+    { value: 30, suffix: "M+", label: "GST RECORDS", sub: "processed across public-sector ML deployments" },
+    { value: 25, suffix: "%", label: "MODEL ACCURACY IMPROVEMENT", sub: "across pilot deployments" },
+    { value: 10, suffix: "+", label: "BOSCH FACILITIES", sub: "using AR training deployments" },
+  ],
+  bottomNote: "still suspicious of vanity metrics.",
+  ps: "The goal is simple: understand the problem deeply enough, build the smallest useful system, measure what changes, then keep iterating.",
+};
+
+// Work Log / Experience Archive
+export type Experience = {
   id: string;
   index: string;
-  name: string;
-  companyDescription: string;
+  company: string;
   role: string;
-  duration: string;
+  location: string;
+  dates: string;
+  systemType: string[];
+  headline: string;
   achievements: string[];
   metrics: { label: string; value: number; suffix?: string; display?: string }[];
   theme: "blue" | "paper" | "black";
-  archived: boolean;
 };
 
-export const PROJECTS: Project[] = [
+export const EXPERIENCES: Experience[] = [
   {
-    id: "grimbyte",
+    id: "sensehq",
     index: "01",
-    name: "Grimbyte Technologies",
-    companyDescription:
-      "Consulting firm specialising in marketing transformation & GTM strategies.",
-    role: "Brand Strategy Intern",
-    duration: "4 Weeks",
+    company: "SenseHQ",
+    role: "Associate Product Manager",
+    location: "HR Automation Tech",
+    dates: "Feb 2025 – Apr 2026",
+    systemType: ["B2B SaaS", "HR TECH", "WORKFLOW AUTOMATION"],
+    headline: "Owned product initiatives for a talent engagement workflow platform serving 1200+ global customers.",
     achievements: [
-      "Configured GA4, Meta & SEMrush dashboards for 6+ clients. Replaced vanity metrics with performance KPIs to validate marketing spend and optimize budget allocation.",
-      "Mapped CX journeys for 4 clients to identify friction points and optimize user flows, reducing drop-off rates and manual touchpoints while improving lead capture.",
+      "Led customer journey analysis and feature adoption initiatives by partnering with Sales, Marketing, and Implementation teams.",
+      "Contributed to a 30% MoM increase in adoption of key talent engagement use cases.",
+      "Owned end-to-end feature roadmap aligned with retention goals.",
+      "Architected AI-assisted internal query-resolution tools.",
+      "Reduced customer-facing Jira / Zendesk support tickets by 40%.",
+      "Reduced new-hire onboarding time by 70%, from 4–5 weeks to 1.5 weeks.",
     ],
     metrics: [
-      { label: "Clients", value: 6, suffix: "+" },
-      { label: "CX journeys mapped", value: 4 },
-      { label: "tools deployed", value: 3 },
+      { label: "GLOBAL CUSTOMERS", value: 1200, suffix: "+" },
+      { label: "MoM ADOPTION INCREASE", value: 30, suffix: "%" },
+      { label: "FEWER SUPPORT TICKETS", value: 40, suffix: "%" },
+      { label: "FASTER ONBOARDING", value: 70, suffix: "%" },
     ],
     theme: "blue",
-    archived: true,
   },
   {
-    id: "blue-tea",
+    id: "cegis",
     index: "02",
-    name: "Blue Tea",
-    companyDescription:
-      "India's leading herbal tea brand, featured on Shark Tank India, with 1M+ global customers.",
-    role: "Live Project Associate",
-    duration: "4 Weeks",
+    company: "Center for Effective Governance of Indian States",
+    role: "Program Assistant",
+    location: "Strategic Public Finance",
+    dates: "Nov 2023 – May 2024",
+    systemType: ["GOVTECH", "PUBLIC FINANCE", "MACHINE LEARNING"],
+    headline: "Launched an ML-powered tax-evasion detection analytics platform across pilot deployments for Delhi and Tamil Nadu state tax departments.",
     achievements: [
-      "Executed a targeted offline activation strategy, securing 5+ strategic B2B partnerships to distribute 2,000+ units.",
-      "Architected an influencer campaign model, managing outreach to 90+ creators, achieving ₹0.10 CPV.",
+      "Led product strategy and delivery end-to-end.",
+      "Implemented and scaled data pipelines processing 30M+ GST records.",
+      "Improved model accuracy by 25%.",
+      "Accelerated decision-making across pilot deployments.",
     ],
     metrics: [
-      { label: "Creators outreached", value: 90 },
-      { label: "CPV achieved", value: 0, display: "₹0.10" },
-      { label: "units distributed", value: 2, suffix: "K+" },
+      { label: "STATE TAX DEPARTMENTS", value: 2 },
+      { label: "GST RECORDS", value: 30, suffix: "M+" },
+      { label: "MODEL ACCURACY IMPROVEMENT", value: 25, suffix: "%" },
     ],
     theme: "paper",
-    archived: true,
   },
   {
-    id: "dr-water",
+    id: "cambridge-jbs",
     index: "03",
-    name: "Dr. Water",
-    companyDescription:
-      "Global US-based brand delivering premium hydrogen hydration solutions.",
-    role: "Project Head",
-    duration: "8 Weeks",
+    company: "Judge Business School, University of Cambridge",
+    role: "JBS Research Apprentice",
+    location: "Applied AI Research",
+    dates: "Oct 2022 – Oct 2023",
+    systemType: ["APPLIED AI", "COMPUTER VISION", "MICROENTREPRENEURS"],
+    headline: "Built computer-vision object-detection models for retail infrastructure and store-layout recommendations.",
     achievements: [
-      "Identified 6 key customer personas through primary and secondary research, analyzing 200+ responses and behavioural patterns.",
-      "Benchmarked 18+ hydration brands and synthesized over 2,000 data points.",
+      "Worked with research involving 500K FMCG microentrepreneurs.",
+      "Influenced revenue outcomes for 35% of surveyed business owners.",
+      "Translated computer-vision outputs into actionable retail recommendations.",
     ],
     metrics: [
-      { label: "personas mapped", value: 6 },
-      { label: "data points", value: 2, suffix: "K+" },
-      { label: "brands benchmarked", value: 18, suffix: "+" },
+      { label: "MICROENTREPRENEURS", value: 500, suffix: "K" },
+      { label: "SURVEYED OWNERS INFLUENCED", value: 35, suffix: "%" },
+      { label: "COMPUTER VISION", value: 0, display: "OBJECT DETECTION" },
     ],
     theme: "black",
-    archived: true,
   },
   {
-    id: "frost-sullivan",
+    id: "bosch",
     index: "04",
-    name: "Frost & Sullivan",
-    companyDescription:
-      "International consulting firm specialising in market research & strategic advisory.",
-    role: "Live Project Associate",
-    duration: "4 Weeks",
+    company: "Bosch Global Software Technologies",
+    role: "Applied AI Intern",
+    location: "AR Training Systems",
+    dates: "May 2022 – Jul 2022",
+    systemType: ["APPLIED AI", "AR", "ENTERPRISE TRAINING"],
+    headline: "Architected an AR training platform using Text-to-Speech and Meta Oculus Quest headsets.",
     achievements: [
-      "Benchmarked advancements in six mobility domains, identifying synergies projected to unlock ₹42,000 crore+ in combined market opportunities.",
-      "Evaluated and ranked 200+ technologies using the Mobility Innovation Scoring Model.",
+      "Improved remote workforce training efficiency from 3% to 30%.",
+      "Deployed across 10+ Bosch manufacturing facilities in India.",
     ],
     metrics: [
-      { label: "tech ranked", value: 200, suffix: "+" },
-      { label: "market opportunity", value: 0, display: "₹42K Cr+" },
-      { label: "mobility domains", value: 6 },
+      { label: "TRAINING EFFICIENCY", value: 0, display: "3% → 30%" },
+      { label: "MANUFACTURING FACILITIES", value: 10, suffix: "+" },
+      { label: "AR × AI", value: 0, display: "DEPLOYED SYSTEM" },
     ],
     theme: "blue",
-    archived: true,
   },
 ];
 
 // ============================================================
-// BEST WORK — DELHI METRO (5 stations, full case-study content)
+// BEST WORK — PRODUCT LINE METRO (6 stations)
 // ============================================================
 
-export type StrategyItem = {
-  step: string;
-  title: string;
-  desc: string;
-};
+export type StrategyItem = { step: string; title: string; desc: string };
+export type CaseStudyBlock = { label: string; title: string; text: string };
 
 export type MetroStation = {
   id: string;
+  index: string;
   name: string;
   role: string;
-  theme: string; // Growth / Acquisition / Retention / Scale / Launch
+  theme: string;
   tag: string;
   headline: string;
   problem: string;
-  strategy: StrategyItem[];
+  system: string[];
   impact: string;
   metrics: { label: string; value: number; suffix?: string; display?: string }[];
+  caseStudy: CaseStudyBlock[];
+  learning?: string;
   extras?: { label: string; items: string[] }[];
+  stationType: "professional" | "research" | "side-project";
 };
 
 export const METRO_STATIONS: MetroStation[] = [
   {
-    id: "krishna-shukla",
-    name: "Krishna Shukla",
-    role: "Talent Manager",
-    theme: "Growth",
-    tag: "Creator Economy",
-    headline:
-      "Engineered a content-to-commerce pipeline that commercialised 193M viral views into a touring stand-up shows business.",
+    id: "bosch",
+    index: "01",
+    name: "BOSCH",
+    role: "Applied AI Intern",
+    theme: "APPLIED AI",
+    tag: "AR Workforce Training",
+    headline: "WHAT IF REMOTE TRAINING COULD FEEL MORE LIKE BEING THERE?",
     problem:
-      "193M views. Zero revenue infrastructure. The attention existed. The business didn't. Trapped in a local echo chamber, passive viewers who rarely shared, limited to unscalable ad-hoc college gigs.",
-    strategy: [
-      {
-        step: "01",
-        title: "IDENTITY BASED CONTENT",
-        desc: "Shifted to highly relatable, POV-driven identity content to acquire cold audiences aggressively.",
-      },
-      {
-        step: "02",
-        title: "VIRALITY ENGINE",
-        desc: "Achieved 3x Loop Rate and strong Share-to-Like performance, turning viewers into distributors.",
-      },
-      {
-        step: "03",
-        title: "TOURING IP",
-        desc: "Operationalised 40+ shows across multiple Indian cities with repeatable logistics.",
-      },
-    ],
-    impact:
-      "193M+ views commercialised into a touring stand-up business with ₹4L+ revenue and ₹60K+ brand partnerships.",
+      "Remote workforce training efficiency was approximately 3%. Training complex manufacturing workflows remotely created significant limitations.",
+    system: ["AR training platform", "Text-to-Speech", "Meta Oculus Quest headsets", "Deployment across Bosch manufacturing facilities"],
+    impact: "3% → 30% remote training efficiency. 10+ Indian manufacturing facilities deployed.",
     metrics: [
-      { label: "Views", value: 193, suffix: "M+" },
-      { label: "Accounts Reached", value: 50, suffix: "M+" },
-      { label: "Followers", value: 200, suffix: "K+" },
-      { label: "Followers Growth", value: 115, suffix: "%" },
-      { label: "Engagement Rate", value: 57, suffix: "%" },
-      { label: "Loop Rate", value: 3, suffix: ".8x" },
-      { label: "Shows", value: 40, suffix: "+" },
-      { label: "Stand-up Revenue", value: 0, display: "₹4L+" },
-      { label: "Brand Partnerships", value: 0, display: "₹60K+" },
+      { label: "Training Efficiency", value: 0, display: "3% → 30%" },
+      { label: "Manufacturing Facilities", value: 10, suffix: "+" },
+      { label: "AR × AI", value: 0, display: "DEPLOYED" },
     ],
+    caseStudy: [
+      { label: "PROBLEM", title: "Remote training was broken", text: "Remote workforce training efficiency was approximately 3%. Training complex manufacturing workflows remotely created significant limitations." },
+      { label: "SYSTEM", title: "AR training platform", text: "AR training platform using Text-to-Speech and Meta Oculus Quest headsets, deployed across Bosch manufacturing facilities." },
+      { label: "DEPLOYMENT", title: "10+ facilities", text: "Deployed across 10+ Bosch manufacturing facilities in India." },
+      { label: "IMPACT", title: "10× efficiency lift", text: "Improved remote workforce training efficiency from 3% to 30%." },
+      { label: "LEARNING", title: "Immersive > manual", text: "Immersive AR training dramatically outperforms traditional remote methods for complex physical workflows." },
+    ],
+    learning: "Immersive AR training dramatically outperforms traditional remote methods for complex physical workflows.",
+    stationType: "professional",
   },
   {
-    id: "rntl",
-    name: "RNTL.",
-    role: "Founding Marketer, Core Team",
-    theme: "Acquisition / Trust Engineering",
-    tag: "D2C Rental",
-    headline: "“Why rent when I can own?” — borrowed equity as the answer.",
+    id: "research-lab",
+    index: "02",
+    name: "RESEARCH LAB",
+    role: "Researcher",
+    theme: "RESEARCH",
+    tag: "NLP × Multimodal AI",
+    headline: "BEFORE BUILDING PRODUCTS, I SPENT A LOT OF TIME TRYING TO MAKE MODELS UNDERSTAND PEOPLE.",
     problem:
-      "Renting felt like a sunk cost. No social proof, no category trust, zero brand history. The 'is this brand real?' question came before purchase intent.",
-    strategy: [
-      {
-        step: "01",
-        title: "BORROWED EQUITY",
-        desc: "Sell the lifestyle, not the product. Built the RNTL Spotlight creator network.",
-      },
-      {
-        step: "02",
-        title: "META PILOT RUN",
-        desc: "Catalog + personality-led brand launch ad campaign.",
-      },
-    ],
-    impact:
-      "5 industry voices with 2M+ combined network. Meta pilot hit 35%+ hook rate at ₹7 CPM and <₹0.9 CPC — a 4.6x efficiency lift.",
+      "Language, emotions, and deception are hard for machines. Understanding how models perceive these is a prerequisite for building AI products that actually work for people.",
+    system: ["NLP", "Multimodal AI", "Deception Detection", "Named Entity Recognition", "Domain Adaptation", "Sentiment Recognition"],
+    impact: "4 papers published at EACL, ECIR, AAAI, and independent venues. Research themes spanning deception detection, NLP, NER, domain adaptation, and multimodal sentiment.",
     metrics: [
-      { label: "Hook Rate", value: 35, suffix: "%+" },
-      { label: "Cost / Msg Conv.", value: 0, display: "₹18.45" },
-      { label: "CPM", value: 0, display: "₹7" },
-      { label: "CPC", value: 0, display: "<₹0.9" },
-      { label: "Efficiency Lift", value: 4, suffix: ".6x" },
+      { label: "Papers Published", value: 4 },
+      { label: "Venues", value: 0, display: "EACL/ECIR/AAAI" },
+      { label: "Research Themes", value: 6 },
     ],
+    caseStudy: [
+      { label: "QUESTION", title: "Can models understand people?", text: "Before building products, I spent a lot of time trying to make models understand language, emotions, and apparently lies." },
+      { label: "METHOD", title: "NLP × Multimodal AI", text: "Research spanning deception detection, natural language processing, named entity recognition, domain adaptation, and multimodal sentiment recognition." },
+      { label: "PAPERS", title: "4 publications", text: "SEPSIS: I Can Catch Your Lies (EACL 2024), Adversarial Adaptation for French NER (ECIR 2023), Transformer-based NER for French (AAAI 2023), Attention-free Multimodal Sentiment (2023)." },
+      { label: "RESULT", title: "Deeper AI understanding", text: "A foundational understanding of how models perceive language, emotions, and deception — informing product decisions in AI systems." },
+      { label: "LEARNING", title: "Models are tools, not products", text: "Research taught me that building an impressive model is very different from building a product people use." },
+    ],
+    learning: "Research taught me that building an impressive model is very different from building a product people use.",
     extras: [
       {
-        label: "RNTL Spotlight Creator Network",
-        items: ["Ranjit Bajaj", "Nikita Luther", "Harpriya Bains", "Anya Singh", "Rajat Barmecha"],
-      },
-      { label: "Network Scale", items: ["5 Industry Voices", "2M+ Combined Network"] },
-    ],
-  },
-  {
-    id: "dramsoc",
-    name: "Dramatics Society, SRCC",
-    role: "Vice President",
-    theme: "Creative Direction / Scale",
-    tag: "College Society",
-    headline:
-      "Took a college theatre society to most-followed club status in Delhi University — 10K+ followers in 6 months.",
-    problem:
-      "A society with pedigree but no digital presence. Productions were great; the audience didn't know they existed until opening night.",
-    strategy: [
-      {
-        step: "01",
-        title: "GROWTH STRATEGY",
-        desc: "Treated the society like a brand — consistent content cadence, platform-native formats.",
-      },
-      {
-        step: "02",
-        title: "CREATIVE DIRECTION",
-        desc: "Built campaign types for every moment of the society lifecycle.",
-      },
-    ],
-    impact:
-      "10K+ followers in 6 months. Most-followed college club status in Delhi University. Six distinct campaign formats deployed.",
-    metrics: [
-      { label: "Followers", value: 10, suffix: "K+" },
-      { label: "Timeframe", value: 6, suffix: " mo" },
-      { label: "Campaign Types", value: 6 },
-    ],
-    extras: [
-      {
-        label: "Campaign Types",
+        label: "Featured Papers",
         items: [
-          "Event Pre-Buzz Film",
-          "Freshers' Welcome Film",
-          "30-Year Legacy Campaign",
-          "Celebrity Event Recap",
-          "Orientation Announcement Video",
-          "Community Trust Restore Video",
+          "SEPSIS: I Can Catch Your Lies — EACL 2024",
+          "Adversarial Adaptation for French NER — ECIR 2023",
+          "Transformer-based NER for French — AAAI 2023",
+          "Attention-free Multimodal Sentiment — 2023",
+        ],
+      },
+      {
+        label: "Research Themes",
+        items: ["Deception Detection", "NLP", "Named Entity Recognition", "Domain Adaptation", "Multimodal Sentiment"],
+      },
+    ],
+    stationType: "research",
+  },
+  {
+    id: "cambridge-jbs",
+    index: "03",
+    name: "CAMBRIDGE JBS",
+    role: "JBS Research Apprentice",
+    theme: "APPLIED RESEARCH",
+    tag: "Computer Vision for FMCG",
+    headline: "CAN COMPUTER VISION HELP A SMALL RETAILER MAKE BETTER BUSINESS DECISIONS?",
+    problem:
+      "500K FMCG microentrepreneurs operate with limited access to retail infrastructure intelligence. Can computer vision bridge that gap?",
+    system: ["Computer-vision object-detection models", "Retail infrastructure analysis", "Store-layout recommendations"],
+    impact: "35% of surveyed business owners had revenue outcomes influenced. 500K FMCG microentrepreneurs in the research scope.",
+    metrics: [
+      { label: "Microentrepreneurs", value: 500, suffix: "K" },
+      { label: "Revenue Influenced", value: 35, suffix: "%" },
+      { label: "Computer Vision", value: 0, display: "OBJECT DETECTION" },
+    ],
+    caseStudy: [
+      { label: "CONTEXT", title: "500K microentrepreneurs", text: "Research involving 500K FMCG microentrepreneurs across retail infrastructure." },
+      { label: "RESEARCH QUESTION", title: "Can CV help small retailers?", text: "Can computer vision help a small retailer make better business decisions?" },
+      { label: "SYSTEM", title: "CV object detection", text: "Computer-vision object-detection models for retail infrastructure and store-layout recommendations." },
+      { label: "OUTCOME", title: "35% revenue influence", text: "Influenced revenue outcomes for 35% of surveyed business owners. Translated CV outputs into actionable retail recommendations." },
+      { label: "LEARNING", title: "Research → real outcomes", text: "Applied research can directly influence real revenue outcomes when translated into actionable recommendations." },
+    ],
+    learning: "Applied research can directly influence real revenue outcomes when translated into actionable recommendations.",
+    stationType: "professional",
+  },
+  {
+    id: "cegis",
+    index: "04",
+    name: "CEGIS",
+    role: "Program Assistant",
+    theme: "GOVTECH",
+    tag: "ML Tax-Evasion Detection",
+    headline: "WHAT DOES PRODUCT MANAGEMENT LOOK LIKE WHEN THE USERS ARE GOVERNMENT SYSTEMS?",
+    problem:
+      "Tax-evasion detection across state tax departments requires processing massive GST record volumes and building ML models that government users can actually act on.",
+    system: ["ML-powered analytics platform", "Data pipelines processing GST records", "Pilot deployments for Delhi + Tamil Nadu"],
+    impact: "30M+ GST records processed. 25% model accuracy improvement. 2 state tax department pilots launched.",
+    metrics: [
+      { label: "GST Records", value: 30, suffix: "M+" },
+      { label: "Accuracy Improvement", value: 25, suffix: "%" },
+      { label: "State Pilots", value: 2 },
+    ],
+    caseStudy: [
+      { label: "PROBLEM", title: "Tax evasion at scale", text: "Tax-evasion detection across state tax departments requires processing massive GST record volumes and building ML models that government users can actually act on." },
+      { label: "STAKEHOLDERS", title: "Delhi + Tamil Nadu", text: "Delhi state tax department and Tamil Nadu state tax department as pilot deployment partners." },
+      { label: "PRODUCT STRATEGY", title: "End-to-end ownership", text: "Led product strategy and delivery end-to-end — from data pipeline architecture to model improvement to government deployment." },
+      { label: "DATA SYSTEM", title: "30M+ GST records", text: "Implemented and scaled data pipelines processing 30M+ GST records across pilot deployments." },
+      { label: "IMPACT", title: "25% accuracy lift", text: "Improved model accuracy by 25%. Accelerated decision-making across pilot deployments." },
+      { label: "LEARNING", title: "GovTech product thinking", text: "Product management for government users requires a different cadence — reliability, interpretability, and institutional trust matter as much as model performance." },
+    ],
+    learning: "Product management for government users requires a different cadence — reliability, interpretability, and institutional trust matter as much as model performance.",
+    stationType: "professional",
+  },
+  {
+    id: "sensehq",
+    index: "05",
+    name: "SENSEHQ",
+    role: "Associate Product Manager",
+    theme: "PRODUCT MANAGEMENT",
+    tag: "Talent Engagement Platform",
+    headline: "BUILDING FEATURES IS EASY. GETTING 1200+ CUSTOMERS TO ACTUALLY USE THEM IS THE PRODUCT PROBLEM.",
+    problem:
+      "A B2B HR automation platform with 1200+ global customers. Feature adoption, customer journey friction, support load, internal knowledge access, and new-hire onboarding were all product problems waiting to be solved.",
+    system: ["Customer journey analysis", "Feature adoption initiatives", "Roadmap ownership", "AI-assisted internal query-resolution tools"],
+    impact: "30% MoM adoption increase. 40% fewer support tickets. 70% faster onboarding. 1200+ global customers served.",
+    metrics: [
+      { label: "MoM Adoption", value: 30, suffix: "%" },
+      { label: "Fewer Tickets", value: 40, suffix: "%" },
+      { label: "Faster Onboarding", value: 70, suffix: "%" },
+      { label: "Global Customers", value: 1200, suffix: "+" },
+    ],
+    caseStudy: [
+      { label: "CONTEXT", title: "B2B HR automation, 1200+ customers", text: "B2B HR automation platform serving 1200+ global customers. Cross-functional work with Sales, Marketing, Implementation, Support, Engineering, and Product." },
+      { label: "CUSTOMER PROBLEM", title: "Adoption + friction + support", text: "Feature adoption, customer journey friction, support load, internal knowledge access, and new-hire onboarding were all product problems waiting to be solved." },
+      { label: "PRODUCT DECISIONS", title: "Roadmap + journey analysis", text: "Owned end-to-end feature roadmap aligned with retention goals. Led customer journey analysis and feature adoption initiatives." },
+      { label: "SYSTEMS SHIPPED", title: "AI query-resolution", text: "Architected AI-assisted internal query-resolution tools that reduced customer-facing Jira / Zendesk support tickets by 40%." },
+      { label: "OUTCOME", title: "30% / 40% / 70%", text: "30% MoM increase in key use case adoption. 40% fewer support tickets. 70% faster onboarding (4–5 weeks → 1.5 weeks)." },
+      { label: "LEARNING", title: "Adoption > features", text: "Building features is easy. Getting 1200+ customers to actually use them is the product problem." },
+    ],
+    learning: "Building features is easy. Getting 1200+ customers to actually use them is the product problem.",
+    extras: [
+      { label: "Cross-Functional Teams", items: ["Sales", "Marketing", "Implementation", "Support", "Engineering", "Product"] },
+      { label: "Product Problems", items: ["Feature Adoption", "Customer Journey Friction", "Support Load", "Internal Knowledge Access", "New-Hire Onboarding"] },
+    ],
+    stationType: "professional",
+  },
+  {
+    id: "mr-onalunchbreak",
+    index: "06",
+    name: "MR. ONALUNCHBREAK",
+    role: "Builder",
+    theme: "SIDE PROJECTS",
+    tag: "The Lab",
+    headline: "WORK ENDS. CURIOSITY DOESN'T.",
+    problem:
+      "Things I build when I should probably be doing something else. The curiosity that doesn't stop when the workday ends.",
+    system: ["Queen's Gambit", "Daily Dose of AI", "Skill Tracer", "A Hitchhiker's Guide to Presenting Modern Data Solutions"],
+    impact: "4 side projects shipped (or in progress). Curiosity-driven building across chess AI, AI news, workflow tooling, and data presentation.",
+    metrics: [
+      { label: "Side Projects", value: 4 },
+      { label: "Status", value: 0, display: "BUILDING" },
+      { label: "Curiosity", value: 0, display: "∞" },
+    ],
+    caseStudy: [
+      { label: "IDEA", title: "Work ends. Curiosity doesn't.", text: "Things I build when I should probably be doing something else." },
+      { label: "WHY I BUILT IT", title: "The lab", text: "The ongoing side-project lab — where curiosity-driven building happens outside formal employment." },
+      { label: "SYSTEM", title: "4 side projects", text: "Queen's Gambit (chess + AI), Daily Dose of AI (AI news), Skill Tracer (workflow → skills.md), A Hitchhiker's Guide to Modern Data Solutions (KaggleX BIPOC project)." },
+      { label: "STATUS", title: "Still building", text: "All projects are active experiments. Some escaped the backlog." },
+      { label: "WHAT'S NEXT", title: "More tabs open", text: "More experiments. More side projects. Probably during lunch." },
+    ],
+    learning: "Work ends. Curiosity doesn't.",
+    extras: [
+      {
+        label: "Side Projects",
+        items: [
+          "Queen's Gambit — personalised chess platform, classical tournament aesthetics × modern AI",
+          "Daily Dose of AI — go-to place for AI and technology updates",
+          "Skill Tracer — build skills.md from workflows by recording interactions + AI models",
+          "A Hitchhiker's Guide to Presenting Modern Data Solutions — KaggleX BIPOC Program Project",
         ],
       },
     ],
-  },
-  {
-    id: "sinskari",
-    name: "Sinskari",
-    role: "Strategy Intern",
-    theme: "Retention",
-    tag: "Email Lifecycle",
-    headline:
-      "Designed a high-conversion automated email funnel to recover abandoned carts and maximize Customer Lifetime Value.",
-    problem:
-      "Abandoned carts with no recovery. No lifecycle. No nurture. Customers came, looked, left — and were never seen again.",
-    strategy: [
-      {
-        step: "01",
-        title: "LIFECYCLE MAPPING",
-        desc: "Reconstructed the entire customer journey from sign-up to cross-sell.",
-      },
-      {
-        step: "02",
-        title: "AUTOMATED RECOVERY",
-        desc: "Built triggered sequences for every drop-off state.",
-      },
-    ],
-    impact:
-      "10%+ drop-off rate improvement, 15% weekly traffic lift, 25+ abandoned carts converted.",
-    metrics: [
-      { label: "Drop-off Improvement", value: 10, suffix: "%+" },
-      { label: "Weekly Traffic", value: 15, suffix: "%" },
-      { label: "Carts Converted", value: 25, suffix: "+" },
-    ],
-    extras: [
-      {
-        label: "Lifecycle States",
-        items: [
-          "New Customer",
-          "Registration / Sign-up",
-          "Explored Pages / Products",
-          "Added to Cart",
-          "Checked Out",
-          "Didn't Check Out",
-          "Delivery",
-          "Feedback",
-          "Cross-sell",
-          "Old Customer Sequence",
-        ],
-      },
-    ],
-  },
-  {
-    id: "jio-hotstar",
-    name: "Jio Hotstar",
-    role: "Marketing & GTM Strategy Lead",
-    theme: "Launch",
-    tag: "Streaming / Tribeverse",
-    headline:
-      "360° marketing strategy for the Tribeverse trailer launch across 6 college campuses, 30,000+ Gen-Z target.",
-    problem:
-      "A streaming launch that needed scale without burning intent. Big audience, small attention spans, one shot.",
-    strategy: [
-      {
-        step: "01",
-        title: "AUDIENCE ARCHITECTURE",
-        desc: "Mapped the Gen-Z attention graph across 6 campuses.",
-      },
-      {
-        step: "02",
-        title: "MICRO-INFLUENCER NETWORK",
-        desc: "Activated campus-level voices for authentic reach.",
-      },
-      {
-        step: "03",
-        title: "UGC CONVERSION ENGINE",
-        desc: "Built an A/B-tested funnel from impression to signup.",
-      },
-    ],
-    impact:
-      "7L+ impressions in 72 hours, 15% conversion rate at peak, 45K+ organic reach, 8K+ P2P shares.",
-    metrics: [
-      { label: "Impressions / 72H", value: 7, suffix: "L+" },
-      { label: "Conversion Rate", value: 15, suffix: "%" },
-      { label: "Organic Reach", value: 45, suffix: "K+" },
-      { label: "P2P Shares", value: 8, suffix: "K+" },
-    ],
-    extras: [
-      {
-        label: "Strategy Pillars",
-        items: [
-          "Audience Architecture",
-          "Micro-Influencer Network",
-          "Celebrity Amplification",
-          "UGC Conversion Engine",
-          "A/B Testing",
-        ],
-      },
-    ],
+    stationType: "side-project",
   },
 ];
 
 export const METRO_INTRO = {
   hindi: "दिल्ली मेट्रो में आपका स्वागत है",
-  english: "Welcome to Delhi Metro",
-  cta: "ENTER METRO",
-  line: "BLUE LINE",
+  english: "Welcome to the Product Line.",
+  systemMessage: "DESTINATION: BETTER PRODUCTS",
+  currentStatus: "CURRENT STATUS: STILL FIGURING IT OUT",
+  cta: "BOARD TRAIN",
+  line: "PRODUCT LINE",
+  subtitle: "ONE CAREER. MULTIPLE SYSTEMS. STILL IN TRANSIT.",
+  announcements: [
+    "अगला स्टेशन सेंस एचक्यू है।",
+    "Next station is SenseHQ.",
+    "Please mind the gap between shipping and adoption.",
+    "कृपया vanity metrics से सावधान रहें।",
+    "Please keep your assumptions with you at all times.",
+    "Unattended side projects may be moved to the backlog.",
+    "Doors will open on the product side.",
+  ],
   footer:
-    "driven by a self proclaimed artist · BLUE LINE // DELHI METRO · built in new delhi /// powered by caffeine · caution: can run even after 11pm due to late night designing hobby · Return to Platform",
+    "driven by curiosity · PRODUCT LINE // DELHI · built between delhi, bangalore, research labs & too many browser tabs · powered by coffee, customer interviews & unfinished side projects · caution: may continue building after office hours · CURRENT DESTINATION: UNKNOWN · STATUS: STILL SHIPPING · Return to Platform",
 };
 
-// Insomniac work — skill tags + word cloud
-export const INSOMNIAC_SKILLS = [
-  { label: "Brand Design", rotate: -3 },
-  { label: "Social Media", rotate: 2 },
-  { label: "Typography", rotate: -1.5 },
-  { label: "Poster Design", rotate: 3 },
-  { label: "Colour Grading", rotate: -2 },
-  { label: "Motion Graphics", rotate: 1.5 },
-  { label: "Visual Identity", rotate: -3 },
-  { label: "Content Creation", rotate: 2.5 },
-];
+// Research Archive
+export type ResearchPaper = {
+  id: string;
+  index: string;
+  title: string;
+  venue: string;
+  year: number;
+  supervisor: string;
+  institution: string;
+  domain: string[];
+  url?: string;
+};
 
-export const WORD_CLOUD_TITLE = "My CV, IN ABOUT 40 WORDS";
-export const WORD_CLOUD = [
-  "Adaptability", "Growth", "Strategy", "Creative", "Ownership", "Initiative",
-  "Impact", "Analytics", "Synergy", "Bandwidth", "Design", "Branding",
-  "Scholar", "Digital Marketing", "Conversion", "Early Starter", "Contributor",
-  "Position of responsibility", "Always Working", "Projects", "Networking",
-  "Building", "Academics", "Ads", "Drama", "Strategy Comps", "Cricketer",
-  "Frost & Sullivan", "Blue Tea", "Grimbyte Technologies", "SRCC", "Startups",
-  "Freelancer", "Creative freedom",
-];
+export const RESEARCH = {
+  index: "04",
+  title: "RESEARCH ARCHIVE",
+  system: "PAPERS_I_SOMEHOW_FINISHED",
+  headline: "I SPENT A FEW YEARS TEACHING MODELS TO UNDERSTAND LANGUAGE, EMOTIONS, AND APPARENTLY LIES.",
+  papers: [
+    {
+      id: "sepsis",
+      index: "01",
+      title: "SEPSIS: I Can Catch Your Lies — A New Paradigm for Deception Detection",
+      venue: "EACL",
+      year: 2024,
+      supervisor: "Dr. Amitava Das",
+      institution: "The Artificial Intelligence Institute, University of South Carolina",
+      domain: ["Deception Detection", "NLP"],
+    },
+    {
+      id: "french-ner-ecir",
+      index: "02",
+      title: "Adversarial Adaptation for French Named Entity Recognition",
+      venue: "18th ECIR",
+      year: 2023,
+      supervisor: "Prof. Marie-Jean Meurs",
+      institution: "Université du Québec",
+      domain: ["NER", "Domain Adaptation"],
+    },
+    {
+      id: "french-ner-aaai",
+      index: "03",
+      title: "Transformer-based NER for French within Similar Domain Corpora",
+      venue: "37th AAAI",
+      year: 2023,
+      supervisor: "Prof. Marie-Jean Meurs",
+      institution: "Université du Québec",
+      domain: ["NER", "NLP"],
+    },
+    {
+      id: "multimodal-sentiment",
+      index: "04",
+      title: "Attention-free: An Aspect-based Multimodal Sentiment Recognition",
+      venue: "Independent",
+      year: 2023,
+      supervisor: "Prof. Dinesh Kumar Vishwakarma",
+      institution: "DTU",
+      domain: ["Multimodal Sentiment", "AI"],
+    },
+  ] as ResearchPaper[],
+};
+
+// Product Lab / Insomniac Work
+export const LAB = {
+  header: "## things built on lunch breaks",
+  subtitle: "hover around. some of these escaped the backlog.",
+  wordCloudTitle: "MY CV, IN ABOUT 40 WORDS",
+  wordCloud: [
+    "Product", "AI", "Systems", "Research", "Customer Journeys", "Roadmaps",
+    "Experimentation", "Adoption", "Automation", "Analytics", "B2B SaaS",
+    "GovTech", "Computer Vision", "NLP", "Multimodal AI", "Data Pipelines",
+    "Prototyping", "APIs", "Jira", "Figma", "Miro", "Amplitude", "Sigma BI",
+    "Python", "SQL", "Git", "Tableau", "n8n", "OKRs", "KPIs", "Sprint Planning",
+    "UAT", "Cross-Functional", "Engineering Physics", "DTU", "NextLeap", "NYU",
+    "Cambridge", "Bosch", "CEGIS", "SenseHQ", "Still Building", "Too Many Tabs",
+    "Mr. Onalunchbreak",
+  ],
+  skills: [
+    { label: "Product Strategy", rotate: -3 },
+    { label: "AI Products", rotate: 2 },
+    { label: "Customer Journey Mapping", rotate: -1.5 },
+    { label: "Workflow Automation", rotate: 3 },
+    { label: "Product Analytics", rotate: -2 },
+    { label: "Rapid Prototyping", rotate: 1.5 },
+    { label: "Applied AI", rotate: -3 },
+    { label: "Research", rotate: 2.5 },
+    { label: "Data Systems", rotate: -1 },
+    { label: "Experimentation", rotate: 2 },
+  ],
+  sideProjects: [
+    { id: "queens-gambit", name: "Queen's Gambit", desc: "A personalised chess platform where classical tournament aesthetics meet modern AI.", categories: ["PRODUCT", "AI"], status: "BUILDING" },
+    { id: "daily-dose-of-ai", name: "Daily Dose of AI", desc: "Your go-to place for updates on AI and technology.", categories: ["PRODUCT", "WRITING"], status: "BUILDING" },
+    { id: "skill-tracer", name: "Skill Tracer", desc: "Build skills.md from workflows by recording interactions and using AI models of your choice.", categories: ["PRODUCT", "WORKFLOWS"], status: "BUILDING" },
+    { id: "hitchhikers-guide", name: "A Hitchhiker's Guide to Presenting Modern Data Solutions", desc: "KaggleX BIPOC Program Project.", categories: ["DATA", "WRITING"], status: "SHIPPED" },
+  ],
+};
+
+// Achievements / Signals
+export const ACHIEVEMENTS = {
+  index: "05",
+  title: "SOME EXTERNAL VALIDATION",
+  headline: "APPARENTLY OTHER PEOPLE ALSO THOUGHT I WAS DOING SOMETHING USEFUL.",
+  cards: [
+    { org: "NEXTLEAP", label: "TOP 1%", sub: "PRODUCT MANAGEMENT FELLOW", year: "2025" },
+    { org: "FATIMA FELLOWSHIP", label: "30 SELECTED", sub: "FROM 4000+ GLOBAL APPLICANTS", year: "2023" },
+    { org: "AMAZON ML SUMMER SCHOOL", label: "SELECTED FROM", sub: "17,000+ APPLICANTS", year: "2022" },
+    { org: "TEACH FOR INDIA", label: "TEACHING VOLUNTEER", sub: "PYTHON PROGRAMMING · GRADE 11–12 STUDENTS", year: "2020" },
+  ],
+  education: [
+    { org: "DTU", label: "B.Tech Engineering Physics", sub: "8.69 / 10.00" },
+    { org: "IIIT DELHI", label: "PG Data Science in Health & Climate Change for Social Impact", sub: "9.23 / 10.00" },
+    { org: "NYU", label: "MS Computer Science Bridge Program", sub: "Grade A" },
+    { org: "NEXTLEAP", label: "Product Management Fellowship", sub: "Top 1%" },
+  ],
+};
 
 // Contact
 export const CONTACT = {
-  title: "Contact Me",
-  body: "Ready to work together? Drop an email to discuss internships, collaborations, or just to say hi.",
-  cta: "→ say hi before overthinking it",
-  annotation: "no forms, no friction",
-  mail: "baaz.creates@gmail.com",
+  title: "Talk Product With Me",
+  body: "Building something interesting? Hiring for a product role? Working on AI, automation, data products, or a problem that refuses to fit neatly into a Jira ticket? Send me a message.",
+  cta: "→ say hi before the lunch break ends",
+  annotation: "no forms. no funnels. no friction.",
+  mail: "connectwithguptapankaj@gmail.com",
   links: [
-    { label: "INSTAGRAM", href: "https://instagram.com/bajkamalsingh" },
-    { label: "LINKEDIN", href: "https://linkedin.com/in/bajkamalsingh" },
-    { label: "MAIL", href: "mailto:baaz.creates@gmail.com" },
+    { label: "EMAIL", href: "mailto:connectwithguptapankaj@gmail.com" },
+    { label: "LINKEDIN", href: "" },
+    { label: "GITHUB", href: "" },
   ],
-  signoff:
-    "Bye, have a great day at your job. Hoping you get more creative portfolios to look at.",
-  signature: "Bajkamal Singh",
-  signatureSub: "(Baaz)",
+  signoff: "Bye. Hope your roadmap survives the next customer interview. If not, that's probably useful information.",
+  signature: "Pankaj Gupta",
+  signatureSub: "(Mr. Onalunchbreak)",
+  systemStatus: "STILL BUILDING.",
 };
 
+// Case Close / End Session
 export const CASE_CLOSE = {
-  title: "Action Req.",
-  subtitle: "Close Case",
-  hint: "Press anywhere to close",
+  title: "ACTION REQUIRED",
+  subtitle: "SESSION COMPLETE",
+  user: "USER: PANKAJ_GUPTA",
+  alias: "ALIAS: MR_ONALUNCHBREAK",
+  hint: "PRESS ANYWHERE TO CLOSE",
   button: "READ",
+  buttonSequence: ["READ", "BUILD", "SHIP"],
+  status: "CURRENT STATUS: STILL BUILDING",
+  action: "END SESSION",
 };
