@@ -412,6 +412,19 @@ function ExpandedOverlay({
           <X className="h-4 w-4" aria-hidden />
         </button>
 
+        {/* Return-to-section breadcrumb */}
+        <button
+          type="button"
+          onClick={onClose}
+          onMouseEnter={() => play("tick")}
+          className="mb-4 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-current/60 transition-colors hover:text-current focus-ring"
+          aria-label="Return to Work Log"
+          data-cursor-label="back"
+        >
+          <span aria-hidden className="text-[#FFD400]">←</span>
+          <span>{"// RETURN TO WORK LOG"}</span>
+        </button>
+
         {/* Top row: index + Archived tag */}
         <div className="mb-6 flex items-start justify-between pr-12">
           <div className="flex items-center gap-3">

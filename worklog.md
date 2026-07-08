@@ -737,3 +737,46 @@ Verification:
 - **Social links**: LinkedIn/GitHub still empty (no resume PDF attached). If the user provides them, update `src/lib/links.ts`.
 - **Audio**: SFX are still synthesized WAV blips. Real recorded SFX would feel more premium.
 - **Word cloud mobile**: the 44-word cloud is hidden on mobile (overflow-hidden container) — could add a mobile-friendly stacked variant.
+
+---
+Task ID: 13 (cron QA round — command palette + overlay breadcrumbs + achievements hierarchy)
+Agent: main (orchestrator)
+Task: Assess current status via agent-browser QA, add command palette (⌘K), overlay return-to-section breadcrumbs, and achievements card hierarchy fix.
+
+## Current project status description/assessment
+- The portfolio is stable and fully re-personalized for Pankaj Gupta. Lint clean, no runtime errors, no mobile horizontal overflow, all 10 sections render. Prior rounds delivered: session stats tracker, metro keyboard fix, scroll-to-top, reading-time estimate, metro theme indicator, word cloud hierarchy, research badge contrast.
+- QA via agent-browser + VLM across all 10 sections found: (a) no quick-nav/search feature for power users; (b) overlays (work-log, metro deep-dive) lacked a clear "return to section" breadcrumb; (c) Achievements cards had the org name as the biggest element, burying the impactful metric (Top 1%, 30 selected, 17,000+) in smaller text.
+
+## Current goals / completed modifications / verification results
+Goals: add a command palette (⌘K) for fuzzy search across all content, add return-to-section breadcrumbs to overlays, and restructure achievements cards so the metric is the focal hero.
+
+Completed:
+1. NEW FEATURE — Command Palette (⌘K / Ctrl+K):
+   - `src/lib/search-index.ts`: builds a flat searchable index of all navigable destinations — 8 sections, 6 metro stations, 4 work experiences, 4 research papers, 4 side projects (26 total entries). Each entry has label/sub/type/target/keywords. `filterEntries()` implements subsequence fuzzy match with word-boundary + proximity scoring, returns top 8.
+   - `src/components/shell/command-palette.tsx`: full-screen overlay with search input, live-filtered results list (type-labeled: SECTION/STATION/EXPERIENCE/PAPER/PROJECT), keyboard navigation (↑/↓ to move, Enter to open, Esc to close), hover-to-select, body scroll lock, focus trap. Selected entry scrolls to its target section via Lenis. Footer shows navigation hints + ⌘K label.
+   - Wired into `keyboard-router.tsx` via a ⌘K/Ctrl+K keydown listener that toggles `cmdOpen` state. Component remounts on open (via `key`) so query/activeIdx reset cleanly.
+   - Added "⌘ K" as the first entry in the SHORTCUTS list.
+   - VLM confirmed: "search input, list of results with type labels, keyboard navigation hints. Clean and readable." Tested: typing "bosch" filters to the Bosch entry.
+2. NEW FEATURE — Return-to-section breadcrumbs in overlays:
+   - `work-log.tsx` ExpandedOverlay: added a "// RETURN TO WORK LOG" breadcrumb button (← arrow + mono label) at the top of the overlay panel, above the content. Click closes the overlay (returns to the work-log section).
+   - `best-work-metro.tsx` DeepDiveOverlay: added a "// RETURN TO PRODUCT LINE" breadcrumb button at the top of the deep-dive content, above the index/theme/tag row. Click closes the overlay.
+   - Both verified: breadcrumb text present in the overlay DOM.
+3. STYLING — Achievements card hierarchy (`achievements.tsx`):
+   - Restructured the card so the metric (card.label: "TOP 1%", "30 SELECTED", "SELECTED FROM", "TEACHING VOLUNTEER") is now the focal hero — `font-display text-4xl sm:text-5xl font-bold tracking-tighter text-[#1738D5]` (was text-lg).
+   - The org name (card.org: NEXTLEAP, FATIMA FELLOWSHIP, etc.) is now medium below the metric — `text-lg sm:text-xl` (was text-xl/2xl, was the biggest).
+   - The sub line now has a left accent rule (blue bar) that brightens on hover, improving scannability.
+   - VLM confirmed: "big metric (TOP 1%, 30 SELECTED) is the focal hero in large blue text, org name smaller below. Hierarchy is clearer. Metrics dominate first, followed by context — instantly digestible."
+
+Verification:
+- `bun run lint` → 0 errors, 0 warnings.
+- Dev server compiles cleanly, no runtime errors.
+- agent-browser + VLM confirmed all 3 features: command palette opens with ⌘K + search works, breadcrumbs present in both overlay types, achievements hierarchy improved.
+- Mobile (390px): no horizontal overflow.
+
+## Unresolved issues / risks / priority recommendations for next phase
+- **Hero time morph**: VLM previously noted "02:00 → 09:00 → 13:00 is confusing". The spec defines these as 3 distinct time points (morning → lunch → late night). Low priority — the annotation explains the intent.
+- **Performance / Lighthouse**: still not profiled. Dynamic import of BestWorkMetro + CommandPalette could help reach ≥90.
+- **Real assets**: all visuals are CSS/SVG-generated. Real project screenshots / portrait would make the Lab + Hero feel less abstract.
+- **Social links**: LinkedIn/GitHub still empty (no resume PDF attached). Update `src/lib/links.ts` if provided.
+- **Audio**: SFX are still synthesized WAV blips. Real recorded SFX would feel more premium.
+- **Command palette mobile**: the palette works on mobile but ⌘K isn't a mobile shortcut. Consider adding a small search button on touch devices that opens the palette.

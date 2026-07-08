@@ -7,6 +7,7 @@ export type ShortcutDef = {
 };
 
 export const SHORTCUTS: ShortcutDef[] = [
+  { keys: "⌘ K", desc: "Command palette — search & jump" },
   { keys: "1 — 8", desc: "Jump to section" },
   { keys: "← / →", desc: "Navigate metro stations" },
   { keys: "Home / End", desc: "First / last metro station" },

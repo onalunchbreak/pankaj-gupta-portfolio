@@ -1036,6 +1036,18 @@ function DeepDiveOverlay({
         </div>
 
         <div className="px-6 py-8 sm:px-8 sm:py-10">
+          {/* Return-to-section breadcrumb */}
+          <button
+            type="button"
+            onClick={onClose}
+            onMouseEnter={() => play("tick")}
+            className="mb-6 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B] transition-colors hover:text-[#FFD400] focus-ring"
+            aria-label="Return to Product Line"
+            data-cursor-label="back"
+          >
+            <span aria-hidden className="text-[#FFD400]">←</span>
+            <span>{"// RETURN TO PRODUCT LINE"}</span>
+          </button>
           {/* Index + theme pill + tag + station type */}
           <div className="mb-4 flex flex-wrap items-center gap-3">
             <span className="font-mono text-[11px] tabular-nums uppercase tracking-[0.25em] text-[#6B6B6B]">

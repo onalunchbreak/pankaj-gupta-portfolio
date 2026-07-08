@@ -67,23 +67,26 @@ function ValidationCard({
         </span>
       </div>
 
-      {/* Org name — big */}
-      <h3 className="font-display text-xl font-bold leading-[1.05] tracking-tight text-[#1a1a1a] sm:text-2xl">
-        {card.org}
-      </h3>
-
-      {/* Label — display, blue */}
-      <p className="mt-3 font-display text-lg font-bold leading-tight tracking-tight text-[#1738D5] sm:text-xl">
+      {/* Focal metric — the big number/label is the hero of the card */}
+      <p className="font-display text-4xl font-bold leading-[0.9] tracking-tighter text-[#1738D5] sm:text-5xl">
         {card.label}
       </p>
+
+      {/* Org name — medium, dark ink */}
+      <h3 className="mt-3 font-display text-lg font-bold leading-[1.1] tracking-tight text-[#1a1a1a] sm:text-xl">
+        {card.org}
+      </h3>
 
       {/* Spacer pushes sub to bottom */}
       <div className="flex-1" />
 
-      {/* Sub — mono, muted */}
-      <p className="mt-4 border-t border-[#1a1a1a]/10 pt-3 font-mono text-[10px] uppercase tracking-[0.2em] text-[#6B6B6B] transition-colors duration-300 group-hover:text-[#1a1a1a]/70">
-        {card.sub}
-      </p>
+      {/* Sub — mono, muted, with a hover accent rule on the left */}
+      <div className="mt-4 flex items-start gap-2 border-t border-[#1a1a1a]/10 pt-3 transition-colors duration-300 group-hover:border-[#1738D5]/30">
+        <span aria-hidden className="mt-1 h-3 w-1 shrink-0 bg-[#1738D5]/40 transition-colors duration-300 group-hover:bg-[#1738D5]" />
+        <p className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.15em] text-[#6B6B6B] transition-colors duration-300 group-hover:text-[#1a1a1a]/70">
+          {card.sub}
+        </p>
+      </div>
     </motion.article>
   );
 }
