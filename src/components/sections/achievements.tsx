@@ -1,8 +1,10 @@
 "use client";
 import { motion } from "framer-motion";
+import { ExternalLink } from "lucide-react";
 import { Reveal } from "@/components/sections/_shared";
 import ShareButton from "@/components/shell/share-button";
 import { ACHIEVEMENTS } from "@/lib/data";
+import { hasLink } from "@/lib/links";
 import { useSound } from "@/hooks/use-sound";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
@@ -39,10 +41,11 @@ function ValidationCard({
   const reduced = usePrefersReducedMotion();
   const tilt = CARD_TILTS[index % CARD_TILTS.length];
   const offset = CARD_OFFSETS[index % CARD_OFFSETS.length];
+  const urlAvailable = hasLink(card.url);
 
-  return (
+  const inner = (
     <motion.article
-      className={`group relative flex h-full flex-col border border-[#1a1a1a]/15 bg-[#F4F1EA]/95 p-5 shadow-[0_1px_0_rgba(0,0,0,0.04)] sm:p-6 ${offset}`}
+      className={`group relative flex h-full flex-col border border-[#1a1a1a]/15 bg-[#F4F1EA]/95 p-5 shadow-[0_1px_0_rgba(0,0,0,0.04)] transition-colors duration-300 sm:p-6 ${urlAvailable ? "cursor-pointer hover:border-[#1738D5]/50" : ""} ${offset}`}
       style={{ rotate: reduced ? 0 : tilt }}
       initial={reduced ? false : { opacity: 0, y: 24, rotate: tilt }}
       whileInView={{ opacity: 1, y: 0, rotate: 0 }}
@@ -50,7 +53,7 @@ function ValidationCard({
       transition={{ duration: 0.7, delay: index * 0.08, ease: EASE }}
       whileHover={reduced ? undefined : { y: -4, rotate: 0 }}
       onMouseEnter={() => play("tick")}
-      data-cursor-label={`${card.org} · ${card.year}`}
+      data-cursor-label={urlAvailable ? "open" : `${card.org} · ${card.year}`}
     >
       {/* Corner registration marks */}
       <span aria-hidden className="pointer-events-none absolute left-1.5 top-1.5 h-2.5 w-2.5 border-l border-t border-[#1a1a1a]/30" />
@@ -84,12 +87,33 @@ function ValidationCard({
       {/* Sub — mono, muted, with a hover accent rule on the left */}
       <div className="mt-4 flex items-start gap-2 border-t border-[#1a1a1a]/10 pt-3 transition-colors duration-300 group-hover:border-[#1738D5]/30">
         <span aria-hidden className="mt-1 h-3 w-1 shrink-0 bg-[#1738D5]/40 transition-colors duration-300 group-hover:bg-[#1738D5]" />
-        <p className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.15em] text-[#6B6B6B] transition-colors duration-300 group-hover:text-[#1a1a1a]/70">
+        <p className="flex-1 font-mono text-[10px] uppercase leading-relaxed tracking-[0.15em] text-[#6B6B6B] transition-colors duration-300 group-hover:text-[#1a1a1a]/70">
           {card.sub}
         </p>
+        {urlAvailable && (
+          <span className="flex shrink-0 items-center gap-1 font-mono text-[9px] uppercase tracking-[0.2em] text-[#1738D5] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            open
+            <ExternalLink className="h-2.5 w-2.5" aria-hidden />
+          </span>
+        )}
       </div>
     </motion.article>
   );
+
+  if (urlAvailable) {
+    return (
+      <a
+        href={card.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${card.org} — open credential (opens in new tab)`}
+        className="block h-full focus-ring"
+      >
+        {inner}
+      </a>
+    );
+  }
+  return inner;
 }
 
 function EducationStripItem({

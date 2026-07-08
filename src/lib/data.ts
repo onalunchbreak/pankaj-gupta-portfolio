@@ -184,6 +184,7 @@ export type Experience = {
   id: string;
   index: string;
   company: string;
+  companyUrl?: string;
   role: string;
   location: string;
   dates: string;
@@ -199,6 +200,7 @@ export const EXPERIENCES: Experience[] = [
     id: "sensehq",
     index: "01",
     company: "SenseHQ",
+    companyUrl: "https://www.sensehq.com/",
     role: "Associate Product Manager",
     location: "HR Automation Tech",
     dates: "Feb 2025 – Apr 2026",
@@ -224,6 +226,7 @@ export const EXPERIENCES: Experience[] = [
     id: "cegis",
     index: "02",
     company: "Center for Effective Governance of Indian States",
+    companyUrl: "https://www.cegis.org/",
     role: "Program Assistant",
     location: "Strategic Public Finance",
     dates: "Nov 2023 – May 2024",
@@ -246,6 +249,7 @@ export const EXPERIENCES: Experience[] = [
     id: "cambridge-jbs",
     index: "03",
     company: "Judge Business School, University of Cambridge",
+    companyUrl: "https://www.jbs.cam.ac.uk/",
     role: "JBS Research Apprentice",
     location: "Applied AI Research",
     dates: "Oct 2022 – Oct 2023",
@@ -267,6 +271,7 @@ export const EXPERIENCES: Experience[] = [
     id: "bosch",
     index: "04",
     company: "Bosch Global Software Technologies",
+    companyUrl: "https://www.bosch-india-softtech.com/",
     role: "Applied AI Intern",
     location: "AR Training Systems",
     dates: "May 2022 – Jul 2022",
@@ -358,7 +363,7 @@ export const METRO_STATIONS: MetroStation[] = [
     caseStudy: [
       { label: "QUESTION", title: "Can models understand people?", text: "Before building products, I spent a lot of time trying to make models understand language, emotions, and apparently lies." },
       { label: "METHOD", title: "NLP × Multimodal AI", text: "Research spanning deception detection, natural language processing, named entity recognition, domain adaptation, and multimodal sentiment recognition." },
-      { label: "PAPERS", title: "4 publications", text: "SEPSIS: I Can Catch Your Lies (EACL 2024), Adversarial Adaptation for French NER (ECIR 2023), Transformer-based NER for French (AAAI 2023), Attention-free Multimodal Sentiment (2023)." },
+      { label: "PAPERS", title: "4 publications", text: "SEPSIS: I Can Catch Your Lies (EACL 2025), Adversarial Adaptation for French NER (ECIR 2023), Transformer-based NER for French (AAAI 2023), Attention-free Multimodal Sentiment (2023)." },
       { label: "RESULT", title: "Deeper AI understanding", text: "A foundational understanding of how models perceive language, emotions, and deception — informing product decisions in AI systems." },
       { label: "LEARNING", title: "Models are tools, not products", text: "Research taught me that building an impressive model is very different from building a product people use." },
     ],
@@ -367,7 +372,7 @@ export const METRO_STATIONS: MetroStation[] = [
       {
         label: "Featured Papers",
         items: [
-          "SEPSIS: I Can Catch Your Lies — EACL 2024",
+          "SEPSIS: I Can Catch Your Lies — EACL 2025",
           "Adversarial Adaptation for French NER — ECIR 2023",
           "Transformer-based NER for French — AAAI 2023",
           "Attention-free Multimodal Sentiment — 2023",
@@ -553,10 +558,11 @@ export const RESEARCH = {
       index: "01",
       title: "SEPSIS: I Can Catch Your Lies — A New Paradigm for Deception Detection",
       venue: "EACL",
-      year: 2024,
+      year: 2025,
       supervisor: "Dr. Amitava Das",
       institution: "The Artificial Intelligence Institute, University of South Carolina",
       domain: ["Deception Detection", "NLP"],
+      url: "https://aclanthology.org/2025.acl-srw.7/",
     },
     {
       id: "french-ner-ecir",
@@ -567,6 +573,7 @@ export const RESEARCH = {
       supervisor: "Prof. Marie-Jean Meurs",
       institution: "Université du Québec",
       domain: ["NER", "Domain Adaptation"],
+      url: "https://link.springer.com/chapter/10.1007/978-3-031-28238-6_28",
     },
     {
       id: "french-ner-aaai",
@@ -577,16 +584,18 @@ export const RESEARCH = {
       supervisor: "Prof. Marie-Jean Meurs",
       institution: "Université du Québec",
       domain: ["NER", "NLP"],
+      url: "https://ojs.aaai.org/index.php/AAAI/article/view/26958",
     },
     {
       id: "multimodal-sentiment",
       index: "04",
       title: "Attention-free: An Aspect-based Multimodal Sentiment Recognition",
-      venue: "Independent",
+      venue: "IEEE",
       year: 2023,
       supervisor: "Prof. Dinesh Kumar Vishwakarma",
       institution: "DTU",
       domain: ["Multimodal Sentiment", "AI"],
+      url: "https://ieeexplore.ieee.org/document/10201711",
     },
   ] as ResearchPaper[],
 };
@@ -632,16 +641,16 @@ export const ACHIEVEMENTS = {
   title: "SOME EXTERNAL VALIDATION",
   headline: "APPARENTLY OTHER PEOPLE ALSO THOUGHT I WAS DOING SOMETHING USEFUL.",
   cards: [
-    { org: "NEXTLEAP", label: "TOP 1%", sub: "PRODUCT MANAGEMENT FELLOW", year: "2025" },
-    { org: "FATIMA FELLOWSHIP", label: "30 SELECTED", sub: "FROM 4000+ GLOBAL APPLICANTS", year: "2023" },
-    { org: "AMAZON ML SUMMER SCHOOL", label: "SELECTED FROM", sub: "17,000+ APPLICANTS", year: "2022" },
-    { org: "TEACH FOR INDIA", label: "TEACHING VOLUNTEER", sub: "PYTHON PROGRAMMING · GRADE 11–12 STUDENTS", year: "2020" },
+    { org: "NEXTLEAP", label: "TOP 1%", sub: "PRODUCT MANAGEMENT FELLOW", year: "2025", url: "https://www.linkedin.com/in/gupta-pankaj/details/honors/1635554451885/single-media-viewer/?profileId=ACoAACLgHN8BgAC4xBg9Gm1qV9p5Wfo5FGA6X6s" },
+    { org: "FATIMA FELLOWSHIP", label: "30 SELECTED", sub: "FROM 4000+ GLOBAL APPLICANTS", year: "2023", url: "https://www.fatima.institute/" },
+    { org: "AMAZON ML SUMMER SCHOOL", label: "SELECTED FROM", sub: "17,000+ APPLICANTS", year: "2022", url: "https://www.scaler.com/partnerships/amazon#hero" },
+    { org: "TEACH FOR INDIA", label: "TEACHING VOLUNTEER", sub: "PYTHON PROGRAMMING · GRADE 11–12 STUDENTS", year: "2020", url: "https://www.teachforindia.org/" },
   ],
   education: [
-    { org: "DTU", label: "B.Tech Engineering Physics", sub: "8.69 / 10.00" },
-    { org: "IIIT DELHI", label: "PG Data Science in Health & Climate Change for Social Impact", sub: "9.23 / 10.00" },
-    { org: "NYU", label: "MS Computer Science Bridge Program", sub: "Grade A" },
-    { org: "NEXTLEAP", label: "Product Management Fellowship", sub: "Top 1%" },
+    { org: "DTU", label: "B.Tech Engineering Physics", sub: "8.69 / 10.00", url: "" },
+    { org: "IIIT DELHI", label: "PG Data Science in Health & Climate Change for Social Impact", sub: "9.23 / 10.00", url: "https://drive.google.com/file/d/1SZl9j56rvZ4qW8EcCy_5i6muG25X9Uyu/view?usp=sharing" },
+    { org: "NYU", label: "MS Computer Science Bridge Program", sub: "Grade A", url: "https://credentials.engineering.nyu.edu/322c5bd5-2f43-480a-a700-51455fd23aab#acc.bgn0POcz" },
+    { org: "NEXTLEAP", label: "Product Management Fellowship", sub: "Top 1%", url: "https://www.linkedin.com/in/gupta-pankaj/details/honors/1635554451885/single-media-viewer/?profileId=ACoAACLgHN8BgAC4xBg9Gm1qV9p5Wfo5FGA6X6s" },
   ],
 };
 
@@ -654,8 +663,8 @@ export const CONTACT = {
   mail: "connectwithguptapankaj@gmail.com",
   links: [
     { label: "EMAIL", href: "mailto:connectwithguptapankaj@gmail.com" },
-    { label: "LINKEDIN", href: "" },
-    { label: "GITHUB", href: "" },
+    { label: "LINKEDIN", href: "https://www.linkedin.com/in/gupta-pankaj/" },
+    { label: "GITHUB", href: "https://github.com/onalunchbreak" },
   ],
   signoff: "Bye. Hope your roadmap survives the next customer interview. If not, that's probably useful information.",
   signature: "Pankaj Gupta",

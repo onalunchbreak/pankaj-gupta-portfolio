@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import { X } from "lucide-react";
+import { X, ExternalLink } from "lucide-react";
 import { CountUp } from "@/components/sections/_shared";
 import ShareButton from "@/components/shell/share-button";
 import { EXPERIENCES, type Experience } from "@/lib/data";
+import { hasLink } from "@/lib/links";
 import { useSound } from "@/hooks/use-sound";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { useBodyScrollLock } from "@/hooks/use-body-scroll-lock";
@@ -448,9 +449,24 @@ function ExpandedOverlay({
           </span>
         </div>
 
-        {/* Company name — huge */}
+        {/* Company name — huge, links to company site when available */}
         <h3 className={`font-display text-4xl font-bold leading-[0.92] tracking-tight ${theme.ink} sm:text-5xl lg:text-6xl`}>
-          {experience.company}
+          {hasLink(experience.companyUrl) ? (
+            <a
+              href={experience.companyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onMouseEnter={() => play("tick")}
+              className="group/company inline-flex items-baseline gap-2 border-b-2 border-transparent transition-colors hover:border-current focus-ring"
+              aria-label={`Visit ${experience.company} website (opens in new tab)`}
+              data-cursor-label="visit"
+            >
+              {experience.company}
+              <ExternalLink className="h-5 w-5 translate-y-1 opacity-50 transition-opacity group-hover/company:opacity-100 sm:h-6 sm:w-6" aria-hidden />
+            </a>
+          ) : (
+            experience.company
+          )}
         </h3>
 
         {/* Role + location + dates */}

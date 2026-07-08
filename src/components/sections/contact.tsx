@@ -248,10 +248,9 @@ export default function Contact() {
             </div>
           </Reveal>
 
-          {/* LINKS ROW — EMAIL is a real mailto. LINKEDIN + GITHUB have
-              empty hrefs per links.ts, so they render as disabled
-              non-clickable text with muted styling + "LINK_UNAVAILABLE".
-              Never fabricated. */}
+          {/* LINKS ROW — EMAIL (mailto), LINKEDIN, GITHUB all render as
+              clickable external links (target=_blank) via the URLs
+              extracted from the resume PDF. */}
           <Reveal className="mt-14 sm:mt-20" delay={0.45}>
             <nav
               aria-label="Social links"
