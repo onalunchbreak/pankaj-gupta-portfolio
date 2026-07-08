@@ -184,43 +184,6 @@ export default function ProductOS() {
           </div>
         </div>
 
-        {/* ---- Places I've Built At ---- */}
-        <Reveal className="mt-20 sm:mt-24" delay={0.1}>
-          <div className="border-t border-[#1a1a1a]/15 pt-8">
-            <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#1738D5]">
-              {PRODUCT_OS.places.index}
-            </p>
-            <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {PRODUCT_OS.places.companies.map((c, i) => (
-                <motion.li
-                  key={c}
-                  className="flex items-baseline gap-3 border-l-2 border-[#1738D5]/40 pl-3"
-                  initial={reduced ? false : { opacity: 0, x: -8 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-10% 0px" }}
-                  transition={{ duration: 0.5, delay: i * 0.06, ease: EASE }}
-                >
-                  <span className="font-mono text-[10px] tracking-[0.2em] text-[#6B6B6B]">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="font-display text-base font-semibold text-[#1a1a1a] sm:text-lg">
-                    {c}
-                  </span>
-                </motion.li>
-              ))}
-            </ul>
-            <motion.p
-              className="hand-display mt-6 max-w-md -rotate-[1deg] text-lg text-[#1738D5]/85 sm:text-xl"
-              initial={reduced ? false : { opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
-            >
-              ↳ {PRODUCT_OS.places.note}
-            </motion.p>
-          </div>
-        </Reveal>
-
         {/* ---- 6 stat cards (rotation correction 2deg → 0deg) ---- */}
         <div className="mt-20 sm:mt-24">
           <p className="mb-6 font-mono text-[10px] uppercase tracking-[0.3em] text-[#6B6B6B]">
@@ -263,6 +226,19 @@ export default function ProductOS() {
             ))}
           </div>
         </div>
+
+        {/* ---- "different industries, same question" handwritten note ---- */}
+        <Reveal className="mt-16 sm:mt-20" delay={0.1}>
+          <motion.p
+            className="hand-display max-w-xl -rotate-[1deg] text-xl text-[#1738D5]/85 sm:text-2xl"
+            initial={reduced ? false : { opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10% 0px" }}
+            transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
+          >
+            ↳ {PRODUCT_OS.places.note}
+          </motion.p>
+        </Reveal>
 
         {/* ---- Terminal footer — bottomNote + ps ---- */}
         <Reveal className="mt-20 sm:mt-24" delay={0.1}>

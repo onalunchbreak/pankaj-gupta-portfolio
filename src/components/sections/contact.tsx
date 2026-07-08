@@ -311,46 +311,46 @@ export default function Contact() {
       {/* Gradient bridge — smooths the harsh black → paper transition */}
       <div
         aria-hidden
-        className="h-12 w-full bg-gradient-to-b from-[#0A0A0A] via-[#1a1814] to-[#F4F1EA]"
+        className="h-8 w-full bg-gradient-to-b from-[#0A0A0A] via-[#1a1814] to-[#F4F1EA]"
       />
 
       <footer className="env-paper paper-texture relative w-full">
-        <div className="mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
+        <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-10 lg:px-12">
           {/* Signoff — italic mono in dark ink */}
           <motion.div
-            initial={reduced ? false : { opacity: 0, y: 18 }}
+            initial={reduced ? false : { opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10% 0px" }}
             transition={{ duration: 0.7, ease: EASE }}
           >
-            <p className="max-w-2xl font-mono text-sm italic leading-relaxed text-[#2a2a2a]/80 sm:translate-x-3">
+            <p className="max-w-2xl font-mono text-xs italic leading-relaxed text-[#2a2a2a]/80 sm:translate-x-3">
               {CONTACT.signoff}
             </p>
           </motion.div>
 
           {/* Signature — handwritten, blue, right-aligned, blinking cursor */}
           <motion.div
-            className="mt-10 flex flex-col items-end gap-1 sm:mt-12"
-            initial={reduced ? false : { opacity: 0, y: 18 }}
+            className="mt-5 flex flex-col items-end gap-0.5 sm:mt-6"
+            initial={reduced ? false : { opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10% 0px" }}
             transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
           >
-            <p className="hand-display text-4xl text-[#1738D5] sm:text-6xl lg:text-7xl">
+            <p className="hand-display text-2xl text-[#1738D5] sm:text-4xl lg:text-5xl">
               {CONTACT.signature}
             </p>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-[#2a2a2a]/60">
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#2a2a2a]/60">
               {CONTACT.signatureSub}
               <span
                 aria-hidden
-                className="blink ml-1 inline-block h-3 w-[6px] translate-y-0.5 bg-[#1738D5]"
+                className="blink ml-1 inline-block h-2.5 w-[5px] translate-y-0.5 bg-[#1738D5]"
               />
             </p>
           </motion.div>
 
           {/* System status + EOF terminal label */}
-          <div className="mt-12 flex flex-col items-end gap-2 sm:mt-16 sm:flex-row sm:items-center sm:justify-end sm:gap-6">
-            <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#1738D5]">
+          <div className="mt-6 flex flex-col items-end gap-1.5 sm:mt-8 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
+            <span className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.3em] text-[#1738D5]">
               <span
                 aria-hidden
                 className="blink inline-block h-1.5 w-1.5 bg-[#1738D5]"
@@ -361,7 +361,7 @@ export default function Contact() {
               aria-hidden
               className="hidden h-3 w-px bg-[#2a2a2a]/25 sm:inline-block"
             />
-            <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#2a2a2a]/55">
+            <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#2a2a2a]/55">
               {"// EOF · mr_onalunchbreak.sys"}
             </div>
           </div>

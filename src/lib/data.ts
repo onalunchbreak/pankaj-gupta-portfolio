@@ -650,7 +650,6 @@ export const ACHIEVEMENTS = {
     { org: "DTU", label: "B.Tech Engineering Physics", sub: "8.69 / 10.00", url: "" },
     { org: "IIIT DELHI", label: "PG Data Science in Health & Climate Change for Social Impact", sub: "9.23 / 10.00", url: "https://drive.google.com/file/d/1SZl9j56rvZ4qW8EcCy_5i6muG25X9Uyu/view?usp=sharing" },
     { org: "NYU", label: "MS Computer Science Bridge Program", sub: "Grade A", url: "https://credentials.engineering.nyu.edu/322c5bd5-2f43-480a-a700-51455fd23aab#acc.bgn0POcz" },
-    { org: "NEXTLEAP", label: "Product Management Fellowship", sub: "Top 1%", url: "https://www.linkedin.com/in/gupta-pankaj/details/honors/1635554451885/single-media-viewer/?profileId=ACoAACLgHN8BgAC4xBg9Gm1qV9p5Wfo5FGA6X6s" },
   ],
 };
 

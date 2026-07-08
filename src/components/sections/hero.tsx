@@ -126,27 +126,28 @@ export default function Hero() {
         </motion.span>
       </div>
 
-      {/* ---- Left vertical stack: DTU '23 / Delhi, India ---- */}
-      <motion.div
-        className="absolute left-5 top-1/2 z-10 hidden -translate-y-1/2 flex-col gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:left-8 sm:flex sm:text-[11px]"
-        initial={{ opacity: 0, x: -10 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1.1, duration: 0.7, ease: EASE }}
-        aria-hidden
-      >
-        <span className="-rotate-90 whitespace-nowrap pb-6 pl-1">{HERO.location}</span>
-        <span className="-rotate-90 whitespace-nowrap pb-6 pl-1">{HERO.locationSub}</span>
-      </motion.div>
-
-      {/* ---- Right side tagline (handwritten) ---- */}
+      {/* ---- Left side tagline (handwritten) — moved from right to avoid
+            overlapping the right-side nav menu. ---- */}
       <motion.p
-        className="hand-display absolute right-5 top-1/2 z-10 hidden max-w-[220px] -translate-y-1/2 rotate-[3deg] text-right text-2xl text-[#F7F4ED]/85 sm:right-8 sm:block sm:text-3xl"
-        initial={{ opacity: 0, x: 14 }}
+        className="hand-display absolute left-5 top-1/2 z-10 hidden max-w-[220px] -translate-y-1/2 -rotate-[3deg] text-left text-2xl text-[#F7F4ED]/85 sm:left-8 sm:block sm:text-3xl"
+        initial={{ opacity: 0, x: -14 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 1.25, duration: 0.7, ease: EASE }}
       >
         {HERO.tagline}
       </motion.p>
+
+      {/* ---- Right vertical stack: DTU '23 / Delhi, India (moved from left) ---- */}
+      <motion.div
+        className="absolute right-5 top-1/2 z-10 hidden -translate-y-1/2 flex-col gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:right-8 sm:flex sm:text-[11px]"
+        initial={{ opacity: 0, x: 10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1.1, duration: 0.7, ease: EASE }}
+        aria-hidden
+      >
+        <span className="rotate-90 whitespace-nowrap pb-6 pr-1">{HERO.location}</span>
+        <span className="rotate-90 whitespace-nowrap pb-6 pr-1">{HERO.locationSub}</span>
+      </motion.div>
 
       {/* ---- Scattered micro-elements (intentional misalignment) ---- */}
       <motion.span

@@ -14,10 +14,19 @@ const PEEK_INFO: Record<string, { env: string; desc: string }> = {
   "product-os": { env: "PAPER", desc: "Products with a reason — 1200+ customers" },
   "work-log": { env: "BLUE", desc: "4 experiences: SenseHQ · CEGIS · Cambridge · Bosch" },
   "best-work": { env: "BLACK", desc: "Product Line metro — 6 stations" },
-  research: { env: "PAPER", desc: "4 papers — EACL · ECIR · AAAI" },
+  research: { env: "PAPER", desc: "4 papers — EACL · ECIR · AAAI · IEEE" },
   lab: { env: "BLACK", desc: "Side projects + 44-word CV cloud" },
   contact: { env: "BLACK+PAPER", desc: "Talk product with me" },
 };
+
+// Sections with light (paper) backgrounds need dark nav text.
+// Sections with dark (blue/black) backgrounds need light nav text.
+const LIGHT_BG_SECTIONS = new Set([
+  "origin",
+  "product-os",
+  "research",
+  "achievements",
+]);
 
 export default function Nav() {
   const ids = NAV_ITEMS.map((n) => n.id);
@@ -25,6 +34,9 @@ export default function Nav() {
   const { play } = useSound();
   const booted = useBootStore((s) => s.booted);
   const [hovered, setHovered] = useState<string | null>(null);
+
+  // Adapt nav colors to the active section's background.
+  const onLightBg = LIGHT_BG_SECTIONS.has(active);
 
   const go = (id: string) => {
     play("confirm");
@@ -54,6 +66,17 @@ export default function Nav() {
             const isActive = active === item.id;
             const isHovered = hovered === item.id;
             const peek = PEEK_INFO[item.id];
+            // Color tokens that flip based on the active section's background.
+            // On paper (light) sections: dark text + dark accent.
+            // On dark/blue/black sections: light text + blue accent.
+            const inactiveText = onLightBg
+              ? "text-[#1a1a1a]/45 group-hover:text-[#1a1a1a]"
+              : "text-[#F4F1EA]/55 group-hover:text-[#F4F1EA]";
+            const inactiveRule = onLightBg
+              ? "bg-[#1a1a1a]/25 group-hover:bg-[#1738D5]"
+              : "bg-white/25 group-hover:bg-[#1738D5]";
+            const activeText = "text-[#1738D5]";
+            const activeRule = "bg-[#1738D5]";
             return (
               <div key={item.id} className="relative flex items-center justify-end">
                 {/* Floating peek card — appears on hover to the LEFT of the nav item */}
@@ -93,14 +116,12 @@ export default function Nav() {
                 >
                   <span
                     className={`h-px transition-all duration-300 ${
-                      isActive ? "w-8 bg-[#1738D5]" : "w-4 bg-white/25 group-hover:w-7 group-hover:bg-[#1738D5]"
+                      isActive ? `w-8 ${activeRule}` : `w-4 ${inactiveRule} group-hover:w-7`
                     }`}
                   />
                   <span
                     className={`transition-colors ${
-                      isActive
-                        ? "text-[#1738D5]"
-                        : "text-[#F4F1EA]/55 group-hover:text-[#F4F1EA]"
+                      isActive ? activeText : inactiveText
                     }`}
                   >
                     {item.label}

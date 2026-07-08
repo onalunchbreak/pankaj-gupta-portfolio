@@ -1,6 +1,5 @@
 import SmoothScroll from "@/components/shell/smooth-scroll";
 import Preloader from "@/components/shell/preloader";
-import StatusBar from "@/components/shell/status-bar";
 import SideRail from "@/components/shell/side-rail";
 import Nav from "@/components/shell/nav";
 import Cursor from "@/components/shell/cursor";
@@ -35,7 +34,6 @@ export default function Home() {
       <Grain />
       <Cursor />
       <SoundManager />
-      <StatusBar />
       <SideRail />
       <Nav />
       <MuteToggle />
@@ -47,7 +45,7 @@ export default function Home() {
       <HashScrollOnLoad />
 
       {/* main flow — blue → black → black → black → paper → paper → blue → black → paper → black → paper → black+paper */}
-      <main className="relative w-full overflow-x-clip pt-9">
+      <main className="relative w-full overflow-x-clip">
         <Hero />
         <NavIndex />
         <PhilosophyQuote />
