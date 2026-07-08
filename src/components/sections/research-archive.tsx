@@ -66,9 +66,9 @@ function PaperSheet({
         </span>
         <span
           aria-hidden
-          className="select-none border border-[#1738D5]/40 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-[#1738D5] rotate-[-4deg]"
+          className="select-none bg-[#1738D5] px-2 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-[#F4F1EA] rotate-[-4deg] shadow-[2px_2px_0_0_rgba(10,10,10,0.2)]"
         >
-          archived
+          ▣ ARCHIVED
         </span>
       </div>
 

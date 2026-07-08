@@ -467,13 +467,21 @@ export default function BestWorkMetro() {
                 <span className="text-[#F4F1EA]/80">MR. ONALUNCHBREAK</span>
               </div>
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
+                {/* Now-playing theme indicator — shows the active station's theme */}
+                <span className="hidden items-center gap-1.5 border border-[#FFD400]/30 bg-[#FFD400]/5 px-2 py-0.5 sm:flex">
+                  <span className="text-[#6B6B6B]">{"THEME:"}</span>
+                  <span className="font-bold text-[#FFD400]">
+                    {METRO_STATIONS[activeIndex]?.theme ?? "—"}
+                  </span>
+                </span>
+                <span className="hidden text-[#6B6B6B] sm:inline">/</span>
                 {/* Persistent keyboard hint — animated key icons */}
                 <span className="flex items-center gap-1.5">
                   <kbd className="inline-flex h-5 w-5 items-center justify-center border border-[#FFD400]/50 bg-[#FFD400]/10 font-mono text-[10px] text-[#FFD400] animate-pulse">←</kbd>
                   <kbd className="inline-flex h-5 w-5 items-center justify-center border border-[#FFD400]/50 bg-[#FFD400]/10 font-mono text-[10px] text-[#FFD400] animate-pulse">→</kbd>
-                  <span className="hidden text-[#F4F1EA]/70 sm:inline">navigate</span>
+                  <span className="hidden text-[#F4F1EA]/70 md:inline">navigate</span>
                 </span>
-                <span className="hidden text-[#6B6B6B] sm:inline">/</span>
+                <span className="hidden text-[#6B6B6B] md:inline">/</span>
                 <span className="text-[#F4F1EA]/70 tabular-nums">
                   {String(activeIndex + 1).padStart(2, "0")} / 0
                   {METRO_STATIONS.length}

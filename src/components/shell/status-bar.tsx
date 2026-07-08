@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring, useMotionValueEvent } from "framer-motion";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { NAV_ITEMS } from "@/lib/data";
 
@@ -27,6 +27,15 @@ export default function StatusBar() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
 
+  // Reading-progress time estimate — computes remaining read time from
+  // scroll progress. Total estimated read time ≈ 6 min for the full portfolio.
+  const [readTime, setReadTime] = useState("6 MIN");
+  const TOTAL_MIN = 6;
+  useMotionValueEvent(scrollYProgress, "change", (p) => {
+    const remaining = Math.max(1, Math.ceil(TOTAL_MIN * (1 - p)));
+    setReadTime(`${remaining} MIN`);
+  });
+
   const activeLabel = NAV_ITEMS.find((n) => n.id === active)?.label.toUpperCase() ?? "…";
 
   return (
@@ -44,6 +53,11 @@ export default function StatusBar() {
           </span>
         </div>
         <div className="flex items-center gap-2 sm:gap-4">
+          <span className="hidden items-center gap-1.5 md:flex">
+            <span className="text-[#6B6B6B]">≈</span>
+            <span className="tabular-nums text-[#1738D5]">{readTime}</span>
+          </span>
+          <span className="hidden h-3 w-px bg-white/15 md:block" />
           <span className="hidden sm:inline">USER: PANKAJ_GUPTA</span>
           <span className="hidden h-3 w-px bg-white/15 sm:block" />
           <span className="tabular-nums text-[#F4F1EA]">{clock}</span>

@@ -699,3 +699,41 @@ Verification:
 - **Real assets**: all visuals are CSS/SVG-generated. Real project screenshots / portrait would make the Lab + Hero feel less abstract.
 - **Social links**: LinkedIn/GitHub still empty (no resume PDF attached). If the user provides them, update `src/lib/links.ts`.
 - **Audio**: SFX are still synthesized WAV blips. Real recorded SFX would feel more premium.
+
+---
+Task ID: 12 (cron QA round — word cloud hierarchy + research badges + scroll-to-top + read-time + metro theme)
+Agent: main (orchestrator)
+Task: Assess current status via agent-browser QA, fix word cloud overlap + research badge contrast, add scroll-to-top + reading-time + metro theme indicator features.
+
+## Current project status description/assessment
+- The portfolio is stable and fully re-personalized for Pankaj Gupta. Lint clean, no runtime errors, no mobile horizontal overflow, all 10 sections render. Session stats tracker, metro keyboard fix, and contrast fixes from the prior round are all working.
+- QA via agent-browser + VLM across all 10 sections found: (a) Product Lab word cloud had right-edge overflow/overlap (long words positioned with high `left` % grew beyond the container); (b) Research Archive "ARCHIVED" badges were low-contrast (outline blue on paper, blended in); (c) no scroll-to-top button for long pages; (d) no reading-progress estimate; (e) metro lacked a clear "now playing" theme indicator.
+
+## Current goals / completed modifications / verification results
+Goals: fix the word cloud overlap + research badge contrast, add 3 new features (scroll-to-top, reading-time estimate, metro theme indicator).
+
+Completed:
+1. FIX — Product Lab word cloud (`product-lab.tsx`):
+   - Added `right?` and `tier?` fields to the `WordSpec` type.
+   - Rewrote all 44 WORD_SPECS with a clear 3-tier size hierarchy: focal (text-4xl→6xl, bold, blue/yellow), medium (text-xl→3xl), small (text-sm→lg). Focal words: Product, Research, Roadmaps, B2B SaaS, APIs, Python, DTU, SenseHQ, Still Building.
+   - Converted all right-side words (indices 04, 09, 14, 19, 25, 30, 35, 42) from `left` positioning to `right` anchoring so long words grow leftward, never overflowing the container right edge.
+   - Updated the render to pass `right: spec.right` to the style object.
+   - VLM confirmed: "readable with clear size hierarchy; no right-edge overflow."
+2. FIX — Research Archive archived badges (`research-archive.tsx`): changed from `border border-[#1738D5]/40 text-[#1738D5]` (outline, blended into paper) to `bg-[#1738D5] text-[#F4F1EA] font-bold shadow-[2px_2px_0_0_rgba(10,10,10,0.2)]` (filled blue with white text + dark offset shadow). Changed label from lowercase "archived" to "▣ ARCHIVED". VLM confirmed: "ARCHIVED badges are prominent (filled blue, distinct from background)."
+3. NEW FEATURE — Scroll-to-top button (`src/components/shell/scroll-to-top.tsx`): appears after scrolling past ~1 viewport height, smooth-scrolls to top via Lenis. Sits bottom-left (above the mute toggle at bottom-16 left-4). Animated entrance/exit (opacity + y + scale). ArrowUp icon, hover → blue accent, tick SFX on hover, confirm SFX on click. Wired into page.tsx. VLM confirmed: "scroll-to-top button (up arrow) visible in bottom-left."
+4. NEW FEATURE — Reading-progress time estimate (`status-bar.tsx`): added a live "≈ X MIN" read-time estimate in the status bar (md+ only) computed from scroll progress (TOTAL_MIN = 6, remaining = ceil(6 * (1 - progress))). Uses `useMotionValueEvent(scrollYProgress, "change")`. Starts at "6 MIN", counts down as the user scrolls. VLM confirmed: "top status bar shows a reading time estimate (≈ 5 MIN)."
+5. NEW FEATURE — Metro "now playing" theme indicator (`best-work-metro.tsx`): added a "THEME: [active theme]" pill in the metro top status bar (sm+ only) that shows the active station's theme (e.g. "APPLIED AI", "RESEARCH", "GOVTECH", "PRODUCT MANAGEMENT"). Bordered yellow/30 with yellow/5 bg, bold yellow theme text. Updates as the user navigates stations. VLM confirmed: "THEME: indicator showing 'APPLIED AI' in the top status bar. Readable (yellow text on dark background)."
+
+Verification:
+- `bun run lint` → 0 errors, 0 warnings.
+- Dev server compiles cleanly, no runtime errors.
+- agent-browser + VLM confirmed all 5 changes: word cloud readable with hierarchy + no overflow, research badges prominent, scroll-to-top visible, read-time estimate in status bar, metro theme indicator showing active theme.
+- Mobile (390px): no horizontal overflow (scrollH 24279, scrollW 390).
+
+## Unresolved issues / risks / priority recommendations for next phase
+- **Hero time morph**: VLM noted "02:00 → 09:00 → 13:00 is confusing (lunch breaks don't span 11 hours)". The spec defines these as 3 distinct time points (morning → lunch → late night), but the display could be clearer. Low priority — the annotation "apparently lunch breaks can get long" explains the intent.
+- **Performance / Lighthouse**: still not profiled. The site has many framer-motion + GSAP + font loads. Dynamic import of BestWorkMetro could help reach ≥90.
+- **Real assets**: all visuals are CSS/SVG-generated. Real project screenshots / portrait would make the Lab + Hero feel less abstract.
+- **Social links**: LinkedIn/GitHub still empty (no resume PDF attached). If the user provides them, update `src/lib/links.ts`.
+- **Audio**: SFX are still synthesized WAV blips. Real recorded SFX would feel more premium.
+- **Word cloud mobile**: the 44-word cloud is hidden on mobile (overflow-hidden container) — could add a mobile-friendly stacked variant.

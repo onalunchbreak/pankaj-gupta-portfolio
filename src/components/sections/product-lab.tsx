@@ -39,66 +39,70 @@ const PROJECT_URLS: Record<string, string> = {
    collage, not a gallery. */
 type WordSpec = {
   top: string;
-  left: string;
+  left?: string;
+  right?: string;
   size: string;
   rotate: number;
   color: "cream" | "blue" | "yellow" | "muted";
   weight?: "bold" | "normal";
+  tier?: "focal" | "medium" | "small";
 };
 
 const WORD_SPECS: WordSpec[] = [
+  // 3-tier hierarchy: focal (text-5xl/6xl, bold, blue/yellow), medium (text-3xl/4xl), small (text-xl/2xl).
+  // Right-side words use `right` anchoring so long words grow leftward, never overflowing.
   // Focal row (top) — Product, AI, Systems, Research
-  { top: "3%",  left: "4%",  size: "text-3xl sm:text-6xl",    rotate: -3, color: "blue",   weight: "bold" }, // 00 Product
-  { top: "6%",  left: "30%", size: "text-xl sm:text-3xl",     rotate: 4,  color: "cream"  },                  // 01 AI
-  { top: "4%",  left: "44%", size: "text-lg sm:text-2xl",     rotate: -2, color: "muted"  },                  // 02 Systems
-  { top: "8%",  left: "58%", size: "text-2xl sm:text-5xl",    rotate: 2,  color: "yellow", weight: "bold" }, // 03 Research
-  { top: "12%", left: "82%", size: "text-base sm:text-xl",    rotate: -4, color: "cream"  },                  // 04 Customer Journeys
-  // Row 2 — Roadmaps, Experimentation, Adoption, Automation
-  { top: "20%", left: "10%", size: "text-2xl sm:text-4xl",    rotate: -4, color: "blue",   weight: "bold" }, // 05 Roadmaps
-  { top: "22%", left: "30%", size: "text-xl sm:text-3xl",     rotate: 3,  color: "cream",  weight: "bold" }, // 06 Experimentation
-  { top: "18%", left: "50%", size: "text-base sm:text-xl",    rotate: -2, color: "muted"  },                  // 07 Adoption
-  { top: "20%", left: "66%", size: "text-lg sm:text-2xl",     rotate: 5,  color: "cream"  },                  // 08 Automation
-  { top: "16%", left: "82%", size: "text-base sm:text-xl",    rotate: -3, color: "muted"  },                  // 09 Analytics
+  { top: "3%",  left: "3%",  size: "text-4xl sm:text-6xl",    rotate: -3, color: "blue",   weight: "bold", tier: "focal" },   // 00 Product
+  { top: "7%",  left: "26%", size: "text-xl sm:text-3xl",     rotate: 4,  color: "cream",  tier: "medium" },                  // 01 AI
+  { top: "5%",  left: "40%", size: "text-base sm:text-xl",    rotate: -2, color: "muted",  tier: "small" },                   // 02 Systems
+  { top: "9%",  left: "54%", size: "text-3xl sm:text-5xl",    rotate: 2,  color: "yellow", weight: "bold", tier: "focal" },   // 03 Research
+  { top: "13%", right: "3%", size: "text-sm sm:text-lg",      rotate: -4, color: "cream",  tier: "small" },                   // 04 Customer Journeys
+  // Row 2 — Roadmaps, Experimentation, Adoption, Automation, Analytics
+  { top: "21%", left: "5%",  size: "text-2xl sm:text-4xl",    rotate: -4, color: "blue",   weight: "bold", tier: "focal" },   // 05 Roadmaps
+  { top: "23%", left: "24%", size: "text-lg sm:text-2xl",     rotate: 3,  color: "cream",  tier: "medium" },                  // 06 Experimentation
+  { top: "19%", left: "46%", size: "text-sm sm:text-lg",      rotate: -2, color: "muted",  tier: "small" },                   // 07 Adoption
+  { top: "21%", left: "60%", size: "text-lg sm:text-2xl",     rotate: 5,  color: "cream",  tier: "medium" },                  // 08 Automation
+  { top: "17%", right: "3%", size: "text-sm sm:text-lg",      rotate: -3, color: "muted",  tier: "small" },                   // 09 Analytics
   // Row 3 — B2B SaaS, GovTech, Computer Vision, NLP, Multimodal AI
-  { top: "32%", left: "4%",  size: "text-xl sm:text-4xl",     rotate: 3,  color: "yellow", weight: "bold" }, // 10 B2B SaaS
-  { top: "36%", left: "24%", size: "text-base sm:text-xl",    rotate: -3, color: "cream"  },                  // 11 GovTech
-  { top: "34%", left: "40%", size: "text-lg sm:text-2xl",     rotate: 2,  color: "blue",   weight: "bold" }, // 12 Computer Vision
-  { top: "38%", left: "62%", size: "text-xl sm:text-3xl",     rotate: -2, color: "cream"  },                  // 13 NLP
-  { top: "36%", left: "78%", size: "text-base sm:text-xl",    rotate: 3,  color: "muted"  },                  // 14 Multimodal AI
+  { top: "33%", left: "3%",  size: "text-xl sm:text-3xl",     rotate: 3,  color: "yellow", weight: "bold", tier: "focal" },   // 10 B2B SaaS
+  { top: "37%", left: "20%", size: "text-sm sm:text-lg",      rotate: -3, color: "cream",  tier: "small" },                   // 11 GovTech
+  { top: "35%", left: "34%", size: "text-lg sm:text-2xl",     rotate: 2,  color: "blue",   weight: "bold", tier: "medium" },  // 12 Computer Vision
+  { top: "39%", left: "58%", size: "text-xl sm:text-3xl",     rotate: -2, color: "cream",  tier: "medium" },                  // 13 NLP
+  { top: "37%", right: "3%", size: "text-sm sm:text-lg",      rotate: 3,  color: "muted",  tier: "small" },                   // 14 Multimodal AI
   // Row 4 — Data Pipelines, Prototyping, APIs, Jira, Figma, Miro
-  { top: "48%", left: "6%",  size: "text-lg sm:text-2xl",     rotate: 4,  color: "cream"  },                  // 15 Data Pipelines
-  { top: "50%", left: "24%", size: "text-base sm:text-xl",    rotate: -2, color: "cream"  },                  // 16 Prototyping
-  { top: "46%", left: "40%", size: "text-2xl sm:text-4xl",    rotate: 2,  color: "blue",   weight: "bold" }, // 17 APIs
-  { top: "52%", left: "60%", size: "text-base sm:text-xl",    rotate: -3, color: "muted"  },                  // 18 Jira
-  { top: "48%", left: "76%", size: "text-lg sm:text-2xl",     rotate: 3,  color: "cream"  },                  // 19 Figma
-  { top: "54%", left: "16%", size: "text-base sm:text-xl",    rotate: -2, color: "cream"  },                  // 20 Miro
+  { top: "49%", left: "5%",  size: "text-base sm:text-xl",    rotate: 4,  color: "cream",  tier: "small" },                   // 15 Data Pipelines
+  { top: "51%", left: "22%", size: "text-sm sm:text-lg",      rotate: -2, color: "cream",  tier: "small" },                   // 16 Prototyping
+  { top: "47%", left: "38%", size: "text-2xl sm:text-4xl",    rotate: 2,  color: "blue",   weight: "bold", tier: "focal" },   // 17 APIs
+  { top: "53%", left: "58%", size: "text-sm sm:text-lg",      rotate: -3, color: "muted",  tier: "small" },                   // 18 Jira
+  { top: "49%", right: "8%", size: "text-base sm:text-xl",    rotate: 3,  color: "cream",  tier: "small" },                   // 19 Figma
+  { top: "55%", left: "14%", size: "text-sm sm:text-lg",      rotate: -2, color: "cream",  tier: "small" },                   // 20 Miro
   // Row 5 — Amplitude, Sigma BI, Python, SQL, Git, Tableau
-  { top: "62%", left: "8%",  size: "text-xl sm:text-3xl",     rotate: 2,  color: "cream"  },                  // 21 Amplitude
-  { top: "64%", left: "26%", size: "text-base sm:text-xl",    rotate: -3, color: "muted"  },                  // 22 Sigma BI
-  { top: "60%", left: "42%", size: "text-3xl sm:text-5xl",    rotate: 1,  color: "yellow", weight: "bold" }, // 23 Python ← focal
-  { top: "66%", left: "62%", size: "text-lg sm:text-2xl",     rotate: -2, color: "cream"  },                  // 24 SQL
-  { top: "62%", left: "78%", size: "text-base sm:text-xl",    rotate: 4,  color: "muted"  },                  // 25 Git
-  { top: "70%", left: "12%", size: "text-base sm:text-xl",    rotate: -2, color: "cream"  },                  // 26 Tableau
+  { top: "63%", left: "6%",  size: "text-lg sm:text-2xl",     rotate: 2,  color: "cream",  tier: "medium" },                  // 21 Amplitude
+  { top: "65%", left: "22%", size: "text-sm sm:text-lg",      rotate: -3, color: "muted",  tier: "small" },                   // 22 Sigma BI
+  { top: "61%", left: "38%", size: "text-4xl sm:text-6xl",    rotate: 1,  color: "yellow", weight: "bold", tier: "focal" },   // 23 Python ← focal
+  { top: "67%", left: "62%", size: "text-base sm:text-xl",    rotate: -2, color: "cream",  tier: "small" },                   // 24 SQL
+  { top: "63%", right: "5%", size: "text-sm sm:text-lg",      rotate: 4,  color: "muted",  tier: "small" },                   // 25 Git
+  { top: "71%", left: "10%", size: "text-sm sm:text-lg",      rotate: -2, color: "cream",  tier: "small" },                   // 26 Tableau
   // Row 6 — n8n, OKRs, KPIs, Sprint Planning, UAT, Cross-Functional
-  { top: "74%", left: "26%", size: "text-lg sm:text-2xl",     rotate: 3,  color: "cream"  },                  // 27 n8n
-  { top: "76%", left: "42%", size: "text-xl sm:text-3xl",     rotate: -2, color: "blue",   weight: "bold" }, // 28 OKRs
-  { top: "72%", left: "60%", size: "text-base sm:text-xl",    rotate: 3,  color: "cream"  },                  // 29 KPIs
-  { top: "78%", left: "78%", size: "text-lg sm:text-2xl",     rotate: -3, color: "cream"  },                  // 30 Sprint Planning
-  { top: "82%", left: "8%",  size: "text-base sm:text-xl",    rotate: 2,  color: "muted"  },                  // 31 UAT
-  { top: "84%", left: "26%", size: "text-base sm:text-xl",    rotate: -2, color: "cream"  },                  // 32 Cross-Functional
+  { top: "75%", left: "24%", size: "text-base sm:text-xl",    rotate: 3,  color: "cream",  tier: "small" },                   // 27 n8n
+  { top: "77%", left: "40%", size: "text-xl sm:text-3xl",     rotate: -2, color: "blue",   weight: "bold", tier: "medium" },  // 28 OKRs
+  { top: "73%", left: "58%", size: "text-sm sm:text-lg",      rotate: 3,  color: "cream",  tier: "small" },                   // 29 KPIs
+  { top: "79%", right: "5%", size: "text-base sm:text-xl",    rotate: -3, color: "cream",  tier: "small" },                   // 30 Sprint Planning
+  { top: "83%", left: "8%",  size: "text-sm sm:text-lg",      rotate: 2,  color: "muted",  tier: "small" },                   // 31 UAT
+  { top: "85%", left: "24%", size: "text-sm sm:text-lg",      rotate: -2, color: "cream",  tier: "small" },                   // 32 Cross-Functional
   // Row 7 — Education/brand tail + signature
-  { top: "86%", left: "44%", size: "text-lg sm:text-2xl",     rotate: 3,  color: "cream"  },                  // 33 Engineering Physics
-  { top: "90%", left: "62%", size: "text-3xl sm:text-5xl",    rotate: -2, color: "yellow", weight: "bold" }, // 34 DTU ← focal
-  { top: "88%", left: "78%", size: "text-lg sm:text-2xl",     rotate: 2,  color: "cream"  },                  // 35 NextLeap
-  { top: "92%", left: "8%",  size: "text-base sm:text-xl",    rotate: -3, color: "muted"  },                  // 36 NYU
+  { top: "87%", left: "42%", size: "text-base sm:text-xl",    rotate: 3,  color: "cream",  tier: "small" },                   // 33 Engineering Physics
+  { top: "91%", left: "58%", size: "text-4xl sm:text-6xl",    rotate: -2, color: "yellow", weight: "bold", tier: "focal" },   // 34 DTU ← focal
+  { top: "89%", right: "5%", size: "text-base sm:text-xl",    rotate: 2,  color: "cream",  tier: "small" },                   // 35 NextLeap
+  { top: "93%", left: "8%",  size: "text-sm sm:text-lg",      rotate: -3, color: "muted",  tier: "small" },                   // 36 NYU
   // Extras — scattered brand words + signature
-  { top: "26%", left: "14%", size: "text-base sm:text-xl",    rotate: 4,  color: "muted"  },                  // 37 Cambridge
-  { top: "44%", left: "10%", size: "text-base sm:text-xl",    rotate: -2, color: "muted"  },                  // 38 Bosch
-  { top: "58%", left: "32%", size: "text-base sm:text-xl",    rotate: -2, color: "cream"  },                  // 39 CEGIS
-  { top: "70%", left: "44%", size: "text-2xl sm:text-4xl",    rotate: 3,  color: "blue",   weight: "bold" }, // 40 SenseHQ ← focal
-  { top: "28%", left: "46%", size: "text-2xl sm:text-4xl",    rotate: -1, color: "blue",   weight: "bold" }, // 41 Still Building ← focal
-  { top: "58%", left: "70%", size: "text-base sm:text-xl",    rotate: 2,  color: "cream"  },                  // 42 Too Many Tabs
-  { top: "92%", left: "26%", size: "text-xl sm:text-3xl",     rotate: -3, color: "yellow", weight: "bold" }, // 43 Mr. Onalunchbreak
+  { top: "27%", left: "14%", size: "text-sm sm:text-lg",      rotate: 4,  color: "muted",  tier: "small" },                   // 37 Cambridge
+  { top: "45%", left: "10%", size: "text-sm sm:text-lg",      rotate: -2, color: "muted",  tier: "small" },                   // 38 Bosch
+  { top: "59%", left: "32%", size: "text-sm sm:text-lg",      rotate: -2, color: "cream",  tier: "small" },                   // 39 CEGIS
+  { top: "71%", left: "44%", size: "text-2xl sm:text-4xl",    rotate: 3,  color: "blue",   weight: "bold", tier: "focal" },   // 40 SenseHQ ← focal
+  { top: "29%", left: "46%", size: "text-2xl sm:text-4xl",    rotate: -1, color: "blue",   weight: "bold", tier: "focal" },   // 41 Still Building ← focal
+  { top: "59%", right: "12%", size: "text-sm sm:text-lg",     rotate: 2,  color: "cream",  tier: "small" },                   // 42 Too Many Tabs
+  { top: "93%", left: "24%", size: "text-xl sm:text-3xl",     rotate: -3, color: "yellow", weight: "bold", tier: "medium" },  // 43 Mr. Onalunchbreak
 ];
 
 const COLOR_CLASSES: Record<WordSpec["color"], string> = {
@@ -264,6 +268,7 @@ export default function ProductLab() {
                     style={{
                       top: spec.top,
                       left: spec.left,
+                      right: spec.right,
                       rotate: spec.rotate,
                       textShadow:
                         spec.color === "yellow" || spec.color === "blue"
