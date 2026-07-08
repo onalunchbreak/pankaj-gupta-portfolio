@@ -892,3 +892,36 @@ Verification:
 - **Real assets**: all visuals are CSS/SVG-generated. Real project screenshots / portrait would make the Lab + Hero feel less abstract.
 - **Audio**: SFX are still synthesized WAV blips. Real recorded SFX would feel more premium.
 - **Hero time morph**: VLM previously noted "02:00 → 09:00 → 13:00 is confusing". Low priority — the annotation explains the intent.
+
+---
+Task ID: 16 (refactor + reorganize per user feedback)
+Agent: main (orchestrator)
+Task: Move hero tagline, remove status bar, remove PLACES section, remove repetitive NextLeap, reduce footer, make nav colors adapt to section background, create README, commit to git.
+
+## Current project status description/assessment
+- The portfolio was stable with all links wired. The user provided 6 specific refinements based on screenshot review: (1) hero tagline overlapping right nav, (2) PLACES I'VE BUILT AT section repetitive, (3) top status bar unnecessary, (4) NextLeap repetitive in education, (5) contact footer too big, (6) nav invisible on paper backgrounds.
+
+## Current goals / completed modifications / verification results
+Goals: implement all 6 user-requested refinements while maintaining alignment, position, and aesthetic.
+
+Completed:
+1. HERO TAGLINE MOVED (hero.tsx): swapped the tagline (PRODUCT BY DAY...) from right side to left side, and moved the DTU '23 / Delhi India vertical stack from left to right. Tagline is now `left-5 -rotate-[3deg] text-left`, DTU stack is now `right-5 rotate-90`. This eliminates the overlap with the right-side nav menu. VLM confirmed: "tagline left (no overlap), DTU '23 / Delhi India right, no top status bar."
+2. STATUS BAR REMOVED (page.tsx + deleted status-bar.tsx): removed the entire top status bar (SYS.PRODUCT_LAB_ACTIVE, LOC, USER: PANKAJ_GUPTA, time, scroll-progress hairline). Deleted the status-bar.tsx component file, removed the import from page.tsx, and removed the `pt-9` padding from <main> (was for the status bar). Verified: no top bar present.
+3. PLACES SECTION REMOVED (product-os.tsx): removed the entire "// PLACES I'VE BUILT AT" block (4-company list + handwritten note). The "different industries, same question. what actually moves the outcome?" handwritten note is retained — moved to appear after the 6 stat cards instead. Companies are already shown in the Work Log, so this removes the repetition.
+4. NEXTLEAP REMOVED FROM EDUCATION (data.ts): removed the NextLeap entry from ACHIEVEMENTS.education (it's already in the achievements cards above — was repetitive). Education strip now has 3 items: DTU, IIIT Delhi, NYU.
+5. CONTACT FOOTER REDUCED (contact.tsx): reduced footer size — padding py-16→py-8, signature text-4xl→text-2xl, signoff text-sm→text-xs, spacing mt-10→mt-5, gradient bridge h-12→h-8. VLM confirmed: "compact and smaller, tight concise layout."
+6. NAV + SIDE RAIL COLOR ADAPTATION (nav.tsx + side-rail.tsx): added a LIGHT_BG_SECTIONS set (origin, product-os, research, achievements). Nav + side rail now use dark text (#1a1a1a) when the active section has a paper background, and light text (#F4F1EA) when on dark/blue/black sections. Transition is smooth (duration-500). The active item stays blue (#1738D5) in both modes. VLM confirmed: "nav links readable in dark text on light background. Active state clear with blue underline." + "nav links LIGHT colored on dark background."
+7. README.md: created comprehensive README documenting tech stack, design system, 12 sections, features, resume-extracted hyperlinks, development commands, and project structure.
+8. Git commit: committed all changes with a descriptive message: "refactor: reorganize hero, remove status bar, adapt nav colors, trim footer".
+
+Verification:
+- `bun run lint` → 0 errors, 0 warnings.
+- Dev server compiles cleanly, no runtime errors.
+- agent-browser + VLM confirmed all 6 changes: tagline moved, status bar gone, PLACES removed, footer smaller, nav adapts to paper (dark text) + dark (light text), NextLeap removed from education.
+- Mobile (390px): no horizontal overflow.
+
+## Unresolved issues / risks / priority recommendations for next phase
+- **Code refactoring**: the user asked for a 20-yr-engineer-level code reorganization. The main structural cleanup (removing status bar, stale files) is done, but a deeper refactor (grouping hooks, extracting shared types, consolidating utility files) could be a future pass.
+- **Performance / Lighthouse**: still not profiled. Dynamic import of BestWorkMetro + CommandPalette could help reach ≥90.
+- **Real assets**: all visuals are CSS/SVG-generated. Real project screenshots / portrait would make the Lab + Hero feel less abstract.
+- **Audio**: SFX are still synthesized WAV blips. Real recorded SFX would feel more premium.
