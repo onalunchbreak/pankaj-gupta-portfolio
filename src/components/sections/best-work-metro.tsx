@@ -15,6 +15,7 @@ import { useSound } from "@/hooks/use-sound";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { useBodyScrollLock } from "@/hooks/use-body-scroll-lock";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
+import { useSessionStats } from "@/hooks/use-session-stats";
 import { getLenis } from "@/lib/lenis-instance";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -40,6 +41,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 export default function BestWorkMetro() {
   const { play } = useSound();
   const reduced = usePrefersReducedMotion();
+  const openCaseStudy = useSessionStats((s) => s.openCaseStudy);
 
   const [isDesktop, setIsDesktop] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -266,6 +268,7 @@ export default function BestWorkMetro() {
     triggerRef.current = e.currentTarget;
     setOpenStationId(station.id);
     play("door");
+    openCaseStudy();
   };
 
   const closeDeepDive = () => {
@@ -607,7 +610,7 @@ export default function BestWorkMetro() {
             </div>
 
             {/* Bottom Hindi announcement ticker — uses METRO_INTRO.announcements */}
-            <div className="absolute bottom-0 left-0 right-0 z-20 overflow-hidden border-t border-white/10 bg-[#0A0A0A]/80 py-2 backdrop-blur-sm">
+            <div className="absolute bottom-0 left-0 right-0 z-20 overflow-hidden border-t border-[#FFD400]/30 bg-[#0A0A0A]/92 py-2.5 backdrop-blur-sm">
               <div
                 className="marquee-track whitespace-nowrap will-change-transform"
                 style={{
@@ -619,21 +622,21 @@ export default function BestWorkMetro() {
                 {Array.from({ length: 6 }).map((_, i) => (
                   <span
                     key={i}
-                    className="font-deva text-sm text-[#F4F1EA]/80"
+                    className="font-deva text-base font-medium text-[#F4F1EA]"
                   >
                     {METRO_INTRO.announcements.map((ann, ai) => (
                       <span key={ai}>
                         {ai > 0 && (
-                          <span className="px-3 text-[#6B6B6B]">·</span>
+                          <span className="px-3 text-[#FFD400]/50">·</span>
                         )}
                         <span className="px-3">{ann}</span>
                       </span>
                     ))}
-                    <span className="px-3 text-[#6B6B6B]">·</span>
+                    <span className="px-3 text-[#FFD400]/50">·</span>
                     <span className="px-3 text-[#FFD400]">
                       {"● PRODUCT LINE"}
                     </span>
-                    <span className="px-3 text-[#6B6B6B]">·</span>
+                    <span className="px-3 text-[#FFD400]/50">·</span>
                     <span className="px-3 text-[#FFD400]">
                       अगला स्टेशन: {nextStation.name}
                     </span>

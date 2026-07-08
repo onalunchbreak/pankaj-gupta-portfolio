@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CASE_CLOSE } from "@/lib/data";
 import { getLenis } from "@/lib/lenis-instance";
+import { useSessionStats } from "@/hooks/use-session-stats";
 
 function Typewriter({ text }: { text: string }) {
   const [out, setOut] = useState("");
@@ -26,6 +27,10 @@ function Typewriter({ text }: { text: string }) {
 export default function CaseCloseOverlay() {
   const [nearBottom, setNearBottom] = useState(false);
   const [open, setOpen] = useState(false);
+  const systems = useSessionStats((s) => s.systemsInspected);
+  const caseStudies = useSessionStats((s) => s.caseStudiesOpened);
+  const sideProjects = useSessionStats((s) => s.sideProjectsVisited);
+  const sections = useSessionStats((s) => s.sectionsReached);
 
   useEffect(() => {
     const check = () => {
@@ -112,6 +117,20 @@ export default function CaseCloseOverlay() {
               >
                 {CASE_CLOSE.user} <span className="text-[#1738D5]">·</span> {CASE_CLOSE.alias}
               </motion.div>
+
+              {/* Session stats — systems inspected / case studies opened / side projects visited / sections reached */}
+              <motion.div
+                className="mb-6 grid grid-cols-2 gap-2 border border-white/10 bg-[#0A0A0A]/60 px-6 py-4 font-mono text-center sm:grid-cols-4"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25, duration: 0.5 }}
+              >
+                <SessionStat label="SYSTEMS" value={systems} color="text-[#FFD400]" />
+                <SessionStat label="CASE STUDIES" value={caseStudies} color="text-[#1738D5]" />
+                <SessionStat label="SIDE PROJECTS" value={sideProjects} color="text-[#FFD400]" />
+                <SessionStat label="SECTIONS" value={sections} color="text-[#F4F1EA]" />
+              </motion.div>
+
               <motion.h2
                 className="font-display text-5xl font-bold tracking-tighter text-[#F4F1EA] sm:text-8xl"
                 initial={{ opacity: 0, y: 30 }}
@@ -153,5 +172,16 @@ export default function CaseCloseOverlay() {
         )}
       </AnimatePresence>
     </>
+  );
+}
+
+function SessionStat({ label, value, color }: { label: string; value: number; color: string }) {
+  return (
+    <div className="flex flex-col items-center gap-0.5">
+      <span className={`text-2xl font-bold tabular-nums sm:text-3xl ${color}`}>
+        {String(value).padStart(2, "0")}
+      </span>
+      <span className="text-[8px] uppercase tracking-[0.25em] text-[#6B6B6B]">{label}</span>
+    </div>
   );
 }

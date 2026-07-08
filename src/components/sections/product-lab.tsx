@@ -7,6 +7,7 @@ import { LAB } from "@/lib/data";
 import { links, hasLink } from "@/lib/links";
 import { useSound } from "@/hooks/use-sound";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
+import { useSessionStats } from "@/hooks/use-session-stats";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -155,6 +156,7 @@ const STATUS_STYLES: Record<string, string> = {
 export default function ProductLab() {
   const { play } = useSound();
   const reduced = usePrefersReducedMotion();
+  const visitSideProject = useSessionStats((s) => s.visitSideProject);
   const [hovered, setHovered] = useState<string | null>(null);
   const [tapped, setTapped] = useState<string | null>(null);
   const activeLabel = hovered ?? tapped;
@@ -476,7 +478,7 @@ export default function ProductLab() {
                   {/* Spacer */}
                   <div className="flex-1" />
 
-                  {/* Action: OPEN PROJECT or INSPECT BUILD */}
+                  {/* Action: OPEN PROJECT or INSPECT BUILD — both register a visit */}
                   <div className="mt-5 border-t border-white/10 pt-3">
                     {available ? (
                       <a
@@ -484,6 +486,7 @@ export default function ProductLab() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onMouseEnter={() => play("tick")}
+                        onClick={() => visitSideProject()}
                         data-cursor-label="open project"
                         aria-label={`Open project ${project.name}`}
                         className="group/btn flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[#1738D5] transition-colors hover:text-[#FFD400]"
@@ -498,16 +501,19 @@ export default function ProductLab() {
                         />
                       </a>
                     ) : (
-                      <div
-                        aria-disabled="true"
-                        className="flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B] cursor-not-allowed"
+                      <button
+                        type="button"
+                        onClick={() => { visitSideProject(); play("tick"); }}
+                        data-cursor-label="inspect"
+                        aria-label={`Inspect ${project.name} build`}
+                        className="group/btn flex w-full items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B] transition-colors hover:text-[#1738D5]"
                       >
                         <span className="flex items-center gap-2">
                           <Wrench className="h-3 w-3" aria-hidden />
                           <span>inspect build</span>
                         </span>
-                        <span aria-hidden className="h-px w-5 bg-[#6B6B6B]/40" />
-                      </div>
+                        <span aria-hidden className="h-px w-5 bg-[#6B6B6B]/40 transition-all duration-300 group-hover/btn:w-9 group-hover/btn:bg-[#1738D5]" />
+                      </button>
                     )}
                   </div>
                 </motion.article>

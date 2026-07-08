@@ -9,6 +9,8 @@ import MuteToggle from "@/components/shell/mute-toggle";
 import SoundManager from "@/components/shell/sound-manager";
 import CaseCloseOverlay from "@/components/shell/case-close-overlay";
 import KeyboardRouter from "@/components/shell/keyboard-router";
+import SessionStatsHud from "@/components/shell/session-stats-hud";
+import SectionReachTracker from "@/components/shell/section-reach-tracker";
 
 import Hero from "@/components/sections/hero";
 import NavIndex from "@/components/sections/nav-index";
@@ -37,6 +39,8 @@ export default function Home() {
       <MuteToggle />
       <CaseCloseOverlay />
       <KeyboardRouter />
+      <SessionStatsHud />
+      <SectionReachTracker />
 
       {/* main flow — blue → black → black → black → paper → paper → blue → black → paper → black → paper → black+paper */}
       <main className="relative w-full overflow-x-clip pt-9">

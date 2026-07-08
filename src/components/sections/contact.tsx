@@ -309,6 +309,12 @@ export default function Contact() {
           blue, right-aligned, blinking cursor) + system status +
           EOF terminal label.
           ============================================================ */}
+      {/* Gradient bridge — smooths the harsh black → paper transition */}
+      <div
+        aria-hidden
+        className="h-12 w-full bg-gradient-to-b from-[#0A0A0A] via-[#1a1814] to-[#F4F1EA]"
+      />
+
       <footer className="env-paper paper-texture relative w-full">
         <div className="mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
           {/* Signoff — italic mono in dark ink */}

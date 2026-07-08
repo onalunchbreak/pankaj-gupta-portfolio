@@ -163,9 +163,9 @@ export default function ProductOS() {
                 className="absolute -top-2 left-1/2 h-5 w-16 -translate-x-1/2 -rotate-3 bg-[#1738D5]/40"
               />
 
-              {/* giant count-up number — dark ink, "+" in blue */}
+              {/* giant count-up number — dark ink, "+" in blue, cohesive unit */}
               <div
-                className="font-display text-[18vw] font-bold leading-[0.85] tracking-tighter text-[#2a2a2a] sm:text-[12vw] lg:text-[10rem]"
+                className="flex items-baseline justify-center gap-1 font-display text-[18vw] font-bold leading-[0.85] tracking-tighter text-[#2a2a2a] sm:text-[12vw] lg:text-[10rem]"
                 aria-label={`${PRODUCT_OS.centralMetric.value}${PRODUCT_OS.centralMetric.suffix} ${PRODUCT_OS.centralMetric.label}`}
               >
                 <CountUp target={PRODUCT_OS.centralMetric.value} />

@@ -660,3 +660,42 @@ Stage Summary:
 - All 12 sections rebuilt with Pankaj's content: Hero (Mr./On a/lunch/break lockup), NavIndex (7 entries), Origin (8-step DTU→SenseHQ timeline), ProductOS (PRODUCTS WITH A REASON + 1200+ + 6 stats), WorkLog (4 experience cards), BestWorkMetro (6 stations: Bosch/Research Lab/Cambridge JBS/CEGIS/SenseHQ/Mr. Onalunchbreak), ResearchArchive (4 papers), ProductLab (44-word cloud + 10 skills + 4 side projects), Achievements (4 awards + 4 education), Contact (Talk Product With Me + magnetic CTA).
 - Shell updated: Preloader (boot sequence + MR_ONALUNCHBREAK.EXE), StatusBar (SYS.PRODUCT_LAB_ACTIVE + USER: PANKAJ_GUPTA), SideRail (Pankaj Gupta AKA Mr. Onalunchbreak), CaseClose (SESSION COMPLETE + END SESSION).
 - No fabricated URLs or metrics — all links use hasLink() conditional rendering, all professional claims are resume-grounded.
+
+---
+Task ID: 11 (cron QA round — contrast fixes + session stats feature)
+Agent: main (orchestrator)
+Task: Assess current status via agent-browser QA, fix contrast bugs, add session stats tracker feature, polish styling.
+
+## Current project status description/assessment
+- The portfolio is fully re-personalized for Pankaj Gupta (Mr. Onalunchbreak) with 12 sections, metro keyboard fix, and all content resume-grounded. Lint clean, no runtime errors, no mobile horizontal overflow.
+- QA via agent-browser + VLM across all 10 sections found: (a) contrast issues — Work Log "Archived" tags on blue cards, Product OS "+" sign disconnected from the number, Metro Hindi ticker weak contrast; (b) Product Lab word cloud hierarchy could be clearer; (c) Contact black→paper transition was harsh. No functional bugs.
+
+## Current goals / completed modifications / verification results
+Goals: fix the contrast issues, add a session stats tracker (new feature from the spec that was never implemented), and smooth the contact transition.
+
+Completed:
+1. CONTRAST FIX — Product OS central metric (`product-os.tsx`): wrapped the CountUp number + blue "+" suffix in a `flex items-baseline justify-center gap-1` container so they align on the same baseline as a cohesive unit (was two separate inline spans that looked disconnected). VLM confirmed: "1,200+ number and + sign visually cohesive (aligned baseline)."
+2. CONTRAST FIX — Work Log blue-card Archived tag (`work-log.tsx`): changed `archived` class for the blue theme from `bg-[#FFD400] text-[#0A0A0A]` (yellow-on-blue, muddy red shadow) to `bg-[#F7F4ED] text-[#1738D5]` (white fill, blue text — maximum contrast on the deep-blue card). Changed the stamp shadow from `rgba(255,59,48,0.6)` (muddy red) to `rgba(0,0,0,0.45)` (clean dark). VLM confirmed: "Archived tags have sufficient contrast on blue cards."
+3. CONTRAST FIX — Metro Hindi ticker (`best-work-metro.tsx`): strengthened the ticker container from `bg-[#0A0A0A]/80 border-white/10` to `bg-[#0A0A0A]/92 border-[#FFD400]/30`, upgraded the text from `text-sm text-[#F4F1EA]/80` to `text-base font-medium text-[#F4F1EA]`, and changed the separators from `text-[#6B6B6B]` to `text-[#FFD400]/50` for better hierarchy.
+4. NEW FEATURE — Session Stats Tracker:
+   - `src/hooks/use-session-stats.ts`: zustand store tracking `systemsInspected` (work-log overlays opened), `caseStudiesOpened` (metro step-out deep-dives), `sideProjectsVisited` (lab cards inspected), `sectionsReached` (distinct sections scrolled into) + a `reachedSections: Set<string>`. Actions: `inspectSystem()`, `openCaseStudy()`, `visitSideProject()`, `reachSection(id)`, `reset()`.
+   - Wired into `work-log.tsx` (`openExperience` → `inspectSystem()`), `best-work-metro.tsx` (`openDeepDive` → `openCaseStudy()`), `product-lab.tsx` (side-project "inspect build"/"open project" click → `visitSideProject()`).
+   - `src/components/shell/section-reach-tracker.tsx`: invisible IntersectionObserver that fires `reachSection(id)` once per nav section when it scrolls into view.
+   - `src/components/shell/session-stats-hud.tsx`: small fixed HUD (top-right, sm+ only) showing live counts (SYS/CASE/LAB/SEC) with colored tabular numbers — appears once the user has any activity, reinforces the "product lab workspace" feel.
+   - `case-close-overlay.tsx`: updated to display a 4-column session stats grid (SYSTEMS / CASE STUDIES / SIDE PROJECTS / SECTIONS) with the visitor's live counts, per the spec "SYSTEMS INSPECTED: X / CASE STUDIES OPENED: X / SIDE PROJECTS VISITED: X". VLM confirmed: "session stats grid with counts for SYSTEMS (01), CASE STUDIES (01), SIDE PROJECTS (00), SECTIONS (04). Clean and readable."
+   - Wired `SessionStatsHud` + `SectionReachTracker` into `page.tsx`.
+5. STYLING — Contact gradient bridge (`contact.tsx`): added a 12px gradient div (`from-[#0A0A0A] via-[#1a1814] to-[#F4F1EA]`) between the black upper and the paper footer to smooth the harsh transition.
+
+Verification:
+- `bun run lint` → 0 errors, 0 warnings.
+- Dev server compiles cleanly, no runtime/parse errors.
+- agent-browser + VLM confirmed: contrast fixes effective, session stats HUD appears after activity, case-close overlay shows live stats grid, mobile (390px) no overflow + HUD hidden on small screens.
+- Fixed a JSX structural bug in product-lab.tsx (leftover `)}` from the inspect-build button refactor) that caused a parse error on first compile.
+
+## Unresolved issues / risks / priority recommendations for next phase
+- **Product Lab word cloud hierarchy**: VLM noted "mixed font sizes/colors, lacks clear hierarchy". The 44 WORD_SPECS are hand-tuned but could benefit from a clearer 3-tier size system (focal/large/small) with consistent color semantics. Low priority — the collage feel is intentional.
+- **Research Archive "ARCHIVED" tags**: VLM noted they could be more prominent. Currently subtle by design (paper env). Could add a filled variant if desired.
+- **Performance / Lighthouse**: still not profiled. The site has many framer-motion + GSAP + font loads. Dynamic import of BestWorkMetro could help reach ≥90.
+- **Real assets**: all visuals are CSS/SVG-generated. Real project screenshots / portrait would make the Lab + Hero feel less abstract.
+- **Social links**: LinkedIn/GitHub still empty (no resume PDF attached). If the user provides them, update `src/lib/links.ts`.
+- **Audio**: SFX are still synthesized WAV blips. Real recorded SFX would feel more premium.

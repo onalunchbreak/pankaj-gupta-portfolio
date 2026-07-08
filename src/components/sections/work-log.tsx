@@ -8,6 +8,7 @@ import { useSound } from "@/hooks/use-sound";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { useBodyScrollLock } from "@/hooks/use-body-scroll-lock";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
+import { useSessionStats } from "@/hooks/use-session-stats";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 // Morph transition — drives both the layout animation and any spring fallback.
@@ -51,7 +52,7 @@ const THEME_STYLES: Record<Experience["theme"], ThemeClasses> = {
     ink: "text-[#F7F4ED]",
     inkMuted: "text-[#F7F4ED]/60",
     indexPill: "border-[#F7F4ED]/40 text-[#F7F4ED]",
-    archived: "bg-[#FFD400] text-[#0A0A0A]",
+    archived: "bg-[#F7F4ED] text-[#1738D5]",
     metric: "text-[#FFD400]",
     bullet: "text-[#FFD400]",
     border: "border-[#F7F4ED]/15",
@@ -100,6 +101,7 @@ const THEME_STYLES: Record<Experience["theme"], ThemeClasses> = {
 export default function WorkLog() {
   const { play } = useSound();
   const reduced = usePrefersReducedMotion();
+  const inspectSystem = useSessionStats((s) => s.inspectSystem);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   // Tracks the card element that triggered the open — used to restore focus.
@@ -129,6 +131,7 @@ export default function WorkLog() {
     triggerRef.current = e.currentTarget;
     setSelectedId(id);
     play("confirm");
+    inspectSystem();
   };
 
   const closeExperience = () => {
@@ -225,7 +228,7 @@ export default function WorkLog() {
                     </div>
                     <span
                       aria-hidden
-                      className={`-rotate-[6deg] px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.3em] shadow-[3px_3px_0_0_rgba(255,59,48,0.6)] transition-transform duration-300 group-hover:rotate-0 ${theme.archived}`}
+                      className={`-rotate-[6deg] px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.3em] shadow-[3px_3px_0_0_rgba(0,0,0,0.45)] transition-transform duration-300 group-hover:rotate-0 ${theme.archived}`}
                       data-cursor-label="archived"
                     >
                       ▣ Archived
