@@ -604,7 +604,7 @@ export const RESEARCH = {
 // Product Lab / Insomniac Work
 export const LAB = {
   header: "## things built on lunch breaks",
-  subtitle: "hover around. some of these escaped the backlog.",
+  subtitle: "hover around. prototypes that somehow survived the production deploy.",
   wordCloudTitle: "MY CV, IN ABOUT 40 WORDS",
   wordCloud: [
     "Product", "AI", "Systems", "Research", "Customer Journeys", "Roadmaps",
