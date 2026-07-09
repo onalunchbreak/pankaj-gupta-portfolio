@@ -181,6 +181,8 @@ export default function Hero() {
                 style={{
                   lineHeight: 0.82,
                   marginTop: i === 3 ? "calc(-1 * (0.12 * min(13rem, 13vw)))" : undefined,
+                  // Nudge "Mr." rightward so it optically aligns with the visual weight of the lines below
+                  transform: i === 0 ? "translateX(2rem)" : undefined,
                 }}
               >
                 <motion.span
