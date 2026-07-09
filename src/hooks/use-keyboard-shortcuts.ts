@@ -7,14 +7,11 @@ export type ShortcutDef = {
 };
 
 export const SHORTCUTS: ShortcutDef[] = [
-  { keys: "⌘ K", desc: "Command palette — search & jump" },
   { keys: "1 — 7", desc: "Jump to section" },
   { keys: "← / →", desc: "Navigate metro stations" },
-  { keys: "Home / End", desc: "First / last metro station" },
   { keys: "M", desc: "Toggle sound" },
   { keys: "?", desc: "Show / hide this panel" },
   { keys: "Esc", desc: "Close any overlay" },
-  { keys: "↑↑↓↓←→←→ B A", desc: "GOD'S PLAN" },
 ];
 
 /**
