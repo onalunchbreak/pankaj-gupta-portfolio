@@ -202,8 +202,8 @@ export default function Hero() {
         </motion.h1>
 
         {/* ---- Tagline (below the lockup, centered, slightly rotated) ---- */}
-        <motion.p
-          className="pointer-events-none relative z-10 mt-8 max-w-2xl px-4 text-center hand-display -rotate-[1deg] text-xl leading-[1.45] text-[#F7F4ED]/85 sm:mt-10 sm:text-2xl sm:leading-[1.55]"
+        <motion.div
+          className="pointer-events-none relative z-10 mt-8 max-w-2xl px-4 text-center hand-display -rotate-[1deg] text-xl text-[#F7F4ED]/85 sm:mt-10 sm:text-2xl"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.25, duration: 0.7, ease: EASE }}
@@ -213,17 +213,23 @@ export default function Hero() {
             if (parts.length >= 3) {
               return (
                 <>
-                  {parts[0]},
-                  <br className="sm:hidden" />{" "}
-                  {parts[1]},
-                  <br />
-                  {parts[2]}
+                  {/* Mobile view lines — 3 lines with comfortable vertical gap */}
+                  <div className="flex flex-col items-center gap-y-[6px] sm:hidden">
+                    <span>{parts[0]},</span>
+                    <span>{parts[1]},</span>
+                    <span>{parts[2]}</span>
+                  </div>
+                  {/* Desktop/Tablet view lines — 2 lines with comfortable vertical gap */}
+                  <div className="hidden sm:flex flex-col items-center gap-y-[10px]">
+                    <span>{parts[0]}, {parts[1]},</span>
+                    <span>{parts[2]}</span>
+                  </div>
                 </>
               );
             }
             return HERO.tagline;
           })()}
-        </motion.p>
+        </motion.div>
       </div>
 
       {/* ---- Location: Delhi, India (positioned vertically beside lunch break) ---- */}
