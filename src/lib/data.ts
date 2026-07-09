@@ -155,9 +155,9 @@ export const PRODUCT_OS = {
   title: "BUILDING IS THE EASY PART",
   headline: "PRODUCTS WITH A REASON.",
   paragraph:
-    "I like technology. I like AI. I like building systems. But technically impressive products that nobody adopts are still failed products.",
+    "I love technology, AI, and building complex systems. But a technically impressive product that nobody uses is still a failure.",
   secondary:
-    "the best product work happens where USER PROBLEMS, BUSINESS OUTCOMES, TECHNICAL REALITY, and EXECUTION actually meet.",
+    "The best product work happens at the intersection of user problems, business outcomes, technical feasibility, and relentless iteration.",
   centralMetric: { value: 1200, suffix: "+", label: "GLOBAL CUSTOMERS", sub: "PRODUCT PLATFORM OWNERSHIP" },
   annotation: "turns out every edge case eventually becomes a Jira ticket.",
   places: {
