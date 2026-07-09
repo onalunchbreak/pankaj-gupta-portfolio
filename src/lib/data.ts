@@ -315,9 +315,9 @@ export type MetroStation = {
 
 export const METRO_STATIONS: MetroStation[] = [
   {
-    id: "edukey-education",
+    id: "edukey-intelligent-systems",
     index: "01",
-    name: "EDUKEY EDUCATION",
+    name: "EDUKEY INTELLIGENT SYSTEMS",
     role: "Marketing Intern",
     theme: "MARKETING",
     tag: "Growth & Engagement",
@@ -332,7 +332,7 @@ export const METRO_STATIONS: MetroStation[] = [
       { label: "Launch Campaigns", value: 0, display: "DELIVERED" },
     ],
     caseStudy: [
-      { label: "CONTEXT", title: "Early-stage EdTech platform", text: "Joined Edukey Education to design and lead marketing and growth initiatives." },
+      { label: "CONTEXT", title: "Early-stage EdTech platform", text: "Joined Edukey Intelligent Systems to design and lead marketing and growth initiatives." },
       { label: "PROBLEM", title: "Friction in student reach", text: "Student acquisition and community engagement were highly limited by ad-hoc marketing efforts." },
       { label: "SYSTEM", title: "SEO + Content pipelines", text: "Built SEO optimization workflows, social media campaigns, content distribution pipelines, and a campus rep program." },
       { label: "IMPACT", title: "50K+ students reached", text: "Grew the student community to 50K+ active learners with a 40% lift in organic user acquisition." },
