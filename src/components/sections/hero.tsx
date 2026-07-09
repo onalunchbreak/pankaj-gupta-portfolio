@@ -10,6 +10,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { HERO, LAB } from "@/lib/data";
+import { getLenis } from "@/lib/lenis-instance";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -78,6 +79,17 @@ export default function Hero() {
     return () => window.removeEventListener("mousemove", onMove);
   }, [reduced, mx, my]);
 
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const lenis = getLenis();
+    if (lenis) {
+      lenis.scrollTo(el, { offset: -20, duration: 1.2 });
+    } else {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <section
       id="hero"
@@ -104,36 +116,45 @@ export default function Hero() {
           <span className="block text-[#F7F4ED]/55">{HERO.topMetaSub}</span>
         </motion.span>
 
-        <motion.span
-          className="text-center font-mono text-[10px] uppercase tracking-[0.2em] text-[#FFD400] sm:text-[11px] font-bold pointer-events-none"
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.28, duration: 0.6, ease: EASE }}
-        >
-          {clock}
-        </motion.span>
-
-        <motion.span
-          className="hidden max-w-[42%] text-right leading-relaxed sm:block pointer-events-none"
+        <motion.div
+          className="hidden max-w-[42%] text-right leading-relaxed sm:block pointer-events-auto z-20"
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.6, ease: EASE }}
         >
           {(() => {
             const parts = HERO.topLinks.split(" → ");
+            const targets = ["best-work", "lab", "contact"];
             return (
               <>
-                <span className="block text-[#F7F4ED]/55">{parts[0]}:</span>
-                {parts.slice(1).map((part) => (
-                  <span key={part} className="block text-[#F7F4ED]/75">
-                    ↓ {part}
-                  </span>
-                ))}
+                <span className="block text-[#F7F4ED]/55 select-none">{parts[0]}:</span>
+                {parts.slice(1).map((part, index) => {
+                  const targetId = targets[index];
+                  return (
+                    <button
+                      key={part}
+                      onClick={() => scrollTo(targetId)}
+                      className="block w-full text-right text-[#F7F4ED]/75 hover:text-[#FFD400] transition-colors focus:outline-none focus-ring select-none"
+                    >
+                      ↓ {part}
+                    </button>
+                  );
+                })}
               </>
             );
           })()}
-        </motion.span>
+        </motion.div>
       </div>
+
+      {/* ---- Symmetrically Centered System Time (Absolute positioned per device screen center) ---- */}
+      <motion.span
+        className="absolute left-1/2 top-4 -translate-x-1/2 z-20 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-[#FFD400] sm:top-7 sm:text-[11px] font-bold pointer-events-none"
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.28, duration: 0.6, ease: EASE }}
+      >
+        {clock}
+      </motion.span>
 
       {/* ---- Single corner accent: coordinates ---- */}
       <motion.span
@@ -181,27 +202,26 @@ export default function Hero() {
         </motion.h1>
       </div>
 
-      {/* ---- Tagline (right side, beside the lockup, rotated) ---- */}
+      {/* ---- Left side tagline (handwritten) — rotated -3deg per Screenshot 2026-07-09 at 16.37.37.png ---- */}
       <motion.p
-        className="hand-display absolute right-12 top-1/2 z-10 hidden -translate-y-1/2 rotate-[3deg] text-right text-xl text-[#F7F4ED]/85 sm:block sm:max-w-[240px] sm:text-2xl xl:right-16 pointer-events-none"
-        initial={{ opacity: 0, x: 14 }}
+        className="hand-display absolute left-5 top-1/2 z-10 hidden max-w-[220px] -translate-y-1/2 -rotate-[3deg] text-left text-xl text-[#F7F4ED]/85 sm:left-8 sm:block sm:text-2xl pointer-events-none"
+        initial={{ opacity: 0, x: -14 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 1.25, duration: 0.7, ease: EASE }}
       >
         {HERO.tagline}
       </motion.p>
 
-      {/* ---- Delhi, India (left side, beside the lockup, vertical/rotated) ---- */}
+      {/* ---- Right vertical stack: Location / Delhi, India (rotated 90deg per Screenshot 2026-07-09 at 16.37.37.png) ---- */}
       <motion.div
-        className="absolute left-5 top-1/2 z-10 hidden -translate-y-1/2 sm:left-8 sm:block pointer-events-none"
-        initial={{ opacity: 0, x: -10 }}
+        className="absolute right-5 top-1/2 z-10 hidden -translate-y-1/2 flex-col gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:right-8 sm:flex sm:text-[11px] pointer-events-none"
+        initial={{ opacity: 0, x: 10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 1.1, duration: 0.7, ease: EASE }}
         aria-hidden
       >
-        <span className="block -rotate-90 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:text-[11px]">
-          {HERO.location}
-        </span>
+        <span className="rotate-90 whitespace-nowrap pb-6 pr-1">{HERO.location}</span>
+        {HERO.locationSub && <span className="rotate-90 whitespace-nowrap pb-6 pr-1">{HERO.locationSub}</span>}
       </motion.div>
 
       {/* ---- Scroll cue ---- */}
@@ -224,17 +244,6 @@ export default function Hero() {
         >
           <ChevronDown className="h-4 w-4 text-[#FFD400]" />
         </motion.div>
-      </motion.div>
-
-      {/* ---- Bottom strip ---- */}
-      <motion.div
-        className="pointer-events-none relative z-10 mt-5 flex w-full items-center justify-between border-t border-white/10 pt-3 font-mono text-[9px] uppercase tracking-[0.22em] text-[#F7F4ED]/55 sm:text-[10px]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8, duration: 0.6 }}
-      >
-        <span>{HERO.bottomLabel}</span>
-        <span className="text-[#FFD400]">{HERO.bottomSession}</span>
       </motion.div>
     </section>
   );
