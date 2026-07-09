@@ -27,7 +27,7 @@ const SCATTER_POSITIONS = [
   { top: "12%", left: "20%" }, // index 2: Customer Journey Mapping (moved from bottom to top-left empty space)
   { top: "64%", left: "74%" }, // index 3: Workflow Automation (moved from bottom to middle-right empty space below Data Systems)
   { top: "42%", left: "12%" }, // index 4: Product Analytics
-  { top: "74%", left: "14%" }, // index 5: Rapid Prototyping (moved to empty space below Experimentation)
+  { top: "86%", left: "12%" }, // index 5: Rapid Prototyping (moved to desired position per Screenshot 2026-07-09 at 18.00.59.png)
   { top: "24%", left: "65%" }, // index 6: Applied AI
   { top: "88%", left: "78%" }, // index 7: Research
   { top: "46%", left: "74%" }, // index 8: Data Systems
@@ -259,6 +259,7 @@ function BackgroundLayer({
     <div className="pointer-events-none absolute inset-0 z-30 overflow-hidden">
       {LAB.skills.map((skill, i) => {
         const pos = SCATTER_POSITIONS[i % SCATTER_POSITIONS.length];
+        const rotVal = skill.rotate * 3.5;
         return (
           <motion.span
             key={`scatter-${skill.label}`}
@@ -266,8 +267,8 @@ function BackgroundLayer({
             style={{
               top: pos.top,
               left: pos.left,
-              transform: `rotate(${skill.rotate}deg)`,
-              "--rotate": `${skill.rotate}deg`,
+              rotate: rotVal,
+              "--rotate": `${rotVal}deg`,
               animationDelay: `${(i % 5) * 0.7}s`,
               animationDuration: `${4 + (i % 3) * 1.2}s`,
             } as any}
