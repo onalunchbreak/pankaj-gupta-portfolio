@@ -925,3 +925,41 @@ Verification:
 - **Performance / Lighthouse**: still not profiled. Dynamic import of BestWorkMetro + CommandPalette could help reach ≥90.
 - **Real assets**: all visuals are CSS/SVG-generated. Real project screenshots / portrait would make the Lab + Hero feel less abstract.
 - **Audio**: SFX are still synthesized WAV blips. Real recorded SFX would feel more premium.
+
+---
+Task ID: 17 (7 portfolio improvements per user PDF feedback)
+Agent: main (orchestrator)
+Task: Implement all 7 improvements from the user's attached issues PDF.
+
+## Current project status description/assessment
+- The portfolio was stable with all links wired. The user provided a 10-page PDF with specific visual/UX issues identified via screenshot annotations.
+
+## Current goals / completed modifications / verification results
+Goals: implement all 7 user-requested improvements while maintaining coherence.
+
+Completed:
+1. HERO LAYOUT FIXED (hero.tsx): moved the tagline (PRODUCT BY DAY...) and location (DTU '23 / Delhi India) from absolutely-positioned side elements into the document flow — they now sit in a flex row below the central identity lockup. This eliminates the conflict with the right-side nav menu. Reduced scattered micro-elements to a single coordinates accent (removed the "// PM × AI × SYSTEMS", "★", "// OPEN TABS" elements that were competing for space). VLM confirmed: "layout is cleaner, tagline/location in a row below the central identity, not overlapping right nav."
+2. EMPTY SPACES REDUCED (_shared.tsx + 7 sections): reduced section padding from `py-24 sm:py-32` to `py-16 sm:py-20` across SectionShell + all custom-header sections (achievements, research-archive, nav-index, best-work-metro, product-lab, origin, product-os). This removes the large empty gaps between Nav Index→Philosophy and Philosophy→Product OS transitions.
+3. PHILOSOPHY ATTRIBUTION REMOVED (philosophy-quote.tsx): removed the stale "— bajkamal singh" attribution from the philosophy quote section. No quotes by non-Pankaj remain.
+4. CURSOR TEXT LABELS REMOVED (cursor.tsx): rewrote the cursor to remove ALL text labels. The cursor now only changes size (grows on hover) + color (turns blue on interactive elements). No "on a lunchbreak", no section names, no labels of any kind. Removed the `data-cursor-label` attribute reading entirely.
+5. METRO FIXES (best-work-metro.tsx + data.ts):
+   - Removed the "Mr. Onalunchbreak" station (6th station) — side projects now live exclusively in the Product Lab section. Metro now has 5 stations (01/05).
+   - Fixed arrow-key reliability: added an `isScrolling` guard (400ms cooldown) + immediately update `activeRef.current` + `setActiveIndex` on key press so rapid successive presses compute from the new position. Relaxed the IntersectionObserver rootMargin from `-10% 0px -10% 0px` to `0px 0px 0px 0px` so keyboard nav activates as soon as any part of the metro section is visible.
+   - Made the intro title semi-English + semi-Hindi: "Product Line में आपका स्वागत है" (English "Product Line" + Hindi "में आपका स्वागत है" in yellow). VLM confirmed the bilingual blend.
+6. WORK LOG REMOVED + CARD DESIGN REUSED (page.tsx + data.ts + product-lab.tsx + nav.tsx + keyboard-shortcuts.ts):
+   - Removed the Work Log section entirely from page.tsx. Deleted work-log.tsx.
+   - Updated NAV_ITEMS (removed "Work"), NAV_INDEX (removed "Work Experience"), keyboard shortcuts regex (1-8 → 1-7), nav peek info (removed work-log entry, updated station count to 5).
+   - Applied the Work Log's theme-alternating card design to the Product Lab side-projects section: added PROJECT_THEMES map (queens-gambit=blue, daily-dose-of-ai=paper, skill-tracer=black, hitchhikers-guide=blue) + THEME_STYLES with full color tokens. Cards now have: numbered circular markers, status badges, corner registration marks, theme-specific backgrounds, alternating rotation + staggered vertical offset. VLM confirmed: "4 project cards use distinct background colors (blue, cream, black, blue) for a colorful archive."
+7. METRO MODAL SCROLL (best-work-metro.tsx): added `overscroll-contain` + `tabIndex={-1}` to the deep-dive panel. Added a keydown handler for ArrowUp/ArrowDown (scrolls 120px) + PageUp/PageDown (scrolls 80% of panel height) so the modal is fully scrollable via keyboard. The panel already had `overflow-y-auto` for mouse/trackpad/touch.
+
+Verification:
+- `bun run lint` → 0 errors, 0 warnings.
+- Dev server compiles cleanly, no runtime errors.
+- agent-browser + VLM confirmed: hero cleaner, philosophy attribution gone, metro 5 stations + bilingual title, Product Lab themed cards, no mobile overflow.
+- Committed to git: "refactor: 7 portfolio improvements per user feedback".
+
+## Unresolved issues / risks / priority recommendations for next phase
+- **Metro arrow key timing**: the 400ms cooldown prevents rapid double-presses from being swallowed, but very fast presses (>2.5/sec) will still be ignored. This is intentional — prevents the scroll animation from queuing up. Can be tuned if needed.
+- **Cursor data-cursor-label attributes**: the attributes still exist on many elements but are no longer read by the cursor. They're harmless but could be cleaned up in a future pass.
+- **Performance / Lighthouse**: still not profiled.
+- **Real assets**: all visuals are CSS/SVG-generated.
