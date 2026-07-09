@@ -47,20 +47,20 @@ export default function BrandMarquee() {
     damping: 50,
     stiffness: 400,
   });
-  // Map absolute scroll velocity (px/s) → speed multiplier in [0.5, 2].
-  const speed = useTransform(smoothVelocity, [0, 1500], [1, 2], { clamp: true });
+  // Map absolute scroll velocity (px/s) → speed multiplier in [0.5, 1.5].
+  const speed = useTransform(smoothVelocity, [0, 1500], [1, 1.5], { clamp: true });
 
   const direction = useRef(1);
 
   useAnimationFrame((_, delta) => {
     if (paused || reduced) return;
-    let moveBy = direction.current * (delta / 1000) * -2; // base ~2%/s leftward (slow/medium)
+    let moveBy = direction.current * (delta / 1000) * -1.2; // base ~1.2%/s (slow, readable)
     // reverse direction briefly when scrolling up so the marquee "drags" with
     // the page.
     if (smoothVelocity.get() < -10) direction.current = -1;
     else if (smoothVelocity.get() > 10) direction.current = 1;
     const mult = speed.get();
-    moveBy *= Math.max(0.5, Math.min(mult, 2));
+    moveBy *= Math.max(0.5, Math.min(mult, 1.5));
     baseX.set(baseX.get() + moveBy);
   });
 
@@ -76,6 +76,22 @@ export default function BrandMarquee() {
     ...LAB.wordCloud,
   ];
 
+  // Color cycle for word cloud terms (per PDF page 4 theme):
+  // blue, yellow, white, gray — repeating.
+  const COLORS = [
+    "text-[#1738D5]",   // blue
+    "text-[#FFD400]",   // yellow
+    "text-[#F4F1EA]",   // white/cream
+    "text-[#6B6B6B]",   // gray
+  ];
+  const getWordColor = (word: string, index: number) => {
+    const lower = word.toLowerCase();
+    // Focal words get their signature colors
+    if (lower === "mr. onalunchbreak" || lower === "still building") return "text-[#1738D5]";
+    if (lower === "python" || lower === "research" || lower === "b2b saas") return "text-[#FFD400]";
+    return COLORS[index % COLORS.length];
+  };
+
   // ---- Reduced motion: static horizontally-scrollable row ----
   if (reduced) {
     return (
@@ -87,17 +103,13 @@ export default function BrandMarquee() {
       >
         <div className="no-scrollbar scroll-styled flex w-full overflow-x-auto">
           {items.map((item, i) => {
-            const isFocal = item.toLowerCase() === "mr. onalunchbreak";
             return (
               <span
                 key={`${item}-${i}`}
-                data-cursor-label={item}
-                className={`inline-flex items-baseline whitespace-nowrap px-6 font-display text-6xl font-bold tracking-tight sm:px-8 sm:text-8xl ${
-                  isFocal ? "text-[#1738D5]" : "text-[#F4F1EA]"
-                }`}
+                className={`inline-flex items-baseline whitespace-nowrap px-4 font-display text-3xl font-bold tracking-tight sm:px-6 sm:text-5xl ${getWordColor(item, i)}`}
               >
                 {item}
-                <span className="ml-6 text-[#6B6B6B] sm:ml-8" aria-hidden>
+                <span className="ml-4 text-[#6B6B6B] sm:ml-6" aria-hidden>
                   ·
                 </span>
               </span>
@@ -124,21 +136,17 @@ export default function BrandMarquee() {
         data-cursor-label="marquee"
       >
         {items.map((item, i) => {
-          const isFocal = item.toLowerCase() === "mr. onalunchbreak";
           return (
             <span
               key={`${item}-${i}`}
-              data-cursor-label={item}
               onMouseEnter={(e) => {
                 e.stopPropagation();
                 play("tick");
               }}
-              className={`inline-flex items-baseline whitespace-nowrap px-6 font-display text-6xl font-bold tracking-tight transition-transform duration-300 hover:scale-[1.05] sm:px-8 sm:text-8xl ${
-                isFocal ? "text-[#1738D5]" : "text-[#F4F1EA]"
-              }`}
+              className={`inline-flex items-baseline whitespace-nowrap px-4 font-display text-3xl font-bold tracking-tight transition-transform duration-300 hover:scale-[1.05] sm:px-6 sm:text-5xl ${getWordColor(item, i)}`}
             >
               {item}
-              <span className="ml-6 text-[#6B6B6B] sm:ml-8" aria-hidden>
+              <span className="ml-4 text-[#6B6B6B] sm:ml-6" aria-hidden>
                 ·
               </span>
             </span>
