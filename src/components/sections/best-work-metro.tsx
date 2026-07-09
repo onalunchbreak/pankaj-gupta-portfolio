@@ -398,7 +398,7 @@ export default function BestWorkMetro() {
 
         {/* CTA + sub copy */}
         <motion.div
-          className="mt-6 flex flex-wrap items-center gap-6"
+          className="mt-6 hidden lg:flex flex-wrap items-center gap-6"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
