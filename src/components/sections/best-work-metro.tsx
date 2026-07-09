@@ -193,7 +193,7 @@ export default function BestWorkMetro() {
     const outerTop = outer.getBoundingClientRect().top + window.scrollY;
     const distance = Math.max(0, track.scrollWidth - window.innerWidth);
     const totalScroll = distance + window.innerHeight;
-    const stationScroll = totalScroll * (idx / METRO_STATIONS.length);
+    const stationScroll = totalScroll * (idx / (METRO_STATIONS.length - 1));
     const targetTop = outerTop + stationScroll;
     const lenis = getLenis();
     if (lenis) {
