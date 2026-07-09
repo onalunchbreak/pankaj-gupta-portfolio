@@ -278,68 +278,55 @@ export default function Origin() {
           </h2>
 
           {/* ---- Supporting paragraphs ---- */}
-          <div className="relative max-w-2xl space-y-10 mt-10 sm:mt-12 lg:mt-16">
-            {ORIGIN.paragraphs.map((para, i) => (
-              <Reveal key={i} delay={i * 0.08}>
-                <div className="relative border-l border-[#1a1a1a]/15 pl-6">
-                  {/* blue dot on the left border */}
-                  <span
-                    className="absolute left-0 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 bg-[#1738D5]"
-                    aria-hidden
-                  />
-                  {/* editorial index marker */}
-                  <span className="mb-2 block font-mono text-[10px] tracking-[0.25em] text-[#1a1a1a]/75">
-                    {`// 0${i + 1}`}
-                  </span>
+          <div className="relative max-w-2xl space-y-12 mt-10 sm:mt-12 lg:mt-16">
+            {ORIGIN.paragraphs.map((para, i) => {
+              // Group annotations by corresponding paragraph index
+              const groupAnnotations =
+                i === 0
+                  ? [ORIGIN.annotations[0], ORIGIN.annotations[1]]
+                  : i === 1
+                  ? [ORIGIN.annotations[2]]
+                  : [ORIGIN.annotations[3], ORIGIN.annotations[4]];
 
-
-
-                  <p className="font-sans text-base leading-relaxed text-[#2a2a2a]/85 sm:text-lg">
-                    {para}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-
-          {/* ---- Scattered handwritten annotations (5) ---- */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 hidden lg:block"
-          >
-            {ORIGIN.annotations.map((note, i) => {
-              const pos = ANNOTATION_POSITIONS[i];
-              if (!pos) return null;
               return (
-                <motion.span
-                  key={i}
-                  className={`hand-display absolute max-w-[200px] text-lg text-[#1738D5]/70 ${pos.mobileHidden ? "xl:block" : ""}`}
-                  style={{ top: pos.top, left: pos.left, rotate: pos.rotate }}
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-15% 0px" }}
-                  transition={{ duration: 0.7, delay: 0.2 + i * 0.1, ease: EASE }}
-                >
-                  ↳ {note}
-                </motion.span>
+                <Reveal key={i} delay={i * 0.08}>
+                  <div className="relative border-l border-[#1a1a1a]/15 pl-6">
+                    {/* blue dot on the left border */}
+                    <span
+                      className="absolute left-0 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 bg-[#1738D5]"
+                      aria-hidden
+                    />
+                    {/* editorial index marker */}
+                    <span className="mb-2 block font-mono text-[10px] tracking-[0.25em] text-[#1a1a1a]/75">
+                      {`// 0${i + 1}`}
+                    </span>
+
+                    <p className="font-sans text-base leading-relaxed text-[#2a2a2a]/85 sm:text-lg">
+                      {para}
+                    </p>
+
+                    {/* Respective handwritten annotations rendered directly below this paragraph */}
+                    <div className="mt-4 flex flex-col items-start gap-3">
+                      {groupAnnotations.map((note, ni) => {
+                        if (!note) return null;
+                        return (
+                          <motion.span
+                            key={ni}
+                            className="hand-display inline-block -rotate-[0.5deg] text-lg text-[#1738D5]/75 sm:text-xl"
+                            initial={{ opacity: 0, y: 8 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: ni * 0.1 }}
+                          >
+                            ↳ {note}
+                          </motion.span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </Reveal>
               );
             })}
-          </div>
-
-          {/* Mobile annotations — stacked (visible on small screens) */}
-          <div className="mt-12 space-y-4 lg:hidden">
-            {ORIGIN.annotations.map((note, i) => (
-              <motion.p
-                key={i}
-                className="hand-display -rotate-[1deg] text-lg text-[#1738D5]/75"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10% 0px" }}
-                transition={{ duration: 0.6, delay: i * 0.05, ease: EASE }}
-              >
-                ↳ {note}
-              </motion.p>
-            ))}
           </div>
 
         </div>
