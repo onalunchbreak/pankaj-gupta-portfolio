@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -10,6 +9,7 @@ const nextConfig: NextConfig = {
     "*.space-z.ai",
     "preview-chat-*.space-z.ai",
   ],
+  turbopack: {},
 };
 
 export default nextConfig;
