@@ -883,14 +883,7 @@ function StackedStationCard({
       onMouseEnter={() => play("tick")}
       data-cursor-label="station"
     >
-      {/* Top: yellow line + marker */}
-      <div className="mb-5 flex items-center gap-3">
-        <span className="inline-block h-3 w-3 rounded-full border-2 border-[#FFD400] bg-[#FFD400]" />
-        <span className="h-px flex-1 bg-[#FFD400]/60" />
-        <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#FFD400]">
-          {"● CAREER METRO"}
-        </span>
-      </div>
+
 
       {/* Index + theme pill + tag */}
       <div className="mb-4 flex flex-wrap items-center gap-3">
