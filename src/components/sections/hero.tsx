@@ -112,7 +112,7 @@ export default function Hero() {
           transition={{ delay: 0.2, duration: 0.6, ease: EASE }}
         >
           <span className="block text-[12px] sm:text-[14px] font-bold tracking-[0.22em] text-[#F7F4ED]">{HERO.topMeta}</span>
-          <span className="block text-[9px] sm:text-[10px] tracking-[0.22em] text-[#F7F4ED]/60 mt-0.5">{HERO.topMetaSub}</span>
+          <span className="block text-[9px] sm:text-[10px] tracking-[0.22em] text-[#F7F4ED]/80 mt-0.5">{HERO.topMetaSub}</span>
         </motion.span>
 
         <motion.div
@@ -126,14 +126,14 @@ export default function Hero() {
             const targets = ["best-work", "lab", "contact"];
             return (
               <>
-                <span className="block text-[#F7F4ED]/55 select-none">{parts[0]}:</span>
+                <span className="block text-[#F7F4ED]/80 select-none">{parts[0]}:</span>
                 {parts.slice(1).map((part, index) => {
                   const targetId = targets[index];
                   return (
                     <button
                       key={part}
                       onClick={() => scrollTo(targetId)}
-                      className="block w-full text-right text-[#F7F4ED]/75 hover:text-[#FFD400] transition-colors focus:outline-none focus-ring select-none"
+                      className="block w-full text-right text-white hover:text-[#FFD400] transition-colors focus:outline-none focus-ring select-none"
                     >
                       ↓ {part}
                     </button>
@@ -157,7 +157,7 @@ export default function Hero() {
 
       {/* ---- Single corner accent: coordinates ---- */}
       <motion.span
-        className="pointer-events-none absolute right-6 top-28 rotate-[3deg] select-none font-mono text-[9px] uppercase tracking-[0.18em] text-[#F7F4ED]/45 sm:right-16 sm:top-36 sm:text-[10px]"
+        className="pointer-events-none absolute right-6 top-28 rotate-[3deg] select-none font-mono text-[9px] uppercase tracking-[0.18em] text-[#F7F4ED]/75 sm:right-16 sm:top-36 sm:text-[10px]"
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.4, duration: 0.6, ease: EASE }}
