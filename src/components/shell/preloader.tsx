@@ -82,7 +82,7 @@ export default function Preloader() {
 
           {/* top bar: clock */}
           <div className="relative z-10 flex items-start justify-between p-5 font-mono text-[11px] uppercase tracking-widest sm:p-7">
-            <span className="opacity-60">MR_ONALUNCHBREAK // boot.sys</span>
+            <span className="opacity-60">PANKAJ_GUPTA // boot.sys</span>
             <span className="opacity-80">{clock} IST</span>
           </div>
 

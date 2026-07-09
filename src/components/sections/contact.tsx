@@ -131,7 +131,7 @@ export default function Contact() {
             <span className="text-[#F4F1EA]/70">CONTACT</span>
             <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
             <span className="hidden sm:inline text-[#1738D5]/70">
-              {"// mr_onalunchbreak.sys"}
+              {"// portfolio.sys"}
             </span>
           </motion.div>
 
@@ -362,7 +362,7 @@ export default function Contact() {
               className="hidden h-3 w-px bg-[#2a2a2a]/25 sm:inline-block"
             />
             <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#2a2a2a]/55">
-              {"// EOF · mr_onalunchbreak.sys"}
+              {"// EOF · session complete"}
             </div>
           </div>
         </div>

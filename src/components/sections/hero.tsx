@@ -95,44 +95,43 @@ export default function Hero() {
 
       {/* ---- Blurred skill tags background layer ----
            The skill tags from the Product Lab are scattered across the
-           hero background, heavily blurred + low-opacity so they read
-           as ambient texture. On hover they un-blur + brighten, giving
-           the hero a reactive, alive feel without competing with the
-           central identity lockup. */}
+           hero background, lightly blurred + low-opacity so they read
+           as ambient texture. On hover they un-blur + brighten to yellow,
+           giving the hero a reactive, alive feel without competing with
+           the central identity lockup. */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         {LAB.skills.map((skill, i) => {
           // Deterministic scattered positions across the hero background
           const positions = [
-            { top: "8%", left: "8%" },
-            { top: "15%", left: "70%" },
-            { top: "75%", left: "12%" },
-            { top: "82%", left: "65%" },
-            { top: "25%", left: "20%" },
-            { top: "68%", left: "40%" },
-            { top: "12%", left: "40%" },
-            { top: "88%", left: "80%" },
-            { top: "35%", left: "75%" },
-            { top: "55%", left: "8%" },
+            { top: "8%", left: "6%" },
+            { top: "14%", left: "68%" },
+            { top: "78%", left: "10%" },
+            { top: "84%", left: "62%" },
+            { top: "22%", left: "18%" },
+            { top: "70%", left: "38%" },
+            { top: "10%", left: "38%" },
+            { top: "90%", left: "78%" },
+            { top: "32%", left: "72%" },
+            { top: "52%", left: "6%" },
           ];
           const pos = positions[i % positions.length];
           return (
             <motion.span
               key={skill.label}
-              className="group/skill absolute cursor-default font-mono text-xs uppercase tracking-[0.2em] text-[#F7F4ED]/25 transition-all duration-500 hover:text-[#FFD400] hover:!opacity-100 sm:text-sm pointer-events-auto"
+              className="group/skill absolute cursor-default font-mono text-sm uppercase tracking-[0.2em] text-[#F7F4ED]/40 transition-colors duration-500 hover:text-[#FFD400] pointer-events-auto sm:text-base"
               style={{
                 top: pos.top,
                 left: pos.left,
-                rotate: skill.rotate,
-                filter: "blur(4px)",
-                opacity: 0.5,
+                rotate: `${skill.rotate}deg`,
+                filter: "blur(2px)",
               }}
               whileHover={{
                 filter: "blur(0px)",
-                opacity: 1,
-                scale: 1.15,
+                scale: 1.2,
+                color: "#FFD400",
               }}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.5 }}
+              animate={{ opacity: 0.6 }}
               transition={{ delay: 1.5 + i * 0.15, duration: 0.8 }}
             >
               {skill.label}
@@ -208,22 +207,29 @@ export default function Hero() {
         </motion.h1>
       </div>
 
-      {/* ---- Tagline + location row (in-flow, below the lockup) ----
-           Tagline is right-shifted so there's equal padding between the
-           left edge and the central identity. Delhi, India sits on the
-           right side. DTU '23 has been removed per user request. */}
-      <motion.div
-        className="relative z-10 flex flex-col items-center gap-3 text-center sm:flex-row sm:items-baseline sm:justify-center sm:gap-12 sm:text-left"
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.0, duration: 0.7, ease: EASE }}
+      {/* ---- Tagline (right side, beside the lockup, rotated) ----
+           Positioned to the right of the central identity, clear of the
+           right-side nav on xl screens. Slightly rotated for editorial feel. */}
+      <motion.p
+        className="hand-display absolute right-12 top-1/2 z-10 hidden -translate-y-1/2 rotate-[3deg] text-right text-xl text-[#F7F4ED]/85 sm:block sm:text-2xl xl:right-16"
+        initial={{ opacity: 0, x: 14 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1.25, duration: 0.7, ease: EASE }}
       >
-        <p className="hand-display -rotate-[1deg] text-xl text-[#F7F4ED]/85 sm:ml-auto sm:max-w-[280px] sm:text-2xl">
-          {HERO.tagline}
-        </p>
-        <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:mr-auto sm:text-[11px]">
+        {HERO.tagline}
+      </motion.p>
+
+      {/* ---- Delhi, India (left side, beside the lockup, vertical/rotated) ---- */}
+      <motion.div
+        className="absolute left-5 top-1/2 z-10 hidden -translate-y-1/2 sm:left-8 sm:block"
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1.1, duration: 0.7, ease: EASE }}
+        aria-hidden
+      >
+        <span className="block -rotate-90 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:text-[11px]">
           {HERO.location}
-        </div>
+        </span>
       </motion.div>
 
       {/* ---- Time morph + role cycler + secondary line (centered cluster) ---- */}

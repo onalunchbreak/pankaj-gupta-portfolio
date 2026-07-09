@@ -197,7 +197,7 @@ export default function BestWorkMetro() {
     const targetTop = outerTop + stationScroll;
     const lenis = getLenis();
     if (lenis) {
-      lenis.scrollTo(targetTop, { duration: 1.2 });
+      lenis.scrollTo(targetTop, { duration: 0.8 });
     } else {
       window.scrollTo({ top: targetTop, behavior: "smooth" });
     }
@@ -206,13 +206,9 @@ export default function BestWorkMetro() {
   useEffect(() => {
     if (!inView || !showPinned || openStationId) return;
     let isScrolling = false;
-    const onArrow = (e: Event) => {
-      const dir = (e as CustomEvent<"left" | "right">).detail;
-      if (dir !== "right" && dir !== "left") return;
-      // Dismiss the keyboard hint — the user got the message.
+
+    const navigate = (dir: "left" | "right") => {
       setShowKeyHint(false);
-      // If a scroll is in progress, ignore — prevents rapid key presses
-      // from being swallowed. The guard clears after the scroll duration.
       if (isScrolling) return;
       const delta = dir === "right" ? 1 : -1;
       const target = Math.max(
@@ -220,19 +216,21 @@ export default function BestWorkMetro() {
         Math.min(METRO_STATIONS.length - 1, activeRef.current + delta)
       );
       if (target === activeRef.current) return;
-      // Immediately update the active ref so rapid successive key presses
-      // compute from the new position, not the old one.
       activeRef.current = target;
       setActiveIndex(target);
       playRef.current("blip");
       isScrolling = true;
       scrollToStation(target);
-      // Clear the guard shortly after the scroll completes — use a
-      // shorter timeout than the scroll duration so the next key is
-      // responsive.
-      setTimeout(() => {
-        isScrolling = false;
-      }, 400);
+      setTimeout(() => { isScrolling = false; }, 150);
+    };
+
+    // Direct keydown listener for maximum reliability — one press = one station.
+    // Does NOT rely on the keyboard-router's custom event chain.
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+        e.preventDefault();
+        navigate(e.key === "ArrowRight" ? "right" : "left");
+      }
     };
     const onHome = () => {
       if (activeRef.current === 0 || isScrolling) return;
@@ -241,9 +239,7 @@ export default function BestWorkMetro() {
       playRef.current("blip");
       isScrolling = true;
       scrollToStation(0);
-      setTimeout(() => {
-        isScrolling = false;
-      }, 400);
+      setTimeout(() => { isScrolling = false; }, 150);
     };
     const onEnd = () => {
       if (activeRef.current === METRO_STATIONS.length - 1 || isScrolling) return;
@@ -253,15 +249,13 @@ export default function BestWorkMetro() {
       playRef.current("blip");
       isScrolling = true;
       scrollToStation(last);
-      setTimeout(() => {
-        isScrolling = false;
-      }, 400);
+      setTimeout(() => { isScrolling = false; }, 150);
     };
-    window.addEventListener("baaz:arrow", onArrow as EventListener);
+    window.addEventListener("keydown", onKeyDown);
     window.addEventListener("baaz:metro-home", onHome);
     window.addEventListener("baaz:metro-end", onEnd);
     return () => {
-      window.removeEventListener("baaz:arrow", onArrow as EventListener);
+      window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("baaz:metro-home", onHome);
       window.removeEventListener("baaz:metro-end", onEnd);
     };
@@ -356,7 +350,7 @@ export default function BestWorkMetro() {
             BEST WORK / DELHI METRO
           </span>
           <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-          <span className="hidden sm:inline">{"// mr_onalunchbreak.sys"}</span>
+          <span className="hidden sm:inline">{"// portfolio.sys"}</span>
           <ShareButton sectionId="best-work" />
         </motion.div>
 
@@ -390,17 +384,6 @@ export default function BestWorkMetro() {
           <span className="font-display">Career Metro</span>{" "}
           <span className="font-deva text-[#FFD400]">की लाइन में आपका स्वागत है</span>
         </motion.h2>
-
-        {/* English subtitle */}
-        <motion.p
-          className="mt-4 font-mono text-sm uppercase tracking-[0.3em] text-[#F4F1EA]/60 sm:text-base"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
-        >
-          {METRO_INTRO.subtitle}
-        </motion.p>
 
         {/* System message + current status strip — mono, yellow + cream */}
         <motion.div

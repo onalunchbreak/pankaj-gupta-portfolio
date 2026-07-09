@@ -47,20 +47,20 @@ export default function BrandMarquee() {
     damping: 50,
     stiffness: 400,
   });
-  // Map absolute scroll velocity (px/s) → speed multiplier in [0.5, 3].
-  const speed = useTransform(smoothVelocity, [0, 1500], [1, 3], { clamp: true });
+  // Map absolute scroll velocity (px/s) → speed multiplier in [0.5, 2].
+  const speed = useTransform(smoothVelocity, [0, 1500], [1, 2], { clamp: true });
 
   const direction = useRef(1);
 
   useAnimationFrame((_, delta) => {
     if (paused || reduced) return;
-    let moveBy = direction.current * (delta / 1000) * -5; // base ~5%/s leftward
+    let moveBy = direction.current * (delta / 1000) * -2; // base ~2%/s leftward (slow/medium)
     // reverse direction briefly when scrolling up so the marquee "drags" with
     // the page.
     if (smoothVelocity.get() < -10) direction.current = -1;
     else if (smoothVelocity.get() > 10) direction.current = 1;
     const mult = speed.get();
-    moveBy *= Math.max(0.5, Math.min(mult, 3));
+    moveBy *= Math.max(0.5, Math.min(mult, 2));
     baseX.set(baseX.get() + moveBy);
   });
 

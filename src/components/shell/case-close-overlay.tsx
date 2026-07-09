@@ -166,7 +166,7 @@ export default function CaseCloseOverlay() {
             </div>
 
             <div className="text-right font-mono text-[10px] uppercase tracking-widest text-[#6B6B6B]">
-              session // pankaj-gupta · mr_onalunchbreak · closed · {new Date().getFullYear()}
+              session // pankaj-gupta · closed · {new Date().getFullYear()}
             </div>
           </motion.div>
         )}

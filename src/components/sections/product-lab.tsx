@@ -263,7 +263,7 @@ export default function ProductLab() {
           <span className="text-[#F4F1EA]/70">PRODUCT LAB</span>
           <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
           <span className="hidden sm:inline text-[#1738D5]/70">
-            {"// mr_onalunchbreak.sys"}
+            {"// portfolio.sys"}
           </span>
         </motion.div>
 

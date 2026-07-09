@@ -16,7 +16,7 @@ The portfolio preserves the strongest experiential characteristics of the refere
 ## Design System
 
 Four primary visual environments:
-- **Electric Blue** `#1738D5` — hero, projects, accents
+- **Electric Blue** `#1738D5` — hero, accents
 - **Warm Paper** `#F4F1EA` — editorial sections, case studies, research, achievements
 - **Black** `#0A0A0A` — system surfaces, overlays, metro, contact upper
 - **White** `#F7F4ED` — ink against blue and black
@@ -25,31 +25,31 @@ Accents: Metro Yellow `#FFD400`, Alert `#FF3B30`, Muted `#6B6B6B`.
 
 ## Sections (in order)
 
-1. **Hero** — electric blue, handwritten "Mr. / On a / lunch / break" lockup, role cycler, time morph
+1. **Hero** — electric blue, handwritten "Mr. / On a / lunch / break" lockup, blurred skill tags in background, role cycler, time morph, tagline beside the lockup
 2. **Nav Index** — editorial table-of-contents with handwritten links + quick-note card
-3. **Philosophy Quote** — transitional word-by-word reveal
-4. **Brand Marquee** — velocity-modulated infinite scroll
-5. **Origin** — warm paper notebook, 8-step DTU→SenseHQ timeline, SVG scroll-drawn path
-6. **Product OS** — "PRODUCTS WITH A REASON", 1200+ customers, 6 stat cards
-7. **Work Log** — electric blue, 4 experience cards (SenseHQ/CEGIS/Cambridge JBS/Bosch) with shared-layoutId expand
-8. **Best Work Metro** — signature Delhi Metro horizontal-pinned track, 6 stations, Step Out deep-dives, keyboard nav
-9. **Research Archive** — 4 papers (EACL/ECIR/AAAI/IEEE) as archival document sheets
-10. **Product Lab** — 44-word CV cloud + 10 skill tags + 4 side projects
-11. **Achievements** — 4 awards + education strip
-12. **Contact** — black upper + paper footer, magnetic CTA
+3. **Philosophy Quote** — transitional word-by-word reveal (no attribution)
+4. **Brand Marquee** — slow/medium velocity-modulated infinite scroll of the 44-word CV cloud
+5. **Origin** — warm paper notebook, "WHAT SHOULD WE BUILD?" hero statement, 3 supporting paragraphs, handwritten annotations, "PRODUCT ROADMAP?" motif
+6. **Product OS** — "PRODUCTS WITH A REASON", 1200+ customers, 6 stat cards, "different industries" handwritten note
+7. **Best Work Metro** — signature Delhi Metro horizontal-pinned track, 5 stations (Bosch, Research Lab, Cambridge JBS, CEGIS, SenseHQ), Step Out deep-dives, reliable keyboard nav (one press = one station), bilingual title "Career Metro की लाइन में आपका स्वागत है"
+8. **Research Archive** — 4 papers (EACL/ECIR/AAAI/IEEE) as archival document sheets with open-paper links
+9. **Product Lab** — 4 themed side-project cards (blue/paper/black alternation) with open-project links
+10. **Achievements** — 4 awards with credential links + education strip (DTU, IIIT Delhi, NYU)
+11. **Contact** — black upper + paper footer, magnetic CTA, email copy button, social links
 
 ## Features
 
 - **Preloader** — boot sequence, counter, staggered statement reveal
-- **Custom cursor** — dot + lagging ring, contextual labels
+- **Custom cursor** — dot + lagging ring, grows + changes color (blue) on interactive hover. No text labels.
 - **Smooth scroll** — Lenis synced to GSAP ScrollTrigger
 - **Sound system** — Howler.js SFX (default muted, arms on first gesture, localStorage persistence)
-- **Keyboard shortcuts** — `?` help, `⌘K` command palette, `1-8` section jump, `←/→` metro nav, `Home/End` first/last station, `M` mute, konami code
+- **Keyboard shortcuts** — `?` help, `⌘K` command palette, `1-7` section jump, `←/→` metro nav (direct keydown, one press = one station), `Home/End` first/last station, `M` mute, konami code
 - **Command palette** — fuzzy search across all sections/stations/experiences/papers/projects
 - **Session stats** — tracks systems inspected, case studies opened, side projects visited
 - **Share/copy-section-URL** — hash-based deep-linking
 - **Nav hover peek** — floating mini-preview cards
 - **Scroll-to-top** + **reading-time estimate**
+- **Nav + side rail color adaptation** — dark text on paper sections, light text on dark sections
 - **Reduced-motion** — full content access without animation
 - **Responsive** — desktop pinned metro ↔ mobile vertical stacked
 
@@ -57,7 +57,7 @@ Accents: Metro Yellow `#FFD400`, Alert `#FF3B30`, Muted `#6B6B6B`.
 
 All external links are programmatically extracted from `Pankaj Gupta Resume_Latest.pdf` — no URLs are fabricated. Missing links render as disabled labels.
 
-- **Research papers**: ACL Anthology, Springer, AAAI, IEEE Xplore
+- **Research papers**: ACL Anthology (EACL 2025), Springer (ECIR 2023), AAAI 2023, IEEE Xplore
 - **Side projects**: GitHub (Queen's Gambit, Skill Tracer), Vercel (Daily Dose of AI), LinkedIn (Hitchhiker's Guide)
 - **Social**: LinkedIn (linkedin.com/in/gupta-pankaj), GitHub (github.com/onalunchbreak), Email
 - **Achievements**: NextLeap LinkedIn honor, Fatima Institute, Amazon ML Scaler, Teach For India
@@ -82,7 +82,7 @@ src/
     globals.css          # design tokens + utilities
   components/
     shell/               # global overlays (preloader, nav, cursor, etc.)
-    sections/            # 12 portfolio sections
+    sections/            # portfolio sections
   hooks/                 # reusable hooks (sound, count-up, focus-trap, etc.)
   lib/
     data.ts              # all content data (typed)

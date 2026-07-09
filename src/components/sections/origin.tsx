@@ -362,7 +362,7 @@ export default function Origin() {
           {/* ---- Terminal footer — meta with blinking blue cursor ---- */}
           <div className="mt-12 border-t border-[#1a1a1a]/15 pt-6">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#6B6B6B]">
-              <span className="text-[#1738D5]">~/mr_onalunchbreak</span>
+              <span className="text-[#1738D5]">~/portfolio</span>
               <span className="mx-1">$</span>
               the beginning, not the destination.
               <span

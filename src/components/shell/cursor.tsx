@@ -8,7 +8,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
  *
  * Per user request: NO text labels are rendered inside the cursor.
  * The cursor only changes size + color when hovering interactive
- * elements — no section names, no "on a lunchbreak", no labels.
+ * elements — the ring grows and turns blue, no labels of any kind.
  */
 export default function Cursor() {
   const [enabled, setEnabled] = useState(
@@ -53,7 +53,7 @@ export default function Cursor() {
 
   return (
     <>
-      {/* dot — follows instantly */}
+      {/* dot — follows instantly, uses mix-blend-difference for visibility on all backgrounds */}
       <motion.div
         className="pointer-events-none fixed z-[100] mix-blend-difference"
         style={{ x, y }}
@@ -62,32 +62,33 @@ export default function Cursor() {
         <motion.div
           className="rounded-full bg-white"
           animate={{
-            width: hovering ? 6 : 7,
-            height: hovering ? 6 : 7,
-            opacity: hovering ? 0.9 : 1,
+            width: hovering ? 5 : 7,
+            height: hovering ? 5 : 7,
+            opacity: 1,
           }}
           transition={{ duration: 0.18 }}
           style={{ translateX: "-50%", translateY: "-50%" }}
         />
       </motion.div>
-      {/* ring — lags via spring, grows + turns blue on interactive hover */}
+      {/* ring — lags via spring, grows + turns blue on interactive hover.
+           No mix-blend-difference so the blue color change is clearly visible. */}
       <motion.div
-        className="pointer-events-none fixed z-[100] mix-blend-difference"
+        className="pointer-events-none fixed z-[100]"
         style={{ x: ringX, y: ringY }}
         aria-hidden
       >
         <motion.div
-          className="rounded-full border"
+          className="rounded-full border-2"
           animate={{
-            width: hovering ? 44 : 30,
-            height: hovering ? 44 : 30,
+            width: hovering ? 48 : 32,
+            height: hovering ? 48 : 32,
             scale: down ? 0.82 : 1,
             backgroundColor: hovering
-              ? "rgba(23,56,213,0.12)"
+              ? "rgba(23,56,213,0.15)"
               : "rgba(255,255,255,0)",
             borderColor: hovering
-              ? "rgba(23,56,213,0.9)"
-              : "rgba(255,255,255,0.7)",
+              ? "rgba(23,56,213,1)"
+              : "rgba(255,255,255,0.5)",
           }}
           transition={{ type: "spring", stiffness: 260, damping: 22 }}
           style={{ translateX: "-50%", translateY: "-50%" }}
