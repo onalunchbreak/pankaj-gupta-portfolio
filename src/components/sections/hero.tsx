@@ -203,12 +203,24 @@ export default function Hero() {
 
         {/* ---- Tagline (below the lockup, centered, slightly rotated) ---- */}
         <motion.p
-          className="pointer-events-none relative z-10 mt-8 max-w-2xl px-4 text-center hand-display -rotate-[1deg] text-xl leading-relaxed text-[#F7F4ED]/85 sm:mt-10 sm:text-2xl"
+          className="pointer-events-none relative z-10 mt-8 max-w-2xl px-4 text-center hand-display -rotate-[1deg] text-xl leading-[1.2] text-[#F7F4ED]/85 sm:mt-10 sm:text-2xl sm:leading-[1.25]"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.25, duration: 0.7, ease: EASE }}
         >
-          {HERO.tagline}
+          {(() => {
+            const parts = HERO.tagline.split(", ");
+            if (parts.length >= 3) {
+              return (
+                <>
+                  {parts[0]}, {parts[1]},
+                  <br />
+                  {parts[2]}
+                </>
+              );
+            }
+            return HERO.tagline;
+          })()}
         </motion.p>
       </div>
 
