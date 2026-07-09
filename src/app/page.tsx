@@ -19,7 +19,6 @@ import PhilosophyQuote from "@/components/sections/philosophy-quote";
 import BrandMarquee from "@/components/sections/brand-marquee";
 import Origin from "@/components/sections/origin";
 import ProductOS from "@/components/sections/product-os";
-import WorkLog from "@/components/sections/work-log";
 import BestWorkMetro from "@/components/sections/best-work-metro";
 import ResearchArchive from "@/components/sections/research-archive";
 import ProductLab from "@/components/sections/product-lab";
@@ -52,7 +51,6 @@ export default function Home() {
         <BrandMarquee />
         <Origin />
         <ProductOS />
-        <WorkLog />
         <BestWorkMetro />
         <ResearchArchive />
         <ProductLab />

@@ -8,7 +8,7 @@ export type ShortcutDef = {
 
 export const SHORTCUTS: ShortcutDef[] = [
   { keys: "⌘ K", desc: "Command palette — search & jump" },
-  { keys: "1 — 8", desc: "Jump to section" },
+  { keys: "1 — 7", desc: "Jump to section" },
   { keys: "← / →", desc: "Navigate metro stations" },
   { keys: "Home / End", desc: "First / last metro station" },
   { keys: "M", desc: "Toggle sound" },
@@ -74,8 +74,8 @@ export function useKeyboardShortcuts(opts?: {
         return;
       }
 
-      // 1-8 → section jump
-      if (/^[1-8]$/.test(k) && onSectionJump) {
+      // 1-7 → section jump
+      if (/^[1-7]$/.test(k) && onSectionJump) {
         e.preventDefault();
         onSectionJump(parseInt(k, 10) - 1);
         return;

@@ -19,7 +19,6 @@ export const NAV_ITEMS = [
   { label: "Home", id: "hero" },
   { label: "Origin", id: "origin" },
   { label: "Product OS", id: "product-os" },
-  { label: "Work", id: "work-log" },
   { label: "Best Work", id: "best-work" },
   { label: "Research", id: "research" },
   { label: "Lab", id: "lab" },
@@ -88,7 +87,6 @@ export const NAV_INDEX = {
   items: [
     { label: "About Me", annotation: "how I ended up here", target: "origin" },
     { label: "Product OS", annotation: "how I think about products", target: "product-os" },
-    { label: "Work Experience", annotation: "things shipped in the real world", target: "work-log" },
     { label: "Best Work", annotation: "systems worth inspecting", target: "best-work" },
     { label: "Research Archive", annotation: "papers I somehow finished", target: "research" },
     { label: "Side Project Lab", annotation: "things built outside working hours", target: "lab" },
@@ -473,49 +471,14 @@ export const METRO_STATIONS: MetroStation[] = [
     ],
     stationType: "professional",
   },
-  {
-    id: "mr-onalunchbreak",
-    index: "06",
-    name: "MR. ONALUNCHBREAK",
-    role: "Builder",
-    theme: "SIDE PROJECTS",
-    tag: "The Lab",
-    headline: "WORK ENDS. CURIOSITY DOESN'T.",
-    problem:
-      "Things I build when I should probably be doing something else. The curiosity that doesn't stop when the workday ends.",
-    system: ["Queen's Gambit", "Daily Dose of AI", "Skill Tracer", "A Hitchhiker's Guide to Presenting Modern Data Solutions"],
-    impact: "4 side projects shipped (or in progress). Curiosity-driven building across chess AI, AI news, workflow tooling, and data presentation.",
-    metrics: [
-      { label: "Side Projects", value: 4 },
-      { label: "Status", value: 0, display: "BUILDING" },
-      { label: "Curiosity", value: 0, display: "∞" },
-    ],
-    caseStudy: [
-      { label: "IDEA", title: "Work ends. Curiosity doesn't.", text: "Things I build when I should probably be doing something else." },
-      { label: "WHY I BUILT IT", title: "The lab", text: "The ongoing side-project lab — where curiosity-driven building happens outside formal employment." },
-      { label: "SYSTEM", title: "4 side projects", text: "Queen's Gambit (chess + AI), Daily Dose of AI (AI news), Skill Tracer (workflow → skills.md), A Hitchhiker's Guide to Modern Data Solutions (KaggleX BIPOC project)." },
-      { label: "STATUS", title: "Still building", text: "All projects are active experiments. Some escaped the backlog." },
-      { label: "WHAT'S NEXT", title: "More tabs open", text: "More experiments. More side projects. Probably during lunch." },
-    ],
-    learning: "Work ends. Curiosity doesn't.",
-    extras: [
-      {
-        label: "Side Projects",
-        items: [
-          "Queen's Gambit — personalised chess platform, classical tournament aesthetics × modern AI",
-          "Daily Dose of AI — go-to place for AI and technology updates",
-          "Skill Tracer — build skills.md from workflows by recording interactions + AI models",
-          "A Hitchhiker's Guide to Presenting Modern Data Solutions — KaggleX BIPOC Program Project",
-        ],
-      },
-    ],
-    stationType: "side-project",
-  },
+  // NOTE: The "MR. ONALUNCHBREAK" side-project station was removed per user
+  // request — side projects now live in the Product Lab section instead.
 ];
 
 export const METRO_INTRO = {
   hindi: "दिल्ली मेट्रो में आपका स्वागत है",
-  english: "Welcome to the Product Line.",
+  english: "Welcome to the Product Line",
+  bilingualTitle: "Product Line में आपका स्वागत है",
   systemMessage: "DESTINATION: BETTER PRODUCTS",
   currentStatus: "CURRENT STATUS: STILL FIGURING IT OUT",
   cta: "BOARD TRAIN",

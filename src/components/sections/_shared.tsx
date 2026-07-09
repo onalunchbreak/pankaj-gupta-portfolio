@@ -22,7 +22,7 @@ export function SectionShell({
   return (
     <section
       id={id}
-      className={`relative mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-8 sm:py-32 lg:px-12 ${className}`}
+      className={`relative mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 ${className}`}
     >
       {/* Brutalist corner registration marks — printer's crosshairs at the
           section's top corners. Reinforces the editorial-brutalist grid. */}

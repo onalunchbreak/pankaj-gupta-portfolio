@@ -157,6 +157,67 @@ const STATUS_STYLES: Record<string, string> = {
   SHIPPED: "border-[#1738D5]/60 text-[#1738D5] bg-[#1738D5]/10",
 };
 
+// Theme-alternating card styles (reused from the Work Log design).
+// Each side project gets a distinct theme so the grid reads as a
+// colorful archive of builds, not a uniform dark grid.
+type ProjectTheme = "blue" | "paper" | "black";
+const PROJECT_THEMES: Record<string, ProjectTheme> = {
+  "queens-gambit": "blue",
+  "daily-dose-of-ai": "paper",
+  "skill-tracer": "black",
+  "hitchhikers-guide": "blue",
+};
+
+const THEME_STYLES: Record<ProjectTheme, {
+  card: string;
+  cardHover: string;
+  ink: string;
+  inkMuted: string;
+  indexPill: string;
+  archived: string;
+  metric: string;
+  border: string;
+  hint: string;
+  chip: string;
+}> = {
+  blue: {
+    card: "bg-[#0F2BB0] border-[#F7F4ED]/30",
+    cardHover: "hover:border-[#F7F4ED]",
+    ink: "text-[#F7F4ED]",
+    inkMuted: "text-[#F7F4ED]/60",
+    indexPill: "border-[#F7F4ED]/40 text-[#F7F4ED]",
+    archived: "bg-[#F7F4ED] text-[#1738D5]",
+    metric: "text-[#FFD400]",
+    border: "border-[#F7F4ED]/15",
+    hint: "text-[#F7F4ED]/60 group-hover:text-[#FFD400]",
+    chip: "border-[#F7F4ED]/25 text-[#F7F4ED]/75",
+  },
+  paper: {
+    card: "bg-[#F4F1EA] paper-texture border-[#2a2a2a]/20",
+    cardHover: "hover:border-[#1738D5]",
+    ink: "text-[#1a1a1a]",
+    inkMuted: "text-[#2a2a2a]/70",
+    indexPill: "border-[#1738D5]/40 text-[#1738D5]",
+    archived: "bg-[#1738D5] text-[#F4F1EA]",
+    metric: "text-[#1738D5]",
+    border: "border-[#2a2a2a]/15",
+    hint: "text-[#2a2a2a]/60 group-hover:text-[#1738D5]",
+    chip: "border-[#1738D5]/30 text-[#1738D5]",
+  },
+  black: {
+    card: "bg-[#0A0A0A] border-[#FFD400]/30",
+    cardHover: "hover:border-[#FFD400]",
+    ink: "text-[#F4F1EA]",
+    inkMuted: "text-[#6B6B6B]",
+    indexPill: "border-[#FFD400]/40 text-[#FFD400]",
+    archived: "bg-[#FFD400] text-[#0A0A0A]",
+    metric: "text-[#FFD400]",
+    border: "border-white/15",
+    hint: "text-[#6B6B6B] group-hover:text-[#FFD400]",
+    chip: "border-[#FFD400]/30 text-[#FFD400]/80",
+  },
+};
+
 export default function ProductLab() {
   const { play } = useSound();
   const reduced = usePrefersReducedMotion();
@@ -189,7 +250,7 @@ export default function ProductLab() {
       aria-labelledby="lab-heading"
       data-cursor-label="product lab"
     >
-      <div className="mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-8 sm:py-32 lg:px-12">
+      <div className="mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
         {/* ---- Section header (custom — no stale branding) ---- */}
         <motion.div
           className="mb-10 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#6B6B6B] sm:mb-14"
@@ -433,25 +494,34 @@ export default function ProductLab() {
             {LAB.sideProjects.map((project, i) => {
               const url = PROJECT_URLS[project.id] ?? "";
               const available = hasLink(url);
+              const theme = THEME_STYLES[PROJECT_THEMES[project.id] ?? "black"];
+              const rotate = i % 2 === 0 ? -0.6 : 0.8;
+              const yOffset = i === 1 || i === 3 ? "sm:translate-y-8" : "";
               return (
                 <motion.article
                   key={project.id}
-                  className="group flex h-full flex-col border border-white/10 bg-[#0E0E0E] p-5 transition-colors duration-300 hover:border-[#1738D5]/50"
-                  initial={reduced ? false : { opacity: 0, y: 24, rotate: i % 2 === 0 ? 1 : -1 }}
-                  whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                  className={`group relative flex h-full flex-col border p-5 transition-colors duration-300 sm:p-6 ${theme.card} ${theme.cardHover} ${yOffset}`}
+                  initial={reduced ? false : { opacity: 0, y: 24, rotate }}
+                  whileInView={{ opacity: 1, y: 0, rotate }}
                   viewport={{ once: true, margin: "-8% 0px" }}
                   transition={{ duration: 0.6, delay: i * 0.08, ease: EASE }}
+                  whileHover={reduced ? undefined : { scale: 1.012, rotate: 0 }}
                   data-cursor-label={project.name}
                 >
-                  {/* Header row: index + status badge */}
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B]">
-                      {String(i + 1).padStart(2, "0")} / 04
+                  {/* Brutalist corner registration marks */}
+                  <span aria-hidden className="pointer-events-none absolute left-1.5 top-1.5 h-2 w-2 border-l border-t border-current/30" />
+                  <span aria-hidden className="pointer-events-none absolute right-1.5 top-1.5 h-2 w-2 border-r border-t border-current/30" />
+                  <span aria-hidden className="pointer-events-none absolute bottom-1.5 left-1.5 h-2 w-2 border-b border-l border-current/30" />
+                  <span aria-hidden className="pointer-events-none absolute bottom-1.5 right-1.5 h-2 w-2 border-b border-r border-current/30" />
+
+                  {/* Header row: numbered marker + status badge */}
+                  <div className="mb-4 flex items-center justify-between">
+                    <span className={`flex h-7 w-7 items-center justify-center rounded-full border font-mono text-[10px] tabular-nums ${theme.indexPill}`}>
+                      {String(i + 1).padStart(2, "0")}
                     </span>
                     <span
                       className={`border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] ${
-                        STATUS_STYLES[project.status] ??
-                        "border-white/15 text-[#F4F1EA]/70"
+                        STATUS_STYLES[project.status] ?? "border-white/15 text-[#F4F1EA]/70"
                       }`}
                     >
                       {project.status}
@@ -459,12 +529,12 @@ export default function ProductLab() {
                   </div>
 
                   {/* Project name */}
-                  <h3 className="font-display text-lg font-bold leading-[1.15] tracking-tight text-[#F4F1EA]">
+                  <h3 className={`font-display text-lg font-bold leading-[1.15] tracking-tight ${theme.ink}`}>
                     {project.name}
                   </h3>
 
                   {/* Description */}
-                  <p className="mt-3 text-[13px] leading-relaxed text-[#F4F1EA]/65">
+                  <p className={`mt-3 text-[13px] leading-relaxed ${theme.inkMuted}`}>
                     {project.desc}
                   </p>
 
@@ -473,7 +543,7 @@ export default function ProductLab() {
                     {project.categories.map((cat) => (
                       <span
                         key={cat}
-                        className="border border-white/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-[#F4F1EA]/70"
+                        className={`border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] ${theme.chip}`}
                       >
                         {cat}
                       </span>
@@ -483,8 +553,8 @@ export default function ProductLab() {
                   {/* Spacer */}
                   <div className="flex-1" />
 
-                  {/* Action: OPEN PROJECT or INSPECT BUILD — both register a visit */}
-                  <div className="mt-5 border-t border-white/10 pt-3">
+                  {/* Action: OPEN PROJECT or INSPECT BUILD */}
+                  <div className={`mt-5 border-t pt-3 ${theme.border}`}>
                     {available ? (
                       <a
                         href={url}
@@ -492,9 +562,8 @@ export default function ProductLab() {
                         rel="noopener noreferrer"
                         onMouseEnter={() => play("tick")}
                         onClick={() => visitSideProject()}
-                        data-cursor-label="open project"
                         aria-label={`Open project ${project.name}`}
-                        className="group/btn flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[#1738D5] transition-colors hover:text-[#FFD400]"
+                        className={`group/btn flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.25em] transition-colors hover:text-[#FFD400] ${theme.ink}`}
                       >
                         <span className="flex items-center gap-2">
                           <ExternalLink className="h-3 w-3" aria-hidden />
@@ -502,22 +571,21 @@ export default function ProductLab() {
                         </span>
                         <span
                           aria-hidden
-                          className="h-px w-5 bg-[#1738D5] transition-all duration-300 group-hover/btn:w-9"
+                          className="h-px w-5 bg-current transition-all duration-300 group-hover/btn:w-9"
                         />
                       </a>
                     ) : (
                       <button
                         type="button"
                         onClick={() => { visitSideProject(); play("tick"); }}
-                        data-cursor-label="inspect"
                         aria-label={`Inspect ${project.name} build`}
-                        className="group/btn flex w-full items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B] transition-colors hover:text-[#1738D5]"
+                        className={`group/btn flex w-full items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.25em] transition-colors ${theme.hint}`}
                       >
                         <span className="flex items-center gap-2">
                           <Wrench className="h-3 w-3" aria-hidden />
                           <span>inspect build</span>
                         </span>
-                        <span aria-hidden className="h-px w-5 bg-[#6B6B6B]/40 transition-all duration-300 group-hover/btn:w-9 group-hover/btn:bg-[#1738D5]" />
+                        <span aria-hidden className="h-px w-5 bg-current/40 transition-all duration-300 group-hover/btn:w-9" />
                       </button>
                     )}
                   </div>

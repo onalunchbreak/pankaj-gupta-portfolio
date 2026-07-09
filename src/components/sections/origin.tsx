@@ -179,7 +179,7 @@ export default function Origin() {
     >
       <div
         ref={contentRef}
-        className="relative mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-8 sm:py-32 lg:px-12"
+        className="relative mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12"
       >
         {/* ---- Header: 01 — THE BEGINNING + subtitle ---- */}
         <motion.div

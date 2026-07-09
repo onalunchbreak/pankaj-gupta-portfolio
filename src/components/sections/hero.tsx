@@ -30,25 +30,14 @@ const IDENTITY_LOCKUP = [
 /**
  * Hero — Section 01.
  *
- * Electric blue (#1738D5) environment. The centerpiece is the
- * "Mr. / On a / lunch / break" handwritten lockup — four stacked Caveat
- * lines (sized per spec, "lunch" largest, "break" overlapping it) revealed
- * line-by-line via clipping masks (overflow-hidden + motion y:110%→0%).
+ * Electric blue (#1738D5) environment. Cleaned-up layout: the tagline
+ * and location are now in the document flow (not absolutely positioned)
+ * to avoid conflicts with the central identity + right-side nav. The
+ * scattered micro-elements are minimal and anchored to corners only.
  *
- * Surrounding it: top metadata (Pankaj Gupta / AKA Mr. Onalunchbreak +
- * top links), left vertical "DTU '23 / Delhi, India" stack, right-side
- * handwritten tagline ("PRODUCT BY DAY, SIDE PROJECTS BY LUNCH, ..."),
- * a 5-role cycler (AnimatePresence blur cross-fade, 2.5s), a time morph
- * through ["09:00","13:00","02:00"] with handwritten annotation, the
- * secondary line ("Product Manager. Applied AI Builder. Researcher.
- * Systems Thinker."), a pulsing scroll cue ("GO ON." / "THERE ARE MORE
- * OPEN TABS." + bouncing arrow), and a bottom Portfolio // Session strip.
- *
- * L-shaped corner framing marks + scattered micro-elements. Subtle cursor
- * parallax shifts the identity lockup ±8px via spring-smoothed motion
- * values. Reduced motion renders static final states. No horizontal
- * overflow on any viewport (section is overflow-hidden + clamp sizing
- * keeps every line within bounds down to 360px).
+ * Centerpiece: "Mr. / On a / lunch / break" handwritten lockup revealed
+ * line-by-line via clipping masks. Below: time morph, role cycler,
+ * secondary line, scroll cue. Top: metadata bar. Bottom: Portfolio strip.
  */
 export default function Hero() {
   const reduced = usePrefersReducedMotion();
@@ -96,8 +85,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="env-blue relative flex min-h-screen w-full flex-col overflow-hidden px-5 py-12 sm:px-8 sm:py-16"
-      data-cursor-label="Mr. Onalunchbreak"
+      className="env-blue relative flex min-h-screen w-full flex-col overflow-hidden px-5 py-10 sm:px-8 sm:py-14"
     >
       {/* ---- L-shaped corner framing marks ---- */}
       <span aria-hidden className="pointer-events-none absolute left-4 top-4 h-5 w-5 border-l border-t border-white/40 sm:left-6 sm:top-6 sm:h-6 sm:w-6" />
@@ -126,42 +114,9 @@ export default function Hero() {
         </motion.span>
       </div>
 
-      {/* ---- Left side tagline (handwritten) — moved from right to avoid
-            overlapping the right-side nav menu. ---- */}
-      <motion.p
-        className="hand-display absolute left-5 top-1/2 z-10 hidden max-w-[220px] -translate-y-1/2 -rotate-[3deg] text-left text-2xl text-[#F7F4ED]/85 sm:left-8 sm:block sm:text-3xl"
-        initial={{ opacity: 0, x: -14 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1.25, duration: 0.7, ease: EASE }}
-      >
-        {HERO.tagline}
-      </motion.p>
-
-      {/* ---- Right vertical stack: DTU '23 / Delhi, India (moved from left) ---- */}
-      <motion.div
-        className="absolute right-5 top-1/2 z-10 hidden -translate-y-1/2 flex-col gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:right-8 sm:flex sm:text-[11px]"
-        initial={{ opacity: 0, x: 10 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1.1, duration: 0.7, ease: EASE }}
-        aria-hidden
-      >
-        <span className="rotate-90 whitespace-nowrap pb-6 pr-1">{HERO.location}</span>
-        <span className="rotate-90 whitespace-nowrap pb-6 pr-1">{HERO.locationSub}</span>
-      </motion.div>
-
-      {/* ---- Scattered micro-elements (intentional misalignment) ---- */}
+      {/* ---- Single corner accent: coordinates (top-right, subtle) ---- */}
       <motion.span
-        className="pointer-events-none absolute left-6 top-24 -rotate-[4deg] select-none font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] sm:left-16 sm:top-28 sm:text-[11px]"
-        initial={{ opacity: 0, y: -6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.6, ease: EASE }}
-        aria-hidden
-      >
-        {"// PM × AI × SYSTEMS"}
-      </motion.span>
-
-      <motion.span
-        className="pointer-events-none absolute right-6 top-28 rotate-[3deg] select-none font-mono text-[10px] uppercase tracking-[0.18em] text-[#F7F4ED]/55 sm:right-16 sm:text-[11px]"
+        className="pointer-events-none absolute right-6 top-16 rotate-[3deg] select-none font-mono text-[9px] uppercase tracking-[0.18em] text-[#F7F4ED]/45 sm:right-16 sm:top-20 sm:text-[10px]"
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.4, duration: 0.6, ease: EASE }}
@@ -170,33 +125,12 @@ export default function Hero() {
         28.6139° N, 77.2090° E
       </motion.span>
 
-      <motion.span
-        className="pointer-events-none absolute bottom-36 left-6 -rotate-[10deg] select-none text-3xl text-[#FFD400] sm:bottom-44 sm:left-16 sm:text-4xl"
-        initial={{ opacity: 0, scale: 0.4, rotate: -30 }}
-        animate={{ opacity: 0.95, scale: 1, rotate: -10 }}
-        transition={{ delay: 1.6, duration: 0.8, ease: EASE }}
-        aria-hidden
-      >
-        ★
-      </motion.span>
-
-      <motion.span
-        className="pointer-events-none absolute bottom-40 right-6 rotate-[6deg] select-none font-mono text-[10px] uppercase tracking-[0.25em] text-[#F7F4ED]/55 sm:bottom-48 sm:right-16"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.7, duration: 0.6 }}
-        aria-hidden
-      >
-        {"// OPEN TABS"}
-      </motion.span>
-
       {/* ---- IDENTITY LOCKUP — stacked handwritten, line-by-line mask reveal ---- */}
       <div className="relative z-0 flex flex-1 items-center justify-center">
         <motion.h1
           className="hand-display select-none text-center text-[#F7F4ED]"
           style={reduced ? undefined : { x: lockupX, y: lockupY }}
           aria-label={HERO.identityLines.join(" ")}
-          data-cursor-label="Mr. Onalunchbreak"
         >
           <div className="flex flex-col items-center justify-center">
             {IDENTITY_LOCKUP.map((line, i) => (
@@ -205,8 +139,6 @@ export default function Hero() {
                 className="block overflow-hidden"
                 style={{
                   lineHeight: 0.82,
-                  // "break" overlaps "lunch" — pull it up slightly more on
-                  // larger viewports so the overlap reads as intentional.
                   marginTop: i === 3 ? "calc(-1 * (0.12 * min(13rem, 13vw)))" : undefined,
                 }}
               >
@@ -228,9 +160,25 @@ export default function Hero() {
         </motion.h1>
       </div>
 
-      {/* ---- Time morph — cycle through ["09:00","13:00","02:00"] ---- */}
+      {/* ---- Tagline + location row (in-flow, below the lockup) ---- */}
       <motion.div
-        className="relative z-10 mt-2 flex flex-col items-center gap-1 text-center sm:mt-3"
+        className="relative z-10 flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-between sm:gap-6 sm:text-left"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.0, duration: 0.7, ease: EASE }}
+      >
+        <p className="hand-display -rotate-[1deg] text-xl text-[#F7F4ED]/85 sm:max-w-[280px] sm:text-2xl">
+          {HERO.tagline}
+        </p>
+        <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:text-[11px]">
+          <span className="block">{HERO.location}</span>
+          <span className="block text-[#F7F4ED]/50">{HERO.locationSub}</span>
+        </div>
+      </motion.div>
+
+      {/* ---- Time morph + role cycler + secondary line (centered cluster) ---- */}
+      <motion.div
+        className="relative z-10 mt-5 flex flex-col items-center gap-2 text-center sm:mt-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.1, duration: 0.6 }}
@@ -249,20 +197,12 @@ export default function Hero() {
               {HERO.timeMorph[timeIndex]}
             </motion.span>
           </AnimatePresence>
-          <span className="mx-2 text-[#F7F4ED]/45" aria-hidden>
-            →
-          </span>
-          <span className="tabular-nums text-[#F7F4ED]/55">
-            {HERO.timeMorph[(timeIndex + 1) % HERO.timeMorph.length]}
-          </span>
-          <span className="mx-2 text-[#F7F4ED]/45" aria-hidden>
-            →
-          </span>
-          <span className="tabular-nums text-[#F7F4ED]/55">
-            {HERO.timeMorph[(timeIndex + 2) % HERO.timeMorph.length]}
-          </span>
+          <span className="mx-2 text-[#F7F4ED]/45" aria-hidden>→</span>
+          <span className="tabular-nums text-[#F7F4ED]/55">{HERO.timeMorph[(timeIndex + 1) % HERO.timeMorph.length]}</span>
+          <span className="mx-2 text-[#F7F4ED]/45" aria-hidden>→</span>
+          <span className="tabular-nums text-[#F7F4ED]/55">{HERO.timeMorph[(timeIndex + 2) % HERO.timeMorph.length]}</span>
         </div>
-        <p className="hand-display -rotate-[1deg] text-base text-[#F7F4ED]/65 sm:text-lg">
+        <p className="hand-display -rotate-[1deg] text-sm text-[#F7F4ED]/65 sm:text-base">
           {HERO.timeAnnotation}
         </p>
       </motion.div>
@@ -276,19 +216,13 @@ export default function Hero() {
           <motion.div
             key={roleIndex}
             className="absolute inset-0 flex items-center justify-center gap-3 font-display text-base font-semibold tracking-tight text-[#F7F4ED] sm:text-xl"
-            initial={
-              reduced ? { opacity: 1 } : { opacity: 0, filter: "blur(8px)", y: 12 }
-            }
+            initial={reduced ? { opacity: 1 } : { opacity: 0, filter: "blur(8px)", y: 12 }}
             animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-            exit={
-              reduced ? { opacity: 0 } : { opacity: 0, filter: "blur(8px)", y: -12 }
-            }
+            exit={reduced ? { opacity: 0 } : { opacity: 0, filter: "blur(8px)", y: -12 }}
             transition={{ duration: 0.5, ease: EASE }}
           >
             <span>{HERO.roles[roleIndex]}</span>
-            <span className="text-[#FFD400]" aria-hidden>
-              →
-            </span>
+            <span className="text-[#FFD400]" aria-hidden>→</span>
           </motion.div>
         </AnimatePresence>
       </div>
@@ -305,7 +239,7 @@ export default function Hero() {
 
       {/* ---- Scroll cue ---- */}
       <motion.div
-        className="relative z-10 mt-auto flex flex-col items-center gap-2 pt-8 sm:pt-10"
+        className="relative z-10 mt-auto flex flex-col items-center gap-2 pt-6 sm:pt-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.6, duration: 0.6 }}
@@ -327,7 +261,7 @@ export default function Hero() {
 
       {/* ---- Bottom Portfolio // Session strip ---- */}
       <motion.div
-        className="relative z-10 mt-6 flex w-full items-center justify-between border-t border-white/10 pt-3 font-mono text-[9px] uppercase tracking-[0.22em] text-[#F7F4ED]/55 sm:text-[10px]"
+        className="relative z-10 mt-5 flex w-full items-center justify-between border-t border-white/10 pt-3 font-mono text-[9px] uppercase tracking-[0.22em] text-[#F7F4ED]/55 sm:text-[10px]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8, duration: 0.6 }}

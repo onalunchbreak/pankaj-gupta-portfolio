@@ -22,12 +22,6 @@ export default function PhilosophyQuote() {
           delay={0.1}
           stagger={0.06}
         />
-
-        <Reveal className="mt-10 sm:mt-14" delay={0.4}>
-          <p className="text-right font-mono text-xs uppercase tracking-[0.3em] text-[#6B6B6B]">
-            <span className="text-[#FFD400]">—</span> bajkamal singh
-          </p>
-        </Reveal>
       </div>
     </SectionShell>
   );

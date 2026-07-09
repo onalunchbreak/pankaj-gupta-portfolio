@@ -109,7 +109,7 @@ export default function BestWorkMetro() {
           setTimeout(() => setShowKeyHint(false), 5000);
         }
       },
-      { rootMargin: "-10% 0px -10% 0px", threshold: 0 }
+      { rootMargin: "0px 0px 0px 0px", threshold: 0 }
     );
     io.observe(section);
     return () => io.disconnect();
@@ -205,29 +205,57 @@ export default function BestWorkMetro() {
 
   useEffect(() => {
     if (!inView || !showPinned || openStationId) return;
+    let isScrolling = false;
     const onArrow = (e: Event) => {
       const dir = (e as CustomEvent<"left" | "right">).detail;
       if (dir !== "right" && dir !== "left") return;
       // Dismiss the keyboard hint — the user got the message.
       setShowKeyHint(false);
+      // If a scroll is in progress, ignore — prevents rapid key presses
+      // from being swallowed. The guard clears after the scroll duration.
+      if (isScrolling) return;
       const delta = dir === "right" ? 1 : -1;
       const target = Math.max(
         0,
         Math.min(METRO_STATIONS.length - 1, activeRef.current + delta)
       );
       if (target === activeRef.current) return;
+      // Immediately update the active ref so rapid successive key presses
+      // compute from the new position, not the old one.
+      activeRef.current = target;
+      setActiveIndex(target);
       playRef.current("blip");
+      isScrolling = true;
       scrollToStation(target);
+      // Clear the guard shortly after the scroll completes — use a
+      // shorter timeout than the scroll duration so the next key is
+      // responsive.
+      setTimeout(() => {
+        isScrolling = false;
+      }, 400);
     };
     const onHome = () => {
-      if (activeRef.current === 0) return;
+      if (activeRef.current === 0 || isScrolling) return;
+      activeRef.current = 0;
+      setActiveIndex(0);
       playRef.current("blip");
+      isScrolling = true;
       scrollToStation(0);
+      setTimeout(() => {
+        isScrolling = false;
+      }, 400);
     };
     const onEnd = () => {
-      if (activeRef.current === METRO_STATIONS.length - 1) return;
+      if (activeRef.current === METRO_STATIONS.length - 1 || isScrolling) return;
+      const last = METRO_STATIONS.length - 1;
+      activeRef.current = last;
+      setActiveIndex(last);
       playRef.current("blip");
-      scrollToStation(METRO_STATIONS.length - 1);
+      isScrolling = true;
+      scrollToStation(last);
+      setTimeout(() => {
+        isScrolling = false;
+      }, 400);
     };
     window.addEventListener("baaz:arrow", onArrow as EventListener);
     window.addEventListener("baaz:metro-home", onHome);
@@ -314,7 +342,7 @@ export default function BestWorkMetro() {
       {/* ====================================================
           A. INTRO PANEL
           ==================================================== */}
-      <div className="mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-8 sm:py-32 lg:px-12">
+      <div className="mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
         {/* Index header — mirrors SectionShell */}
         <motion.div
           className="mb-10 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#6B6B6B] sm:mb-14"
@@ -351,27 +379,27 @@ export default function BestWorkMetro() {
           </span>
         </div>
 
-        {/* Hindi heading */}
+        {/* Bilingual title — semi-English + semi-Hindi blend */}
         <motion.h2
-          className="font-deva text-4xl font-bold leading-tight text-[#F4F1EA] sm:text-6xl"
+          className="text-4xl font-bold leading-tight tracking-tight text-[#F4F1EA] sm:text-6xl"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.8, ease: EASE }}
-          data-cursor-label={METRO_INTRO.english}
         >
-          {METRO_INTRO.hindi}
+          <span className="font-display">Product Line</span>{" "}
+          <span className="font-deva text-[#FFD400]">में आपका स्वागत है</span>
         </motion.h2>
 
         {/* English subtitle */}
         <motion.p
-          className="mt-4 font-display text-2xl font-bold tracking-tight text-[#F4F1EA]/60 sm:text-3xl"
+          className="mt-4 font-mono text-sm uppercase tracking-[0.3em] text-[#F4F1EA]/60 sm:text-base"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
         >
-          {METRO_INTRO.english}
+          {METRO_INTRO.subtitle}
         </motion.p>
 
         {/* System message + current status strip — mono, yellow + cream */}
@@ -988,6 +1016,31 @@ function DeepDiveOverlay({
 }) {
   const { play } = useSound();
 
+  // Keyboard up/down scrolls the panel content (in addition to the
+  // native mouse/trackpad/touch scrolling). Ensures the modal is
+  // fully accessible via keyboard.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const panel = panelRef.current;
+      if (!panel) return;
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        panel.scrollBy({ top: 120, behavior: "smooth" });
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        panel.scrollBy({ top: -120, behavior: "smooth" });
+      } else if (e.key === "PageDown") {
+        e.preventDefault();
+        panel.scrollBy({ top: panel.clientHeight * 0.8, behavior: "smooth" });
+      } else if (e.key === "PageUp") {
+        e.preventDefault();
+        panel.scrollBy({ top: -panel.clientHeight * 0.8, behavior: "smooth" });
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [panelRef]);
+
   return (
     <motion.div
       className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-8"
@@ -1007,15 +1060,16 @@ function DeepDiveOverlay({
         aria-hidden
       />
 
-      {/* Panel — yellow border, scrollable */}
+      {/* Panel — yellow border, fully scrollable (mouse, trackpad, keyboard, touch) */}
       <motion.div
         ref={panelRef}
-        className="relative z-10 max-h-[90vh] w-full max-w-4xl overflow-y-auto border-2 border-[#FFD400] bg-[#0E0E0E] scroll-styled"
+        className="relative z-10 max-h-[90vh] w-full max-w-4xl overflow-y-auto overscroll-contain border-2 border-[#FFD400] bg-[#0E0E0E] scroll-styled"
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 20, opacity: 0 }}
         transition={{ duration: 0.4, ease: EASE }}
         onClick={(e) => e.stopPropagation()}
+        tabIndex={-1}
       >
         {/* Sticky header — "● PRODUCT LINE // {station}" */}
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#FFD400]/40 bg-[#0E0E0E] px-6 py-3 sm:px-8">
