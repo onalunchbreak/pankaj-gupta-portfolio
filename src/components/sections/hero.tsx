@@ -137,7 +137,7 @@ export default function Hero() {
 
       {/* ---- Single corner accent: coordinates ---- */}
       <motion.span
-        className="pointer-events-none absolute right-6 top-16 rotate-[3deg] select-none font-mono text-[9px] uppercase tracking-[0.18em] text-[#F7F4ED]/45 sm:right-16 sm:top-20 sm:text-[10px]"
+        className="pointer-events-none absolute right-6 top-28 rotate-[3deg] select-none font-mono text-[9px] uppercase tracking-[0.18em] text-[#F7F4ED]/45 sm:right-16 sm:top-36 sm:text-[10px]"
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.4, duration: 0.6, ease: EASE }}
@@ -183,7 +183,7 @@ export default function Hero() {
 
       {/* ---- Tagline (right side, beside the lockup, rotated) ---- */}
       <motion.p
-        className="hand-display absolute right-12 top-1/2 z-10 hidden -translate-y-1/2 rotate-[3deg] text-right text-xl text-[#F7F4ED]/85 sm:block sm:text-2xl xl:right-16 pointer-events-none"
+        className="hand-display absolute right-12 top-1/2 z-10 hidden -translate-y-1/2 rotate-[3deg] text-right text-xl text-[#F7F4ED]/85 sm:block sm:max-w-[240px] sm:text-2xl xl:right-16 pointer-events-none"
         initial={{ opacity: 0, x: 14 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 1.25, duration: 0.7, ease: EASE }}
