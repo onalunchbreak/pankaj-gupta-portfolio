@@ -82,15 +82,12 @@ export default function Preloader() {
 
           {/* top bar: clock */}
           <div className="relative z-10 flex items-start justify-between p-5 font-mono text-[11px] uppercase tracking-widest sm:p-7">
-            <span className="opacity-60">PANKAJ_GUPTA // boot.sys</span>
+            <span className="opacity-60">PANKAJ GUPTA</span>
             <span className="opacity-80">{clock} IST</span>
           </div>
 
           {/* center: counter + boot sequence + statement */}
           <div className="relative z-10 flex flex-1 flex-col justify-center px-5 sm:px-10">
-            <div className="font-mono text-[13px] uppercase tracking-[0.3em] text-[#1738D5]">
-              <span className="text-[#FFD400]">●</span> {PRELOADER.bootSequence[0]}
-            </div>
             {/* cycling boot line */}
             <div className="mt-2 h-5 font-mono text-[11px] uppercase tracking-[0.2em] text-[#6B6B6B]">
               <AnimatePresence mode="wait">
@@ -132,7 +129,7 @@ export default function Preloader() {
               </p>
             </div>
             {/* margin microcopy */}
-            <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B]">
+            <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">
               {PRELOADER.marginMicrocopy[0]} <span className="text-[#1738D5]">·</span> {PRELOADER.marginMicrocopy[1]}
             </div>
           </div>
@@ -146,8 +143,7 @@ export default function Preloader() {
           </div>
 
           {/* bottom: skip */}
-          <div className="relative z-10 flex items-end justify-between p-5 font-mono text-[11px] uppercase tracking-widest sm:p-7">
-            <span className="opacity-50">v.2026 · portfolio · still building</span>
+          <div className="relative z-10 flex items-end justify-end p-5 font-mono text-[11px] uppercase tracking-widest sm:p-7">
             <button
               onClick={() => {
                 setCount(100);
