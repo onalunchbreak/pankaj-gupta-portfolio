@@ -213,7 +213,9 @@ export default function Hero() {
             if (parts.length >= 3) {
               return (
                 <>
-                  {parts[0]}, {parts[1]},
+                  {parts[0]},
+                  <br className="sm:hidden" />{" "}
+                  {parts[1]},
                   <br />
                   {parts[2]}
                 </>
