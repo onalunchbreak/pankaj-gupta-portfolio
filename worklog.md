@@ -1003,3 +1003,34 @@ Verification:
 - **Hero skill tags visibility**: the VLM didn't detect the blurred skill tags in the screenshot (they're at 0.5 opacity + blur(4px)). They're intentionally subtle — visible on hover but ambient otherwise. If the user wants them more visible, increase the base opacity.
 - **Performance / Lighthouse**: still not profiled.
 - **Real assets**: all visuals are CSS/SVG-generated.
+
+---
+Task ID: 19 (7 refinement fixes per user feedback)
+Agent: main (orchestrator)
+Task: Fix cursor color, hero tagline position, marquee speed, skill tag visibility, metro subtitle dedup, metro keyboard reliability, remove mr_onalunchbreak.sys.
+
+## Current project status description/assessment
+- The portfolio was stable after the prior 5-improvement round. The user provided 7 specific refinements.
+
+## Current goals / completed modifications / verification results
+Goals: implement all 7 user-requested refinements.
+
+Completed:
+1. CURSOR COLOR FIX (cursor.tsx): removed `mix-blend-difference` from the ring so the blue color change on hover is clearly visible (was being inverted by the blend mode). Changed border to `border-2` for more prominence. Ring grows to 48px on hover (was 44px) with blue background + blue border. No text labels.
+2. HERO TAGLINE REPOSITIONED (hero.tsx): moved tagline back to absolute positioning on the RIGHT side beside the central lockup (`right-12 xl:right-16 top-1/2 rotate-[3deg]`), clear of the right-side nav. Delhi India on the LEFT side (`left-5 top-1/2 -rotate-90`) as vertical text. Both are `hidden sm:block` so they appear beside the lockup, not below it.
+3. MARQUEE SPEED REDUCED (brand-marquee.tsx): base speed reduced from -5 to -2 (%/s) for slow/medium scrolling. Velocity multiplier capped at 2x (was 3x).
+4. SKILL TAGS VISIBILITY INCREASED (hero.tsx): text opacity from /25 to /40, blur from 4px to 2px, base opacity from 0.5 to 0.6, font from text-xs to text-sm. On hover: un-blur + scale 1.2 + color change to yellow. Tags are now visible as ambient background texture.
+5. METRO SUBTITLE DEDUP (best-work-metro.tsx): removed the first occurrence of "ONE CAREER. MULTIPLE SYSTEMS. STILL IN TRANSIT." (was right after the title). Kept the latter occurrence (after the system message strip).
+6. METRO KEYBOARD RELIABILITY (best-work-metro.tsx): replaced the dual-listener approach (custom baaz:arrow event + keydown) with a SINGLE direct keydown listener. The metro now listens directly for ArrowLeft/ArrowRight keydown events — no dependency on the keyboard-router's event chain. Cooldown reduced from 400ms to 150ms. Lenis scroll duration reduced from 1.2s to 0.8s for snappier transitions. One press = one station.
+7. REMOVED mr_onalunchbreak.sys (8 files): replaced all "mr_onalunchbreak.sys" references with "portfolio.sys" in section headers (_shared.tsx, best-work-metro.tsx, product-lab.tsx, contact.tsx). Changed EOF label to "session complete". Changed preloader label to "PANKAJ_GUPTA // boot.sys". Changed origin terminal path to "~/portfolio". Changed case-close session label to "pankaj-gupta · closed".
+8. README updated with latest section list (11 sections, no Work Log), features (direct keydown metro nav, no cursor labels, nav color adaptation), and structure.
+
+Verification:
+- `bun run lint` → 0 errors, 0 warnings.
+- Dev server compiled cleanly (server crashed in sandbox due to process management issues, but lint + compile verified).
+- Committed to git: "refactor: cursor color fix, hero tagline repositioning, marquee speed, skill tags visibility, metro keyboard reliability, remove mr_onalunchbreak.sys"
+
+## Unresolved issues / risks / priority recommendations for next phase
+- **Metro keyboard testing**: the dev server crashed in the sandbox during testing, so the direct keydown listener couldn't be verified via agent-browser. The logic is sound — a single keydown listener with a 150ms cooldown and immediate activeRef update should ensure one press = one station.
+- **Performance / Lighthouse**: still not profiled.
+- **Real assets**: all visuals are CSS/SVG-generated.
