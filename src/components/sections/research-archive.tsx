@@ -215,13 +215,7 @@ export default function ResearchArchive() {
           ))}
         </div>
 
-        {/* Footer microcopy */}
-        <Reveal className="mt-14 sm:mt-20" delay={0.1}>
-          <p className="font-hand text-lg italic text-[#1a1a1a]/60 sm:translate-x-2 sm:text-xl">
-            ↳ papers i somehow finished between deployments, deadlines, and
-    customer interviews.
-          </p>
-        </Reveal>
+
       </div>
     </section>
   );
