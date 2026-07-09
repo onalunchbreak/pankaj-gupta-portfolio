@@ -79,8 +79,8 @@ node --version   # should print >= 18.18.0
 ### 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
-cd portfolio
+git clone https://github.com/yourusername/pankaj-gupta-portfolio.git
+cd pankaj-gupta-portfolio
 ```
 
 ### 2. Install dependencies
@@ -212,7 +212,7 @@ Accents: Metro Yellow `#FFD400`, Alert `#FF3B30`, Muted `#6B6B6B`.
 4. **Brand Marquee** — slow velocity-modulated infinite scroll of the 44-word CV cloud with per-word color cycling
 5. **Origin** — warm paper notebook, "WHAT SHOULD WE BUILD?" hero statement, 3 supporting paragraphs, handwritten annotations, "PRODUCT ROADMAP?" motif
 6. **Product OS** — "PRODUCTS WITH A REASON", 1200+ customers, 6 stat cards, "different industries" handwritten note
-7. **Best Work Metro** — signature Delhi Metro horizontal-pinned track, 5 stations (Bosch, Research Lab, Cambridge JBS, CEGIS, SenseHQ), Step Out deep-dives, reliable keyboard nav (one press = one station), bilingual title "Career Metro की लाइन में आपका स्वागत है"
+7. **Career Metro** — signature horizontal-pinned GSAP track, 7 stations in chronological career order (Edukey Intelligent Systems 2019 → Teach for India 2020 → Pratham Education Foundation 2021 → Bosch → Cambridge JBS → CEGIS → SenseHQ), Step Out deep-dives, reliable keyboard nav (one press = one station), bilingual title "Career Metro की लाइन में आपका स्वागत है"
 8. **Research Archive** — 4 papers (EACL/ECIR/AAAI/IEEE) as archival document sheets with open-paper links
 9. **Product Lab** — 4 themed side-project cards (blue/paper/black alternation) with open-project links
 10. **Achievements** — 4 awards with credential links + education strip (DTU, IIIT Delhi, NYU)
