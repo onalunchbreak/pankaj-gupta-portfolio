@@ -9,7 +9,7 @@ import {
 } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
-import { HERO } from "@/lib/data";
+import { HERO, LAB } from "@/lib/data";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -93,6 +93,54 @@ export default function Hero() {
       <span aria-hidden className="pointer-events-none absolute bottom-4 left-4 h-5 w-5 border-b border-l border-white/40 sm:bottom-6 sm:left-6 sm:h-6 sm:w-6" />
       <span aria-hidden className="pointer-events-none absolute bottom-4 right-4 h-5 w-5 border-b border-r border-white/40 sm:bottom-6 sm:right-6 sm:h-6 sm:w-6" />
 
+      {/* ---- Blurred skill tags background layer ----
+           The skill tags from the Product Lab are scattered across the
+           hero background, heavily blurred + low-opacity so they read
+           as ambient texture. On hover they un-blur + brighten, giving
+           the hero a reactive, alive feel without competing with the
+           central identity lockup. */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        {LAB.skills.map((skill, i) => {
+          // Deterministic scattered positions across the hero background
+          const positions = [
+            { top: "8%", left: "8%" },
+            { top: "15%", left: "70%" },
+            { top: "75%", left: "12%" },
+            { top: "82%", left: "65%" },
+            { top: "25%", left: "20%" },
+            { top: "68%", left: "40%" },
+            { top: "12%", left: "40%" },
+            { top: "88%", left: "80%" },
+            { top: "35%", left: "75%" },
+            { top: "55%", left: "8%" },
+          ];
+          const pos = positions[i % positions.length];
+          return (
+            <motion.span
+              key={skill.label}
+              className="group/skill absolute cursor-default font-mono text-xs uppercase tracking-[0.2em] text-[#F7F4ED]/25 transition-all duration-500 hover:text-[#FFD400] hover:!opacity-100 sm:text-sm pointer-events-auto"
+              style={{
+                top: pos.top,
+                left: pos.left,
+                rotate: skill.rotate,
+                filter: "blur(4px)",
+                opacity: 0.5,
+              }}
+              whileHover={{
+                filter: "blur(0px)",
+                opacity: 1,
+                scale: 1.15,
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              transition={{ delay: 1.5 + i * 0.15, duration: 0.8 }}
+            >
+              {skill.label}
+            </motion.span>
+          );
+        })}
+      </div>
+
       {/* ---- Top metadata bar ---- */}
       <div className="relative z-10 flex w-full items-start justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.2em] text-[#F7F4ED]/75 sm:text-[11px]">
         <motion.span
@@ -160,19 +208,21 @@ export default function Hero() {
         </motion.h1>
       </div>
 
-      {/* ---- Tagline + location row (in-flow, below the lockup) ---- */}
+      {/* ---- Tagline + location row (in-flow, below the lockup) ----
+           Tagline is right-shifted so there's equal padding between the
+           left edge and the central identity. Delhi, India sits on the
+           right side. DTU '23 has been removed per user request. */}
       <motion.div
-        className="relative z-10 flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-between sm:gap-6 sm:text-left"
+        className="relative z-10 flex flex-col items-center gap-3 text-center sm:flex-row sm:items-baseline sm:justify-center sm:gap-12 sm:text-left"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.0, duration: 0.7, ease: EASE }}
       >
-        <p className="hand-display -rotate-[1deg] text-xl text-[#F7F4ED]/85 sm:max-w-[280px] sm:text-2xl">
+        <p className="hand-display -rotate-[1deg] text-xl text-[#F7F4ED]/85 sm:ml-auto sm:max-w-[280px] sm:text-2xl">
           {HERO.tagline}
         </p>
-        <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:text-[11px]">
-          <span className="block">{HERO.location}</span>
-          <span className="block text-[#F7F4ED]/50">{HERO.locationSub}</span>
+        <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:mr-auto sm:text-[11px]">
+          {HERO.location}
         </div>
       </motion.div>
 

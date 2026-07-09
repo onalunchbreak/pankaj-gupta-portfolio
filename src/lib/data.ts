@@ -61,8 +61,8 @@ export const HERO = {
   topMeta: "Pankaj Gupta",
   topMetaSub: "AKA Mr. Onalunchbreak",
   topLinks: "Fastest way to inspect my work → Best Work → Product Lab → Contact",
-  location: "DTU '23",
-  locationSub: "Delhi, India",
+  location: "Delhi, India",
+  locationSub: "",
   tagline: "PRODUCT BY DAY, SIDE PROJECTS BY LUNCH, OVERTHINKING BY MIDNIGHT.",
   secondary: "Product Manager. Applied AI Builder. Researcher. Systems Thinker.",
   roles: [
@@ -477,12 +477,12 @@ export const METRO_STATIONS: MetroStation[] = [
 
 export const METRO_INTRO = {
   hindi: "दिल्ली मेट्रो में आपका स्वागत है",
-  english: "Welcome to the Product Line",
-  bilingualTitle: "Product Line में आपका स्वागत है",
+  english: "Welcome to the Delhi Metro",
+  bilingualTitle: "Career Metro की लाइन में आपका स्वागत है",
   systemMessage: "DESTINATION: BETTER PRODUCTS",
   currentStatus: "CURRENT STATUS: STILL FIGURING IT OUT",
   cta: "BOARD TRAIN",
-  line: "PRODUCT LINE",
+  line: "DELHI METRO",
   subtitle: "ONE CAREER. MULTIPLE SYSTEMS. STILL IN TRANSIT.",
   announcements: [
     "अगला स्टेशन सेंस एचक्यू है।",
@@ -494,7 +494,7 @@ export const METRO_INTRO = {
     "Doors will open on the product side.",
   ],
   footer:
-    "driven by curiosity · PRODUCT LINE // DELHI · built between delhi, bangalore, research labs & too many browser tabs · powered by coffee, customer interviews & unfinished side projects · caution: may continue building after office hours · CURRENT DESTINATION: UNKNOWN · STATUS: STILL SHIPPING · Return to Platform",
+    "driven by curiosity · DELHI METRO // CAREER LINE · built between delhi, bangalore, research labs & too many browser tabs · powered by coffee, customer interviews & unfinished side projects · caution: may continue building after office hours · CURRENT DESTINATION: UNKNOWN · STATUS: STILL SHIPPING · Return to Platform",
 };
 
 // Research Archive
@@ -628,7 +628,7 @@ export const CONTACT = {
     { label: "LINKEDIN", href: "https://www.linkedin.com/in/gupta-pankaj/" },
     { label: "GITHUB", href: "https://github.com/onalunchbreak" },
   ],
-  signoff: "Bye. Hope your roadmap survives the next customer interview. If not, that's probably useful information.",
+  signoff: "Bye. Hope your roadmap survives the next product-market fit conversation. If not, that's probably the most useful feedback you'll get all week.",
   signature: "Pankaj Gupta",
   signatureSub: "(Mr. Onalunchbreak)",
   systemStatus: "STILL BUILDING.",

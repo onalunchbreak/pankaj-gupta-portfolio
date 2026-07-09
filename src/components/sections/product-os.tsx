@@ -239,33 +239,6 @@ export default function ProductOS() {
             ↳ {PRODUCT_OS.places.note}
           </motion.p>
         </Reveal>
-
-        {/* ---- Terminal footer — bottomNote + ps ---- */}
-        <Reveal className="mt-20 sm:mt-24" delay={0.1}>
-          <div className="relative border border-[#1a1a1a]/25 bg-[#0A0A0A] p-5 font-mono text-xs text-[#F7F4ED]/85 shadow-[6px_6px_0_0_rgba(23,56,213,0.25)] sm:p-6 sm:text-sm">
-            {/* terminal title bar */}
-            <div className="mb-3 flex items-center gap-2 border-b border-white/10 pb-2 text-[10px] uppercase tracking-[0.2em] text-[#F7F4ED]/55">
-              <span className="h-2 w-2 rounded-full bg-[#FF3B30]" aria-hidden />
-              <span className="h-2 w-2 rounded-full bg-[#FFD400]" aria-hidden />
-              <span className="h-2 w-2 rounded-full bg-[#1738D5]" aria-hidden />
-              <span className="ml-2">~/mr_onalunchbreak/product_os.log</span>
-            </div>
-            <p className="leading-relaxed">
-              <span className="text-[#1738D5]">$</span>
-              <span className="mx-1 text-[#FFD400]">note</span>
-              {PRODUCT_OS.bottomNote}
-            </p>
-            <p className="mt-3 leading-relaxed text-[#F7F4ED]/70">
-              <span className="text-[#1738D5]">$</span>
-              <span className="mx-1 text-[#FFD400]">ps</span>
-              {PRODUCT_OS.ps}
-              <span
-                className="ml-1 inline-block h-3 w-2 translate-y-[1px] bg-[#1738D5] blink"
-                aria-hidden
-              />
-            </p>
-          </div>
-        </Reveal>
       </div>
     </section>
   );

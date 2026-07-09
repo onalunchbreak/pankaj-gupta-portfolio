@@ -275,33 +275,7 @@ export default function Origin() {
             {renderWords(after, "after")}
           </h2>
 
-          {/* ---- SVG scroll-drawn timeline path (decorative, blue) ---- */}
-          <div
-            aria-hidden
-            className="pointer-events-none my-12 h-[120px] w-full sm:my-16 sm:h-[160px]"
-          >
-            <svg
-              viewBox="0 0 240 280"
-              preserveAspectRatio="none"
-              className="h-full w-full"
-              fill="none"
-            >
-              <path
-                ref={pathRef}
-                d={PATH_D}
-                stroke="#1738D5"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              {/* dots at the path inflections — start, mid, end */}
-              <circle cx="4" cy="8" r="3" fill="#1738D5" />
-              <circle cx="110" cy="212" r="3" fill="#1738D5" />
-              <circle cx="130" cy="274" r="3" fill="#1738D5" />
-            </svg>
-          </div>
-
-          {/* ---- Supporting paragraphs along the path ---- */}
+          {/* ---- Supporting paragraphs ---- */}
           <div className="relative max-w-2xl space-y-10">
             {ORIGIN.paragraphs.map((para, i) => (
               <Reveal key={i} delay={i * 0.08}>
@@ -333,49 +307,6 @@ export default function Origin() {
                 </div>
               </Reveal>
             ))}
-          </div>
-
-          {/* ---- 8-step timeline milestones (sequential activation on scroll) ---- */}
-          <div className="mt-20">
-            <p className="mb-6 font-mono text-[10px] uppercase tracking-[0.3em] text-[#6B6B6B]">
-              {"// timeline — 8 milestones"}
-            </p>
-            <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {ORIGIN.timeline.map((t, i) => (
-                <motion.li
-                  key={`${t.year}-${t.label}`}
-                  className="group relative border border-[#1a1a1a]/15 bg-[#F4F1EA]/40 p-4 transition-colors duration-300 hover:border-[#1738D5]/50"
-                  initial={reduced ? false : { opacity: 0, y: 18 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-10% 0px" }}
-                  transition={{
-                    duration: 0.55,
-                    delay: (i % 4) * 0.08,
-                    ease: EASE,
-                  }}
-                  data-cursor-label={`${t.year} — ${t.label}`}
-                >
-                  {/* number marker */}
-                  <span className="absolute right-2 top-2 font-mono text-[9px] tracking-[0.25em] text-[#6B6B6B]">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  {/* blue accent dot */}
-                  <span
-                    className="mb-3 inline-block h-2 w-2 bg-[#1738D5]"
-                    aria-hidden
-                  />
-                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1738D5]">
-                    {t.year}
-                  </p>
-                  <p className="hand-display mt-1 text-2xl leading-none text-[#1a1a1a] sm:text-3xl">
-                    {t.label}
-                  </p>
-                  <p className="mt-2 font-mono text-[10px] leading-snug tracking-[0.05em] text-[#6B6B6B]">
-                    {t.sub}
-                  </p>
-                </motion.li>
-              ))}
-            </ol>
           </div>
 
           {/* ---- Scattered handwritten annotations (5) ---- */}

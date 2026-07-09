@@ -11,7 +11,7 @@ import {
 } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { useSound } from "@/hooks/use-sound";
-import { MARQUEE_ITEMS } from "@/lib/data";
+import { LAB } from "@/lib/data";
 
 /**
  * Wrap a value into a [min, max) range. Used to make the marquee's translateX
@@ -70,10 +70,10 @@ export default function BrandMarquee() {
 
   // 4× duplication guarantees the -50% wrap is seamless on any viewport.
   const items = [
-    ...MARQUEE_ITEMS,
-    ...MARQUEE_ITEMS,
-    ...MARQUEE_ITEMS,
-    ...MARQUEE_ITEMS,
+    ...LAB.wordCloud,
+    ...LAB.wordCloud,
+    ...LAB.wordCloud,
+    ...LAB.wordCloud,
   ];
 
   // ---- Reduced motion: static horizontally-scrollable row ----
@@ -87,13 +87,13 @@ export default function BrandMarquee() {
       >
         <div className="no-scrollbar scroll-styled flex w-full overflow-x-auto">
           {items.map((item, i) => {
-            const isBaaz = item.toLowerCase() === "baaz";
+            const isFocal = item.toLowerCase() === "mr. onalunchbreak";
             return (
               <span
                 key={`${item}-${i}`}
                 data-cursor-label={item}
                 className={`inline-flex items-baseline whitespace-nowrap px-6 font-display text-6xl font-bold tracking-tight sm:px-8 sm:text-8xl ${
-                  isBaaz ? "text-[#FFD400]" : "text-[#F4F1EA]"
+                  isFocal ? "text-[#1738D5]" : "text-[#F4F1EA]"
                 }`}
               >
                 {item}
@@ -124,7 +124,7 @@ export default function BrandMarquee() {
         data-cursor-label="marquee"
       >
         {items.map((item, i) => {
-          const isBaaz = item.toLowerCase() === "baaz";
+          const isFocal = item.toLowerCase() === "mr. onalunchbreak";
           return (
             <span
               key={`${item}-${i}`}
@@ -134,7 +134,7 @@ export default function BrandMarquee() {
                 play("tick");
               }}
               className={`inline-flex items-baseline whitespace-nowrap px-6 font-display text-6xl font-bold tracking-tight transition-transform duration-300 hover:scale-[1.05] sm:px-8 sm:text-8xl ${
-                isBaaz ? "text-[#FFD400]" : "text-[#F4F1EA]"
+                isFocal ? "text-[#1738D5]" : "text-[#F4F1EA]"
               }`}
             >
               {item}
