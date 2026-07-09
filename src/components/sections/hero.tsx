@@ -147,7 +147,7 @@ export default function Hero() {
 
       {/* ---- Symmetrically Centered System Time (Absolute positioned per device screen center) ---- */}
       <motion.span
-        className="absolute left-1/2 top-4 -translate-x-1/2 z-20 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-[#FFD400] sm:top-7 sm:text-[11px] font-bold pointer-events-none"
+        className="absolute left-1/2 top-3 -translate-x-1/2 z-20 text-center font-mono text-[13px] uppercase tracking-[0.2em] text-[#FFD400] sm:top-6 sm:text-[15px] font-bold pointer-events-none"
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.28, duration: 0.6, ease: EASE }}
@@ -177,14 +177,14 @@ export default function Hero() {
             {IDENTITY_LOCKUP.map((line, i) => (
               <span
                 key={i}
-                className="block overflow-hidden px-6"
+                className="block w-full overflow-hidden px-6 text-center"
                 style={{
                   lineHeight: 0.82,
                   marginTop: i === 3 ? "calc(-1 * (0.12 * min(13rem, 13vw)))" : undefined,
                 }}
               >
                 <motion.span
-                  className={`hand-display block px-8 ${line.size}`}
+                  className={`hand-display inline-block px-8 ${line.size}`}
                   initial={reduced ? { y: "0%" } : { y: "110%" }}
                   animate={{ y: "0%" }}
                   transition={{

@@ -515,13 +515,13 @@ export const METRO_STATIONS: MetroStation[] = [
 ];
 
 export const METRO_INTRO = {
-  hindi: "दिल्ली मेट्रो में आपका स्वागत है",
-  english: "Welcome to the Delhi Metro",
+  hindi: "करियर मेट्रो में आपका स्वागत है",
+  english: "Welcome to the Career Metro",
   bilingualTitle: "Career Metro की लाइन में आपका स्वागत है",
-  systemMessage: "DESTINATION: BETTER PRODUCTS",
-  currentStatus: "CURRENT STATUS: STILL FIGURING IT OUT",
+  systemMessage: "",
+  currentStatus: "",
   cta: "BOARD TRAIN",
-  line: "DELHI METRO",
+  line: "CAREER METRO",
   subtitle: "ONE CAREER. MULTIPLE SYSTEMS. STILL IN TRANSIT.",
   announcements: [
     "अगला स्टेशन सेंस एचक्यू है।",
@@ -532,8 +532,7 @@ export const METRO_INTRO = {
     "Unattended side projects may be moved to the backlog.",
     "Doors will open on the product side.",
   ],
-  footer:
-    "driven by curiosity · DELHI METRO // CAREER LINE · built between delhi, bangalore, research labs & too many browser tabs · powered by coffee, customer interviews & unfinished side projects · caution: may continue building after office hours · CURRENT DESTINATION: UNKNOWN · STATUS: STILL SHIPPING · Return to Platform",
+  footer: "Return to Platform",
 };
 
 // Research Archive

@@ -336,10 +336,10 @@ export default function BestWorkMetro() {
       {/* ====================================================
           A. INTRO PANEL
           ==================================================== */}
-      <div className="mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
+      <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-10 lg:px-12">
         {/* Index header — mirrors SectionShell */}
         <motion.div
-          className="mb-10 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#A3A3A3] sm:mb-14"
+          className="mb-6 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#A3A3A3] sm:mb-8"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
@@ -347,7 +347,7 @@ export default function BestWorkMetro() {
         >
           <span className="text-[#1738D5]">04</span>
           <span id="best-work-header" className="text-[#F4F1EA]/70">
-            BEST WORK / DELHI METRO
+            BEST WORK / CAREER METRO
           </span>
           <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
           <span className="hidden sm:inline">{"// portfolio.sys"}</span>
@@ -355,7 +355,7 @@ export default function BestWorkMetro() {
         </motion.div>
 
         {/* Metro logo mark + blinking "Next train: NOW" */}
-        <div className="mb-10 flex flex-wrap items-center gap-4">
+        <div className="mb-6 flex flex-wrap items-center gap-4">
           <div
             className="flex items-center gap-3"
             data-cursor-label={METRO_INTRO.line}
@@ -385,19 +385,6 @@ export default function BestWorkMetro() {
           <span className="font-deva text-[#FFD400]">की लाइन में आपका स्वागत है</span>
         </motion.h2>
 
-        {/* System message + current status strip — mono, yellow + cream */}
-        <motion.div
-          className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.25em]"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.8, delay: 0.25, ease: EASE }}
-        >
-          <span className="text-[#FFD400]">{`▶ ${METRO_INTRO.systemMessage}`}</span>
-          <span className="text-[#6B6B6B]">/</span>
-          <span className="text-[#F4F1EA]/70">{METRO_INTRO.currentStatus}</span>
-        </motion.div>
-
         {/* Subtitle — hand-display style */}
         <motion.p
           className="mt-6 max-w-3xl font-mono text-xs uppercase tracking-[0.3em] text-[#A3A3A3] sm:text-sm"
@@ -411,7 +398,7 @@ export default function BestWorkMetro() {
 
         {/* CTA + sub copy */}
         <motion.div
-          className="mt-12 flex flex-wrap items-center gap-6"
+          className="mt-6 flex flex-wrap items-center gap-6"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
@@ -475,9 +462,7 @@ export default function BestWorkMetro() {
             <div className="absolute left-0 right-0 top-0 z-20 flex items-center justify-between gap-4 border-b border-white/10 bg-[#0A0A0A]/80 px-5 py-3 backdrop-blur-sm sm:px-8">
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
                 <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
-                <span className="text-[#FFD400]">{"● DELHI METRO"}</span>
-                <span className="text-[#A3A3A3]">/</span>
-                <span className="text-[#F4F1EA]/80">MR. ONALUNCHBREAK</span>
+                <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
               </div>
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
                 {/* Now-playing theme indicator — shows the active station's theme */}
@@ -655,7 +640,7 @@ export default function BestWorkMetro() {
                     ))}
                     <span className="px-3 text-[#FFD400]/50">·</span>
                     <span className="px-3 text-[#FFD400]">
-                      {"● DELHI METRO"}
+                      {"● CAREER METRO"}
                     </span>
                     <span className="px-3 text-[#FFD400]/50">·</span>
                     <span className="px-3 text-[#FFD400]">
@@ -669,10 +654,9 @@ export default function BestWorkMetro() {
         </div>
       ) : (
         /* ---- Mobile / reduced-motion: stacked station cards ---- */
-        <div className="mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
+        <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-12 lg:px-12">
           <div className="mb-8 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#A3A3A3]">
-            <span className="text-[#FFD400]">{"● DELHI METRO"}</span>
-            <span className="text-[#F4F1EA]/70">/ MR. ONALUNCHBREAK</span>
+            <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
             <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
             <span className="hidden sm:inline">{"// stacked"}</span>
           </div>
@@ -694,7 +678,7 @@ export default function BestWorkMetro() {
       {/* ====================================================
           F. FOOTER — mono, muted, wrapping, · separators
           ==================================================== */}
-      <div className="mx-auto w-full max-w-[1200px] px-5 py-12 sm:px-8 sm:py-16 lg:px-12">
+      <div className="mx-auto w-full max-w-[1200px] px-5 py-6 sm:px-8 sm:py-8 lg:px-12">
         <div className="border-t border-white/10 pt-6">
           <p className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#F4F1EA]/65">
             {footerParts.map((part, i) => {
@@ -801,7 +785,7 @@ function StationPanel({
         {/* Platform signboard — DELHI METRO label, hindi name, platform no. */}
         <div className="border border-white/15 bg-[#0E0E0E] px-4 py-3">
           <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#FFD400]">
-            {"● DELHI METRO"}
+            {"● CAREER METRO"}
           </p>
           <p className="mt-1 font-deva text-lg font-bold text-[#F4F1EA]">
             {station.name}
@@ -904,7 +888,7 @@ function StackedStationCard({
         <span className="inline-block h-3 w-3 rounded-full border-2 border-[#FFD400] bg-[#FFD400]" />
         <span className="h-px flex-1 bg-[#FFD400]/60" />
         <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#FFD400]">
-          {"● DELHI METRO"}
+          {"● CAREER METRO"}
         </span>
       </div>
 
@@ -927,7 +911,7 @@ function StackedStationCard({
           {station.name}
         </p>
         <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">
-          {`Platform ${index + 1} · DELHI METRO`}
+          {`Platform ${index + 1} · CAREER METRO`}
         </p>
       </div>
 
@@ -1058,7 +1042,7 @@ function DeepDiveOverlay({
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#FFD400]/40 bg-[#0E0E0E] px-6 py-3 sm:px-8">
           <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
             <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
-            <span className="text-[#FFD400]">{"● DELHI METRO"}</span>
+            <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
             <span className="text-[#A3A3A3]">{"//"}</span>
             <span className="text-[#F4F1EA]/80">{station.name}</span>
           </div>
@@ -1085,7 +1069,7 @@ function DeepDiveOverlay({
             data-cursor-label="back"
           >
             <span aria-hidden className="text-[#FFD400]">←</span>
-            <span>{"// RETURN TO DELHI METRO"}</span>
+            <span>{"// RETURN TO CAREER METRO"}</span>
           </button>
           {/* Index + theme pill + tag + station type */}
           <div className="mb-4 flex flex-wrap items-center gap-3">
