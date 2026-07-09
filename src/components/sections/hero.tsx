@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import {
   motion,
-  AnimatePresence,
   useMotionValue,
   useSpring,
   useTransform,
@@ -21,18 +20,18 @@ const IDENTITY_LOCKUP = [
   { text: HERO.identityLines[3], size: "text-[clamp(6rem,13vw,13rem)]" },
 ] as const;
 
-// Scattered skill tag positions — adjusted to avoid overlaps and blockages
+// Scattered skill tag positions — optimized per Screenshot 2026-07-09 at 17.49.01.png
 const SCATTER_POSITIONS = [
-  { top: "28%", left: "25%" }, // Product Strategy
-  { top: "32%", left: "78%" }, // AI Products
-  { top: "88%", left: "28%" }, // Customer Journey Mapping
-  { top: "82%", left: "64%" }, // Workflow Automation
-  { top: "42%", left: "12%" }, // Product Analytics
-  { top: "82%", left: "15%" }, // Rapid Prototyping
-  { top: "24%", left: "65%" }, // Applied AI
-  { top: "88%", left: "78%" }, // Research
-  { top: "46%", left: "74%" }, // Data Systems
-  { top: "60%", left: "4%"  }, // Experimentation
+  { top: "28%", left: "25%" }, // index 0: Product Strategy
+  { top: "32%", left: "78%" }, // index 1: AI Products
+  { top: "12%", left: "20%" }, // index 2: Customer Journey Mapping (moved from bottom to top-left empty space)
+  { top: "64%", left: "74%" }, // index 3: Workflow Automation (moved from bottom to middle-right empty space below Data Systems)
+  { top: "42%", left: "12%" }, // index 4: Product Analytics
+  { top: "74%", left: "14%" }, // index 5: Rapid Prototyping (moved to empty space below Experimentation)
+  { top: "24%", left: "65%" }, // index 6: Applied AI
+  { top: "88%", left: "78%" }, // index 7: Research
+  { top: "46%", left: "74%" }, // index 8: Data Systems
+  { top: "60%", left: "4%"  }, // index 9: Experimentation
 ];
 
 function useLiveClock() {
@@ -107,13 +106,13 @@ export default function Hero() {
       {/* ---- Top metadata bar ---- */}
       <div className="relative z-10 flex w-full items-start justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.2em] text-[#F7F4ED]/75 sm:text-[11px] pointer-events-none">
         <motion.span
-          className="max-w-[55%] leading-relaxed pointer-events-none"
+          className="max-w-[55%] leading-relaxed pointer-events-none pl-6 sm:pl-10"
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6, ease: EASE }}
         >
-          <span className="block">{HERO.topMeta}</span>
-          <span className="block text-[#F7F4ED]/55">{HERO.topMetaSub}</span>
+          <span className="block text-[12px] sm:text-[14px] font-bold tracking-[0.22em] text-[#F7F4ED]">{HERO.topMeta}</span>
+          <span className="block text-[9px] sm:text-[10px] tracking-[0.22em] text-[#F7F4ED]/60 mt-0.5">{HERO.topMetaSub}</span>
         </motion.span>
 
         <motion.div
@@ -202,11 +201,11 @@ export default function Hero() {
         </motion.h1>
       </div>
 
-      {/* ---- Left side tagline (handwritten) — rotated -3deg per Screenshot 2026-07-09 at 16.37.37.png ---- */}
+      {/* ---- Tagline (below the lockup, centered, single line, slightly rotated) ---- */}
       <motion.p
-        className="hand-display absolute left-5 top-1/2 z-10 hidden max-w-[220px] -translate-y-1/2 -rotate-[3deg] text-left text-xl text-[#F7F4ED]/85 sm:left-8 sm:block sm:text-2xl pointer-events-none"
-        initial={{ opacity: 0, x: -14 }}
-        animate={{ opacity: 1, x: 0 }}
+        className="pointer-events-none relative z-10 mt-6 text-center hand-display -rotate-[1deg] text-xl text-[#F7F4ED]/85 sm:text-2xl"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.25, duration: 0.7, ease: EASE }}
       >
         {HERO.tagline}
