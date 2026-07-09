@@ -1030,6 +1030,7 @@ function DeepDiveOverlay({
       {/* Panel — yellow border, fully scrollable (mouse, trackpad, keyboard, touch) */}
       <motion.div
         ref={panelRef}
+        data-lenis-prevent
         className="relative z-10 max-h-[90vh] w-full max-w-4xl overflow-y-auto overscroll-contain border-2 border-[#FFD400] bg-[#0E0E0E] scroll-styled"
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

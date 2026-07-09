@@ -60,35 +60,71 @@ export default function NavIndex() {
       <div className="bg-scanlines pointer-events-none absolute inset-0 opacity-40" aria-hidden />
 
       <div className="relative mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
-        {/* ---- Section header ---- */}
-        <motion.div
-          className="mb-8 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-white sm:mb-12"
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.6, ease: EASE }}
-        >
-          <span className="text-[#1738D5]">{NAV_INDEX.index}</span>
-          <span className="text-white font-bold">{NAV_INDEX.title}</span>
-          <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-          <span className="hidden sm:inline text-white/90">{"// table of contents"}</span>
-        </motion.div>
+        {/* We use a flex-col layout on mobile (ordered by custom order-* utilities), 
+            and a CSS Grid on desktop to place elements side-by-side. */}
+        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_auto] lg:items-start lg:gap-x-16 lg:gap-y-8">
+          
+          {/* ---- Section header (order-1) ---- */}
+          <motion.div
+            className="order-1 col-span-full border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-white lg:mb-4"
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10% 0px" }}
+            transition={{ duration: 0.6, ease: EASE }}
+          >
+            <div className="flex items-baseline gap-3">
+              <span className="text-[#1738D5]">{NAV_INDEX.index}</span>
+              <span className="text-white font-bold">{NAV_INDEX.title}</span>
+              <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
+              <span className="hidden sm:inline text-white/90">{"// table of contents"}</span>
+            </div>
+          </motion.div>
 
-        {/* ---- Top Table of Contents Hint / Instruction (Borderless) ---- */}
-        <motion.div
-          className="mb-8 text-center font-mono text-[11px] uppercase tracking-[0.25em] text-white/80 sm:text-[12px]"
-          initial={{ opacity: 0, y: -10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: EASE }}
-        >
-          {NAV_INDEX.bottomMicrocopy}
-        </motion.div>
+          {/* ---- Quick note card (order-2 on mobile, col-2 / row-3 on desktop) ---- */}
+          <motion.aside
+            className="order-2 relative mx-auto w-full max-w-[280px] sm:max-w-[300px] lg:order-none lg:col-start-2 lg:row-start-3 lg:sticky lg:top-24"
+            initial={{ opacity: 0, y: 20, rotate: 0 }}
+            whileInView={{ opacity: 1, y: 0, rotate: -3 }}
+            viewport={{ once: true, margin: "-12% 0px" }}
+            transition={{ duration: 0.8, delay: 0.4, ease: EASE }}
+            aria-label="Quick note"
+          >
+            {/* "tape" pieces */}
+            <span
+              aria-hidden
+              className="absolute -top-2 left-6 z-10 h-5 w-16 -rotate-6 bg-[#1738D5]/70 mix-blend-normal"
+            />
+            <span
+              aria-hidden
+              className="absolute -top-2 right-6 z-10 h-5 w-14 rotate-6 bg-[#1738D5]/70 mix-blend-normal"
+            />
+            <div className="env-paper paper-texture relative w-full rounded-[2px] border border-[#1a1a1a]/30 p-5 shadow-[6px_6px_0_0_rgba(10,10,10,0.6)]">
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/70">
+                {"// quick note"}
+              </p>
+              <blockquote className="hand-display mt-3 text-xl leading-tight text-[#1a1a1a] sm:text-2xl">
+                {NAV_INDEX.quickNote}
+              </blockquote>
+              <p className="mt-4 text-right font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/70">
+                — Mr. Onalunchbreak
+              </p>
+            </div>
+          </motion.aside>
 
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_auto] lg:items-start lg:gap-16">
-          {/* ---- The link list ---- */}
+          {/* ---- Top Table of Contents Hint / Instruction (order-3 on mobile, col-span-full / row-2 on desktop) ---- */}
+          <motion.div
+            className="order-3 lg:order-none lg:col-span-full lg:row-start-2 text-center font-mono text-[11px] uppercase tracking-[0.25em] text-white/80 sm:text-[12px]"
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: EASE }}
+          >
+            {NAV_INDEX.bottomMicrocopy}
+          </motion.div>
+
+          {/* ---- The link list (order-4 on mobile, col-1 / row-3 on desktop) ---- */}
           <nav
-            className="group/list relative"
+            className="order-4 lg:order-none lg:col-start-1 lg:row-start-3 group/list relative"
             aria-label={NAV_INDEX.title}
             onMouseLeave={() => setHovered(null)}
           >
@@ -153,37 +189,6 @@ export default function NavIndex() {
               })}
             </ul>
           </nav>
-
-          {/* ---- Quick note card (rotated paper, offset to the side) ---- */}
-          <motion.aside
-            className="relative mx-auto w-full max-w-[280px] sm:max-w-[300px] lg:sticky lg:top-24"
-            initial={{ opacity: 0, y: 20, rotate: 0 }}
-            whileInView={{ opacity: 1, y: 0, rotate: -3 }}
-            viewport={{ once: true, margin: "-12% 0px" }}
-            transition={{ duration: 0.8, delay: 0.4, ease: EASE }}
-            aria-label="Quick note"
-          >
-            {/* "tape" pieces */}
-            <span
-              aria-hidden
-              className="absolute -top-2 left-6 z-10 h-5 w-16 -rotate-6 bg-[#1738D5]/70 mix-blend-normal"
-            />
-            <span
-              aria-hidden
-              className="absolute -top-2 right-6 z-10 h-5 w-14 rotate-6 bg-[#1738D5]/70 mix-blend-normal"
-            />
-            <div className="env-paper paper-texture relative w-full rounded-[2px] border border-[#1a1a1a]/30 p-5 shadow-[6px_6px_0_0_rgba(10,10,10,0.6)]">
-              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/70">
-                {"// quick note"}
-              </p>
-              <blockquote className="hand-display mt-3 text-xl leading-tight text-[#1a1a1a] sm:text-2xl">
-                {NAV_INDEX.quickNote}
-              </blockquote>
-              <p className="mt-4 text-right font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/70">
-                — Mr. Onalunchbreak
-              </p>
-            </div>
-          </motion.aside>
         </div>
       </div>
     </section>

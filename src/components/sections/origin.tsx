@@ -181,7 +181,7 @@ export default function Origin() {
     >
       <div
         ref={contentRef}
-        className="relative mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12"
+        className="relative mx-auto w-full max-w-[1200px] px-5 pt-16 pb-10 sm:px-8 sm:pt-20 sm:pb-12 lg:px-12"
       >
         {/* ---- Header: 01 — THE BEGINNING + subtitle ---- */}
         <motion.div
@@ -342,28 +342,6 @@ export default function Origin() {
             ))}
           </div>
 
-          {/* ---- Motif stamp 3 — before footer ---- */}
-          <div className="mt-14">
-            <MotifStamp
-              motif={ORIGIN.motif}
-              motifCrossed={ORIGIN.motifCrossed}
-              motifSub={ORIGIN.motifSub}
-              data-cursor-label={ORIGIN.motif}
-            />
-          </div>
-
-          {/* ---- Terminal footer — meta with blinking blue cursor ---- */}
-          <div className="mt-12 border-t border-[#1a1a1a]/15 pt-6">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#1a1a1a]/80">
-              <span className="text-[#1738D5]">~/portfolio</span>
-              <span className="mx-1">$</span>
-              the beginning, not the destination.
-              <span
-                className="ml-1 inline-block h-3 w-2 translate-y-[1px] bg-[#1738D5] blink"
-                aria-hidden
-              />
-            </p>
-          </div>
         </div>
       </div>
     </section>

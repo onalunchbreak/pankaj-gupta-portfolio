@@ -27,10 +27,22 @@ function Typewriter({ text }: { text: string }) {
 export default function CaseCloseOverlay() {
   const [nearBottom, setNearBottom] = useState(false);
   const [open, setOpen] = useState(false);
+  const [visitorCount, setVisitorCount] = useState(1482);
   const systems = useSessionStats((s) => s.systemsInspected);
   const caseStudies = useSessionStats((s) => s.caseStudiesOpened);
   const sideProjects = useSessionStats((s) => s.sideProjectsVisited);
   const sections = useSessionStats((s) => s.sectionsReached);
+
+  useEffect(() => {
+    const isVisited = localStorage.getItem("pg_portfolio_visited");
+    const baseCount = 1482;
+    if (!isVisited) {
+      localStorage.setItem("pg_portfolio_visited", "true");
+      setVisitorCount(baseCount + 1);
+    } else {
+      setVisitorCount(baseCount);
+    }
+  }, []);
 
   useEffect(() => {
     const check = () => {
@@ -109,35 +121,25 @@ export default function CaseCloseOverlay() {
             </div>
 
             <div className="flex flex-col items-center justify-center text-center">
+              {/* Unique visitors numerical element */}
               <motion.div
-                className="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-[#6B6B6B]"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.1 }}
-              >
-                {CASE_CLOSE.user} <span className="text-[#1738D5]">·</span> {CASE_CLOSE.alias}
-              </motion.div>
-
-              {/* Session stats — systems inspected / case studies opened / side projects visited / sections reached */}
-              <motion.div
-                className="mb-6 grid grid-cols-2 gap-2 border border-white/10 bg-[#0A0A0A]/60 px-6 py-4 font-mono text-center sm:grid-cols-4"
+                className="mb-6 font-mono text-center"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25, duration: 0.5 }}
               >
-                <SessionStat label="SYSTEMS" value={systems} color="text-[#FFD400]" />
-                <SessionStat label="CASE STUDIES" value={caseStudies} color="text-[#1738D5]" />
-                <SessionStat label="SIDE PROJECTS" value={sideProjects} color="text-[#FFD400]" />
-                <SessionStat label="SECTIONS" value={sections} color="text-[#F4F1EA]" />
+                <span className="text-6xl font-bold tracking-tight text-[#FFD400] sm:text-8xl tabular-nums">
+                  {visitorCount.toLocaleString()}
+                </span>
               </motion.div>
 
               <motion.h2
-                className="font-display text-5xl font-bold tracking-tighter text-[#F4F1EA] sm:text-8xl"
+                className="font-display text-4xl font-bold uppercase tracking-tighter text-[#F4F1EA] sm:text-7xl"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               >
-                {CASE_CLOSE.subtitle}
+                Unique visitors till date
               </motion.h2>
               <motion.p
                 className="mt-4 font-mono text-xs uppercase tracking-[0.3em] text-[#1738D5]"
@@ -156,7 +158,7 @@ export default function CaseCloseOverlay() {
                 {CASE_CLOSE.hint}
               </motion.p>
               <motion.div
-                className="mt-10 border border-[#1738D5] px-8 py-3 font-mono text-sm uppercase tracking-widest text-[#1738D5]"
+                className="mt-10 whitespace-nowrap border border-[#1738D5] px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-[#1738D5] sm:px-8 sm:py-3 sm:text-sm"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.7, type: "spring", stiffness: 200 }}
