@@ -75,7 +75,7 @@ export const HERO = {
   timeMorph: ["09:00", "13:00", "02:00"],
   timeAnnotation: "apparently lunch breaks can get long.",
   scrollCta: "GO ON.",
-  scrollCtaSub: "THERE ARE MORE OPEN TABS.",
+  scrollCtaSub: "SACRIFICING RAM TO CHROME.",
   bottomLabel: "Portfolio // Pankaj Gupta",
   bottomSession: "Session // Mr. Onalunchbreak",
 };
