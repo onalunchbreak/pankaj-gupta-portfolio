@@ -586,7 +586,7 @@ export const LAB = {
     { label: "Product Analytics", rotate: -2 },
     { label: "Rapid Prototyping", rotate: 1.5 },
     { label: "Applied AI", rotate: -3 },
-    { label: "Research", rotate: 2.5 },
+    { label: "Marketing Research", rotate: 2.5 },
     { label: "Data Systems", rotate: -1 },
     { label: "Experimentation", rotate: 2 },
   ],

@@ -29,7 +29,7 @@ const SCATTER_POSITIONS = [
   { top: "42%", left: "12%" }, // index 4: Product Analytics
   { top: "86%", left: "12%" }, // index 5: Rapid Prototyping (moved to desired position per Screenshot 2026-07-09 at 18.00.59.png)
   { top: "24%", left: "65%" }, // index 6: Applied AI
-  { top: "88%", left: "78%" }, // index 7: Research
+  { top: "83%", left: "76%" }, // index 7: Marketing Research (shifted slightly upwards to fit larger text width)
   { top: "46%", left: "74%" }, // index 8: Data Systems
   { top: "60%", left: "4%"  }, // index 9: Experimentation
 ];
