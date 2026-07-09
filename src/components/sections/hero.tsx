@@ -211,16 +211,15 @@ export default function Hero() {
         {HERO.tagline}
       </motion.p>
 
-      {/* ---- Right vertical stack: Location / Delhi, India (rotated 90deg per Screenshot 2026-07-09 at 16.37.37.png) ---- */}
+      {/* ---- Location: Delhi, India (shifted to middle-right empty space per user screenshot arrow) ---- */}
       <motion.div
-        className="absolute right-5 top-1/2 z-10 hidden -translate-y-1/2 flex-col gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:right-8 sm:flex sm:text-[11px] pointer-events-none"
+        className="absolute z-10 font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:text-[11px] pointer-events-none"
+        style={{ top: "54%", left: "74%" }}
         initial={{ opacity: 0, x: 10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 1.1, duration: 0.7, ease: EASE }}
-        aria-hidden
       >
-        <span className="rotate-90 whitespace-nowrap pb-6 pr-1">{HERO.location}</span>
-        {HERO.locationSub && <span className="rotate-90 whitespace-nowrap pb-6 pr-1">{HERO.locationSub}</span>}
+        <span>{HERO.location}</span>
       </motion.div>
 
       {/* ---- Scroll cue ---- */}
