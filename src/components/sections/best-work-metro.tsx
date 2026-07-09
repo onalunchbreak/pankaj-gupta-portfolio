@@ -432,31 +432,7 @@ export default function BestWorkMetro() {
             ref={viewportRef}
             className="relative h-screen w-full overflow-hidden bg-[#0A0A0A]"
           >
-            {/* Yellow horizontal DELHI METRO through the middle */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute left-0 right-0 top-1/2 z-0 h-px -translate-y-1/2 bg-[#FFD400]/70"
-            />
-            {/* Line endcaps */}
-            <span
-              aria-hidden
-              className="pointer-events-none absolute left-0 top-1/2 z-0 h-3 w-1 -translate-y-1/2 bg-[#FFD400]"
-            />
-            <span
-              aria-hidden
-              className="pointer-events-none absolute right-0 top-1/2 z-0 h-3 w-1 -translate-y-1/2 bg-[#FFD400]"
-            />
 
-            {/* Train marker ● — travels along the line with scroll progress */}
-            <div
-              ref={trainRef}
-              aria-hidden
-              className="pointer-events-none absolute left-4 top-1/2 z-30 h-5 w-5 -translate-y-1/2 rounded-full bg-[#FFD400]"
-              style={{
-                transform: "translate3d(0, -50%, 0)",
-                boxShadow: "0 0 18px rgba(255,212,0,0.55)",
-              }}
-            />
 
             {/* Top status bar */}
             <div className="absolute left-0 right-0 top-0 z-20 flex items-center justify-between gap-4 border-b border-white/10 bg-[#0A0A0A]/80 px-5 py-3 backdrop-blur-sm sm:px-8">
@@ -755,18 +731,7 @@ function StationPanel({
       className="relative flex h-full w-[85vw] shrink-0 flex-col justify-between px-10 py-24 sm:px-16"
       data-cursor-label={station.name}
     >
-      {/* Station marker dot on the line (vertical middle) */}
-      <span
-        aria-hidden
-        className={`absolute left-1/2 top-1/2 z-20 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 transition-all duration-300 ${
-          active
-            ? "scale-[1.6] border-[#FFD400] bg-[#FFD400]"
-            : "border-[#FFD400] bg-[#0A0A0A]"
-        }`}
-        style={{
-          boxShadow: active ? "0 0 16px rgba(255,212,0,0.7)" : "none",
-        }}
-      />
+
 
       {/* TOP HALF — index, type pill, signboard, station name */}
       <div className="flex flex-col items-start gap-5">
