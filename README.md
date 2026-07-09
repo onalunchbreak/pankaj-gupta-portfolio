@@ -1,5 +1,7 @@
 # Pankaj Gupta — Mr. Onalunchbreak // Portfolio
 
+**🌐 Live:** [guptapankaj.vercel.app](https://guptapankaj.vercel.app)
+
 A highly personal, interactive, editorial portfolio for **Pankaj Gupta** (alias: Mr. Onalunchbreak) — Product Manager, Applied AI builder, researcher, systems thinker.
 
 The portfolio preserves the strongest experiential characteristics of the reference (bajkamalsingh.me) — intentional visual irregularity, editorial storytelling, handwritten interventions, blue/paper/black visual rhythm, playful system interfaces, scroll-based narrative, surprising transitions, interactive project exploration, gamified Best Work experience, dense case-study storytelling, and a memorable terminal-style ending — while communicating Pankaj's actual professional identity.
