@@ -963,3 +963,43 @@ Verification:
 - **Cursor data-cursor-label attributes**: the attributes still exist on many elements but are no longer read by the cursor. They're harmless but could be cleaned up in a future pass.
 - **Performance / Lighthouse**: still not profiled.
 - **Real assets**: all visuals are CSS/SVG-generated.
+
+---
+Task ID: 18 (5 portfolio improvements — round 2)
+Agent: main (orchestrator)
+Task: Implement 5 improvements from the user's second issues PDF.
+
+## Current project status description/assessment
+- The portfolio was stable after the prior 7-improvement round. The user provided a 7-page PDF with 5 new refinements focused on repurposing the word cloud/skill tags, hero layout, Origin cleanup, metro renaming, and footer copy.
+
+## Current goals / completed modifications / verification results
+Goals: implement all 5 user-requested improvements.
+
+Completed:
+1. WORD CLOUD + SKILL TAGS REPURPOSED:
+   - Skill tags moved to hero background (hero.tsx): 10 skill tags scattered across the hero as blurred (filter: blur(4px), opacity 0.5) ambient text. On hover they un-blur, brighten to yellow, and scale 1.15 — giving the hero a reactive, alive feel without competing with the central identity. Pointer-events-auto on the spans so they're hoverable.
+   - Word cloud moved to the marquee section (brand-marquee.tsx): replaced MARQUEE_ITEMS with LAB.wordCloud (44 words). The marquee now scrolls the CV word cloud (Product, AI, Systems, Research, etc.) instead of the old brand items (FIGMA, COLD, POP). "Mr. Onalunchbreak" is the focal item highlighted in blue.
+   - Removed the word cloud + skill tags sections from Product Lab (product-lab.tsx): deleted lines 289-475 (the word cloud render + skill tags scatter). Only side projects remain.
+2. HERO TAGLINE REPOSITIONED (hero.tsx + data.ts): tagline shifted to the right with `sm:ml-auto` so there's equal padding between the left edge and central identity. Delhi India sits on the right with `sm:mr-auto`. DTU '23 removed from the data (location is now just "Delhi, India", locationSub is empty). VLM confirmed: "tagline left-aligned with Delhi India right-aligned, equal spacing. DTU '23 removed."
+3. ORIGIN CLEANUP (origin.tsx + product-os.tsx):
+   - Removed the 8-step timeline milestones (lines 338-379) — was a duplicate of the career history already shown in the metro.
+   - Removed the SVG scroll-drawn loading curve (lines 278-302) under the "WHAT SHOULD WE BUILD" statement.
+   - Kept the "engineering was only the beginning" header, the 3 supporting paragraphs, the handwritten annotations, and the motif stamps.
+   - Removed the product_os.log terminal block from Product OS (lines 243-268) — was unnecessary.
+4. METRO RENAMED (data.ts + best-work-metro.tsx):
+   - Title changed to "Career Metro की लाइन में आपका स्वागत है" (semi-English + semi-Hindi). VLM confirmed.
+   - Renamed "PRODUCT LINE" → "DELHI METRO" everywhere in the metro component (14 references via sed). Updated METRO_INTRO.line and footer text.
+   - Footer text color changed from #6B6B6B (muted gray, hard to read on black) to #F4F1EA/65 (cream, readable).
+5. CONTACT FOOTER COPY (data.ts): changed signoff from "Bye. Hope your roadmap survives the next customer interview. If not, that's probably useful information." to "Bye. Hope your roadmap survives the next product-market fit conversation. If not, that's probably the most useful feedback you'll get all week." VLM confirmed: "mentions product-market fit, witty, product-focused."
+
+Verification:
+- `bun run lint` → 0 errors, 0 warnings.
+- Dev server compiles cleanly, no runtime errors.
+- agent-browser + VLM confirmed: hero tagline repositioned + DTU removed, metro title bilingual + DELHI METRO name, footer copy improved, marquee has word cloud words, Product Lab has only side projects.
+- Mobile (390px): no horizontal overflow.
+- Committed to git.
+
+## Unresolved issues / risks / priority recommendations for next phase
+- **Hero skill tags visibility**: the VLM didn't detect the blurred skill tags in the screenshot (they're at 0.5 opacity + blur(4px)). They're intentionally subtle — visible on hover but ambient otherwise. If the user wants them more visible, increase the base opacity.
+- **Performance / Lighthouse**: still not profiled.
+- **Real assets**: all visuals are CSS/SVG-generated.
