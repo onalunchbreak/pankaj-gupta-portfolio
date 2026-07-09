@@ -522,7 +522,7 @@ export const METRO_INTRO = {
   currentStatus: "",
   cta: "BOARD TRAIN",
   line: "CAREER METRO",
-  subtitle: "ONE CAREER. MULTIPLE SYSTEMS. STILL IN TRANSIT.",
+  subtitle: "SEVEN PLATFORMS TILL DATE. STILL IN TRANSIT FOR THE NEXT STOP.",
   announcements: [
     "अगला स्टेशन सेंस एचक्यू है।",
     "Next station is SenseHQ.",
