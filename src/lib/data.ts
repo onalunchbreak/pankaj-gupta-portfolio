@@ -580,7 +580,7 @@ export const LAB = {
   ],
   skills: [
     { label: "Product Strategy", rotate: -3 },
-    { label: "AI Products", rotate: 2 },
+    { label: "Storytelling", rotate: 2 },
     { label: "Customer Journey Mapping", rotate: -1.5 },
     { label: "Workflow Automation", rotate: 3 },
     { label: "Product Analytics", rotate: -2 },
@@ -588,7 +588,7 @@ export const LAB = {
     { label: "Applied AI", rotate: -3 },
     { label: "Marketing Research", rotate: 2.5 },
     { label: "Data Systems", rotate: -1 },
-    { label: "Experimentation", rotate: 2 },
+    { label: "Iteration", rotate: 2 },
   ],
   sideProjects: [
     { id: "queens-gambit", name: "Queen's Gambit", desc: "A personalised chess platform where classical tournament aesthetics meet modern AI.", categories: ["PRODUCT", "AI"], status: "DEPLOYED" },

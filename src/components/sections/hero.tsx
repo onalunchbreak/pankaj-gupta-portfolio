@@ -23,7 +23,7 @@ const IDENTITY_LOCKUP = [
 // Scattered skill tag positions — optimized per Screenshot 2026-07-09 at 17.49.01.png
 const SCATTER_POSITIONS = [
   { top: "28%", left: "25%" }, // index 0: Product Strategy
-  { top: "32%", left: "78%" }, // index 1: AI Products
+  { top: "32%", left: "78%" }, // index 1: Storytelling
   { top: "12%", left: "20%" }, // index 2: Customer Journey Mapping (moved from bottom to top-left empty space)
   { top: "64%", left: "74%" }, // index 3: Workflow Automation (moved from bottom to middle-right empty space below Data Systems)
   { top: "42%", left: "12%" }, // index 4: Product Analytics
@@ -31,7 +31,7 @@ const SCATTER_POSITIONS = [
   { top: "24%", left: "65%" }, // index 6: Applied AI
   { top: "83%", left: "76%" }, // index 7: Marketing Research (shifted slightly upwards to fit larger text width)
   { top: "46%", left: "74%" }, // index 8: Data Systems
-  { top: "60%", left: "4%"  }, // index 9: Experimentation
+  { top: "60%", left: "10%" }, // index 9: Iteration (shifted slightly right)
 ];
 
 function useLiveClock() {
@@ -214,7 +214,7 @@ export default function Hero() {
       {/* ---- Location: Delhi, India (positioned vertically beside lunch break) ---- */}
       <motion.div
         className="absolute z-10 font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:text-[11px] pointer-events-none"
-        style={{ top: "54%", left: "66%", rotate: -90 }}
+        style={{ top: "54%", left: "63%", rotate: -90 }}
         initial={{ opacity: 0, x: 10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 1.1, duration: 0.7, ease: EASE }}
