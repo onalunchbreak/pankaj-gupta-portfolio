@@ -47,7 +47,7 @@ export default function Preloader() {
       return () => clearTimeout(t);
     }
     const controls = animate(0, 100, {
-      duration: 2.5,
+      duration: 5.5,
       ease: "easeOut",
       onUpdate: (v) => setCount(Math.round(v)),
       onComplete: () => finish(),
@@ -60,7 +60,7 @@ export default function Preloader() {
     if (done) return;
     const id = setInterval(() => {
       setBootIdx((i) => (i + 1) % PRELOADER.bootSequence.length);
-    }, 350);
+    }, 550);
     return () => clearInterval(id);
   }, [done]);
 
@@ -121,7 +121,7 @@ export default function Preloader() {
                     initial={{ opacity: 0, y: 28, filter: "blur(8px)" }}
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     transition={{
-                      delay: 0.4 + i * 0.3,
+                      delay: 0.5 + i * 0.8,
                       duration: 0.7,
                       ease: [0.16, 1, 0.3, 1],
                     }}
