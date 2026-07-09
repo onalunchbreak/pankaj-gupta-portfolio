@@ -313,3 +313,37 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Floating skill tags pulse and hover styling */
+@keyframes tagPulse {
+  0%, 100% {
+    border-color: rgba(247,244,237,0.15);
+    color: rgba(247,244,237,0.35);
+    opacity: 0.65;
+  }
+  50% {
+    border-color: rgba(247,244,237,0.35);
+    color: rgba(247,244,237,0.65);
+    opacity: 1;
+  }
+}
+
+.pulse-tag {
+  border-color: rgba(247,244,237,0.2);
+  background-color: rgba(0,0,0,0.15);
+  color: rgba(247,244,237,0.45);
+  backdrop-filter: blur(2px);
+  animation: tagPulse 6s infinite ease-in-out;
+  transition: border-color 0s, background-color 0s, color 0s, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s;
+}
+
+.pulse-tag:hover {
+  animation: none !important;
+  border-color: #FFD400 !important;
+  background-color: rgba(255,212,0,0.15) !important;
+  color: #FFD400 !important;
+  transform: rotate(var(--rotate)) scale(1.12) !important;
+  box-shadow: 0 0 20px rgba(255,212,0,0.3) !important;
+  cursor: default;
+}
+
