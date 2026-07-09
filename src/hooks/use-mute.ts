@@ -1,7 +1,7 @@
 "use client";
 import { create } from "zustand";
 
-const STORAGE_KEY = "baaz-sound-pref";
+const STORAGE_KEY = "portfolio-sound-pref";
 
 type MuteState = {
   muted: boolean;

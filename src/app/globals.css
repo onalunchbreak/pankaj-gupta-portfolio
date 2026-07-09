@@ -47,7 +47,7 @@
 }
 
 /* ============================================================
-   BAAZ PORTFOLIO — 4-ENVIRONMENT DESIGN SYSTEM
+   PANKAJ GUPTA PORTFOLIO — 4-ENVIRONMENT DESIGN SYSTEM
    Electric Blue · Warm Paper · Black · White
    ============================================================ */
 :root {
@@ -71,7 +71,7 @@
   --ink-on-paper: #2a2a2a;
   --ink-on-blue: #F7F4ED;
 
-  /* keep shadcn vars working but map to baaz palette */
+  /* keep shadcn vars working but map to portfolio palette */
   --background: var(--black);
   --foreground: var(--white);
   --card: #111111;

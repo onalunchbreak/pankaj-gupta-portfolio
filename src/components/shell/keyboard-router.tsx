@@ -12,7 +12,7 @@ import { getLenis } from "@/lib/lenis-instance";
 /**
  * Top-level keyboard router. Wires the global shortcut hook to:
  *  - section jumps (1–8) via Lenis scrollTo
- *  - metro arrow nav via custom `baaz:arrow` window events
+ *  - metro arrow nav via direct keydown events
  *  - mute toggle (M)
  *  - konami easter egg
  *  - the shortcuts help overlay (?)
@@ -40,14 +40,14 @@ export default function KeyboardRouter() {
   const { open, setOpen } = useKeyboardShortcuts({
     onArrow: (dir) => {
       window.dispatchEvent(
-        new CustomEvent("baaz:arrow", { detail: dir })
+        new CustomEvent("portfolio:arrow", { detail: dir })
       );
     },
     onHome: () => {
-      window.dispatchEvent(new CustomEvent("baaz:metro-home"));
+      window.dispatchEvent(new CustomEvent("portfolio:metro-home"));
     },
     onEnd: () => {
-      window.dispatchEvent(new CustomEvent("baaz:metro-end"));
+      window.dispatchEvent(new CustomEvent("portfolio:metro-end"));
     },
     onSectionJump: (idx) => {
       const item = NAV_ITEMS[idx];

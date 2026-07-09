@@ -513,7 +513,7 @@ export type ResearchPaper = {
 export const RESEARCH = {
   index: "04",
   title: "RESEARCH ARCHIVE",
-  system: "research.log",
+  system: "papers_i_somehow_finished",
   headline: "I SPENT A FEW YEARS TEACHING MODELS TO UNDERSTAND LANGUAGE, EMOTIONS, AND APPARENTLY LIES.",
   papers: [
     {

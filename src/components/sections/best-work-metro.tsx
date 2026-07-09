@@ -252,12 +252,12 @@ export default function BestWorkMetro() {
       setTimeout(() => { isScrolling = false; }, 150);
     };
     window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("baaz:metro-home", onHome);
-    window.addEventListener("baaz:metro-end", onEnd);
+    window.addEventListener("portfolio:metro-home", onHome);
+    window.addEventListener("portfolio:metro-end", onEnd);
     return () => {
       window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("baaz:metro-home", onHome);
-      window.removeEventListener("baaz:metro-end", onEnd);
+      window.removeEventListener("portfolio:metro-home", onHome);
+      window.removeEventListener("portfolio:metro-end", onEnd);
     };
   }, [inView, showPinned, openStationId, scrollToStation]);
 

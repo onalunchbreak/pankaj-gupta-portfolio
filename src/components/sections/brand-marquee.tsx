@@ -26,11 +26,11 @@ function wrap(min: number, max: number, v: number): number {
 /**
  * Brand marquee — full-bleed black strip.
  *
- * The track is the MARQUEE_ITEMS list duplicated 4× and joined by " · ".
+ * The track is the word cloud list duplicated 4× and joined by " · ".
  * A motion value `baseX` decrements at a baseline rate (≈5%/s) and is wrapped
  * into [-50%, 0] so the duplicated track loops seamlessly. Scroll velocity
  * modulates the speed multiplier between 0.5× and 3× (clamped), giving the
- * marquee a satisfying drag-goes-faster feel. The "baaz" item is highlighted
+ * marquee a satisfying drag-goes-faster feel. The focal words are highlighted
  * in metro-yellow. Hovering the track pauses the loop; hovering an individual
  * item scales it to 1.05 and plays a one-shot "tick". Reduced motion renders
  * a static horizontally-scrollable row instead.

@@ -174,7 +174,7 @@ export default function ResearchArchive() {
           <span className="text-[#1738D5]">{RESEARCH.index}</span>
           <span className="text-[#1a1a1a]/70">{RESEARCH.title}</span>
           <span className="ml-auto hidden h-px flex-1 bg-[#1a1a1a]/10 sm:block" />
-          <span className="hidden sm:inline text-[#1738D5]/70">
+          <span className="hidden whitespace-nowrap text-[10px] normal-case tracking-normal text-[#1738D5]/70 sm:inline">
             {"// "}{RESEARCH.system}
           </span>
           <ShareButton sectionId="research" />
