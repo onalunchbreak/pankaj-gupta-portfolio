@@ -20,17 +20,16 @@ const IDENTITY_LOCKUP = [
   { text: HERO.identityLines[3], size: "text-[clamp(6rem,13vw,13rem)]" },
 ] as const;
 
-// Scattered skill tag positions — optimized per Screenshot 2026-07-09 at 17.49.01.png
 const SCATTER_POSITIONS = [
-  { top: "28%", left: "25%", mobileHidden: true }, // index 0: Product Strategy
+  { top: "28%", left: "25%" }, // index 0: Product Strategy
   { top: "32%", left: "78%" }, // index 1: Storytelling
   { top: "12%", left: "20%" }, // index 2: Customer Journey Mapping (moved from bottom to top-left empty space)
-  { top: "64%", left: "74%", mobileHidden: true }, // index 3: Workflow Automation (moved from bottom to middle-right empty space below Data Systems)
-  { top: "42%", left: "12%", mobileHidden: true }, // index 4: Product Analytics
-  { top: "86%", left: "12%", mobileHidden: true }, // index 5: Rapid Prototyping (moved to desired position per Screenshot 2026-07-09 at 18.00.59.png)
+  { top: "64%", left: "74%" }, // index 3: Workflow Automation (moved from bottom to middle-right empty space below Data Systems)
+  { top: "42%", left: "12%" }, // index 4: Product Analytics
+  { top: "86%", left: "12%" }, // index 5: Rapid Prototyping (moved to desired position per Screenshot 2026-07-09 at 18.00.59.png)
   { top: "24%", left: "65%" }, // index 6: Applied AI
-  { top: "83%", left: "76%", mobileHidden: true }, // index 7: Marketing Research (shifted slightly upwards to fit larger text width)
-  { top: "46%", left: "74%", mobileHidden: true }, // index 8: Data Systems
+  { top: "83%", left: "76%" }, // index 7: Marketing Research (shifted slightly upwards to fit larger text width)
+  { top: "46%", left: "74%" }, // index 8: Data Systems
   { top: "60%", left: "10%" }, // index 9: Iteration (shifted slightly right)
 ];
 
@@ -249,25 +248,22 @@ export default function Hero() {
   );
 }
 
-/* ============================================================
-   Background layer — renders skill tags with a high z-index.
-   ============================================================ */
+
+
 function BackgroundLayer({
   reduced,
 }: {
   reduced: boolean;
 }) {
   return (
-    <div className="pointer-events-none absolute inset-0 z-30 overflow-hidden">
+    <div className="pointer-events-none absolute inset-0 z-30 overflow-hidden hidden lg:block">
       {LAB.skills.map((skill, i) => {
         const pos = SCATTER_POSITIONS[i % SCATTER_POSITIONS.length];
         const rotVal = skill.rotate * 3.5;
         return (
           <motion.span
             key={`scatter-${skill.label}`}
-            className={`pulse-tag absolute cursor-default border px-4 py-2 font-mono text-[12px] uppercase tracking-[0.18em] pointer-events-auto sm:text-[13px] lg:text-[14px] ${
-              pos.mobileHidden ? "hidden lg:inline-block" : ""
-            }`}
+            className="pulse-tag absolute cursor-default border px-4 py-2 font-mono text-[12px] uppercase tracking-[0.18em] pointer-events-auto sm:text-[13px] lg:text-[14px]"
             style={{
               top: pos.top,
               left: pos.left,
