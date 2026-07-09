@@ -63,7 +63,7 @@ function ValidationCard({
 
       {/* Stamp: index + year badge */}
       <div className="mb-4 flex items-center justify-between">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B]">
+        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/75">
           {String(index + 1).padStart(2, "0")} / 04
         </span>
         <span className="border border-[#1738D5]/50 bg-[#1738D5]/5 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#1738D5]">
@@ -87,7 +87,7 @@ function ValidationCard({
       {/* Sub — mono, muted, with a hover accent rule on the left */}
       <div className="mt-4 flex items-start gap-2 border-t border-[#1a1a1a]/10 pt-3 transition-colors duration-300 group-hover:border-[#1738D5]/30">
         <span aria-hidden className="mt-1 h-3 w-1 shrink-0 bg-[#1738D5]/40 transition-colors duration-300 group-hover:bg-[#1738D5]" />
-        <p className="flex-1 font-mono text-[10px] uppercase leading-relaxed tracking-[0.15em] text-[#6B6B6B] transition-colors duration-300 group-hover:text-[#1a1a1a]/70">
+        <p className="flex-1 font-mono text-[10px] uppercase leading-relaxed tracking-[0.15em] text-[#1a1a1a]/75 transition-colors duration-300 group-hover:text-[#1a1a1a]/90">
           {card.sub}
         </p>
         {urlAvailable && (
@@ -135,7 +135,7 @@ function EducationStripItem({
       <span className="font-display text-base font-bold tracking-tight text-[#1a1a1a]">
         {item.org}
       </span>
-      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6B6B]">
+      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#1a1a1a]/75">
         {item.label}
       </span>
       <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#1738D5]">
@@ -158,7 +158,7 @@ export default function Achievements() {
       <div className="mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
         {/* ---- Section header ---- */}
         <motion.div
-          className="mb-10 flex items-baseline gap-3 border-b border-[#1a1a1a]/15 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#6B6B6B] sm:mb-14"
+          className="mb-10 flex items-baseline gap-3 border-b border-[#1a1a1a]/15 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#1a1a1a]/75 sm:mb-14"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
@@ -195,13 +195,13 @@ export default function Achievements() {
         {/* Education strip — secondary, horizontal */}
         <div className="mt-16 sm:mt-24">
           <Reveal>
-            <div className="mb-6 flex items-baseline gap-3 border-b border-[#1a1a1a]/15 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#6B6B6B]">
+            <div className="mb-6 flex items-baseline gap-3 border-b border-[#1a1a1a]/15 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#1a1a1a]/75">
               <span className="text-[#1738D5]">{"// "}</span>
               <span className="text-[#1a1a1a]/70">
                 education · secondary signal
               </span>
               <span className="ml-auto hidden h-px flex-1 bg-[#1a1a1a]/10 sm:block" />
-              <span className="hidden sm:inline text-[#6B6B6B]">
+              <span className="hidden sm:inline text-[#1a1a1a]/75">
                 {`// ${ACHIEVEMENTS.education.length} institutions`}
               </span>
             </div>
@@ -216,7 +216,7 @@ export default function Achievements() {
 
         {/* Footer microcopy */}
         <Reveal className="mt-14 sm:mt-20" delay={0.1}>
-          <p className="font-hand text-lg italic text-[#1a1a1a]/60 sm:translate-x-2 sm:text-xl">
+          <p className="font-hand text-lg italic text-[#1a1a1a]/85 sm:translate-x-2 sm:text-xl">
             ↳ external validation, not the goal. the work is.
           </p>
         </Reveal>

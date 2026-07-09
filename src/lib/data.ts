@@ -21,7 +21,7 @@ export const NAV_ITEMS = [
   { label: "Product OS", id: "product-os" },
   { label: "Best Work", id: "best-work" },
   { label: "Research", id: "research" },
-  { label: "Lab", id: "lab" },
+  { label: "Projects", id: "lab" },
   { label: "Contact", id: "contact" },
 ] as const;
 
@@ -60,7 +60,7 @@ export const HERO = {
   identityLines: ["Mr.", "On a", "lunch", "break"],
   topMeta: "Pankaj Gupta",
   topMetaSub: "AKA Mr. Onalunchbreak",
-  topLinks: "Fastest way to inspect my work → Best Work → Product Lab → Contact",
+  topLinks: "Fastest way to inspect my work → Best Work → Side Projects → Contact",
   location: "Delhi, India",
   locationSub: "",
   tagline: "PRODUCT BY DAY, SIDE PROJECTS BY LUNCH, OVERTHINKING BY MIDNIGHT.",
@@ -89,7 +89,7 @@ export const NAV_INDEX = {
     { label: "Product OS", annotation: "how I think about products", target: "product-os" },
     { label: "Best Work", annotation: "systems worth inspecting", target: "best-work" },
     { label: "Research Archive", annotation: "papers I somehow finished", target: "research" },
-    { label: "Side Project Lab", annotation: "things built outside working hours", target: "lab" },
+    { label: "Side Projects", annotation: "things built outside working hours", target: "lab" },
     { label: "Contact Me", annotation: "no forms. no friction.", target: "contact" },
   ],
   quickNote:
@@ -121,7 +121,7 @@ export const ORIGIN = {
   title: "THE BEGINNING",
   subtitle: "how I accidentally became a product person.",
   hero: "I STARTED BY BUILDING TECHNICAL THINGS. THEN I REALISED THE HARDER QUESTION WAS: WHAT SHOULD WE BUILD IN THE FIRST PLACE?",
-  emphasis: "WHAT SHOULD WE BUILD?",
+  emphasis: "WHAT SHOULD WE BUILD IN THE FIRST PLACE?",
   paragraphs: [
     "I studied Engineering Physics at DTU. The obvious path was to keep going deeper into engineering. So naturally, I started working on computer vision, NLP, multimodal AI, AR systems, research papers, public-sector analytics platforms, and whatever else looked technically interesting.",
     "Somewhere between models, data pipelines, deployments, users, and institutions, the question changed. 'Could I build it?' became 'Should we build it? For whom? What changes if it works?'",
@@ -591,10 +591,10 @@ export const LAB = {
     { label: "Experimentation", rotate: 2 },
   ],
   sideProjects: [
-    { id: "queens-gambit", name: "Queen's Gambit", desc: "A personalised chess platform where classical tournament aesthetics meet modern AI.", categories: ["PRODUCT", "AI"], status: "BUILDING" },
-    { id: "daily-dose-of-ai", name: "Daily Dose of AI", desc: "Your go-to place for updates on AI and technology.", categories: ["PRODUCT", "WRITING"], status: "BUILDING" },
+    { id: "queens-gambit", name: "Queen's Gambit", desc: "A personalised chess platform where classical tournament aesthetics meet modern AI.", categories: ["PRODUCT", "AI"], status: "DEPLOYED" },
+    { id: "daily-dose-of-ai", name: "Daily Dose of AI", desc: "Your go-to place for updates on AI and technology.", categories: ["PRODUCT", "WRITING"], status: "DEPLOYED" },
     { id: "skill-tracer", name: "Skill Tracer", desc: "Build skills.md from workflows by recording interactions and using AI models of your choice.", categories: ["PRODUCT", "WORKFLOWS"], status: "BUILDING" },
-    { id: "hitchhikers-guide", name: "A Hitchhiker's Guide to Presenting Modern Data Solutions", desc: "KaggleX BIPOC Program Project.", categories: ["DATA", "WRITING"], status: "SHIPPED" },
+    { id: "hitchhikers-guide", name: "A Hitchhiker's Guide to Presenting Modern Data Solutions", desc: "KaggleX BIPOC Program Project.", categories: ["DATA", "WRITING"], status: "DEPLOYED" },
   ],
 };
 
@@ -624,7 +624,6 @@ export const CONTACT = {
   annotation: "no forms. no funnels. no friction.",
   mail: "connectwithguptapankaj@gmail.com",
   links: [
-    { label: "EMAIL", href: "mailto:connectwithguptapankaj@gmail.com" },
     { label: "LINKEDIN", href: "https://www.linkedin.com/in/gupta-pankaj/" },
     { label: "GITHUB", href: "https://github.com/onalunchbreak" },
   ],

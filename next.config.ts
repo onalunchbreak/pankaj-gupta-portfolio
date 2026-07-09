@@ -9,7 +9,9 @@ const nextConfig: NextConfig = {
     "*.space-z.ai",
     "preview-chat-*.space-z.ai",
   ],
-  turbopack: {},
+  turbopack: {
+    root: __dirname,
+  },
 };
 
 export default nextConfig;

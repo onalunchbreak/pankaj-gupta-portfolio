@@ -109,7 +109,7 @@ const COLOR_CLASSES: Record<WordSpec["color"], string> = {
   cream: "text-[#F4F1EA]",
   blue: "text-[#1738D5]",
   yellow: "text-[#FFD400]",
-  muted: "text-[#6B6B6B]",
+  muted: "text-[#A3A3A3]",
 };
 
 /* ---- Skill-tag preview specs ------------------------------------
@@ -179,6 +179,7 @@ const THEME_STYLES: Record<ProjectTheme, {
   border: string;
   hint: string;
   chip: string;
+  statusBadge: Record<string, string>;
 }> = {
   blue: {
     card: "bg-[#0F2BB0] border-[#F7F4ED]/30",
@@ -191,6 +192,10 @@ const THEME_STYLES: Record<ProjectTheme, {
     border: "border-[#F7F4ED]/15",
     hint: "text-[#F7F4ED]/60 group-hover:text-[#FFD400]",
     chip: "border-[#F7F4ED]/25 text-[#F7F4ED]/75",
+    statusBadge: {
+      DEPLOYED: "border-[#4ADE80]/40 text-[#4ADE80] bg-[#4ADE80]/10",
+      BUILDING: "border-[#FFD400]/40 text-[#FFD400] bg-[#FFD400]/10",
+    },
   },
   paper: {
     card: "bg-[#F4F1EA] paper-texture border-[#2a2a2a]/20",
@@ -203,6 +208,10 @@ const THEME_STYLES: Record<ProjectTheme, {
     border: "border-[#2a2a2a]/15",
     hint: "text-[#2a2a2a]/60 group-hover:text-[#1738D5]",
     chip: "border-[#1738D5]/30 text-[#1738D5]",
+    statusBadge: {
+      DEPLOYED: "border-[#15803D]/40 text-[#15803D] bg-[#15803D]/5",
+      BUILDING: "border-[#1a1a1a]/40 text-[#1a1a1a] bg-[#1a1a1a]/5",
+    },
   },
   black: {
     card: "bg-[#0A0A0A] border-[#FFD400]/30",
@@ -215,6 +224,10 @@ const THEME_STYLES: Record<ProjectTheme, {
     border: "border-white/15",
     hint: "text-[#6B6B6B] group-hover:text-[#FFD400]",
     chip: "border-[#FFD400]/30 text-[#FFD400]/80",
+    statusBadge: {
+      DEPLOYED: "border-[#4ADE80]/40 text-[#4ADE80] bg-[#4ADE80]/10",
+      BUILDING: "border-[#FFD400]/40 text-[#FFD400] bg-[#FFD400]/10",
+    },
   },
 };
 
@@ -248,19 +261,19 @@ export default function ProductLab() {
       id="lab"
       className="env-black relative w-full overflow-hidden"
       aria-labelledby="lab-heading"
-      data-cursor-label="product lab"
+      data-cursor-label="side projects"
     >
       <div className="mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
         {/* ---- Section header (custom — no stale branding) ---- */}
         <motion.div
-          className="mb-10 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#6B6B6B] sm:mb-14"
+          className="mb-10 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#A3A3A3] sm:mb-14"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.6, ease: EASE }}
         >
           <span className="text-[#1738D5]">{"// "}</span>
-          <span className="text-[#F4F1EA]/70">PRODUCT LAB</span>
+          <span className="text-[#F4F1EA]/70">SIDE PROJECTS</span>
           <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
           <span className="hidden sm:inline text-[#1738D5]/70">
             {"// portfolio.sys"}
@@ -276,12 +289,12 @@ export default function ProductLab() {
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.8, ease: EASE }}
         >
-          <span className="text-[#6B6B6B]">{"## "}</span>
+          <span className="text-[#A3A3A3]">{"## "}</span>
           <span>things built on lunch breaks</span>
         </motion.h2>
 
         <Reveal delay={0.15}>
-          <p className="mt-4 font-mono text-xs uppercase tracking-[0.25em] text-[#6B6B6B] sm:translate-x-2 sm:text-sm">
+          <p className="mt-4 font-mono text-xs uppercase tracking-[0.25em] text-[#A3A3A3] sm:translate-x-2 sm:text-sm">
             {LAB.subtitle}
           </p>
         </Reveal>
@@ -291,13 +304,13 @@ export default function ProductLab() {
             ==================================================== */}
         <div className="mt-14 sm:mt-20">
           <Reveal>
-            <div className="mb-6 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#6B6B6B]">
+            <div className="mb-6 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#A3A3A3]">
               <span className="text-[#FFD400]">{"// "}</span>
               <span className="text-[#F4F1EA]/80">
-                SIDE PROJECTS · the lab
+                SIDE PROJECTS
               </span>
               <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-              <span className="hidden sm:inline">
+              <span className="hidden sm:inline text-[#F4F1EA]/85">
                 {`// ${LAB.sideProjects.length} builds`}
               </span>
             </div>
@@ -334,7 +347,7 @@ export default function ProductLab() {
                     </span>
                     <span
                       className={`border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] ${
-                        STATUS_STYLES[project.status] ?? "border-white/15 text-[#F4F1EA]/70"
+                        theme.statusBadge[project.status] ?? "border-white/15 text-[#F4F1EA]/70"
                       }`}
                     >
                       {project.status}
@@ -410,7 +423,7 @@ export default function ProductLab() {
 
         {/* Footer microcopy */}
         <Reveal className="mt-14 sm:mt-20" delay={0.1}>
-          <p className="font-hand text-lg italic text-[#F4F1EA]/55 sm:translate-x-2 sm:text-xl">
+          <p className="font-hand text-lg italic text-[#F4F1EA]/85 sm:translate-x-2 sm:text-xl">
             ↳ still shipping between meetings, mistakes, and midnight energy.
           </p>
         </Reveal>

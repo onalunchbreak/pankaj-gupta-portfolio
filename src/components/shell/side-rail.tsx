@@ -29,9 +29,9 @@ export default function SideRail() {
 
   // Adapt rail colors to the active section's background.
   const onLightBg = LIGHT_BG_SECTIONS.has(active);
-  const nameText = onLightBg ? "text-[#1a1a1a]/55" : "text-[#F4F1EA]/55";
-  const taglineText = onLightBg ? "text-[#1a1a1a]/45" : "text-[#6B6B6B]";
-  const progressText = onLightBg ? "text-[#1a1a1a]/70" : "text-[#F4F1EA]/70";
+  const nameText = onLightBg ? "text-[#1a1a1a]/85" : "text-[#F4F1EA]/85";
+  const taglineText = onLightBg ? "text-[#1a1a1a]/75" : "text-[#A3A3A3]";
+  const progressText = onLightBg ? "text-[#1a1a1a]/90" : "text-[#F4F1EA]/90";
   const railBg = onLightBg ? "bg-[#F4F1EA]/40" : "bg-[#0A0A0A]/40";
   const railBorder = onLightBg ? "border-[#1a1a1a]/10" : "border-white/10";
 

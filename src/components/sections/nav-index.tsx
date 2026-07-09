@@ -62,16 +62,27 @@ export default function NavIndex() {
       <div className="relative mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
         {/* ---- Section header ---- */}
         <motion.div
-          className="mb-10 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#6B6B6B] sm:mb-16"
+          className="mb-8 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-white sm:mb-12"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.6, ease: EASE }}
         >
           <span className="text-[#1738D5]">{NAV_INDEX.index}</span>
-          <span className="text-[#F4F1EA]/70">{NAV_INDEX.title}</span>
+          <span className="text-white font-bold">{NAV_INDEX.title}</span>
           <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-          <span className="hidden sm:inline">{"// table of contents"}</span>
+          <span className="hidden sm:inline text-white/90">{"// table of contents"}</span>
+        </motion.div>
+
+        {/* ---- Top Table of Contents Hint / Instruction (Borderless) ---- */}
+        <motion.div
+          className="mb-8 text-center font-mono text-[11px] uppercase tracking-[0.25em] text-white/80 sm:text-[12px]"
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: EASE }}
+        >
+          {NAV_INDEX.bottomMicrocopy}
         </motion.div>
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_auto] lg:items-start lg:gap-16">
@@ -106,7 +117,7 @@ export default function NavIndex() {
                       }}
                       onKeyDown={(e) => onKey(e, item.target)}
                       className={`group/link relative block w-full cursor-pointer rounded-none px-1 py-2 outline-none transition-opacity duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1738D5] ${
-                        dim ? "opacity-50" : "opacity-100"
+                        dim ? "opacity-65" : "opacity-100"
                       }`}
                       initial={{ opacity: 0, y: 18 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -115,7 +126,7 @@ export default function NavIndex() {
                     >
                       <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-5">
                         {/* label — oversized handwritten, brighter default for contrast */}
-                        <span className="hand-display flex items-baseline gap-2 text-5xl text-[#F7F4ED] transition-all duration-300 group-hover/link:text-[#1738D5] group-hover/link:translate-x-1 sm:text-6xl lg:text-7xl">
+                        <span className="hand-display flex items-baseline gap-2 text-4xl text-white transition-all duration-300 group-hover/link:text-[#1738D5] group-hover/link:translate-x-1 sm:text-5xl lg:text-6xl sm:whitespace-nowrap">
                           <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-[#1738D5]/70 transition-colors duration-300 group-hover/link:text-[#1738D5]">
                             {String(i + 1).padStart(2, "0")}
                           </span>
@@ -126,7 +137,7 @@ export default function NavIndex() {
                           />
                         </span>
                         {/* annotation — mono, brighter for readability */}
-                        <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#F4F1EA]/55 transition-colors duration-300 group-hover/link:text-[#1738D5] sm:translate-y-1">
+                        <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-white transition-colors duration-300 group-hover/link:text-[#1738D5] sm:translate-y-1">
                           {item.annotation}
                         </span>
                       </div>
@@ -162,29 +173,18 @@ export default function NavIndex() {
               className="absolute -top-2 right-6 z-10 h-5 w-14 rotate-6 bg-[#1738D5]/70 mix-blend-normal"
             />
             <div className="env-paper paper-texture relative w-full rounded-[2px] border border-[#1a1a1a]/30 p-5 shadow-[6px_6px_0_0_rgba(10,10,10,0.6)]">
-              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B]">
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/70">
                 {"// quick note"}
               </p>
               <blockquote className="hand-display mt-3 text-xl leading-tight text-[#1a1a1a] sm:text-2xl">
                 {NAV_INDEX.quickNote}
               </blockquote>
-              <p className="mt-4 text-right font-mono text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B]">
+              <p className="mt-4 text-right font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/70">
                 — Mr. Onalunchbreak
               </p>
             </div>
           </motion.aside>
         </div>
-
-        {/* ---- Bottom microcopy ---- */}
-        <motion.p
-          className="mt-16 border-t border-white/10 pt-6 text-center font-mono text-[10px] uppercase tracking-[0.3em] text-[#6B6B6B] sm:mt-20 sm:text-[11px]"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
-        >
-          {NAV_INDEX.bottomMicrocopy}
-        </motion.p>
       </div>
     </section>
   );

@@ -68,7 +68,7 @@ export default function ProductOS() {
       <div className="relative mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
         {/* ---- Header ---- */}
         <motion.div
-          className="mb-14 flex items-baseline gap-3 border-b border-[#1a1a1a]/15 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#6B6B6B] sm:mb-20"
+          className="mb-14 flex items-baseline gap-3 border-b border-[#1a1a1a]/15 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#1a1a1a]/75 sm:mb-20"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
@@ -139,7 +139,7 @@ export default function ProductOS() {
           <div className="col-span-1 lg:col-span-5 lg:translate-y-12">
             {/* annotation — handwritten, offset, muted-dark */}
             <motion.p
-              className="hand-display mb-6 max-w-xs -rotate-[1.5deg] text-base text-[#6B6B6B] sm:text-lg"
+              className="hand-display mb-6 max-w-xs -rotate-[1.5deg] text-base text-[#1a1a1a]/80 sm:text-lg"
               initial={reduced ? false : { opacity: 0, y: 14, rotate: 2 }}
               whileInView={{ opacity: 1, y: 0, rotate: -1.5 }}
               viewport={{ once: true, margin: "-10% 0px" }}
@@ -177,7 +177,7 @@ export default function ProductOS() {
               <p className="mt-4 font-display text-2xl font-bold uppercase tracking-tight text-[#2a2a2a] sm:text-3xl">
                 {PRODUCT_OS.centralMetric.label}
               </p>
-              <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.25em] text-[#6B6B6B]">
+              <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.25em] text-[#1a1a1a]/85">
                 {PRODUCT_OS.centralMetric.sub}
               </p>
             </motion.div>
@@ -186,7 +186,7 @@ export default function ProductOS() {
 
         {/* ---- 6 stat cards (rotation correction 2deg → 0deg) ---- */}
         <div className="mt-20 sm:mt-24">
-          <p className="mb-6 font-mono text-[10px] uppercase tracking-[0.3em] text-[#6B6B6B]">
+          <p className="mb-6 font-mono text-[10px] uppercase tracking-[0.3em] text-[#1a1a1a]/75">
             {"// measured outcomes — 6 cards"}
           </p>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -205,7 +205,7 @@ export default function ProductOS() {
                 data-cursor-label={`${s.value}${s.suffix} — ${s.label}`}
               >
                 {/* card index */}
-                <span className="absolute right-3 top-3 font-mono text-[9px] tracking-[0.25em] text-[#6B6B6B]">
+                <span className="absolute right-3 top-3 font-mono text-[9px] tracking-[0.25em] text-[#1a1a1a]/85">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 {/* blue accent dot */}
@@ -219,7 +219,7 @@ export default function ProductOS() {
                 <p className="mt-3 font-display text-sm font-bold uppercase tracking-tight text-[#2a2a2a]">
                   {s.label}
                 </p>
-                <p className="mt-1 font-mono text-[10px] leading-snug tracking-[0.04em] text-[#6B6B6B]">
+                <p className="mt-1 font-mono text-[10px] leading-snug tracking-[0.04em] text-[#1a1a1a]/85">
                   {s.sub}
                 </p>
               </motion.article>

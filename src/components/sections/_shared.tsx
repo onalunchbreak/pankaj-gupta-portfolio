@@ -31,7 +31,7 @@ export function SectionShell({
 
       {(index || label) && (
         <motion.div
-          className="mb-10 flex items-center gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#6B6B6B] sm:mb-14"
+          className="mb-10 flex items-center gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#A3A3A3] sm:mb-14"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
@@ -40,7 +40,7 @@ export function SectionShell({
           {index && <span className="text-[#FFD400]">{index}</span>}
           {label && <span className="text-[#F4F1EA]/70">{label}</span>}
           <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-          <span className="hidden sm:inline">{"// portfolio.sys"}</span>
+          <span className="hidden sm:inline text-[#F4F1EA]/80">{"// portfolio.sys"}</span>
           <ShareButton sectionId={id} />
         </motion.div>
       )}

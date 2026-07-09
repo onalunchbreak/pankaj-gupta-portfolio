@@ -62,7 +62,7 @@ function PaperSheet({
 
       {/* Stamp: index + ARCHIVED marker */}
       <div className="mb-3 flex items-center justify-between">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B]">
+        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/75">
           {paper.index.padStart(2, "0")} / 04
         </span>
         <span
@@ -91,10 +91,10 @@ function PaperSheet({
       {/* Metadata — supervisor + institution (mono, muted). On hover the
           metadata becomes more prominent (darker ink + accent rule). */}
       <div className="mt-5 border-l-2 border-[#1738D5]/30 pl-3 transition-colors duration-300 group-hover:border-[#1738D5]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6B6B] transition-colors duration-300 group-hover:text-[#1a1a1a] sm:text-xs">
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/75 transition-colors duration-300 group-hover:text-[#1a1a1a] sm:text-xs">
           {paper.supervisor}
         </p>
-        <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6B6B]/80 transition-colors duration-300 group-hover:text-[#1a1a1a]/80 sm:text-xs">
+        <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/80 transition-colors duration-300 group-hover:text-[#1a1a1a]/80 sm:text-xs">
           {paper.institution}
         </p>
       </div>
@@ -138,13 +138,13 @@ function PaperSheet({
         ) : (
           <div
             aria-disabled="true"
-            className="flex items-center justify-between gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-[#6B6B6B] cursor-not-allowed"
+            className="flex items-center justify-between gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-[#1a1a1a]/65 cursor-not-allowed"
           >
             <span className="flex items-center gap-2">
               <Lock className="h-3.5 w-3.5" aria-hidden />
               <span>link_unavailable</span>
             </span>
-            <span aria-hidden className="h-px w-6 bg-[#6B6B6B]/40" />
+            <span aria-hidden className="h-px w-6 bg-[#1a1a1a]/45" />
           </div>
         )}
       </div>
@@ -165,7 +165,7 @@ export default function ResearchArchive() {
       <div className="mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
         {/* ---- Section header (mirrors SectionShell without stale branding) ---- */}
         <motion.div
-          className="mb-10 flex items-baseline gap-3 border-b border-[#1a1a1a]/15 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#6B6B6B] sm:mb-14"
+          className="mb-10 flex items-baseline gap-3 border-b border-[#1a1a1a]/15 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#1a1a1a]/75 sm:mb-14"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
@@ -194,7 +194,7 @@ export default function ResearchArchive() {
 
         {/* Sub-meta: paper count + venues strip */}
         <Reveal className="mt-8" delay={0.15}>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.25em] text-[#6B6B6B]">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.25em] text-[#1a1a1a]/75">
             <span className="flex items-center gap-2">
               <FileText className="h-3.5 w-3.5 text-[#1738D5]" aria-hidden />
               <span>{RESEARCH.papers.length} papers · 4 venues</span>

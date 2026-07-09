@@ -69,8 +69,8 @@ export default function Nav() {
             // On paper (light) sections: dark text + dark accent.
             // On dark/blue/black sections: light text + blue accent.
             const inactiveText = onLightBg
-              ? "text-[#1a1a1a]/45 group-hover:text-[#1a1a1a]"
-              : "text-[#F4F1EA]/55 group-hover:text-[#F4F1EA]";
+              ? "text-[#1a1a1a]/70 group-hover:text-[#1a1a1a]"
+              : "text-[#F4F1EA]/80 group-hover:text-[#F4F1EA]";
             const inactiveRule = onLightBg
               ? "bg-[#1a1a1a]/25 group-hover:bg-[#1738D5]"
               : "bg-white/25 group-hover:bg-[#1738D5]";

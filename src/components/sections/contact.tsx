@@ -118,10 +118,10 @@ export default function Contact() {
           UPPER — BLACK environment
           ============================================================ */}
       <div className="env-black relative w-full">
-        <div className="mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-8 sm:py-32 lg:px-12">
+        <div className="mx-auto w-full max-w-[1200px] px-5 pt-16 pb-12 sm:pt-20 sm:pb-16 lg:px-12">
           {/* ---- Section header ---- */}
           <motion.div
-            className="mb-10 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#6B6B6B] sm:mb-16"
+            className="mb-10 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#A3A3A3] sm:mb-16"
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10% 0px" }}
@@ -190,7 +190,7 @@ export default function Contact() {
                   reduced ? "" : "transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
                 } group-hover:w-full`}
               />
-              <span className="font-display text-4xl font-bold leading-[0.95] tracking-tight text-[#F4F1EA] transition-colors duration-300 group-hover:text-[#1738D5] sm:text-6xl lg:text-7xl">
+              <span className="font-display text-[5.8vw] font-bold leading-[0.95] tracking-tight text-[#F4F1EA] transition-colors duration-300 group-hover:text-[#1738D5] sm:text-4xl lg:text-5xl">
                 {CONTACT.cta}
               </span>
               {/* Arrow — pulls slightly further than the button for parallax */}
@@ -206,7 +206,7 @@ export default function Contact() {
 
           {/* Annotation — mono muted */}
           <Reveal className="mt-5 sm:mt-6" delay={0.35}>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-[#6B6B6B] sm:translate-x-3 sm:text-sm">
+            <p className="font-mono text-xs uppercase tracking-[0.25em] text-[#A3A3A3] sm:translate-x-3 sm:text-sm">
               {CONTACT.annotation}
             </p>
           </Reveal>
@@ -262,7 +262,7 @@ export default function Contact() {
                 return (
                   <span key={link.label} className="flex items-center gap-3">
                     {i > 0 && (
-                      <span aria-hidden className="font-mono text-xs text-[#6B6B6B]">
+                      <span aria-hidden className="font-mono text-xs text-[#A3A3A3]">
                         ·
                       </span>
                     )}
@@ -278,7 +278,7 @@ export default function Contact() {
                       >
                         <span
                           aria-hidden
-                          className="h-1 w-1 rounded-full bg-[#6B6B6B] transition-colors duration-200 group-hover/link:bg-[#1738D5]"
+                          className="h-1 w-1 rounded-full bg-[#A3A3A3] transition-colors duration-200 group-hover/link:bg-[#1738D5]"
                         />
                         <span className="inline-block transition-transform duration-200 group-hover/link:-translate-y-0.5">
                           {link.label}
@@ -287,7 +287,7 @@ export default function Contact() {
                     ) : (
                       <span
                         aria-disabled="true"
-                        className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-[#6B6B6B]/60 cursor-not-allowed sm:text-sm"
+                        className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-[#A3A3A3]/60 cursor-not-allowed sm:text-sm"
                         title="Link unavailable — no URL on file"
                       >
                         <Lock className="h-3 w-3" aria-hidden />
@@ -316,53 +316,59 @@ export default function Contact() {
 
       <footer className="env-paper paper-texture relative w-full">
         <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-10 lg:px-12">
-          {/* Signoff — italic mono in dark ink */}
-          <motion.div
-            initial={reduced ? false : { opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10% 0px" }}
-            transition={{ duration: 0.7, ease: EASE }}
-          >
-            <p className="max-w-2xl font-mono text-xs italic leading-relaxed text-[#2a2a2a]/80 sm:translate-x-3">
-              {CONTACT.signoff}
-            </p>
-          </motion.div>
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
+            {/* Left Column: Signoff */}
+            <motion.div
+              className="max-w-xl md:max-w-md lg:max-w-lg"
+              initial={reduced ? false : { opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-10% 0px" }}
+              transition={{ duration: 0.7, ease: EASE }}
+            >
+              <p className="font-mono text-xs italic leading-relaxed text-[#2a2a2a]/80">
+                {CONTACT.signoff}
+              </p>
+            </motion.div>
 
-          {/* Signature — handwritten, blue, right-aligned, blinking cursor */}
-          <motion.div
-            className="mt-5 flex flex-col items-end gap-0.5 sm:mt-6"
-            initial={reduced ? false : { opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10% 0px" }}
-            transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
-          >
-            <p className="hand-display text-2xl text-[#1738D5] sm:text-4xl lg:text-5xl">
-              {CONTACT.signature}
-            </p>
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#2a2a2a]/60">
-              {CONTACT.signatureSub}
-              <span
-                aria-hidden
-                className="blink ml-1 inline-block h-2.5 w-[5px] translate-y-0.5 bg-[#1738D5]"
-              />
-            </p>
-          </motion.div>
+            {/* Right Column: Signature and System Status stacked vertically */}
+            <div className="flex flex-col items-end gap-5">
+              {/* Signature — handwritten, blue, right-aligned, blinking cursor */}
+              <motion.div
+                className="flex flex-col items-end gap-0.5"
+                initial={reduced ? false : { opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10% 0px" }}
+                transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
+              >
+                <p className="hand-display text-2xl text-[#1738D5] sm:text-4xl lg:text-5xl whitespace-nowrap">
+                  {CONTACT.signature}
+                </p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#2a2a2a]/60 whitespace-nowrap">
+                  {CONTACT.signatureSub}
+                  <span
+                    aria-hidden
+                    className="blink ml-1 inline-block h-2.5 w-[5px] translate-y-0.5 bg-[#1738D5]"
+                  />
+                </p>
+              </motion.div>
 
-          {/* System status + EOF terminal label */}
-          <div className="mt-6 flex flex-col items-end gap-1.5 sm:mt-8 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
-            <span className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.3em] text-[#1738D5]">
-              <span
-                aria-hidden
-                className="blink inline-block h-1.5 w-1.5 bg-[#1738D5]"
-              />
-              {CONTACT.systemStatus}
-            </span>
-            <span
-              aria-hidden
-              className="hidden h-3 w-px bg-[#2a2a2a]/25 sm:inline-block"
-            />
-            <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#2a2a2a]/55">
-              {"// EOF · session complete"}
+              {/* System status + EOF terminal label */}
+              <div className="flex flex-col items-end gap-1.5 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
+                <span className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.3em] text-[#1738D5]">
+                  <span
+                    aria-hidden
+                    className="blink inline-block h-1.5 w-1.5 bg-[#1738D5]"
+                  />
+                  {CONTACT.systemStatus}
+                </span>
+                <span
+                  aria-hidden
+                  className="hidden h-3 w-px bg-[#2a2a2a]/25 sm:inline-block"
+                />
+                <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#2a2a2a]/55">
+                  {"// EOF · session complete"}
+                </div>
+              </div>
             </div>
           </div>
         </div>

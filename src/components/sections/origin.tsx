@@ -31,10 +31,12 @@ const ANNOTATION_POSITIONS: Array<{
   rotate: string;
   mobileHidden?: boolean;
 }> = [
-  { top: "8%", left: "62%", rotate: "-3deg" },
-  { top: "26%", left: "4%", rotate: "2.5deg" },
+  { top: "8%",  left: "62%", rotate: "-3deg" },
+  // Moved right — was left:4%, overlapped the hero statement text
+  { top: "28%", left: "66%", rotate: "-2.5deg" },
   { top: "44%", left: "70%", rotate: "-2deg" },
-  { top: "64%", left: "8%", rotate: "3deg" },
+  // Moved right — was left:8%, overlapped paragraph //02 body text
+  { top: "64%", left: "68%", rotate: "-3deg" },
   { top: "82%", left: "58%", rotate: "-1.5deg", mobileHidden: true },
 ];
 
@@ -189,7 +191,7 @@ export default function Origin() {
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.6, ease: EASE }}
         >
-          <div className="flex items-baseline gap-3 font-mono text-[11px] uppercase tracking-widest text-[#6B6B6B]">
+          <div className="flex items-baseline gap-3 font-mono text-[11px] uppercase tracking-widest text-[#1a1a1a]/75">
             <span className="text-[#1738D5]">{ORIGIN.index}</span>
             <span className="text-[#2a2a2a]/70">— {ORIGIN.title}</span>
             <span className="ml-auto hidden h-px flex-1 bg-[#1a1a1a]/15 sm:block" />
@@ -221,7 +223,7 @@ export default function Origin() {
           {YEAR_MARKERS.map((m) => (
             <div key={m.year} className="absolute left-0" style={{ top: `${m.at}%` }}>
               <span className="absolute left-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 bg-[#1738D5]" />
-              <span className="absolute left-2 top-0 -translate-y-1/2 whitespace-nowrap font-mono text-[10px] tracking-[0.25em] text-[#6B6B6B]">
+              <span className="absolute left-2 top-0 -translate-y-1/2 whitespace-nowrap font-mono text-[10px] tracking-[0.25em] text-[#1a1a1a]/75">
                 {m.year}
               </span>
             </div>
@@ -276,7 +278,7 @@ export default function Origin() {
           </h2>
 
           {/* ---- Supporting paragraphs ---- */}
-          <div className="relative max-w-2xl space-y-10">
+          <div className="relative max-w-2xl space-y-10 mt-10 sm:mt-12 lg:mt-16">
             {ORIGIN.paragraphs.map((para, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div className="relative border-l border-[#1a1a1a]/15 pl-6">
@@ -286,20 +288,11 @@ export default function Origin() {
                     aria-hidden
                   />
                   {/* editorial index marker */}
-                  <span className="mb-2 block font-mono text-[10px] tracking-[0.25em] text-[#6B6B6B]">
+                  <span className="mb-2 block font-mono text-[10px] tracking-[0.25em] text-[#1a1a1a]/75">
                     {`// 0${i + 1}`}
                   </span>
 
-                  {/* Motif stamp 2 — on paragraph 2 */}
-                  {i === 1 && (
-                    <MotifStamp
-                      className="absolute -top-4 right-0 -rotate-[8deg]"
-                      motif={ORIGIN.motif}
-                      motifCrossed={ORIGIN.motifCrossed}
-                      motifSub={ORIGIN.motifSub}
-                      small
-                    />
-                  )}
+
 
                   <p className="font-sans text-base leading-relaxed text-[#2a2a2a]/85 sm:text-lg">
                     {para}
@@ -361,7 +354,7 @@ export default function Origin() {
 
           {/* ---- Terminal footer — meta with blinking blue cursor ---- */}
           <div className="mt-12 border-t border-[#1a1a1a]/15 pt-6">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#6B6B6B]">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#1a1a1a]/80">
               <span className="text-[#1738D5]">~/portfolio</span>
               <span className="mx-1">$</span>
               the beginning, not the destination.
@@ -431,7 +424,7 @@ function MotifStamp({
         </span>
         {after}
       </span>
-      <span className="hand-display mt-0.5 block text-[10px] normal-case tracking-normal text-[#6B6B6B]">
+      <span className="hand-display mt-0.5 block text-[10px] normal-case tracking-normal text-[#1a1a1a]/75">
         {motifSub}
       </span>
     </span>

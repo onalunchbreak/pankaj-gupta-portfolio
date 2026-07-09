@@ -8,14 +8,12 @@ import MuteToggle from "@/components/shell/mute-toggle";
 import SoundManager from "@/components/shell/sound-manager";
 import CaseCloseOverlay from "@/components/shell/case-close-overlay";
 import KeyboardRouter from "@/components/shell/keyboard-router";
-import SessionStatsHud from "@/components/shell/session-stats-hud";
 import SectionReachTracker from "@/components/shell/section-reach-tracker";
 import ScrollToTop from "@/components/shell/scroll-to-top";
 import HashScrollOnLoad from "@/components/shell/hash-scroll-on-load";
 
 import Hero from "@/components/sections/hero";
 import NavIndex from "@/components/sections/nav-index";
-import PhilosophyQuote from "@/components/sections/philosophy-quote";
 import BrandMarquee from "@/components/sections/brand-marquee";
 import Origin from "@/components/sections/origin";
 import ProductOS from "@/components/sections/product-os";
@@ -38,7 +36,6 @@ export default function Home() {
       <MuteToggle />
       <CaseCloseOverlay />
       <KeyboardRouter />
-      <SessionStatsHud />
       <SectionReachTracker />
       <ScrollToTop />
       <HashScrollOnLoad />
@@ -47,7 +44,6 @@ export default function Home() {
       <main className="relative w-full overflow-x-clip">
         <Hero />
         <NavIndex />
-        <PhilosophyQuote />
         <BrandMarquee />
         <Origin />
         <ProductOS />
