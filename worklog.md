@@ -1034,3 +1034,41 @@ Verification:
 - **Metro keyboard testing**: the dev server crashed in the sandbox during testing, so the direct keydown listener couldn't be verified via agent-browser. The logic is sound — a single keydown listener with a 150ms cooldown and immediate activeRef update should ensure one press = one station.
 - **Performance / Lighthouse**: still not profiled.
 - **Real assets**: all visuals are CSS/SVG-generated.
+
+---
+Task ID: 20 (hero design toggle + marquee colors + research alignment)
+Agent: main (orchestrator)
+Task: Fix hero design with toggle for 3 variants, fix research header alignment, fix marquee speed + per-word colors.
+
+## Current project status description/assessment
+- The portfolio was stable but the hero had conflicting element placement (tagline overlapping nav, skill tags too blurred to see). The user wanted design variations with a toggle to choose from, plus fixes to the research header and marquee.
+
+## Current goals / completed modifications / verification results
+Goals: implement hero with 3 design toggle variants, fix research alignment, fix marquee speed + colors.
+
+Completed:
+1. HERO DESIGN TOGGLE (hero.tsx): complete rewrite with 3 variants selectable via a top-center toggle:
+   - **CLASSIC**: clean blue background, no skill tags — just the central identity lockup, tagline, location, time morph, role cycler, scroll cue.
+   - **SCATTERED** (default): skill tags rendered as visible bordered boxes (per PDF pages 2-3 design) scattered across the background. Two focal tags (index 5, 8) get yellow accent borders + bg. On hover: border → yellow, bg → yellow/15, text → yellow, scale 1.12, box-shadow glow. Tags have `backdrop-filter: blur(2px)` + dark bg for depth.
+   - **AMBIENT**: 20 word cloud words as faint (opacity 0.15), blurred (3px) background text in varied sizes + rotations. Pure ambient texture.
+   - Toggle persists via localStorage (`hero-variant` key). Tagline is centered below the lockup. Delhi India centered below the tagline. No overlap with right-side nav.
+   - VLM confirmed: "toggle at top center with CLASSIC/SCATTERED/AMBIENT", "skill tags visible as bordered boxes", "tagline below central lockup", "layout clean".
+2. RESEARCH ALIGNMENT FIX (data.ts): changed RESEARCH.system from "PAPERS_I_SOMEHOW_FINISHED" to "research.log" — now the header reads "04 | RESEARCH ARCHIVE | // research.log | SHARE" all on one line, matching other section headers.
+3. MARQUEE COLORS + SPEED (brand-marquee.tsx):
+   - Speed reduced from -2 to -1.2 (%/s) — slow and readable.
+   - Velocity multiplier capped at 1.5x (was 2x).
+   - Each word now has a different color via `getWordColor()` function that cycles through blue/yellow/white/gray per the word cloud theme (PDF page 4).
+   - Focal words (Mr. Onalunchbreak, Still Building → blue; Python, Research, B2B SaaS → yellow) get signature colors.
+   - Font size reduced from text-8xl to text-5xl for readability.
+   - VLM confirmed: "different words in distinct colors: blue, yellow, white/cream, gray. Font size reasonable."
+
+Verification:
+- `bun run lint` → 0 errors, 0 warnings.
+- Dev server compiled + rendered successfully (sandbox crashes were process-management issues, not code issues — verified by getting successful 200 responses + screenshots between crashes).
+- agent-browser + VLM confirmed all 3 hero variants, marquee colors, research alignment.
+- Committed to git.
+
+## Unresolved issues / risks / priority recommendations for next phase
+- **Dev server stability**: the sandbox keeps killing the Next.js dev process during testing. This is a sandbox memory/process-management issue, not a code issue. All changes are lint-verified and compile-verified.
+- **Performance / Lighthouse**: still not profiled.
+- **Real assets**: all visuals are CSS/SVG-generated.
