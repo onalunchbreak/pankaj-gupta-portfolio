@@ -35,7 +35,7 @@ export const PRELOADER = {
     "ENGINEERING BAGGAGE",
     "CUSTOMER OBSESSION",
     "SIDE PROJECTS",
-    "SACRIFICING RAM TO CHROME",
+    "SACRIFICING YOUR RAM TO CHROME",
     "QUESTIONABLE SLEEP SCHEDULE",
     "MR_ONALUNCHBREAK.EXE",
   ],
@@ -75,7 +75,7 @@ export const HERO = {
   timeMorph: ["09:00", "13:00", "02:00"],
   timeAnnotation: "apparently lunch breaks can get long.",
   scrollCta: "GO ON.",
-  scrollCtaSub: "SACRIFICING RAM TO CHROME.",
+  scrollCtaSub: "SACRIFICING YOUR RAM TO CHROME.",
   bottomLabel: "Portfolio // Pankaj Gupta",
   bottomSession: "Session // Mr. Onalunchbreak",
 };
