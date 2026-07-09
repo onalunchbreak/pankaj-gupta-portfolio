@@ -21,6 +21,29 @@ import { getLenis } from "@/lib/lenis-instance";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+const getValueFontSize = (display?: string, isMobileList = false, isModal = false) => {
+  if (!display) {
+    if (isMobileList) return "text-2xl sm:text-3xl";
+    if (isModal) return "text-3xl sm:text-5xl";
+    return "text-3xl lg:text-5xl";
+  }
+
+  const len = display.length;
+  if (len > 12) {
+    if (isMobileList) return "text-xs uppercase tracking-wider";
+    if (isModal) return "text-base sm:text-2xl uppercase tracking-wider";
+    return "text-sm lg:text-2xl uppercase tracking-wider";
+  } else if (len > 7) {
+    if (isMobileList) return "text-[11px] sm:text-xs uppercase tracking-wider";
+    if (isModal) return "text-lg sm:text-3xl uppercase tracking-wider";
+    return "text-base lg:text-3xl uppercase tracking-wider";
+  } else {
+    if (isMobileList) return "text-sm sm:text-base uppercase tracking-wider";
+    if (isModal) return "text-xl sm:text-4xl uppercase tracking-wider";
+    return "text-lg lg:text-4xl uppercase tracking-wider";
+  }
+};
+
 /* ============================================================
    SECTION 04 — BEST WORK / DELHI METRO METRO
    Gamified horizontal metro track with pinned GSAP scroll,
@@ -789,7 +812,7 @@ function StationPanel({
         <ul className="grid grid-cols-3 gap-4" role="list">
           {previewMetrics.map((m) => (
             <li key={m.label} className="border-l border-white/15 pl-3">
-              <p className="font-display text-3xl font-bold leading-none tracking-tight text-[#FFD400] lg:text-5xl">
+              <p className={`font-display font-bold leading-none tracking-tight text-[#FFD400] ${getValueFontSize(m.display, false, false)}`}>
                 <CountUp
                   target={m.value}
                   suffix={m.suffix ?? ""}
@@ -890,7 +913,7 @@ function StackedStationCard({
       <ul className="mt-6 grid grid-cols-3 gap-3" role="list">
         {previewMetrics.map((m) => (
           <li key={m.label} className="border-l border-white/15 pl-3">
-            <p className="font-display text-2xl font-bold leading-none tracking-tight text-[#FFD400] sm:text-3xl">
+            <p className={`font-display font-bold leading-none tracking-tight text-[#FFD400] ${getValueFontSize(m.display, true, false)}`}>
               <CountUp
                 target={m.value}
                 suffix={m.suffix ?? ""}
@@ -1086,7 +1109,7 @@ function DeepDiveOverlay({
                 key={m.label}
                 className={mi % 3 === 1 ? "sm:translate-y-3" : ""}
               >
-                <p className="font-display text-3xl font-bold leading-none tracking-tight text-[#FFD400] sm:text-5xl">
+                <p className={`font-display font-bold leading-none tracking-tight text-[#FFD400] ${getValueFontSize(m.display, false, true)}`}>
                   <CountUp
                     target={m.value}
                     suffix={m.suffix ?? ""}
