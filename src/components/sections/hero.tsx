@@ -165,8 +165,8 @@ export default function Hero() {
         28.6139° N, 77.2090° E
       </motion.span>
 
-      {/* ---- IDENTITY LOCKUP ---- */}
-      <div className="pointer-events-none relative z-20 flex flex-1 items-center justify-center">
+      {/* ---- IDENTITY LOCKUP & Tagline ---- */}
+      <div className="pointer-events-none relative z-20 flex flex-1 flex-col items-center justify-center">
         <motion.h1
           className="pointer-events-auto hand-display select-none text-center text-[#F7F4ED]"
           style={reduced ? undefined : { x: lockupX, y: lockupY }}
@@ -180,12 +180,12 @@ export default function Hero() {
                 style={{
                   lineHeight: 0.82,
                   marginTop: i === 3 ? "calc(-1 * (0.12 * min(13rem, 13vw)))" : undefined,
-                  // Nudge "Mr." rightward so it optically aligns with the visual weight of the lines below
-                  transform: i === 0 ? "translateX(2rem)" : undefined,
                 }}
               >
                 <motion.span
-                  className={`hand-display inline-block px-8 ${line.size}`}
+                  className={`hand-display inline-block px-8 ${line.size} ${
+                    i === 0 ? "translate-x-0 sm:translate-x-8" : ""
+                  }`}
                   initial={reduced ? { y: "0%" } : { y: "110%" }}
                   animate={{ y: "0%" }}
                   transition={{
@@ -200,17 +200,17 @@ export default function Hero() {
             ))}
           </div>
         </motion.h1>
-      </div>
 
-      {/* ---- Tagline (below the lockup, centered, single line, slightly rotated) ---- */}
-      <motion.p
-        className="pointer-events-none relative z-10 mt-6 text-center hand-display -rotate-[1deg] text-xl text-[#F7F4ED]/85 sm:text-2xl"
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.25, duration: 0.7, ease: EASE }}
-      >
-        {HERO.tagline}
-      </motion.p>
+        {/* ---- Tagline (below the lockup, centered, slightly rotated) ---- */}
+        <motion.p
+          className="pointer-events-none relative z-10 mt-8 max-w-2xl px-4 text-center hand-display -rotate-[1deg] text-xl leading-relaxed text-[#F7F4ED]/85 sm:mt-10 sm:text-2xl"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.25, duration: 0.7, ease: EASE }}
+        >
+          {HERO.tagline}
+        </motion.p>
+      </div>
 
       {/* ---- Location: Delhi, India (positioned vertically beside lunch break) ---- */}
       <motion.div
