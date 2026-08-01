@@ -158,15 +158,12 @@ export default function Hero() {
       {/* ---- MAIN HERO CANVAS (Center Cutout Photo + Annotations + Outlined Tags) ---- */}
       <div className="relative z-10 my-auto flex w-full flex-1 items-center justify-center py-1">
 
-        {/* ---- Large Dominant Cutout Portrait of Pankaj Gupta (Commit 38029d8 scale baseline: 72vh height, 820px max width) ---- */}
+        {/* ---- Large Dominant Cutout Portrait of Pankaj Gupta (Interactive Live Scale & Y-Offset Binding) ---- */}
         <motion.div
-          className="relative z-10 flex flex-col items-center justify-end w-full max-w-[680px] lg:max-w-[820px] -mt-8 sm:-mt-12 mb-2 transition-transform duration-75 origin-bottom pointer-events-none"
-          style={{
-            transform: `scale(${scale / 100}) translateY(${yOffset}px)`,
-          }}
+          className="relative z-10 flex flex-col items-center justify-end w-full max-w-[680px] lg:max-w-[820px] -mt-8 sm:-mt-12 mb-2 origin-bottom pointer-events-none"
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, ease: EASE }}
+          animate={{ opacity: 1, scale: scale / 100, y: yOffset }}
+          transition={{ duration: 0.15, ease: "easeInOut" }}
         >
           <div className="relative w-full h-[72vh] min-h-[500px] max-h-[760px] flex items-end justify-center">
             <Image
