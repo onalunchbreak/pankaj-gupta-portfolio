@@ -8,42 +8,43 @@ import { getLenis } from "@/lib/lenis-instance";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+// 26 Unique Product Terms with Non-Overlapping Coordinates & Rotations (-8° to +8°)
 const HERO_TAGS = [
-  // Row 1 (top section y: 13% - 24%)
-  { label: "CUSTOMER JOURNEY MAPPING", top: "14%", left: "4%", rotate: -4 },
-  { label: "PRODUCT STRATEGY", top: "16%", left: "34%", rotate: 3 },
-  { label: "APPLIED AI", top: "14%", left: "58%", rotate: -5 },
-  { label: "STORYTELLING", top: "17%", left: "76%", rotate: 4 },
+  // Top Row (y: 16% - 28%)
+  { label: "CUSTOMER JOURNEY MAPPING", top: "18%", left: "5%", rotate: -5 },
+  { label: "PRODUCT STRATEGY", top: "17%", left: "38%", rotate: 4 },
+  { label: "APPLIED AI", top: "16%", left: "58%", rotate: -6 },
+  { label: "STORYTELLING", top: "25%", left: "76%", rotate: 5 },
 
-  // Row 2 (upper center y: 25% - 38%)
-  { label: "PRODUCT ANALYTICS", top: "27%", left: "6%", rotate: 5 },
-  { label: "USER RESEARCH", top: "29%", left: "30%", rotate: -3 },
-  { label: "OKRs", top: "22%", left: "44%", rotate: -4 },
-  { label: "FEATURE PRIORITIZATION", top: "23%", left: "68%", rotate: 2 },
-  { label: "DATA SYSTEMS", top: "28%", left: "74%", rotate: -4 },
+  // Upper-Mid Row (y: 26% - 38%)
+  { label: "PRODUCT ANALYTICS", top: "30%", left: "6%", rotate: 6 },
+  { label: "USER RESEARCH", top: "31%", left: "32%", rotate: -4 },
+  { label: "OKRs", top: "26%", left: "46%", rotate: -5 },
+  { label: "FEATURE PRIORITIZATION", top: "27%", left: "64%", rotate: 3 },
+  { label: "DATA SYSTEMS", top: "38%", left: "78%", rotate: -5 },
 
-  // Row 3 (center space y: 40% - 54%)
-  { label: "ITERATION", top: "42%", left: "4%", rotate: -6 },
-  { label: "PRODUCT DISCOVERY", top: "44%", left: "22%", rotate: 4 },
-  { label: "SYSTEM DESIGN", top: "37%", left: "46%", rotate: -2 },
-  { label: "UAT", top: "35%", left: "62%", rotate: 6 },
-  { label: "STAKEHOLDER MANAGEMENT", top: "45%", left: "66%", rotate: 5 },
+  // Center-Mid Row (y: 37% - 50%) — Keeping center 50%, 50% clear for single scroll icon
+  { label: "ITERATION", top: "42%", left: "5%", rotate: -7 },
+  { label: "PRODUCT DISCOVERY", top: "44%", left: "20%", rotate: 5 },
+  { label: "SYSTEM DESIGN", top: "38%", left: "38%", rotate: -3 },
+  { label: "UAT", top: "37%", left: "62%", rotate: 7 },
+  { label: "STAKEHOLDER MANAGEMENT", top: "48%", left: "72%", rotate: -4 },
 
-  // Row 4 (lower center y: 56% - 70%)
-  { label: "RAPID PROTOTYPING", top: "58%", left: "5%", rotate: 3 },
-  { label: "METRICS THAT MATTER", top: "57%", left: "28%", rotate: -5 },
-  { label: "ROAD MAPPING", top: "52%", left: "46%", rotate: 4 },
-  { label: "PRICING STRATEGY", top: "60%", left: "56%", rotate: 4 },
-  { label: "A/B TESTING", top: "56%", left: "80%", rotate: -3 },
+  // Lower-Mid Row (y: 56% - 62%)
+  { label: "RAPID PROTOTYPING", top: "56%", left: "6%", rotate: 4 },
+  { label: "METRICS THAT MATTER", top: "57%", left: "27%", rotate: -6 },
+  { label: "ROAD MAPPING", top: "61%", left: "46%", rotate: 5 },
+  { label: "PRICING STRATEGY", top: "59%", left: "62%", rotate: -3 },
+  { label: "A/B TESTING", top: "60%", left: "80%", rotate: 6 },
 
-  // Row 5 (bottom space y: 72% - 86%)
-  { label: "GO-TO-MARKET STRATEGY", top: "74%", left: "6%", rotate: -3 },
-  { label: "CHURN REDUCTION", top: "68%", left: "18%", rotate: -3 },
-  { label: "RETENTION LOOPS", top: "67%", left: "44%", rotate: 3 },
-  { label: "CROSS-FUNCTIONAL LEADERSHIP", top: "75%", left: "32%", rotate: 5 },
-  { label: "COMPETITIVE ANALYSIS", top: "73%", left: "62%", rotate: -4 },
-  { label: "WORKFLOW AUTOMATION", top: "76%", left: "78%", rotate: 3 },
-  { label: "MARKETING RESEARCH", top: "84%", left: "70%", rotate: -2 },
+  // Bottom Rows (y: 70% - 84%) — Evenly spread out
+  { label: "GO-TO-MARKET STRATEGY", top: "70%", left: "5%", rotate: -5 },
+  { label: "CROSS-FUNCTIONAL LEADERSHIP", top: "71%", left: "32%", rotate: 4 },
+  { label: "COMPETITIVE ANALYSIS", top: "72%", left: "60%", rotate: -4 },
+  { label: "WORKFLOW AUTOMATION", top: "72%", left: "80%", rotate: 5 },
+  { label: "CHURN REDUCTION", top: "83%", left: "12%", rotate: 3 },
+  { label: "RETENTION LOOPS", top: "84%", left: "38%", rotate: -6 },
+  { label: "MARKETING RESEARCH", top: "83%", left: "70%", rotate: -3 },
 ];
 
 function useLiveClock() {
@@ -94,15 +95,15 @@ export default function Hero() {
 
       {/* ---- Top metadata bar ---- */}
       <div className="relative z-20 flex w-full items-start justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.2em] text-[#F7F4ED]/75 sm:text-[11px] pointer-events-none">
+        {/* FIX 1: Removed orphaned AKA MR. ONALUNCHBREAK badge */}
         <motion.span
           className="max-w-[55%] leading-relaxed pointer-events-none pl-2 sm:pl-4"
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6, ease: EASE }}
         >
-          <span className="block text-[12px] sm:text-[14px] font-bold tracking-[0.22em] text-[#F7F4ED]">{HERO.topMeta}</span>
-          <span className="inline-block text-[9px] sm:text-[10px] tracking-[0.22em] text-[#F7F4ED]/80 mt-1 px-2 py-0.5 border border-white/20 rounded-full bg-[#1738D5]/30">
-            {HERO.topMetaSub}
+          <span className="block text-[12px] sm:text-[14px] font-bold tracking-[0.22em] text-[#F7F4ED]">
+            {HERO.topMeta}
           </span>
         </motion.span>
 
@@ -136,7 +137,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* ---- Symmetrically Centered System Time (Absolute positioned per device screen center) ---- */}
+      {/* ---- Symmetrically Centered System Time ---- */}
       <motion.span
         className="absolute left-1/2 top-3 -translate-x-1/2 z-20 text-center font-mono text-[13px] uppercase tracking-[0.2em] text-[#FFD400] sm:top-6 sm:text-[15px] font-bold pointer-events-none"
         initial={{ opacity: 0, y: -8 }}
@@ -157,12 +158,11 @@ export default function Hero() {
         28.6139° N, 77.2090° E
       </motion.span>
 
-      {/* ---- Circular scroll indicator icon ---- */}
+      {/* FIX 3 & 4: Single circular scroll-indicator icon at exact center of hero canvas */}
       <div
-        className="pointer-events-none absolute z-20 flex h-6 w-6 items-center justify-center rounded-full border border-white/40 shadow-sm"
-        style={{ top: "66%", left: "74%" }}
+        className="pointer-events-none absolute left-1/2 top-1/2 z-20 flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 shadow-sm"
       >
-        <div className="h-1.5 w-1.5 rounded-full bg-[#FFD400]" />
+        <div className="h-2 w-2 rounded-full bg-[#FFD400] pulse-soft" />
       </div>
 
       {/* ---- Expanded Word Cloud Layer (Desktop) ---- */}
@@ -170,7 +170,8 @@ export default function Hero() {
         {HERO_TAGS.map((tag, i) => (
           <motion.span
             key={`scatter-${tag.label}`}
-            className="pulse-tag absolute cursor-default border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#F7F4ED]/85 bg-[#1738D5]/25 border-white/20 hover:border-[#FFD400] hover:text-[#FFD400] transition-colors select-none pointer-events-auto sm:text-[12px] lg:text-[13px]"
+            {/* FIX 6: Standardized consistent tag styling across every tag */}
+            className="pulse-tag absolute cursor-default border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#F7F4ED] bg-[#1738D5]/30 border-white/25 hover:border-[#FFD400] hover:text-[#FFD400] transition-colors select-none pointer-events-auto sm:text-[12px] lg:text-[13px]"
             style={{
               top: tag.top,
               left: tag.left,
@@ -189,14 +190,14 @@ export default function Hero() {
       </div>
 
       {/* ---- Expanded Word Cloud Layer (Mobile / Tablet Reflow) ---- */}
-      <div className="relative z-10 my-auto flex flex-wrap items-center justify-center gap-2.5 px-2 py-12 lg:hidden">
+      <div className="relative z-10 my-auto flex flex-wrap items-center justify-center gap-3 px-3 py-16 lg:hidden">
         {HERO_TAGS.map((tag, i) => (
           <motion.span
             key={`m-${tag.label}`}
-            className="pulse-tag cursor-default border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-[#F7F4ED]/85 bg-[#1738D5]/35 border-white/20 hover:border-[#FFD400] hover:text-[#FFD400] transition-colors select-none sm:text-[11px]"
+            className="pulse-tag cursor-default border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-[#F7F4ED] bg-[#1738D5]/35 border-white/25 hover:border-[#FFD400] hover:text-[#FFD400] transition-colors select-none sm:text-[11px]"
             style={{
-              rotate: tag.rotate * 0.7,
-              "--rotate": `${tag.rotate * 0.7}deg`,
+              rotate: tag.rotate,
+              "--rotate": `${tag.rotate}deg`,
             } as any}
             initial={reduced ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
