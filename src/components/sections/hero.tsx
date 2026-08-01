@@ -170,7 +170,6 @@ export default function Hero() {
         {HERO_TAGS.map((tag, i) => (
           <motion.span
             key={`scatter-${tag.label}`}
-            {/* FIX 6: Standardized consistent tag styling across every tag */}
             className="pulse-tag absolute cursor-default border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#F7F4ED] bg-[#1738D5]/30 border-white/25 hover:border-[#FFD400] hover:text-[#FFD400] transition-colors select-none pointer-events-auto sm:text-[12px] lg:text-[13px]"
             style={{
               top: tag.top,
