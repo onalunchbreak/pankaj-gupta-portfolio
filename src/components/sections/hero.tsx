@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ChevronDown, Search, Sparkles, Star, Settings, Compass, BarChart2 } from "lucide-react";
+import { ChevronDown, Search, Sparkles, Star, Settings, Compass, BarChart2, SlidersHorizontal, RotateCcw } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { HERO } from "@/lib/data";
 import { getLenis } from "@/lib/lenis-instance";
@@ -32,6 +32,42 @@ function useLiveClock() {
 export default function Hero() {
   const reduced = usePrefersReducedMotion();
   const clock = useLiveClock();
+
+  // Interactive Live Scale & Position Controls
+  const [scale, setScale] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("hero_portrait_scale");
+      if (saved) return Number(saved);
+    }
+    return 85;
+  });
+
+  const [yOffset, setYOffset] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("hero_portrait_y");
+      if (saved) return Number(saved);
+    }
+    return -20;
+  });
+
+  const [showControls, setShowControls] = useState(false);
+
+  const updateScale = (val: number) => {
+    setScale(val);
+    localStorage.setItem("hero_portrait_scale", String(val));
+  };
+
+  const updateY = (val: number) => {
+    setYOffset(val);
+    localStorage.setItem("hero_portrait_y", String(val));
+  };
+
+  const resetControls = () => {
+    setScale(85);
+    setYOffset(-20);
+    localStorage.removeItem("hero_portrait_scale");
+    localStorage.removeItem("hero_portrait_y");
+  };
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -122,19 +158,26 @@ export default function Hero() {
       {/* ---- MAIN HERO CANVAS (Center Cutout Photo + Annotations + Outlined Tags) ---- */}
       <div className="relative z-10 my-auto flex w-full flex-1 items-center justify-center py-1">
 
-        {/* ---- Large Dominant Cutout Portrait of Pankaj Gupta (72% Viewport Height) ---- */}
+        {/* ---- Live Resizable Cutout Portrait of Pankaj Gupta ---- */}
         <motion.div
-          className="relative z-10 flex flex-col items-center justify-end w-full max-w-[680px] lg:max-w-[820px] -mt-8 sm:-mt-12 mb-2"
+          className="relative z-10 flex flex-col items-center justify-end w-full transition-transform duration-150"
+          style={{
+            maxWidth: `${Math.round(620 * (scale / 100))}px`,
+            marginTop: `${yOffset}px`,
+          }}
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, ease: EASE }}
         >
-          <div className="relative w-full h-[72vh] min-h-[500px] max-h-[760px] flex items-end justify-center">
+          <div
+            className="relative w-full flex items-end justify-center transition-all duration-150"
+            style={{ height: `${Math.round(58 * (scale / 100))}vh`, minHeight: `${Math.round(410 * (scale / 100))}px` }}
+          >
             <Image
               src="/pankaj-hero-cutout.png"
               alt="Pankaj Gupta"
-              width={1000}
-              height={1200}
+              width={900}
+              height={1100}
               priority
               className="h-full w-auto object-contain object-bottom select-none pointer-events-none"
             />
@@ -146,7 +189,7 @@ export default function Hero() {
 
           {/* === TOP-LEFT: Caption 1 + Arrow === */}
           <motion.div
-            className="absolute top-[12%] left-[10%] flex flex-col items-start gap-1"
+            className="absolute top-[13%] left-[12%] flex flex-col items-start gap-1"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
@@ -166,7 +209,7 @@ export default function Hero() {
 
           {/* Upper-Left Tag (Product Strategy) */}
           <motion.div
-            className="absolute top-[32%] left-[4%] -rotate-2 pointer-events-auto"
+            className="absolute top-[32%] left-[5%] -rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
@@ -179,7 +222,7 @@ export default function Hero() {
 
           {/* === MID-LEFT: Caption 2 + Tag 2 (User Research) + Tag 3 (Roadmapping) === */}
           <motion.div
-            className="absolute top-[52%] left-[8%] flex flex-col items-start gap-1"
+            className="absolute top-[52%] left-[9%] flex flex-col items-start gap-1"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
@@ -198,7 +241,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            className="absolute top-[72%] left-[4%] rotate-3 pointer-events-auto"
+            className="absolute top-[70%] left-[5%] rotate-3 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.6 }}
@@ -210,7 +253,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            className="absolute top-[84%] left-[14%] -rotate-2 pointer-events-auto"
+            className="absolute top-[82%] left-[15%] -rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.65, duration: 0.6 }}
@@ -223,7 +266,7 @@ export default function Hero() {
 
           {/* === TOP-RIGHT: Tag 4 (Applied AI) + Caption 3 (Curious by nature...) === */}
           <motion.div
-            className="absolute top-[16%] right-[14%] rotate-2 pointer-events-auto"
+            className="absolute top-[16%] right-[16%] rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.45, duration: 0.6 }}
@@ -235,7 +278,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            className="absolute top-[32%] right-[8%] flex flex-col items-end gap-1 text-right"
+            className="absolute top-[32%] right-[9%] flex flex-col items-end gap-1 text-right"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
@@ -256,7 +299,7 @@ export default function Hero() {
 
           {/* === MID-RIGHT: Tag 5 (Product Discovery) + Caption 4 (Data > opinion...) + Tag 6 (System Design) === */}
           <motion.div
-            className="absolute top-[50%] right-[4%] rotate-3 pointer-events-auto"
+            className="absolute top-[48%] right-[5%] rotate-3 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.55, duration: 0.6 }}
@@ -268,7 +311,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            className="absolute top-[66%] right-[10%] flex flex-col items-end gap-1 text-right"
+            className="absolute top-[64%] right-[12%] flex flex-col items-end gap-1 text-right"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
@@ -290,7 +333,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            className="absolute top-[82%] right-[6%] -rotate-2 pointer-events-auto"
+            className="absolute top-[80%] right-[7%] -rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7, duration: 0.6 }}
@@ -340,6 +383,79 @@ export default function Hero() {
           </div>
         </div>
 
+      </div>
+
+      {/* ---- INTERACTIVE LIVE PORTRAIT RESIZER HUD ---- */}
+      <div className="fixed bottom-4 right-16 z-[80] pointer-events-auto">
+        {showControls ? (
+          <motion.div
+            className="flex flex-col gap-2 rounded-md border border-white/20 bg-[#0A0A0A]/90 p-3 font-mono text-[11px] text-white shadow-2xl backdrop-blur-md w-64"
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+          >
+            <div className="flex items-center justify-between border-b border-white/10 pb-1.5 font-bold text-[#FFD400]">
+              <span className="flex items-center gap-1.5">
+                <SlidersHorizontal className="h-3.5 w-3.5" />
+                <span>PORTRAIT RESIZER</span>
+              </span>
+              <button
+                onClick={() => setShowControls(false)}
+                className="text-white/60 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Scale Control */}
+            <div className="flex flex-col gap-1 mt-1">
+              <div className="flex justify-between text-[10px] text-white/80">
+                <span>SCALE:</span>
+                <span className="font-bold text-[#FFD400]">{scale}%</span>
+              </div>
+              <input
+                type="range"
+                min="50"
+                max="130"
+                value={scale}
+                onChange={(e) => updateScale(Number(e.target.value))}
+                className="w-full accent-[#FFD400] cursor-pointer"
+              />
+            </div>
+
+            {/* Y-Offset Control */}
+            <div className="flex flex-col gap-1 mt-1">
+              <div className="flex justify-between text-[10px] text-white/80">
+                <span>POSITION (Y):</span>
+                <span className="font-bold text-[#FFD400]">{yOffset}px</span>
+              </div>
+              <input
+                type="range"
+                min="-80"
+                max="40"
+                value={yOffset}
+                onChange={(e) => updateY(Number(e.target.value))}
+                className="w-full accent-[#FFD400] cursor-pointer"
+              />
+            </div>
+
+            {/* Reset Button */}
+            <button
+              onClick={resetControls}
+              className="mt-2 flex items-center justify-center gap-1.5 rounded border border-white/20 bg-white/10 py-1 text-[10px] uppercase hover:bg-white/20 transition-colors"
+            >
+              <RotateCcw className="h-3 w-3" /> Reset Default
+            </button>
+          </motion.div>
+        ) : (
+          <button
+            onClick={() => setShowControls(true)}
+            className="flex items-center gap-1.5 rounded border border-white/20 bg-[#0A0A0A]/80 px-2.5 py-1.5 font-mono text-[10px] uppercase text-[#F7F4ED] backdrop-blur-md hover:border-[#FFD400] hover:text-[#FFD400] transition-colors shadow-lg cursor-pointer"
+            title="Open Live Portrait Resizer Controls"
+          >
+            <SlidersHorizontal className="h-3.5 w-3.5 text-[#FFD400]" />
+            <span className="hidden sm:inline">RESIZE</span>
+          </button>
+        )}
       </div>
 
       {/* ---- Scroll cue ---- */}
