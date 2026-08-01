@@ -1,9 +1,29 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { motion, AnimatePresence, animate } from "framer-motion";
 import { useBootStore } from "@/hooks/use-boot";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { PRELOADER } from "@/lib/data";
+
+const STATUS_LINES = [
+  "SHIPPING SOMETHING... · PROBABLY OVER-SCOPED",
+  "WRITING A PRD... · WILL PIVOT BY FRIDAY",
+  "TALKING TO USERS... · ALLEGEDLY",
+  "ALIGNING STAKEHOLDERS... · STILL NOT ALIGNED",
+  "ESTIMATING TIMELINE... · ADD BUFFER, THEN DOUBLE IT",
+  "RUNNING A SPRINT... · LOTS OF BACKLOG TO SCOPE OUT",
+  "DEFINING SUCCESS METRICS... · AFTER LAUNCH, IDEALLY BEFORE",
+];
+
+const emptySubscribe = () => () => {};
+
+function useClientMounted() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+}
 
 function useLiveClock() {
   const [time, setTime] = useState("");
@@ -30,7 +50,11 @@ export default function Preloader() {
       : 0
   );
   const [done, setDone] = useState(false);
-  const [bootIdx, setBootIdx] = useState(0);
+  const isMounted = useClientMounted();
+  const [statusLine] = useState(() => {
+    return STATUS_LINES[Math.floor(Math.random() * STATUS_LINES.length)];
+  });
+
   const setBooted = useBootStore((s) => s.setBooted);
   const skip = useBootStore((s) => s.skip);
   const reduced = usePrefersReducedMotion();
@@ -55,20 +79,11 @@ export default function Preloader() {
     return () => controls.stop();
   }, [reduced]);
 
-  // Cycle through boot sequence lines
-  useEffect(() => {
-    if (done) return;
-    const id = setInterval(() => {
-      setBootIdx((i) => (i + 1) % PRELOADER.bootSequence.length);
-    }, 550);
-    return () => clearInterval(id);
-  }, [done]);
-
   return (
     <AnimatePresence>
       {!done && (
         <motion.div
-          className="fixed inset-0 z-[200] flex flex-col bg-[#0A0A0A] text-[#F4F1EA]"
+          className="fixed inset-0 z-[200] flex flex-col justify-between bg-[#0A0A0A] text-[#F4F1EA]"
           exit={{ y: "-100%" }}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >
@@ -80,82 +95,63 @@ export default function Preloader() {
             style={{ originY: 1 }}
           />
 
-          {/* top bar: clock */}
+          {/* top bar: username + clock */}
           <div className="relative z-10 flex items-start justify-between p-5 font-mono text-[11px] uppercase tracking-widest sm:p-7">
             <span className="opacity-60">PANKAJ GUPTA</span>
             <span className="opacity-80">{clock} IST</span>
           </div>
 
-          {/* center: counter + boot sequence + statement */}
-          <div className="relative z-10 flex flex-1 flex-col justify-center px-5 sm:px-10">
-            {/* cycling boot line */}
-            <div className="mt-2 h-5 font-mono text-[11px] uppercase tracking-[0.2em] text-[#6B6B6B]">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={bootIdx}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }}
-                  transition={{ duration: 0.2 }}
-                  className="inline-block"
-                >
-                  {"> "}loading: {PRELOADER.bootSequence[bootIdx + 1]}
-                  <span className="blink">_</span>
-                </motion.span>
-              </AnimatePresence>
-            </div>
-            <div className="mt-4 font-display text-[14vw] font-bold leading-none tracking-tighter sm:text-[10vw]">
+          {/* center: counter + dynamic status line */}
+          <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-5 text-center sm:px-10">
+            <div className="font-display text-[14vw] font-bold leading-none tracking-tighter sm:text-[10vw]">
               {String(count).padStart(3, "0")}
               <span className="text-[#1738D5]">%</span>
             </div>
-            {/* statement reveal */}
-            <div className="mt-8 max-w-3xl">
-              <p className="font-display text-xl font-bold leading-tight sm:text-3xl">
-                {PRELOADER.statement.map((w, i) => (
-                  <motion.span
-                    key={i}
-                    className="mr-[0.28em] inline-block"
-                    initial={{ opacity: 0, y: 28, filter: "blur(8px)" }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    transition={{
-                      delay: 0.5 + i * 0.8,
-                      duration: 0.7,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                  >
-                    {w}
-                  </motion.span>
-                ))}
-              </p>
-            </div>
-            {/* margin microcopy */}
-            <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">
-              {PRELOADER.marginMicrocopy[0]} <span className="text-[#1738D5]">·</span> {PRELOADER.marginMicrocopy[1]}
+            <div className="mt-4 sm:mt-6 min-h-[1.5rem] font-mono text-xs sm:text-sm md:text-base uppercase tracking-[0.2em] text-white/80">
+              {isMounted && statusLine && (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.25 }}
+                  className="inline-block"
+                >
+                  {statusLine.includes("·") ? (
+                    <>
+                      {statusLine.split("·")[0]}
+                      <span className="text-[#1738D5]">·</span>
+                      {statusLine.split("·")[1]}
+                    </>
+                  ) : (
+                    statusLine
+                  )}
+                </motion.span>
+              )}
             </div>
           </div>
 
-          {/* progress bar */}
-          <div className="relative z-10 mx-5 mb-3 h-px overflow-hidden bg-white/10 sm:mx-10">
-            <motion.div
-              className="h-full bg-[#1738D5]"
-              style={{ width: `${count}%` }}
-            />
-          </div>
+          {/* bottom: progress bar + skip */}
+          <div className="relative z-10 flex flex-col">
+            <div className="mx-5 mb-3 h-px overflow-hidden bg-white/10 sm:mx-10">
+              <motion.div
+                className="h-full bg-[#1738D5]"
+                style={{ width: `${count}%` }}
+              />
+            </div>
 
-          {/* bottom: skip */}
-          <div className="relative z-10 flex items-end justify-end p-5 font-mono text-[11px] uppercase tracking-widest sm:p-7">
-            <button
-              onClick={() => {
-                setCount(100);
-                finish();
-                skip();
-              }}
-              className="group flex items-center gap-2 border border-white/20 px-3 py-2 transition-colors hover:border-[#1738D5] hover:text-[#1738D5] focus-ring"
-              data-cursor-label="skip"
-            >
-              <span>{PRELOADER.skip}</span>
-              <span className="inline-block transition-transform group-hover:translate-x-1">↦</span>
-            </button>
+            <div className="flex items-end justify-end p-5 font-mono text-[11px] uppercase tracking-widest sm:p-7">
+              <button
+                onClick={() => {
+                  setCount(100);
+                  finish();
+                  skip();
+                }}
+                className="group flex items-center gap-2 border border-white/20 px-3 py-2 transition-colors hover:border-[#1738D5] hover:text-[#1738D5] focus-ring"
+                data-cursor-label="skip"
+              >
+                <span>{PRELOADER.skip}</span>
+                <span className="inline-block transition-transform group-hover:translate-x-1">↦</span>
+              </button>
+            </div>
           </div>
         </motion.div>
       )}
