@@ -22,7 +22,7 @@ const HERO_TAGS = [
   { label: "OKRs", top: "26%", left: "48%", rotate: -5 },
   { label: "DATA SYSTEMS", top: "38%", left: "78%", rotate: -5 },
 
-  // Center-Mid Row (y: 37% - 50%) — Keeping center 50%, 50% clear for single scroll icon
+  // Center-Mid Row (y: 37% - 50%)
   { label: "ITERATION", top: "42%", left: "5%", rotate: -7 },
   { label: "PRODUCT DISCOVERY", top: "44%", left: "20%", rotate: 5 },
   { label: "SYSTEM DESIGN", top: "38%", left: "38%", rotate: -3 },
@@ -155,13 +155,6 @@ export default function Hero() {
       >
         28.6139° N, 77.2090° E
       </motion.span>
-
-      {/* Single circular scroll-indicator icon at exact center of hero canvas */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 z-20 flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 shadow-sm"
-      >
-        <div className="h-2 w-2 rounded-full bg-[#FFD400] pulse-soft" />
-      </div>
 
       {/* ---- Expanded Word Cloud Layer (Desktop) ---- */}
       <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden hidden lg:block">
