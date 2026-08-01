@@ -39,7 +39,7 @@ export default function Hero() {
       const saved = localStorage.getItem("hero_portrait_scale");
       if (saved) return Number(saved);
     }
-    return 85;
+    return 100;
   });
 
   const [yOffset, setYOffset] = useState(() => {
@@ -47,7 +47,7 @@ export default function Hero() {
       const saved = localStorage.getItem("hero_portrait_y");
       if (saved) return Number(saved);
     }
-    return -20;
+    return 0;
   });
 
   const [showControls, setShowControls] = useState(false);
@@ -63,8 +63,8 @@ export default function Hero() {
   };
 
   const resetControls = () => {
-    setScale(85);
-    setYOffset(-20);
+    setScale(100);
+    setYOffset(0);
     localStorage.removeItem("hero_portrait_scale");
     localStorage.removeItem("hero_portrait_y");
   };
@@ -160,26 +160,22 @@ export default function Hero() {
 
         {/* ---- Live Resizable Cutout Portrait of Pankaj Gupta ---- */}
         <motion.div
-          className="relative z-10 flex flex-col items-center justify-end w-full transition-transform duration-150"
+          className="relative z-10 flex flex-col items-center justify-end w-full max-w-[580px] lg:max-w-[650px] transition-transform duration-75 origin-bottom pointer-events-none"
           style={{
-            maxWidth: `${Math.round(620 * (scale / 100))}px`,
-            marginTop: `${yOffset}px`,
+            transform: `scale(${scale / 100}) translateY(${yOffset}px)`,
           }}
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.8, ease: EASE }}
         >
-          <div
-            className="relative w-full flex items-end justify-center transition-all duration-150"
-            style={{ height: `${Math.round(58 * (scale / 100))}vh`, minHeight: `${Math.round(410 * (scale / 100))}px` }}
-          >
+          <div className="relative w-full h-[58vh] min-h-[420px] max-h-[640px] flex items-end justify-center">
             <Image
               src="/pankaj-hero-cutout.png"
               alt="Pankaj Gupta"
               width={900}
               height={1100}
               priority
-              className="h-full w-auto object-contain object-bottom select-none pointer-events-none"
+              className="h-full w-auto object-contain object-bottom select-none pointer-events-none transform-gpu"
             />
           </div>
         </motion.div>
@@ -415,7 +411,7 @@ export default function Hero() {
               <input
                 type="range"
                 min="50"
-                max="130"
+                max="150"
                 value={scale}
                 onChange={(e) => updateScale(Number(e.target.value))}
                 className="w-full accent-[#FFD400] cursor-pointer"
@@ -431,7 +427,7 @@ export default function Hero() {
               <input
                 type="range"
                 min="-80"
-                max="40"
+                max="60"
                 value={yOffset}
                 onChange={(e) => updateY(Number(e.target.value))}
                 className="w-full accent-[#FFD400] cursor-pointer"
@@ -441,9 +437,9 @@ export default function Hero() {
             {/* Reset Button */}
             <button
               onClick={resetControls}
-              className="mt-2 flex items-center justify-center gap-1.5 rounded border border-white/20 bg-white/10 py-1 text-[10px] uppercase hover:bg-white/20 transition-colors"
+              className="mt-2 flex items-center justify-center gap-1.5 rounded border border-white/20 bg-white/10 py-1 text-[10px] uppercase hover:bg-white/20 transition-colors cursor-pointer"
             >
-              <RotateCcw className="h-3 w-3" /> Reset Default
+              <RotateCcw className="h-3 w-3" /> Reset Default (100%)
             </button>
           </motion.div>
         ) : (
@@ -453,7 +449,7 @@ export default function Hero() {
             title="Open Live Portrait Resizer Controls"
           >
             <SlidersHorizontal className="h-3.5 w-3.5 text-[#FFD400]" />
-            <span className="hidden sm:inline">RESIZE</span>
+            <span className="hidden sm:inline">RESIZE ({scale}%)</span>
           </button>
         )}
       </div>
