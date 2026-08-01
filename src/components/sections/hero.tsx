@@ -8,7 +8,7 @@ import { getLenis } from "@/lib/lenis-instance";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-// 26 Unique Product Terms with Non-Overlapping Coordinates & Rotations (-8° to +8°)
+// 25 Unique Product Terms with Non-Overlapping Coordinates & Rotations (-8° to +8°)
 const HERO_TAGS = [
   // Top Row (y: 16% - 28%)
   { label: "CUSTOMER JOURNEY MAPPING", top: "18%", left: "5%", rotate: -5 },
@@ -19,8 +19,7 @@ const HERO_TAGS = [
   // Upper-Mid Row (y: 26% - 38%)
   { label: "PRODUCT ANALYTICS", top: "30%", left: "6%", rotate: 6 },
   { label: "USER RESEARCH", top: "31%", left: "32%", rotate: -4 },
-  { label: "OKRs", top: "26%", left: "46%", rotate: -5 },
-  { label: "FEATURE PRIORITIZATION", top: "27%", left: "64%", rotate: 3 },
+  { label: "OKRs", top: "26%", left: "48%", rotate: -5 },
   { label: "DATA SYSTEMS", top: "38%", left: "78%", rotate: -5 },
 
   // Center-Mid Row (y: 37% - 50%) — Keeping center 50%, 50% clear for single scroll icon
@@ -43,7 +42,7 @@ const HERO_TAGS = [
   { label: "COMPETITIVE ANALYSIS", top: "72%", left: "60%", rotate: -4 },
   { label: "WORKFLOW AUTOMATION", top: "72%", left: "80%", rotate: 5 },
   { label: "CHURN REDUCTION", top: "83%", left: "12%", rotate: 3 },
-  { label: "RETENTION LOOPS", top: "84%", left: "38%", rotate: -6 },
+  { label: "FEATURE PRIORITIZATION", top: "84%", left: "38%", rotate: -6 },
   { label: "MARKETING RESEARCH", top: "83%", left: "70%", rotate: -3 },
 ];
 
@@ -95,7 +94,6 @@ export default function Hero() {
 
       {/* ---- Top metadata bar ---- */}
       <div className="relative z-20 flex w-full items-start justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.2em] text-[#F7F4ED]/75 sm:text-[11px] pointer-events-none">
-        {/* FIX 1: Removed orphaned AKA MR. ONALUNCHBREAK badge */}
         <motion.span
           className="max-w-[55%] leading-relaxed pointer-events-none pl-2 sm:pl-4"
           initial={{ opacity: 0, y: -8 }}
@@ -158,7 +156,7 @@ export default function Hero() {
         28.6139° N, 77.2090° E
       </motion.span>
 
-      {/* FIX 3 & 4: Single circular scroll-indicator icon at exact center of hero canvas */}
+      {/* Single circular scroll-indicator icon at exact center of hero canvas */}
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 z-20 flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 shadow-sm"
       >
