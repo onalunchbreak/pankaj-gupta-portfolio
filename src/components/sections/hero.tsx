@@ -49,7 +49,7 @@ export default function Hero() {
       id="hero"
       className="env-blue relative flex min-h-screen w-full flex-col justify-between overflow-hidden px-5 py-8 sm:px-8 sm:py-12"
     >
-      {/* ---- L-shaped corner framing marks ---- */}
+      {/* ---- L-shaped corner framing marks (BUG 4 FIX: Only framing mark line, no stray top-left icon) ---- */}
       <span aria-hidden className="pointer-events-none absolute left-4 top-4 h-5 w-5 border-l border-t border-white/40 sm:left-6 sm:top-6 sm:h-6 sm:w-6" />
       <span aria-hidden className="pointer-events-none absolute right-4 top-4 h-5 w-5 border-r border-t border-white/40 sm:right-6 sm:top-6 sm:h-6 sm:w-6" />
       <span aria-hidden className="pointer-events-none absolute bottom-4 left-4 h-5 w-5 border-b border-l border-white/40 sm:bottom-6 sm:left-6 sm:h-6 sm:w-6" />
@@ -108,9 +108,9 @@ export default function Hero() {
         {clock}
       </motion.span>
 
-      {/* ---- Coordinates top-right ---- */}
+      {/* ---- Coordinates top-right (BUG 6 FIX: Hardware-accelerated single crisp instance, zero ghosting) ---- */}
       <motion.span
-        className="pointer-events-none absolute right-6 top-24 rotate-[2deg] select-none font-mono text-[9px] uppercase tracking-[0.18em] text-[#F7F4ED]/75 sm:right-16 sm:top-28 sm:text-[10px] hidden md:block z-20"
+        className="pointer-events-none absolute right-6 top-24 rotate-[2deg] select-none font-mono text-[9px] uppercase tracking-[0.18em] text-[#F7F4ED] sm:right-16 sm:top-28 sm:text-[10px] hidden md:block z-20 transform-gpu backface-hidden antialiased"
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.6, ease: EASE }}
@@ -119,24 +119,24 @@ export default function Hero() {
         <span className="border-b border-[#FFD400]">28.6139° N, 77.2090° E</span>
       </motion.span>
 
-      {/* ---- MAIN HERO CANVAS (Center Photo + Annotations + Outlined Tags) ---- */}
+      {/* ---- MAIN HERO CANVAS (Center Cutout Photo + Annotations + Outlined Tags) ---- */}
       <div className="relative z-10 my-auto flex w-full flex-1 items-center justify-center py-4">
 
-        {/* ---- Center Cutout Photo of Pankaj Gupta ---- */}
+        {/* ---- BUG 1 FIX: True silhouette cutout photo with transparent background and zero box shadow ---- */}
         <motion.div
-          className="relative z-10 flex flex-col items-center justify-end max-w-[85vw] sm:max-w-[460px] lg:max-w-[520px]"
+          className="relative z-10 flex flex-col items-center justify-end max-w-[85vw] sm:max-w-[440px] lg:max-w-[480px]"
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, ease: EASE }}
         >
-          <div className="relative w-full h-[50vh] min-h-[380px] max-h-[580px] flex items-end justify-center">
+          <div className="relative w-full h-[50vh] min-h-[380px] max-h-[560px] flex items-end justify-center">
             <Image
               src="/pankaj-hero-cutout.png"
               alt="Pankaj Gupta"
-              width={600}
-              height={750}
+              width={580}
+              height={720}
               priority
-              className="h-full w-auto object-contain object-bottom drop-shadow-2xl"
+              className="h-full w-auto object-contain object-bottom select-none pointer-events-none"
             />
           </div>
         </motion.div>
@@ -144,79 +144,81 @@ export default function Hero() {
         {/* ---- DESKTOP ANNOTATIONS & OUTLINED TAGS LAYER ---- */}
         <div className="pointer-events-none absolute inset-0 z-20 hidden lg:block">
 
-          {/* === TOP-LEFT: Caption 1 + Arrow + Tag 1 (Product Strategy) === */}
+          {/* === TOP-LEFT: Caption 1 + Arrow (BUG 3 FIX: Arrow contained in open space) === */}
           <motion.div
             className="absolute top-[14%] left-[16%] flex flex-col items-start gap-1"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
           >
-            <div className="relative hand-display text-2xl text-[#F7F4ED] -rotate-3">
+            <div className="relative hand-display text-2xl text-[#F7F4ED] -rotate-3 select-none">
               I connect the dots <span className="relative inline-block text-white">others miss.<span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full" /></span>
               <Sparkles className="absolute -top-4 -right-6 h-5 w-5 text-[#FFD400]" />
             </div>
 
-            {/* Dashed arrow pointing to photo */}
-            <div className="mt-1 ml-12">
-              <svg className="w-20 h-10 text-white/80" viewBox="0 0 80 40" fill="none" stroke="currentColor">
-                <path d="M10,10 Q40,30 70,20" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="65,15 75,22 68,27" fill="currentColor" />
+            {/* BUG 3 FIX: Shortened arrow terminating in open space before photo */}
+            <div className="mt-1 ml-8">
+              <svg className="w-14 h-8 text-white/80" viewBox="0 0 50 30" fill="none" stroke="currentColor">
+                <path d="M10,8 Q28,20 42,14" strokeDasharray="4 4" strokeWidth="1.5" />
+                <polygon points="38,10 46,15 40,21" fill="currentColor" />
               </svg>
             </div>
           </motion.div>
 
+          {/* BUG 2 FIX: Upper-Left Tag (Product Strategy) moved leftward to left-[6%] for clear margin */}
           <motion.div
-            className="absolute top-[32%] left-[10%] -rotate-2"
+            className="absolute top-[32%] left-[6%] -rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px]">
+            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] transition-colors select-none">
               <Sparkles className="h-3.5 w-3.5 text-[#FFD400]" />
               <span className="border-b border-[#FFD400] pb-0.5">PRODUCT STRATEGY</span>
             </div>
           </motion.div>
 
-          {/* === MID-LEFT: Caption 2 + Arrow + Tag 2 (User Research) + Tag 3 (Roadmapping) === */}
+          {/* === MID-LEFT: Caption 2 + Tag 2 (User Research) + Tag 3 (Roadmapping) === */}
           <motion.div
             className="absolute top-[52%] left-[12%] flex flex-col items-start gap-1"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
           >
-            <div className="hand-display text-2xl text-[#F7F4ED] rotate-2">
+            <div className="hand-display text-2xl text-[#F7F4ED] rotate-2 select-none">
               small bets,<br />
               <span className="relative inline-block text-white">big impact.<span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full" /></span>
             </div>
 
-            {/* Dashed arrow */}
-            <div className="mt-1 ml-16">
-              <svg className="w-16 h-10 text-white/80" viewBox="0 0 60 40" fill="none" stroke="currentColor">
-                <path d="M10,25 Q30,5 50,20" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="45,12 55,22 47,26" fill="currentColor" />
+            {/* Shortened arrow */}
+            <div className="mt-1 ml-12">
+              <svg className="w-14 h-8 text-white/80" viewBox="0 0 50 30" fill="none" stroke="currentColor">
+                <path d="M8,20 Q24,6 40,15" strokeDasharray="4 4" strokeWidth="1.5" />
+                <polygon points="35,10 44,17 37,22" fill="currentColor" />
               </svg>
             </div>
           </motion.div>
 
           <motion.div
-            className="absolute top-[72%] left-[8%] rotate-3"
+            className="absolute top-[70%] left-[6%] rotate-3 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.6 }}
           >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px]">
+            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] transition-colors select-none">
               <Search className="h-3.5 w-3.5 text-[#FFD400]" />
               <span className="border-b border-[#FFD400] pb-0.5">USER RESEARCH</span>
             </div>
           </motion.div>
 
+          {/* BUG 2 FIX: Lower-Left Tag (Roadmapping) moved leftward to left-[18%] for clear margin */}
           <motion.div
-            className="absolute top-[82%] left-[26%] -rotate-2"
+            className="absolute top-[82%] left-[18%] -rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.65, duration: 0.6 }}
           >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px]">
+            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] transition-colors select-none">
               <Compass className="h-3.5 w-3.5 text-[#FFD400]" />
               <span className="border-b border-[#FFD400] pb-0.5">ROADMAPPING</span>
             </div>
@@ -224,12 +226,12 @@ export default function Hero() {
 
           {/* === TOP-RIGHT: Tag 4 (Applied AI) + Caption 3 (Curious by nature...) === */}
           <motion.div
-            className="absolute top-[16%] right-[22%] rotate-2"
+            className="absolute top-[16%] right-[20%] rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.45, duration: 0.6 }}
           >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px]">
+            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] transition-colors select-none">
               <Star className="h-3.5 w-3.5 fill-[#FFD400] text-[#FFD400]" />
               <span className="border-b border-[#FFD400] pb-0.5">APPLIED AI</span>
             </div>
@@ -241,29 +243,29 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
           >
-            <div className="relative hand-display text-2xl text-[#F7F4ED] -rotate-2">
+            <div className="relative hand-display text-2xl text-[#F7F4ED] -rotate-2 select-none">
               curious by nature,<br />
               obsessed with <span className="relative inline-block text-white">value.<span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full" /></span>
               <span className="ml-2 font-sans text-xl text-[#FFD400]">:)</span>
             </div>
 
             {/* Dashed arrow pointing left toward head */}
-            <div className="mt-1 mr-14">
-              <svg className="w-20 h-10 text-white/80" viewBox="0 0 80 40" fill="none" stroke="currentColor">
-                <path d="M70,10 Q40,30 10,15" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="16,8 5,14 14,22" fill="currentColor" />
+            <div className="mt-1 mr-12">
+              <svg className="w-16 h-8 text-white/80" viewBox="0 0 60 30" fill="none" stroke="currentColor">
+                <path d="M50,8 Q30,22 10,12" strokeDasharray="4 4" strokeWidth="1.5" />
+                <polygon points="14,6 5,12 12,18" fill="currentColor" />
               </svg>
             </div>
           </motion.div>
 
           {/* === MID-RIGHT: Tag 5 (Product Discovery) + Caption 4 (Data > opinion...) + Tag 6 (System Design) === */}
           <motion.div
-            className="absolute top-[48%] right-[10%] rotate-3"
+            className="absolute top-[48%] right-[8%] rotate-3 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.55, duration: 0.6 }}
           >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px]">
+            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] transition-colors select-none">
               <Sparkles className="h-3.5 w-3.5 text-[#FFD400]" />
               <span className="border-b border-[#FFD400] pb-0.5">PRODUCT DISCOVERY</span>
             </div>
@@ -275,7 +277,7 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
           >
-            <div className="flex items-center gap-2 hand-display text-2xl text-[#F7F4ED] rotate-1">
+            <div className="flex items-center gap-2 hand-display text-2xl text-[#F7F4ED] rotate-1 select-none">
               <span>
                 data &gt; opinion<br />
                 <span className="relative inline-block text-white">always.<span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full" /></span>
@@ -284,21 +286,21 @@ export default function Hero() {
             </div>
 
             {/* Dashed arrow pointing left */}
-            <div className="mt-1 mr-10">
-              <svg className="w-16 h-10 text-white/80" viewBox="0 0 60 40" fill="none" stroke="currentColor">
-                <path d="M50,10 Q25,30 5,20" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="12,14 2,19 10,26" fill="currentColor" />
+            <div className="mt-1 mr-8">
+              <svg className="w-14 h-8 text-white/80" viewBox="0 0 50 30" fill="none" stroke="currentColor">
+                <path d="M42,8 Q24,22 6,15" strokeDasharray="4 4" strokeWidth="1.5" />
+                <polygon points="10,9 2,14 9,20" fill="currentColor" />
               </svg>
             </div>
           </motion.div>
 
           <motion.div
-            className="absolute top-[80%] right-[12%] -rotate-2"
+            className="absolute top-[80%] right-[10%] -rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7, duration: 0.6 }}
           >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px]">
+            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] transition-colors select-none">
               <Settings className="h-3.5 w-3.5 text-[#FFD400]" />
               <span className="border-b border-[#FFD400] pb-0.5">SYSTEM DESIGN</span>
             </div>
@@ -306,7 +308,7 @@ export default function Hero() {
 
         </div>
 
-        {/* ---- MOBILE / TABLET REFLOW (Single column / compact grid) ---- */}
+        {/* ---- MOBILE / TABLET REFLOW ---- */}
         <div className="relative z-20 mt-6 flex flex-col items-center gap-4 text-center lg:hidden px-4">
           <div className="hand-display text-xl text-[#F7F4ED]">
             I connect the dots <span className="border-b-2 border-[#FFD400]">others miss.</span>
@@ -315,7 +317,6 @@ export default function Hero() {
             curious by nature, obsessed with <span className="border-b-2 border-[#FFD400]">value. :)</span>
           </div>
 
-          {/* Outlined Tags Grid */}
           <div className="flex flex-wrap items-center justify-center gap-2.5 mt-2">
             <span className="flex items-center gap-1.5 rounded-sm border border-white/40 px-3 py-1 font-mono text-[10px] uppercase text-white">
               <Sparkles className="h-3 w-3 text-[#FFD400]" />
@@ -353,7 +354,7 @@ export default function Hero() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8, duration: 0.6 }}
       >
-        <span className="hand-display text-2xl text-[#F7F4ED] sm:text-3xl border-b-2 border-[#FFD400] pb-0.5">
+        <span className="hand-display text-2xl text-[#F7F4ED] sm:text-3xl border-b-2 border-[#FFD400] pb-0.5 select-none">
           {HERO.scrollCta}
         </span>
         <motion.div

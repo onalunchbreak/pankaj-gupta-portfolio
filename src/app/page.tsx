@@ -3,7 +3,7 @@ import Preloader from "@/components/shell/preloader";
 import Nav from "@/components/shell/nav";
 import Cursor from "@/components/shell/cursor";
 import Grain from "@/components/shell/grain";
-import MuteToggle from "@/components/shell/mute-toggle";
+import IssueBadge from "@/components/shell/issue-badge";
 import SoundManager from "@/components/shell/sound-manager";
 import CaseCloseOverlay from "@/components/shell/case-close-overlay";
 import KeyboardRouter from "@/components/shell/keyboard-router";
@@ -31,7 +31,7 @@ export default function Home() {
       <Cursor />
       <SoundManager />
       <Nav />
-      <MuteToggle />
+      <IssueBadge />
       <CaseCloseOverlay />
       <KeyboardRouter />
       <SectionReachTracker />
