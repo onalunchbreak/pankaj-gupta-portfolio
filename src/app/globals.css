@@ -54,7 +54,7 @@
   --radius: 0.125rem; /* sharp corners, 2px */
 
   /* ---- Four primary visual environments ---- */
-  --blue: #1738D5;       /* electric / royal blue — hero, projects, accents */
+  --blue: #042FBB;       /* royal blue — hero, projects, accents (exact match with 01_40_11 AM image) */
   --paper: #F4F1EA;      /* warm paper — editorial sections, case studies */
   --black: #0A0A0A;      /* system surfaces, overlays, terminal, contact */
   --white: #F7F4ED;      /* ink against blue and black */
