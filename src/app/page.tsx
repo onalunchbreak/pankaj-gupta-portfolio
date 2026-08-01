@@ -1,6 +1,5 @@
 import SmoothScroll from "@/components/shell/smooth-scroll";
 import Preloader from "@/components/shell/preloader";
-import SideRail from "@/components/shell/side-rail";
 import Nav from "@/components/shell/nav";
 import Cursor from "@/components/shell/cursor";
 import Grain from "@/components/shell/grain";
@@ -31,7 +30,6 @@ export default function Home() {
       <Grain />
       <Cursor />
       <SoundManager />
-      <SideRail />
       <Nav />
       <MuteToggle />
       <CaseCloseOverlay />

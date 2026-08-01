@@ -1,36 +1,49 @@
 "use client";
 import { useEffect, useState } from "react";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
-import { HERO, LAB } from "@/lib/data";
+import { HERO } from "@/lib/data";
 import { getLenis } from "@/lib/lenis-instance";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const IDENTITY_LOCKUP = [
-  { text: HERO.identityLines[0], size: "text-[clamp(2rem,4vw,5rem)]" },
-  { text: HERO.identityLines[1], size: "text-[clamp(4rem,8vw,9rem)]" },
-  { text: HERO.identityLines[2], size: "text-[clamp(7rem,15vw,15rem)]" },
-  { text: HERO.identityLines[3], size: "text-[clamp(6rem,13vw,13rem)]" },
-] as const;
+const HERO_TAGS = [
+  // Row 1 (top section y: 13% - 24%)
+  { label: "CUSTOMER JOURNEY MAPPING", top: "14%", left: "4%", rotate: -4 },
+  { label: "PRODUCT STRATEGY", top: "16%", left: "34%", rotate: 3 },
+  { label: "APPLIED AI", top: "14%", left: "58%", rotate: -5 },
+  { label: "STORYTELLING", top: "17%", left: "76%", rotate: 4 },
 
-const SCATTER_POSITIONS = [
-  { top: "28%", left: "25%" }, // index 0: Product Strategy
-  { top: "32%", left: "78%" }, // index 1: Storytelling
-  { top: "12%", left: "20%" }, // index 2: Customer Journey Mapping (moved from bottom to top-left empty space)
-  { top: "64%", left: "74%" }, // index 3: Workflow Automation (moved from bottom to middle-right empty space below Data Systems)
-  { top: "42%", left: "12%" }, // index 4: Product Analytics
-  { top: "86%", left: "12%" }, // index 5: Rapid Prototyping (moved to desired position per Screenshot 2026-07-09 at 18.00.59.png)
-  { top: "24%", left: "65%" }, // index 6: Applied AI
-  { top: "83%", left: "76%" }, // index 7: Marketing Research (shifted slightly upwards to fit larger text width)
-  { top: "46%", left: "74%" }, // index 8: Data Systems
-  { top: "60%", left: "10%" }, // index 9: Iteration (shifted slightly right)
+  // Row 2 (upper center y: 25% - 38%)
+  { label: "PRODUCT ANALYTICS", top: "27%", left: "6%", rotate: 5 },
+  { label: "USER RESEARCH", top: "29%", left: "30%", rotate: -3 },
+  { label: "OKRs", top: "22%", left: "44%", rotate: -4 },
+  { label: "FEATURE PRIORITIZATION", top: "23%", left: "68%", rotate: 2 },
+  { label: "DATA SYSTEMS", top: "28%", left: "74%", rotate: -4 },
+
+  // Row 3 (center space y: 40% - 54%)
+  { label: "ITERATION", top: "42%", left: "4%", rotate: -6 },
+  { label: "PRODUCT DISCOVERY", top: "44%", left: "22%", rotate: 4 },
+  { label: "SYSTEM DESIGN", top: "37%", left: "46%", rotate: -2 },
+  { label: "UAT", top: "35%", left: "62%", rotate: 6 },
+  { label: "STAKEHOLDER MANAGEMENT", top: "45%", left: "66%", rotate: 5 },
+
+  // Row 4 (lower center y: 56% - 70%)
+  { label: "RAPID PROTOTYPING", top: "58%", left: "5%", rotate: 3 },
+  { label: "METRICS THAT MATTER", top: "57%", left: "28%", rotate: -5 },
+  { label: "ROAD MAPPING", top: "52%", left: "46%", rotate: 4 },
+  { label: "PRICING STRATEGY", top: "60%", left: "56%", rotate: 4 },
+  { label: "A/B TESTING", top: "56%", left: "80%", rotate: -3 },
+
+  // Row 5 (bottom space y: 72% - 86%)
+  { label: "GO-TO-MARKET STRATEGY", top: "74%", left: "6%", rotate: -3 },
+  { label: "CHURN REDUCTION", top: "68%", left: "18%", rotate: -3 },
+  { label: "RETENTION LOOPS", top: "67%", left: "44%", rotate: 3 },
+  { label: "CROSS-FUNCTIONAL LEADERSHIP", top: "75%", left: "32%", rotate: 5 },
+  { label: "COMPETITIVE ANALYSIS", top: "73%", left: "62%", rotate: -4 },
+  { label: "WORKFLOW AUTOMATION", top: "76%", left: "78%", rotate: 3 },
+  { label: "MARKETING RESEARCH", top: "84%", left: "70%", rotate: -2 },
 ];
 
 function useLiveClock() {
@@ -42,7 +55,7 @@ function useLiveClock() {
       const minutes = String(d.getMinutes()).padStart(2, "0");
       const ampm = hours >= 12 ? "PM" : "AM";
       hours = hours % 12;
-      hours = hours ? hours : 12; // the hour '0' should be '12'
+      hours = hours ? hours : 12;
       const hoursStr = String(hours).padStart(2, "0");
       setTime(`${hoursStr}:${minutes} ${ampm}`);
     };
@@ -56,26 +69,6 @@ function useLiveClock() {
 export default function Hero() {
   const reduced = usePrefersReducedMotion();
   const clock = useLiveClock();
-
-  // ---- Cursor parallax (spring-smoothed, ±8px) ----
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const px = useSpring(mx, { stiffness: 120, damping: 18, mass: 0.4 });
-  const py = useSpring(my, { stiffness: 120, damping: 18, mass: 0.4 });
-  const lockupX = useTransform(px, [-0.5, 0.5], [-8, 8]);
-  const lockupY = useTransform(py, [-0.5, 0.5], [-8, 8]);
-
-  useEffect(() => {
-    if (reduced) return;
-    const onMove = (e: MouseEvent) => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      mx.set(e.clientX / w - 0.5);
-      my.set(e.clientY / h - 0.5);
-    };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, [reduced, mx, my]);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -91,7 +84,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="env-blue relative flex min-h-screen w-full flex-col overflow-hidden px-5 py-10 sm:px-8 sm:py-14"
+      className="env-blue relative flex min-h-screen w-full flex-col justify-between overflow-hidden px-5 py-10 sm:px-8 sm:py-14"
     >
       {/* ---- L-shaped corner framing marks ---- */}
       <span aria-hidden className="pointer-events-none absolute left-4 top-4 h-5 w-5 border-l border-t border-white/40 sm:left-6 sm:top-6 sm:h-6 sm:w-6" />
@@ -99,19 +92,18 @@ export default function Hero() {
       <span aria-hidden className="pointer-events-none absolute bottom-4 left-4 h-5 w-5 border-b border-l border-white/40 sm:bottom-6 sm:left-6 sm:h-6 sm:w-6" />
       <span aria-hidden className="pointer-events-none absolute bottom-4 right-4 h-5 w-5 border-b border-r border-white/40 sm:bottom-6 sm:right-6 sm:h-6 sm:w-6" />
 
-      {/* ---- Background skill tags layer (high z-index to unblock hovers) ---- */}
-      <BackgroundLayer reduced={reduced} />
-
       {/* ---- Top metadata bar ---- */}
-      <div className="relative z-10 flex w-full items-start justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.2em] text-[#F7F4ED]/75 sm:text-[11px] pointer-events-none">
+      <div className="relative z-20 flex w-full items-start justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.2em] text-[#F7F4ED]/75 sm:text-[11px] pointer-events-none">
         <motion.span
-          className="max-w-[55%] leading-relaxed pointer-events-none pl-6 sm:pl-10"
+          className="max-w-[55%] leading-relaxed pointer-events-none pl-2 sm:pl-4"
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6, ease: EASE }}
         >
           <span className="block text-[12px] sm:text-[14px] font-bold tracking-[0.22em] text-[#F7F4ED]">{HERO.topMeta}</span>
-          <span className="block text-[9px] sm:text-[10px] tracking-[0.22em] text-[#F7F4ED]/80 mt-0.5">{HERO.topMetaSub}</span>
+          <span className="inline-block text-[9px] sm:text-[10px] tracking-[0.22em] text-[#F7F4ED]/80 mt-1 px-2 py-0.5 border border-white/20 rounded-full bg-[#1738D5]/30">
+            {HERO.topMetaSub}
+          </span>
         </motion.span>
 
         <motion.div
@@ -154,9 +146,9 @@ export default function Hero() {
         {clock}
       </motion.span>
 
-      {/* ---- Single corner accent: coordinates ---- */}
+      {/* ---- Coordinates top-right ---- */}
       <motion.span
-        className="pointer-events-none absolute right-6 top-28 rotate-[3deg] select-none font-mono text-[9px] uppercase tracking-[0.18em] text-[#F7F4ED]/75 sm:right-16 sm:top-36 sm:text-[10px] hidden md:block"
+        className="pointer-events-none absolute right-6 top-28 rotate-[3deg] select-none font-mono text-[9px] uppercase tracking-[0.18em] text-[#F7F4ED]/75 sm:right-16 sm:top-36 sm:text-[10px] hidden md:block z-20"
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.4, duration: 0.6, ease: EASE }}
@@ -165,96 +157,65 @@ export default function Hero() {
         28.6139° N, 77.2090° E
       </motion.span>
 
-      {/* ---- IDENTITY LOCKUP & Tagline ---- */}
-      <div className="pointer-events-none relative z-20 flex flex-1 flex-col items-center justify-center">
-        <motion.h1
-          className="pointer-events-auto hand-display select-none text-center text-[#F7F4ED]"
-          style={reduced ? undefined : { x: lockupX, y: lockupY }}
-          aria-label={HERO.identityLines.join(" ")}
-        >
-          <div className="flex flex-col items-center justify-center">
-            {IDENTITY_LOCKUP.map((line, i) => (
-              <span
-                key={i}
-                className="block w-full overflow-hidden px-6 text-center"
-                style={{
-                  lineHeight: 0.82,
-                  marginTop: i === 3 ? "calc(-1 * (0.12 * min(13rem, 13vw)))" : undefined,
-                }}
-              >
-                <motion.span
-                  className={`hand-display inline-block px-8 ${line.size} ${
-                    i === 0 ? "translate-x-0 sm:translate-x-8" : ""
-                  }`}
-                  initial={reduced ? { y: "0%" } : { y: "110%" }}
-                  animate={{ y: "0%" }}
-                  transition={{
-                    delay: reduced ? 0 : 0.3 + i * 0.12,
-                    duration: reduced ? 0 : 0.9,
-                    ease: EASE,
-                  }}
-                >
-                  {line.text}
-                </motion.span>
-              </span>
-            ))}
-          </div>
-        </motion.h1>
-
-        {/* ---- Tagline (below the lockup, centered, slightly rotated) ---- */}
-        <motion.div
-          className="pointer-events-none relative z-10 mt-8 max-w-2xl px-4 text-center hand-display -rotate-[1deg] text-xl text-[#F7F4ED]/85 sm:mt-10 sm:text-2xl"
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.25, duration: 0.7, ease: EASE }}
-        >
-          {(() => {
-            const parts = HERO.tagline.split(", ");
-            if (parts.length >= 3) {
-              return (
-                <>
-                  {/* Mobile view lines — 3 lines with comfortable vertical gap */}
-                  <div className="flex flex-col items-center gap-y-[6px] sm:hidden">
-                    <span>{parts[0]},</span>
-                    <span>{parts[1]},</span>
-                    <span>{parts[2]}</span>
-                  </div>
-                  {/* Desktop/Tablet view lines — 2 lines with comfortable vertical gap */}
-                  <div className="hidden sm:flex flex-col items-center gap-y-[10px]">
-                    <span>{parts[0]}, {parts[1]},</span>
-                    <span>{parts[2]}</span>
-                  </div>
-                </>
-              );
-            }
-            return HERO.tagline;
-          })()}
-        </motion.div>
+      {/* ---- Circular scroll indicator icon ---- */}
+      <div
+        className="pointer-events-none absolute z-20 flex h-6 w-6 items-center justify-center rounded-full border border-white/40 shadow-sm"
+        style={{ top: "66%", left: "74%" }}
+      >
+        <div className="h-1.5 w-1.5 rounded-full bg-[#FFD400]" />
       </div>
 
-      {/* ---- Location: Delhi, India (positioned vertically beside lunch break) ---- */}
-      <motion.div
-        className="absolute z-10 font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/65 sm:text-[11px] pointer-events-none hidden md:block"
-        style={{ top: "54%", left: "63%", rotate: -90 }}
-        initial={{ opacity: 0, x: 10 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1.1, duration: 0.7, ease: EASE }}
-      >
-        <span className="whitespace-nowrap">{HERO.location}</span>
-      </motion.div>
+      {/* ---- Expanded Word Cloud Layer (Desktop) ---- */}
+      <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden hidden lg:block">
+        {HERO_TAGS.map((tag, i) => (
+          <motion.span
+            key={`scatter-${tag.label}`}
+            className="pulse-tag absolute cursor-default border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#F7F4ED]/85 bg-[#1738D5]/25 border-white/20 hover:border-[#FFD400] hover:text-[#FFD400] transition-colors select-none pointer-events-auto sm:text-[12px] lg:text-[13px]"
+            style={{
+              top: tag.top,
+              left: tag.left,
+              rotate: tag.rotate,
+              "--rotate": `${tag.rotate}deg`,
+              animationDelay: `${(i % 5) * 0.7}s`,
+              animationDuration: `${4 + (i % 3) * 1.2}s`,
+            } as any}
+            initial={reduced ? { opacity: 1 } : { opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 + i * 0.03, duration: 0.5, ease: EASE }}
+          >
+            {tag.label}
+          </motion.span>
+        ))}
+      </div>
+
+      {/* ---- Expanded Word Cloud Layer (Mobile / Tablet Reflow) ---- */}
+      <div className="relative z-10 my-auto flex flex-wrap items-center justify-center gap-2.5 px-2 py-12 lg:hidden">
+        {HERO_TAGS.map((tag, i) => (
+          <motion.span
+            key={`m-${tag.label}`}
+            className="pulse-tag cursor-default border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-[#F7F4ED]/85 bg-[#1738D5]/35 border-white/20 hover:border-[#FFD400] hover:text-[#FFD400] transition-colors select-none sm:text-[11px]"
+            style={{
+              rotate: tag.rotate * 0.7,
+              "--rotate": `${tag.rotate * 0.7}deg`,
+            } as any}
+            initial={reduced ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 + i * 0.02, duration: 0.4 }}
+          >
+            {tag.label}
+          </motion.span>
+        ))}
+      </div>
 
       {/* ---- Scroll cue ---- */}
       <motion.div
-        className="pointer-events-none relative z-10 mt-auto flex flex-col items-center gap-2 pt-6 sm:pt-8"
+        className="pointer-events-none relative z-20 mt-auto flex flex-col items-center gap-2 pt-6 sm:pt-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 0.6 }}
+        transition={{ delay: 0.8, duration: 0.6 }}
       >
         <span className="hand-display text-2xl text-[#F7F4ED] sm:text-3xl">
           {HERO.scrollCta}
-        </span>
-        <span className="pulse-soft font-mono text-[10px] uppercase tracking-[0.3em] text-[#F7F4ED]/75">
-          {HERO.scrollCtaSub}
         </span>
         <motion.div
           animate={reduced ? undefined : { y: [0, 6, 0] }}
@@ -265,41 +226,5 @@ export default function Hero() {
         </motion.div>
       </motion.div>
     </section>
-  );
-}
-
-
-
-function BackgroundLayer({
-  reduced,
-}: {
-  reduced: boolean;
-}) {
-  return (
-    <div className="pointer-events-none absolute inset-0 z-30 overflow-hidden hidden lg:block">
-      {LAB.skills.map((skill, i) => {
-        const pos = SCATTER_POSITIONS[i % SCATTER_POSITIONS.length];
-        const rotVal = skill.rotate * 3.5;
-        return (
-          <motion.span
-            key={`scatter-${skill.label}`}
-            className="pulse-tag absolute cursor-default border px-4 py-2 font-mono text-[12px] uppercase tracking-[0.18em] pointer-events-auto sm:text-[13px] lg:text-[14px]"
-            style={{
-              top: pos.top,
-              left: pos.left,
-              rotate: rotVal,
-              "--rotate": `${rotVal}deg`,
-              animationDelay: `${(i % 5) * 0.7}s`,
-              animationDuration: `${4 + (i % 3) * 1.2}s`,
-            } as any}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.2 + i * 0.12, duration: 0.5, ease: EASE }}
-          >
-            {skill.label}
-          </motion.span>
-        );
-      })}
-    </div>
   );
 }

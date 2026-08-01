@@ -51,7 +51,7 @@ export default function Nav() {
 
   return (
     <AnimatePresence>
-      {booted && (
+      {booted && active !== "hero" && (
         <motion.nav
           className="fixed right-0 top-1/2 z-[75] hidden -translate-y-1/2 flex-col items-end gap-1 pr-4 xl:flex"
           initial={{ opacity: 0, x: 24 }}
