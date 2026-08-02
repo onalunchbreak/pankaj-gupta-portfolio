@@ -4,7 +4,7 @@ import { PHILOSOPHY_QUOTE } from "@/lib/data";
 
 export default function PhilosophyQuote() {
   return (
-    <SectionShell id="philosophy" index="// 01" label="PHILOSOPHY">
+    <SectionShell id="philosophy" index="01" label="PHILOSOPHY">
       <div className="relative">
         {/* Oversized decorative quotation glyph, intentionally misaligned */}
         <span

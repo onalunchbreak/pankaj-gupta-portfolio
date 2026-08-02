@@ -65,7 +65,7 @@ export default function NavIndex() {
               <span className="text-[#FFD400] font-bold">{NAV_INDEX.index}</span>
               <span className="text-white font-bold">{NAV_INDEX.title}</span>
               <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-              <span className="hidden sm:inline text-white/90">{"// table of contents"}</span>
+              <span className="hidden sm:inline text-white/90">{"table of contents"}</span>
             </div>
           </motion.div>
 
@@ -89,7 +89,7 @@ export default function NavIndex() {
             />
             <div className="env-paper paper-texture relative w-full rounded-[2px] border border-[#1a1a1a]/30 p-5 shadow-[6px_6px_0_0_rgba(10,10,10,0.6)]">
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/70">
-                {"// quick note"}
+                {"quick note"}
               </p>
               <blockquote className="hand-display mt-3 text-xl leading-tight text-[#1a1a1a] sm:text-2xl">
                 {NAV_INDEX.quickNote}

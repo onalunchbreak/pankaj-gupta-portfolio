@@ -161,7 +161,7 @@ export const PRODUCT_OS = {
   centralMetric: { value: 1200, suffix: "+", label: "GLOBAL CUSTOMERS", sub: "PRODUCT PLATFORM OWNERSHIP" },
   annotation: "turns out every edge case eventually becomes a Jira ticket.",
   places: {
-    index: "// PLACES I'VE BUILT AT",
+    index: "PLACES I'VE BUILT AT",
     companies: ["SenseHQ", "Center for Effective Governance of Indian States", "Judge Business School, University of Cambridge", "Bosch Global Software Technologies"],
     note: "different industries. same question. what actually moves the outcome?",
   },

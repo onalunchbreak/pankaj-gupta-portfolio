@@ -77,7 +77,7 @@ export default function ProductOS() {
           <span className="text-[#1738D5]">{PRODUCT_OS.index}</span>
           <span className="text-[#2a2a2a]/70">{PRODUCT_OS.title}</span>
           <span className="ml-auto hidden h-px flex-1 bg-[#1a1a1a]/15 sm:block" />
-          <span className="hidden sm:inline">{"// product operating system"}</span>
+          <span className="hidden sm:inline">{"product playbook"}</span>
         </motion.div>
 
         {/* ---- Asymmetric editorial grid: philosophy left, metric right offset ---- */}
