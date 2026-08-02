@@ -64,8 +64,6 @@ export default function NavIndex() {
             <div className="flex items-baseline gap-3">
               <span className="text-[#FFD400] font-bold">{NAV_INDEX.index}</span>
               <span className="text-white font-bold">{NAV_INDEX.title}</span>
-              <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-              <span className="hidden sm:inline text-white/90">{"table of contents"}</span>
             </div>
           </motion.div>
 

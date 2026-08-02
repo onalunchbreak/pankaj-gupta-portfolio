@@ -83,7 +83,7 @@ export const HERO = {
 // Navigation Index
 export const NAV_INDEX = {
   index: "02",
-  title: "Index",
+  title: "TABLE OF CONTENTS",
   items: [
     { label: "About Me", annotation: "how I ended up here", target: "origin" },
     { label: "Product Playbook", annotation: "how I think about products", target: "product-os" },
