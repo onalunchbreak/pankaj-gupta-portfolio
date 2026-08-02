@@ -12,7 +12,7 @@ export default function IssueBadge() {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed bottom-4 left-4 z-[78] flex items-center gap-2 rounded-full bg-[#E53935] px-3.5 py-1.5 font-mono text-[11px] font-medium text-white shadow-lg sm:bottom-5 sm:left-5 select-none"
+        className="fixed bottom-6 left-6 z-[78] flex items-center gap-2 rounded-full bg-[#E53935] px-3.5 py-1.5 font-mono text-[11px] font-medium text-white shadow-lg sm:bottom-8 sm:left-8 select-none"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9 }}

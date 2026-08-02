@@ -186,7 +186,7 @@ export default function Hero() {
         <span className="border-b border-[#FFD400]">28.6139° N, 77.2090° E</span>
       </motion.span>
 
-      {/* ---- MAIN HERO CANVAS (Center Cutout Photo + Symmetrical Annotations & Tags) ---- */}
+      {/* ---- MAIN HERO CANVAS (Center Cutout Photo + Organic Scattered Annotations & Tags) ---- */}
       <div className="relative z-10 my-auto flex w-full flex-1 items-center justify-center py-1">
 
         {/* ---- Centered Cutout Portrait of Pankaj Gupta (UNTOUCHED) ---- */}
@@ -208,18 +208,18 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* ---- DESKTOP ANNOTATIONS & OUTLINED TAGS LAYER (Symmetrical Layout) ---- */}
+        {/* ---- DESKTOP ORGANIC SCATTERED ANNOTATIONS & TAGS LAYER (Absolute Coordinates) ---- */}
         <motion.div
           className="pointer-events-none absolute inset-0 z-20 hidden lg:block"
           animate={{ x: tagXOffset, opacity: tagOpacity }}
           transition={{ duration: 0.15, ease: "easeInOut" }}
         >
 
-          {/* ==================== LEFT COLUMN (4 TAGS + 4 CAPTIONS) ==================== */}
+          {/* ==================== LEFT COLUMN (SCATTERED & STAGGERED) ==================== */}
 
-          {/* Left Caption 1: "I connect the dots others miss." */}
+          {/* Left Item 1: Caption "I connect the dots others miss." */}
           <motion.div
-            className="absolute top-[10%] left-[8%] flex flex-col items-start gap-1"
+            className="absolute top-[8%] left-[6%] flex flex-col items-start gap-1"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
@@ -237,9 +237,9 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Left Tag 1: PRODUCT STRATEGY */}
+          {/* Left Item 2: Tag "PRODUCT STRATEGY" (Staggered slightly right) */}
           <motion.div
-            className="absolute top-[25%] left-[6%] -rotate-2 pointer-events-auto"
+            className="absolute top-[21%] left-[11%] -rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
@@ -250,45 +250,12 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Left Tag 2: WORKFLOW AUTOMATION (New Tag) */}
+          {/* Left Item 3: Caption "small bets, big impact." (Staggered slightly left) */}
           <motion.div
-            className="absolute top-[39%] left-[5%] rotate-1 pointer-events-auto"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            className="absolute top-[32%] left-[4%] flex flex-col items-start gap-1"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.45, duration: 0.6 }}
-          >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
-              <Cpu className="h-3.5 w-3.5 text-[#FFD400]" />
-              <span className="border-b border-[#FFD400] pb-0.5">WORKFLOW AUTOMATION</span>
-            </div>
-          </motion.div>
-
-          {/* Left Caption 2 (for WORKFLOW AUTOMATION): "Fewer clicks, same outcome." */}
-          <motion.div
-            className="absolute top-[47%] left-[7%] flex flex-col items-start gap-1"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.48, duration: 0.6 }}
-          >
-            <div className="hand-display text-xl text-[#F7F4ED] -rotate-1 select-none">
-              Fewer clicks,<br />
-              <span className="relative inline-block text-white">same outcome.<span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#FFD400] rounded-full" /></span>
-            </div>
-
-            <div className="mt-0.5 ml-6">
-              <svg className="w-12 h-6 text-white/70" viewBox="0 0 50 30" fill="none" stroke="currentColor">
-                <path d="M10,6 Q24,18 38,10" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="34,6 42,12 36,18" fill="currentColor" />
-              </svg>
-            </div>
-          </motion.div>
-
-          {/* Left Caption 3: "small bets, big impact." */}
-          <motion.div
-            className="absolute top-[57%] left-[8%] flex flex-col items-start gap-1"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
           >
             <div className="hand-display text-2xl text-[#F7F4ED] rotate-2 select-none">
               small bets,<br />
@@ -303,12 +270,12 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Left Tag 3: USER RESEARCH */}
+          {/* Left Item 4: Tag "USER RESEARCH" (Staggered right) */}
           <motion.div
-            className="absolute top-[71%] left-[6%] rotate-3 pointer-events-auto"
+            className="absolute top-[44%] left-[10%] rotate-3 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
           >
             <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
               <Search className="h-3.5 w-3.5 text-[#FFD400]" />
@@ -316,9 +283,42 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Left Caption 4 (Fix 2: paired with ROADMAPPING): "Plans change. Direction shouldn't." */}
+          {/* Left Item 5: Tag "WORKFLOW AUTOMATION" (Staggered left in open gap) */}
           <motion.div
-            className="absolute top-[79%] left-[8%] flex flex-col items-start gap-1"
+            className="absolute top-[56%] left-[3%] rotate-1 pointer-events-auto"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.55, duration: 0.6 }}
+          >
+            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
+              <Cpu className="h-3.5 w-3.5 text-[#FFD400]" />
+              <span className="border-b border-[#FFD400] pb-0.5">WORKFLOW AUTOMATION</span>
+            </div>
+          </motion.div>
+
+          {/* Left Item 6: Caption "Fewer clicks, same outcome." (Staggered right) */}
+          <motion.div
+            className="absolute top-[66%] left-[11%] flex flex-col items-start gap-1"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.58, duration: 0.6 }}
+          >
+            <div className="hand-display text-xl text-[#F7F4ED] -rotate-1 select-none">
+              Fewer clicks,<br />
+              <span className="relative inline-block text-white">same outcome.<span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#FFD400] rounded-full" /></span>
+            </div>
+
+            <div className="mt-0.5 ml-6">
+              <svg className="w-12 h-6 text-white/70" viewBox="0 0 50 30" fill="none" stroke="currentColor">
+                <path d="M10,6 Q24,18 38,10" strokeDasharray="4 4" strokeWidth="1.5" />
+                <polygon points="34,6 42,12 36,18" fill="currentColor" />
+              </svg>
+            </div>
+          </motion.div>
+
+          {/* Left Item 7: Caption "Plans change. Direction shouldn't." (Staggered left) */}
+          <motion.div
+            className="absolute top-[77%] left-[4%] flex flex-col items-start gap-1"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.62, duration: 0.6 }}
@@ -336,9 +336,9 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Left Tag 4: ROADMAPPING */}
+          {/* Left Item 8: Tag "ROADMAPPING" (Staggered right) */}
           <motion.div
-            className="absolute top-[90%] left-[7%] -rotate-2 pointer-events-auto"
+            className="absolute top-[88%] left-[10%] -rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.65, duration: 0.6 }}
@@ -350,11 +350,11 @@ export default function Hero() {
           </motion.div>
 
 
-          {/* ==================== RIGHT COLUMN (4 TAGS + 4 CAPTIONS) ==================== */}
+          {/* ==================== RIGHT COLUMN (SCATTERED & STAGGERED) ==================== */}
 
-          {/* Right Tag 1: APPLIED AI */}
+          {/* Right Item 1: Tag "APPLIED AI" (Upper right) */}
           <motion.div
-            className="absolute top-[14%] right-[8%] rotate-2 pointer-events-auto"
+            className="absolute top-[10%] right-[10%] rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.45, duration: 0.6 }}
@@ -365,9 +365,9 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Right Caption 1: "curious by nature, obsessed with value. :)" (Clean Line Break Fix) */}
+          {/* Right Item 2: Caption "curious by nature, obsessed with value. :)" (Staggered right) */}
           <motion.div
-            className="absolute top-[26%] right-[7%] flex flex-col items-end gap-1 text-right"
+            className="absolute top-[23%] right-[4%] flex flex-col items-end gap-1 text-right"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
@@ -386,9 +386,9 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Right Tag 2: STORYTELLING (New Tag) */}
+          {/* Right Item 3: Tag "STORYTELLING" (Staggered left into open space) */}
           <motion.div
-            className="absolute top-[41%] right-[6%] -rotate-1 pointer-events-auto"
+            className="absolute top-[37%] right-[11%] -rotate-1 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.52, duration: 0.6 }}
@@ -399,9 +399,9 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Right Caption 2 (for STORYTELLING): "Numbers don't sell themselves. Stories do." */}
+          {/* Right Item 4: Caption "Numbers don't sell themselves. Stories do." (Staggered right) */}
           <motion.div
-            className="absolute top-[49%] right-[7%] flex flex-col items-end gap-1 text-right"
+            className="absolute top-[49%] right-[5%] flex flex-col items-end gap-1 text-right"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.54, duration: 0.6 }}
@@ -419,9 +419,9 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Right Tag 3: PRODUCT DISCOVERY */}
+          {/* Right Item 5: Tag "PRODUCT DISCOVERY" (Staggered left) */}
           <motion.div
-            className="absolute top-[62%] right-[5%] rotate-3 pointer-events-auto"
+            className="absolute top-[63%] right-[10%] rotate-3 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.55, duration: 0.6 }}
@@ -432,9 +432,9 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Right Caption 3: "data > opinion, always." (Clean Line Break Fix) */}
+          {/* Right Item 6: Caption "data > opinion, always." (Staggered right) */}
           <motion.div
-            className="absolute top-[72%] right-[8%] flex flex-col items-end gap-1 text-right"
+            className="absolute top-[76%] right-[4%] flex flex-col items-end gap-1 text-right"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
@@ -448,16 +448,16 @@ export default function Hero() {
             </div>
 
             <div className="mt-1 mr-8">
-              <svg className="w-14 h-8 text-white/70" viewBox="0 0 50 30" fill="none" stroke="currentColor">
+              <svg className="w-14 h-8 text-white/70" viewBox="0 0 60 30" fill="none" stroke="currentColor">
                 <path d="M42,8 Q24,22 6,15" strokeDasharray="4 4" strokeWidth="1.5" />
                 <polygon points="10,9 2,14 9,20" fill="currentColor" />
               </svg>
             </div>
           </motion.div>
 
-          {/* Right Tag 4: SYSTEM DESIGN */}
+          {/* Right Item 7: Tag "SYSTEM DESIGN" (Staggered left) */}
           <motion.div
-            className="absolute top-[88%] right-[6%] -rotate-2 pointer-events-auto"
+            className="absolute top-[88%] right-[8%] -rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7, duration: 0.6 }}
@@ -517,7 +517,7 @@ export default function Hero() {
 
       </div>
 
-      {/* ---- INTERACTIVE LIVE PORTRAIT RESIZER & PANNER HUD (Fix 5: "Image resizer" label) ---- */}
+      {/* ---- INTERACTIVE LIVE PORTRAIT RESIZER & PANNER HUD (Image resizer label) ---- */}
       <div className="fixed bottom-4 right-16 z-[80] pointer-events-auto">
         {showControls ? (
           <motion.div
