@@ -81,11 +81,11 @@ export default function NavIndex() {
             {/* "tape" pieces */}
             <span
               aria-hidden
-              className="absolute -top-2 left-6 z-10 h-5 w-16 -rotate-6 bg-[#FFD400]/80 mix-blend-normal"
+              className="absolute -top-2 left-6 z-10 h-5 w-16 -rotate-6 bg-[#1738D5]/70 mix-blend-normal"
             />
             <span
               aria-hidden
-              className="absolute -top-2 right-6 z-10 h-5 w-14 rotate-6 bg-[#FFD400]/80 mix-blend-normal"
+              className="absolute -top-2 right-6 z-10 h-5 w-14 rotate-6 bg-[#1738D5]/70 mix-blend-normal"
             />
             <div className="env-paper paper-texture relative w-full rounded-[2px] border border-[#1a1a1a]/30 p-5 shadow-[6px_6px_0_0_rgba(10,10,10,0.6)]">
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/70">
