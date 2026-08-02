@@ -2,7 +2,19 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ChevronDown, Search, Sparkles, Star, Settings, Compass, BarChart2, SlidersHorizontal, RotateCcw } from "lucide-react";
+import {
+  ChevronDown,
+  Search,
+  Sparkles,
+  Star,
+  Settings,
+  Compass,
+  BarChart2,
+  SlidersHorizontal,
+  RotateCcw,
+  MessageSquare,
+  Cpu,
+} from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { HERO } from "@/lib/data";
 import { getLenis } from "@/lib/lenis-instance";
@@ -174,10 +186,10 @@ export default function Hero() {
         <span className="border-b border-[#FFD400]">28.6139° N, 77.2090° E</span>
       </motion.span>
 
-      {/* ---- MAIN HERO CANVAS (Center Cutout Photo + Annotations + Outlined Tags) ---- */}
+      {/* ---- MAIN HERO CANVAS (Center Cutout Photo + Symmetrical Annotations & Tags) ---- */}
       <div className="relative z-10 my-auto flex w-full flex-1 items-center justify-center py-1">
 
-        {/* ---- Large Dominant Cutout Portrait of Pankaj Gupta (Interactive Live Scale, X & Y Offset Binding) ---- */}
+        {/* ---- Centered Cutout Portrait of Pankaj Gupta (UNTOUCHED) ---- */}
         <motion.div
           className="relative z-10 flex flex-col items-center justify-end w-full max-w-[680px] lg:max-w-[820px] -mt-8 sm:-mt-12 mb-2 origin-bottom pointer-events-none"
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
@@ -196,16 +208,18 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* ---- DESKTOP ANNOTATIONS & OUTLINED TAGS LAYER (Reverse Parallax Shift) ---- */}
+        {/* ---- DESKTOP ANNOTATIONS & OUTLINED TAGS LAYER (Symmetrical Layout) ---- */}
         <motion.div
           className="pointer-events-none absolute inset-0 z-20 hidden lg:block"
           animate={{ x: tagXOffset, opacity: tagOpacity }}
           transition={{ duration: 0.15, ease: "easeInOut" }}
         >
 
-          {/* === TOP-LEFT: Caption 1 + Arrow === */}
+          {/* ==================== LEFT COLUMN (4 TAGS + 4 CAPTIONS) ==================== */}
+
+          {/* Left Caption 1: "I connect the dots others miss." */}
           <motion.div
-            className="absolute top-[12%] left-[10%] flex flex-col items-start gap-1"
+            className="absolute top-[10%] left-[8%] flex flex-col items-start gap-1"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
@@ -223,9 +237,9 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Upper-Left Tag (Product Strategy) */}
+          {/* Left Tag 1: PRODUCT STRATEGY */}
           <motion.div
-            className="absolute top-[32%] left-[4%] -rotate-2 pointer-events-auto"
+            className="absolute top-[25%] left-[6%] -rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
@@ -236,9 +250,42 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* === MID-LEFT: Caption 2 + Tag 2 (User Research) + Tag 3 (Roadmapping) === */}
+          {/* Left Tag 2: WORKFLOW AUTOMATION (New Tag) */}
           <motion.div
-            className="absolute top-[52%] left-[8%] flex flex-col items-start gap-1"
+            className="absolute top-[39%] left-[5%] rotate-1 pointer-events-auto"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.45, duration: 0.6 }}
+          >
+            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
+              <Cpu className="h-3.5 w-3.5 text-[#FFD400]" />
+              <span className="border-b border-[#FFD400] pb-0.5">WORKFLOW AUTOMATION</span>
+            </div>
+          </motion.div>
+
+          {/* Left Caption 2 (for WORKFLOW AUTOMATION): "Fewer clicks, same outcome." */}
+          <motion.div
+            className="absolute top-[47%] left-[7%] flex flex-col items-start gap-1"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.48, duration: 0.6 }}
+          >
+            <div className="hand-display text-xl text-[#F7F4ED] -rotate-1 select-none">
+              Fewer clicks,<br />
+              <span className="relative inline-block text-white">same outcome.<span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#FFD400] rounded-full" /></span>
+            </div>
+
+            <div className="mt-0.5 ml-6">
+              <svg className="w-12 h-6 text-white/70" viewBox="0 0 50 30" fill="none" stroke="currentColor">
+                <path d="M10,6 Q24,18 38,10" strokeDasharray="4 4" strokeWidth="1.5" />
+                <polygon points="34,6 42,12 36,18" fill="currentColor" />
+              </svg>
+            </div>
+          </motion.div>
+
+          {/* Left Caption 3: "small bets, big impact." */}
+          <motion.div
+            className="absolute top-[57%] left-[8%] flex flex-col items-start gap-1"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
@@ -256,8 +303,9 @@ export default function Hero() {
             </div>
           </motion.div>
 
+          {/* Left Tag 3: USER RESEARCH */}
           <motion.div
-            className="absolute top-[72%] left-[4%] rotate-3 pointer-events-auto"
+            className="absolute top-[71%] left-[6%] rotate-3 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.6 }}
@@ -268,8 +316,29 @@ export default function Hero() {
             </div>
           </motion.div>
 
+          {/* Left Caption 4 (Fix 2: paired with ROADMAPPING): "Plans change. Direction shouldn't." */}
           <motion.div
-            className="absolute top-[84%] left-[14%] -rotate-2 pointer-events-auto"
+            className="absolute top-[79%] left-[8%] flex flex-col items-start gap-1"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.62, duration: 0.6 }}
+          >
+            <div className="hand-display text-xl text-[#F7F4ED] -rotate-2 select-none">
+              Plans change.<br />
+              <span className="relative inline-block text-white">Direction shouldn't.<span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#FFD400] rounded-full" /></span>
+            </div>
+
+            <div className="mt-0.5 ml-8">
+              <svg className="w-12 h-6 text-white/70" viewBox="0 0 50 30" fill="none" stroke="currentColor">
+                <path d="M8,18 Q24,4 38,12" strokeDasharray="4 4" strokeWidth="1.5" />
+                <polygon points="34,7 42,14 35,19" fill="currentColor" />
+              </svg>
+            </div>
+          </motion.div>
+
+          {/* Left Tag 4: ROADMAPPING */}
+          <motion.div
+            className="absolute top-[90%] left-[7%] -rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.65, duration: 0.6 }}
@@ -280,9 +349,12 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* === TOP-RIGHT: Tag 4 (Applied AI) + Caption 3 (Curious by nature...) === */}
+
+          {/* ==================== RIGHT COLUMN (4 TAGS + 4 CAPTIONS) ==================== */}
+
+          {/* Right Tag 1: APPLIED AI */}
           <motion.div
-            className="absolute top-[16%] right-[14%] rotate-2 pointer-events-auto"
+            className="absolute top-[14%] right-[8%] rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.45, duration: 0.6 }}
@@ -293,8 +365,9 @@ export default function Hero() {
             </div>
           </motion.div>
 
+          {/* Right Caption 1: "curious by nature, obsessed with value. :)" (Clean Line Break Fix) */}
           <motion.div
-            className="absolute top-[32%] right-[8%] flex flex-col items-end gap-1 text-right"
+            className="absolute top-[26%] right-[7%] flex flex-col items-end gap-1 text-right"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
@@ -313,9 +386,42 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* === MID-RIGHT: Tag 5 (Product Discovery) + Caption 4 (Data > opinion...) + Tag 6 (System Design) === */}
+          {/* Right Tag 2: STORYTELLING (New Tag) */}
           <motion.div
-            className="absolute top-[50%] right-[4%] rotate-3 pointer-events-auto"
+            className="absolute top-[41%] right-[6%] -rotate-1 pointer-events-auto"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.52, duration: 0.6 }}
+          >
+            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
+              <MessageSquare className="h-3.5 w-3.5 text-[#FFD400]" />
+              <span className="border-b border-[#FFD400] pb-0.5">STORYTELLING</span>
+            </div>
+          </motion.div>
+
+          {/* Right Caption 2 (for STORYTELLING): "Numbers don't sell themselves. Stories do." */}
+          <motion.div
+            className="absolute top-[49%] right-[7%] flex flex-col items-end gap-1 text-right"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.54, duration: 0.6 }}
+          >
+            <div className="hand-display text-xl text-[#F7F4ED] rotate-1 select-none">
+              Numbers don't sell themselves.<br />
+              <span className="relative inline-block text-white">Stories do.<span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#FFD400] rounded-full" /></span>
+            </div>
+
+            <div className="mt-0.5 mr-6">
+              <svg className="w-12 h-6 text-white/70" viewBox="0 0 50 30" fill="none" stroke="currentColor">
+                <path d="M40,6 Q26,18 12,10" strokeDasharray="4 4" strokeWidth="1.5" />
+                <polygon points="16,6 8,12 14,18" fill="currentColor" />
+              </svg>
+            </div>
+          </motion.div>
+
+          {/* Right Tag 3: PRODUCT DISCOVERY */}
+          <motion.div
+            className="absolute top-[62%] right-[5%] rotate-3 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.55, duration: 0.6 }}
@@ -326,8 +432,9 @@ export default function Hero() {
             </div>
           </motion.div>
 
+          {/* Right Caption 3: "data > opinion, always." (Clean Line Break Fix) */}
           <motion.div
-            className="absolute top-[66%] right-[10%] flex flex-col items-end gap-1 text-right"
+            className="absolute top-[72%] right-[8%] flex flex-col items-end gap-1 text-right"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
@@ -348,8 +455,9 @@ export default function Hero() {
             </div>
           </motion.div>
 
+          {/* Right Tag 4: SYSTEM DESIGN */}
           <motion.div
-            className="absolute top-[82%] right-[6%] -rotate-2 pointer-events-auto"
+            className="absolute top-[88%] right-[6%] -rotate-2 pointer-events-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7, duration: 0.6 }}
@@ -396,12 +504,20 @@ export default function Hero() {
               <Settings className="h-3 w-3 text-[#FFD400]" />
               <span className="border-b border-[#FFD400]">SYSTEM DESIGN</span>
             </span>
+            <span className="flex items-center gap-1.5 rounded-sm border border-white/40 px-3 py-1 font-mono text-[10px] uppercase text-white">
+              <MessageSquare className="h-3 w-3 text-[#FFD400]" />
+              <span className="border-b border-[#FFD400]">STORYTELLING</span>
+            </span>
+            <span className="flex items-center gap-1.5 rounded-sm border border-white/40 px-3 py-1 font-mono text-[10px] uppercase text-white">
+              <Cpu className="h-3 w-3 text-[#FFD400]" />
+              <span className="border-b border-[#FFD400]">WORKFLOW AUTOMATION</span>
+            </span>
           </div>
         </div>
 
       </div>
 
-      {/* ---- INTERACTIVE LIVE PORTRAIT RESIZER & PANNER HUD ---- */}
+      {/* ---- INTERACTIVE LIVE PORTRAIT RESIZER & PANNER HUD (Fix 5: "Image resizer" label) ---- */}
       <div className="fixed bottom-4 right-16 z-[80] pointer-events-auto">
         {showControls ? (
           <motion.div
@@ -412,11 +528,11 @@ export default function Hero() {
             <div className="flex items-center justify-between border-b border-white/10 pb-1.5 font-bold text-[#FFD400]">
               <span className="flex items-center gap-1.5">
                 <SlidersHorizontal className="h-3.5 w-3.5" />
-                <span>CANVAS RESIZER & PANNER</span>
+                <span>IMAGE RESIZER</span>
               </span>
               <button
                 onClick={() => setShowControls(false)}
-                className="text-white/60 hover:text-white"
+                className="text-white/60 hover:text-white cursor-pointer"
               >
                 ✕
               </button>
@@ -475,17 +591,17 @@ export default function Hero() {
               onClick={resetControls}
               className="mt-2 flex items-center justify-center gap-1.5 rounded border border-white/20 bg-white/10 py-1 text-[10px] uppercase hover:bg-white/20 transition-colors cursor-pointer"
             >
-              <RotateCcw className="h-3 w-3" /> Reset Default (0,0 - 100%)
+              <RotateCcw className="h-3 w-3" /> Reset Default
             </button>
           </motion.div>
         ) : (
           <button
             onClick={() => setShowControls(true)}
             className="flex items-center gap-1.5 rounded border border-white/20 bg-[#0A0A0A]/80 px-2.5 py-1.5 font-mono text-[10px] uppercase text-[#F7F4ED] backdrop-blur-md hover:border-[#FFD400] hover:text-[#FFD400] transition-colors shadow-lg cursor-pointer"
-            title="Open Live Canvas Controls"
+            title="Open Image Resizer Controls"
           >
             <SlidersHorizontal className="h-3.5 w-3.5 text-[#FFD400]" />
-            <span className="hidden sm:inline">CANVAS ({scale}%, X:{xOffset}px)</span>
+            <span className="hidden sm:inline">Image resizer</span>
           </button>
         )}
       </div>
