@@ -86,10 +86,10 @@ export const NAV_INDEX = {
   title: "Index",
   items: [
     { label: "About Me", annotation: "how I ended up here", target: "origin" },
-    { label: "Product OS", annotation: "how I think about products", target: "product-os" },
-    { label: "Best Work", annotation: "systems worth inspecting", target: "best-work" },
-    { label: "Research Archive", annotation: "papers I somehow finished", target: "research" },
-    { label: "Side Projects", annotation: "things built outside working hours", target: "lab" },
+    { label: "Product Playbook", annotation: "how I think about products", target: "product-os" },
+    { label: "Best Work", annotation: "Proof, not promises.", target: "best-work" },
+    { label: "Published Work", annotation: "papers I somehow finished", target: "research" },
+    { label: "Side Projects", annotation: "Built for the fun of it.", target: "lab" },
     { label: "Contact Me", annotation: "no forms. no friction.", target: "contact" },
   ],
   quickNote:
@@ -550,7 +550,7 @@ export type ResearchPaper = {
 
 export const RESEARCH = {
   index: "04",
-  title: "RESEARCH ARCHIVE",
+  title: "PUBLISHED WORK",
   system: "papers_i_somehow_finished",
   headline: "I SPENT A FEW YEARS TEACHING MODELS TO UNDERSTAND LANGUAGE, EMOTIONS, AND APPARENTLY LIES.",
   papers: [
