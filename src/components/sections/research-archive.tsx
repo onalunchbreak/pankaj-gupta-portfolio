@@ -61,16 +61,10 @@ function PaperSheet({
       <span aria-hidden className="pointer-events-none absolute bottom-1.5 left-1.5 h-2.5 w-2.5 border-b border-l border-[#1a1a1a]/30" />
       <span aria-hidden className="pointer-events-none absolute bottom-1.5 right-1.5 h-2.5 w-2.5 border-b border-r border-[#1a1a1a]/30" />
 
-      {/* Stamp: index + ARCHIVED marker */}
+      {/* Stamp: index */}
       <div className="mb-3 flex items-center justify-between">
         <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/75">
           {paper.index.padStart(2, "0")} / 04
-        </span>
-        <span
-          aria-hidden
-          className="select-none bg-[#1738D5] px-2 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-[#F4F1EA] rotate-[-4deg] shadow-[2px_2px_0_0_rgba(10,10,10,0.2)]"
-        >
-          ▣ ARCHIVED
         </span>
       </div>
 
