@@ -119,7 +119,6 @@ export const MARQUEE_ITEMS = [
 export const ORIGIN = {
   index: "01",
   title: "THE BEGINNING",
-  subtitle: "my journey into product & AI systems.",
   hero: "I STARTED BY BUILDING TECHNICAL THINGS. THEN I REALISED THE HARDER QUESTION WAS: WHAT SHOULD WE BUILD IN THE FIRST PLACE?",
   emphasis: "WHAT SHOULD WE BUILD IN THE FIRST PLACE?",
   paragraphs: [
