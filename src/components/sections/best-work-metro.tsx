@@ -500,7 +500,7 @@ export default function BestWorkMetro() {
                 >
                   <div className="flex flex-col items-center gap-4 rounded-lg border border-[#FFD400]/40 bg-[#0A0A0A]/90 px-8 py-6 backdrop-blur-md">
                     <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
-                      {"// KEYBOARD REQUIRED"}
+                      {"KEYBOARD REQUIRED"}
                     </p>
                     <div className="flex items-center gap-3">
                       <motion.div
@@ -655,8 +655,6 @@ export default function BestWorkMetro() {
         <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-12 lg:px-12">
           <div className="mb-8 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#A3A3A3]">
             <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
-            <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-            <span className="hidden sm:inline">{"// stacked"}</span>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -1050,7 +1048,7 @@ function DeepDiveOverlay({
             data-cursor-label="back"
           >
             <span aria-hidden className="text-[#FFD400]">←</span>
-            <span>{"// RETURN TO CAREER METRO"}</span>
+            <span>{"RETURN TO CAREER METRO"}</span>
           </button>
           {/* Index + theme pill + tag + station type */}
           <div className="mb-4 flex flex-wrap items-center gap-3">
@@ -1064,7 +1062,7 @@ function DeepDiveOverlay({
               {station.stationType.replace("-", " ")}
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/50">
-              {`// ${station.tag}`}
+              {station.tag}
             </span>
           </div>
 
@@ -1153,7 +1151,7 @@ function DeepDiveOverlay({
           {station.learning && (
             <div className="mt-10 border-l-2 border-[#FFD400] bg-[#FFD400]/5 p-5 sm:p-6">
               <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
-                {"// LEARNING"}
+                {"LEARNING"}
               </p>
               <p className="font-display text-base leading-relaxed text-[#F4F1EA] sm:text-lg">
                 {station.learning}

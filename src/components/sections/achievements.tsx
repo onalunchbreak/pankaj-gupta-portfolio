@@ -199,13 +199,8 @@ export default function Achievements() {
         <div className="mt-16 sm:mt-24">
           <Reveal>
             <div className="mb-6 flex items-baseline gap-3 border-b border-[#1a1a1a]/15 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#1a1a1a]/75">
-              <span className="text-[#1738D5]">{"// "}</span>
               <span className="text-[#1a1a1a]/70">
-                education · secondary signal
-              </span>
-              <span className="ml-auto hidden h-px flex-1 bg-[#1a1a1a]/10 sm:block" />
-              <span className="hidden sm:inline text-[#1a1a1a]/75">
-                {`// ${ACHIEVEMENTS.education.length} institutions`}
+                EDUCATION
               </span>
             </div>
           </Reveal>

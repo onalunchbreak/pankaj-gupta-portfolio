@@ -293,7 +293,7 @@ export default function Origin() {
                     />
                     {/* editorial index marker */}
                     <span className="mb-2 block font-mono text-[10px] tracking-[0.25em] text-[#1a1a1a]/75">
-                      {`// 0${i + 1}`}
+                      {`0${i + 1}`}
                     </span>
 
                     <p className="font-sans text-base leading-relaxed text-[#2a2a2a]/85 sm:text-lg">

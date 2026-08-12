@@ -362,7 +362,7 @@ export default function Contact() {
                   className="hidden h-3 w-px bg-[#2a2a2a]/25 sm:inline-block"
                 />
                 <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#2a2a2a]/55">
-                  {"// EOF · session complete"}
+                  {"EOF · session complete"}
                 </div>
               </div>
             </div>
