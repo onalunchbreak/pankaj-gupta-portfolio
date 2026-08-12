@@ -748,13 +748,11 @@ function StationPanel({
 
   return (
     <article
-      className="relative flex h-full w-[85vw] shrink-0 flex-col justify-between px-10 py-24 sm:px-16"
+      className="relative flex h-full w-[85vw] max-w-[900px] shrink-0 flex-col justify-center gap-8 px-10 py-12 sm:px-16"
       data-cursor-label={station.name}
     >
-
-
       {/* TOP HALF — platform signboard & station name */}
-      <div className="flex flex-col items-start gap-5">
+      <div className="flex flex-col items-start gap-3.5">
         {/* Platform signboard — only PLATFORM 01 */}
         <div className="border border-white/15 bg-[#0E0E0E] px-3.5 py-1.5">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
@@ -764,7 +762,7 @@ function StationPanel({
 
         {/* Big station name */}
         <h3
-          className={`font-display text-6xl font-bold leading-[0.92] tracking-tight transition-colors duration-300 lg:text-8xl ${
+          className={`font-display text-6xl font-bold leading-[0.92] tracking-tight transition-colors duration-300 lg:text-7xl ${
             active ? "text-[#F4F1EA]" : "text-[#F4F1EA]/60"
           }`}
         >
@@ -787,7 +785,7 @@ function StationPanel({
       </div>
 
       {/* BOTTOM HALF — metrics + Step Out button */}
-      <div className="flex flex-col gap-7">
+      <div className="flex flex-col gap-5">
         <ul className="grid grid-cols-3 gap-4" role="list">
           {previewMetrics.map((m) => (
             <li key={m.label} className="border-l border-white/15 pl-3">
@@ -799,7 +797,7 @@ function StationPanel({
                   duration={1.2}
                 />
               </p>
-              <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">
+              <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">
                 {m.label}
               </p>
             </li>
@@ -811,11 +809,8 @@ function StationPanel({
           onClick={onStepOut}
           onMouseEnter={() => play("tick")}
           data-cursor-label="step out"
-          className="group inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
+          className="group inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.25em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
         >
-          <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.25em] text-[#FFD400] group-hover:border-[#0A0A0A] group-hover:text-[#0A0A0A]">
-            {station.theme}
-          </span>
           <span>Step Out ↗</span>
         </button>
       </div>
@@ -897,11 +892,8 @@ function StackedStationCard({
         type="button"
         onClick={onStepOut}
         data-cursor-label="step out"
-        className="group mt-6 inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
+        className="group mt-5 inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.25em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
       >
-        <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.25em] text-[#FFD400] group-hover:border-[#0A0A0A] group-hover:text-[#0A0A0A]">
-          {station.theme}
-        </span>
         <span>Step Out ↗</span>
       </button>
     </motion.article>
