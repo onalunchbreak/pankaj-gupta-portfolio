@@ -613,7 +613,7 @@ export const LAB = {
 export const ACHIEVEMENTS = {
   index: "05",
   title: "HONORS & RECOGNITION",
-  headline: "APPARENTLY OTHER PEOPLE ALSO THOUGHT I WAS DOING SOMETHING USEFUL.",
+  headline: "MILESTONES AND RECOGNITIONS EARNED ALONG THE WAY.",
   cards: [
     { org: "NEXTLEAP", label: "TOP 1%", sub: "PRODUCT MANAGEMENT FELLOW", year: "2025", url: "https://www.linkedin.com/in/gupta-pankaj/details/honors/1635554451885/single-media-viewer/?profileId=ACoAACLgHN8BgAC4xBg9Gm1qV9p5Wfo5FGA6X6s" },
     { org: "FATIMA FELLOWSHIP", label: "30 SELECTED", sub: "FROM 4000+ GLOBAL APPLICANTS", year: "2023", url: "https://www.fatima.institute/" },
