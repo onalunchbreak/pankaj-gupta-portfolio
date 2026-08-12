@@ -27,6 +27,7 @@ import {
   Redo2,
   Underline,
   Edit3,
+  Pencil,
 } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { HERO } from "@/lib/data";
@@ -86,7 +87,7 @@ const COLOR_PRESETS = [
   "#FFFFFF", // Pure White
 ];
 
-// USER-APPROVED MASTER LAYOUT (Bunkered into permanent baseline)
+// USER-APPROVED MASTER LAYOUT (Permanent baseline for all visitors)
 const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
   {
     id: "quote-strategy",
@@ -506,13 +507,16 @@ export default function Hero() {
   const reduced = usePrefersReducedMotion();
   const clock = useLiveClock();
 
-  // Portrait scale/offset
+  // Determine if dev environment for rendering local editor toggle
+  const isDev = process.env.NODE_ENV !== "production";
+
+  // Portrait scale/offset (Untouched)
   const [scale, setScale] = useState(100);
   const [xOffset, setXOffset] = useState(0);
   const [yOffset, setYOffset] = useState(0);
 
-  // Editor State
-  const [layoutMode, setLayoutMode] = useState(true);
+  // Editor State — OFF BY DEFAULT for clean production-ready viewing
+  const [layoutMode, setLayoutMode] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -538,11 +542,9 @@ export default function Hero() {
     } catch {
       // fallback
     }
-    // Set master user baseline
     setNodes(UNIFIED_CANVAS_BASELINE);
     setHistory([UNIFIED_CANVAS_BASELINE]);
     setHistoryIndex(0);
-    localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(UNIFIED_CANVAS_BASELINE));
   }, []);
 
   // Push new state snapshot to Undo/Redo stack
@@ -553,9 +555,11 @@ export default function Hero() {
       newHistory.push(newNodes);
       setHistory(newHistory);
       setHistoryIndex(newHistory.length - 1);
-      localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(newNodes));
+      if (isDev) {
+        localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(newNodes));
+      }
     },
-    [history, historyIndex]
+    [history, historyIndex, isDev]
   );
 
   // Undo action
@@ -564,9 +568,11 @@ export default function Hero() {
       const prevIndex = historyIndex - 1;
       setHistoryIndex(prevIndex);
       setNodes(history[prevIndex]);
-      localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(history[prevIndex]));
+      if (isDev) {
+        localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(history[prevIndex]));
+      }
     }
-  }, [history, historyIndex]);
+  }, [history, historyIndex, isDev]);
 
   // Redo action
   const handleRedo = useCallback(() => {
@@ -574,9 +580,11 @@ export default function Hero() {
       const nextIndex = historyIndex + 1;
       setHistoryIndex(nextIndex);
       setNodes(history[nextIndex]);
-      localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(history[nextIndex]));
+      if (isDev) {
+        localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(history[nextIndex]));
+      }
     }
-  }, [history, historyIndex]);
+  }, [history, historyIndex, isDev]);
 
   // Update a single node property
   const updateNode = (id: string, partial: Partial<StudioNode>) => {
@@ -625,6 +633,8 @@ export default function Hero() {
 
   // Keyboard shortcut listener (Ctrl+Z, Delete, etc.)
   useEffect(() => {
+    if (!layoutMode || !isDev) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (editingId || e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
         return;
@@ -650,7 +660,7 @@ export default function Hero() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [editingId, selectedId, handleUndo, handleRedo]);
+  }, [editingId, selectedId, layoutMode, isDev, handleUndo, handleRedo]);
 
   const copyNodesJSON = () => {
     navigator.clipboard.writeText(JSON.stringify(nodes, null, 2));
@@ -674,7 +684,7 @@ export default function Hero() {
 
   const selectedNode = nodes.find((n) => n.id === selectedId);
 
-  // Render individual Node directly in full-screen canvas space
+  // Render individual Node cleanly
   const renderStudioNode = (node: StudioNode) => {
     const isSelected = selectedId === node.id;
     const isEditing = editingId === node.id;
@@ -693,19 +703,25 @@ export default function Hero() {
     return (
       <motion.div
         key={node.id}
-        drag={layoutMode}
+        drag={layoutMode && isDev}
         dragMomentum={false}
         onDragEnd={(_, info) => {
-          updateNode(node.id, { x: node.x + info.offset.x, y: node.y + info.offset.y });
+          if (layoutMode && isDev) {
+            updateNode(node.id, { x: node.x + info.offset.x, y: node.y + info.offset.y });
+          }
         }}
         onClick={(e) => {
-          e.stopPropagation();
-          setSelectedId(node.id);
+          if (layoutMode && isDev) {
+            e.stopPropagation();
+            setSelectedId(node.id);
+          }
         }}
         onDoubleClick={(e) => {
-          e.stopPropagation();
-          setSelectedId(node.id);
-          if (node.type !== "arrow") setEditingId(node.id);
+          if (layoutMode && isDev) {
+            e.stopPropagation();
+            setSelectedId(node.id);
+            if (node.type !== "arrow") setEditingId(node.id);
+          }
         }}
         style={{
           x: node.x,
@@ -714,8 +730,10 @@ export default function Hero() {
           rotate: node.rotation,
         }}
         className={`pointer-events-auto absolute p-1.5 rounded-md transition-all ${
-          layoutMode ? "cursor-grab active:cursor-grabbing hover:outline hover:outline-1 hover:outline-[#FFD400]/70 z-30 hover:z-40" : "z-20"
-        } ${isSelected && layoutMode ? "outline outline-2 outline-[#FFD400] bg-black/60 shadow-2xl z-40" : ""}`}
+          layoutMode && isDev
+            ? "cursor-grab active:cursor-grabbing hover:outline hover:outline-1 hover:outline-[#FFD400]/70 z-30 hover:z-40"
+            : "z-20 pointer-events-none"
+        } ${isSelected && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] bg-black/60 shadow-2xl z-40" : ""}`}
       >
         {node.type === "arrow" ? (
           <StudioArrow node={node} />
@@ -725,7 +743,7 @@ export default function Hero() {
             style={{ fontSize: `${node.fontSize}px`, color: node.color }}
           >
             <Sparkles className="h-3.5 w-3.5 text-[#FFD400] shrink-0" />
-            {isEditing ? (
+            {isEditing && layoutMode && isDev ? (
               <input
                 type="text"
                 value={node.text}
@@ -745,7 +763,7 @@ export default function Hero() {
             className={`relative leading-snug select-none ${fontClass}`}
             style={{ fontSize: `${node.fontSize}px`, color: node.color }}
           >
-            {isEditing ? (
+            {isEditing && layoutMode && isDev ? (
               <textarea
                 value={node.text}
                 onClick={(e) => e.stopPropagation()}
@@ -781,8 +799,10 @@ export default function Hero() {
     <section
       id="hero"
       onClick={() => {
-        setSelectedId(null);
-        setEditingId(null);
+        if (layoutMode) {
+          setSelectedId(null);
+          setEditingId(null);
+        }
       }}
       className="env-blue relative flex min-h-screen w-full flex-col justify-between overflow-hidden px-5 py-8 sm:px-8 sm:py-12 select-none"
     >
@@ -848,7 +868,7 @@ export default function Hero() {
       {/* ---- MAIN HERO CANVAS ---- */}
       <div className="relative z-10 my-auto flex w-full flex-1 items-center justify-center py-1">
 
-        {/* ---- Centered Cutout Portrait of Pankaj Gupta ---- */}
+        {/* ---- Centered Cutout Portrait of Pankaj Gupta (UNTOUCHED) ---- */}
         <motion.div
           className="relative z-10 flex flex-col items-center justify-end w-full max-w-[680px] lg:max-w-[820px] -mt-8 sm:-mt-12 mb-2 origin-bottom pointer-events-none"
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
@@ -901,327 +921,343 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* ---- CANVAS STUDIO EDITOR HUD TOOLBAR & INSPECTOR ---- */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 pointer-events-auto font-mono">
+      {/* ---- LOCAL DEV ONLY: SINGLE CLEAN EDIT BUTTON & HUD TOOLBAR ---- */}
+      {isDev && (
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 pointer-events-auto font-mono">
 
-        {/* Floating Typography & Node Inspector Panel */}
-        <AnimatePresence>
-          {selectedNode && layoutMode && (
-            <motion.div
-              initial={{ opacity: 0, y: 12, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 12, scale: 0.95 }}
-              onClick={(e) => e.stopPropagation()} // STOP PROPAGATION SO INSPECTOR NEVER CLOSES ON CLICK
-              className="flex flex-col gap-3 rounded-lg border border-[#FFD400]/40 bg-[#0A0A0A]/95 p-4 text-xs text-[#F7F4ED] shadow-2xl backdrop-blur-md w-80 z-50"
-            >
-              {/* Header */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                <span className="font-bold text-[#FFD400] uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                  {selectedNode.type === "arrow" ? (
-                    <Navigation className="h-3.5 w-3.5 text-[#FFD400]" />
-                  ) : selectedNode.type === "tag" ? (
-                    <Tag className="h-3.5 w-3.5 text-[#FFD400]" />
-                  ) : (
-                    <Type className="h-3.5 w-3.5 text-[#FFD400]" />
-                  )}
-                  {selectedNode.type.toUpperCase()}: {selectedNode.text.replace("\n", " ").slice(0, 18) || selectedNode.id}
-                </span>
+          {/* Floating Typography & Node Inspector Panel */}
+          <AnimatePresence>
+            {selectedNode && layoutMode && (
+              <motion.div
+                initial={{ opacity: 0, y: 12, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 12, scale: 0.95 }}
+                onClick={(e) => e.stopPropagation()}
+                className="flex flex-col gap-3 rounded-lg border border-[#FFD400]/40 bg-[#0A0A0A]/95 p-4 text-xs text-[#F7F4ED] shadow-2xl backdrop-blur-md w-80 z-50"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                  <span className="font-bold text-[#FFD400] uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                    {selectedNode.type === "arrow" ? (
+                      <Navigation className="h-3.5 w-3.5 text-[#FFD400]" />
+                    ) : selectedNode.type === "tag" ? (
+                      <Tag className="h-3.5 w-3.5 text-[#FFD400]" />
+                    ) : (
+                      <Type className="h-3.5 w-3.5 text-[#FFD400]" />
+                    )}
+                    {selectedNode.type.toUpperCase()}: {selectedNode.text.replace("\n", " ").slice(0, 18) || selectedNode.id}
+                  </span>
 
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => deleteNode(selectedNode.id)}
-                    title="Delete Node (Backspace)"
-                    className="text-red-400 hover:text-red-300 p-1 hover:bg-red-500/20 rounded transition-colors"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </button>
-                  <button
-                    onClick={() => setSelectedId(null)}
-                    className="text-white/60 hover:text-white px-1 text-xs"
-                  >
-                    ✕
-                  </button>
-                </div>
-              </div>
-
-              {/* Text Edit Button */}
-              {selectedNode.type !== "arrow" && (
-                <div className="flex items-center justify-between gap-2">
-                  <button
-                    onClick={() => setEditingId(selectedNode.id)}
-                    className="flex items-center gap-1.5 w-full justify-center rounded border border-[#FFD400]/40 bg-[#FFD400]/10 py-1.5 text-[11px] font-bold text-[#FFD400] hover:bg-[#FFD400]/20 transition-colors"
-                  >
-                    <Edit3 className="h-3.5 w-3.5" />
-                    Edit Text Label
-                  </button>
-                </div>
-              )}
-
-              {/* Typography Options (for Quotes & Tags) */}
-              {selectedNode.type !== "arrow" && (
-                <>
-                  {/* Font Family Selector */}
-                  <div className="flex items-center justify-between gap-2 text-[11px]">
-                    <span className="text-white/70">Font Style:</span>
-                    <select
-                      value={selectedNode.fontFamily}
-                      onChange={(e) =>
-                        updateNode(selectedNode.id, { fontFamily: e.target.value as FontFamilyOption })
-                      }
-                      className="bg-black/90 border border-white/20 text-white rounded px-2 py-1 outline-none accent-[#FFD400]"
-                    >
-                      <option value="handwritten">✍️ Handwritten</option>
-                      <option value="mono">💻 Monospace</option>
-                      <option value="sans">🎨 Modern Sans</option>
-                      <option value="serif">📰 Classic Serif</option>
-                    </select>
-                  </div>
-
-                  {/* Font Size Slider */}
-                  <div className="flex items-center justify-between gap-2 text-[11px]">
-                    <span className="text-white/70">Font Size:</span>
-                    <input
-                      type="range"
-                      min="10"
-                      max="48"
-                      step="1"
-                      value={selectedNode.fontSize}
-                      onChange={(e) => updateNode(selectedNode.id, { fontSize: parseInt(e.target.value) })}
-                      className="w-28 accent-[#FFD400]"
-                    />
-                    <span className="w-8 text-right font-bold text-[#FFD400]">{selectedNode.fontSize}px</span>
-                  </div>
-
-                  {/* Text Underline Highlight Toggle */}
-                  {selectedNode.type === "quote" && (
-                    <div className="flex items-center justify-between gap-2 text-[11px]">
-                      <span className="text-white/70">Yellow Underline:</span>
-                      <button
-                        onClick={() => updateNode(selectedNode.id, { highlight: !selectedNode.highlight })}
-                        className={`flex items-center gap-1 px-2.5 py-1 rounded border text-[10px] ${
-                          selectedNode.highlight
-                            ? "bg-[#FFD400] text-black font-bold border-[#FFD400]"
-                            : "border-white/20 text-white/70"
-                        }`}
-                      >
-                        <Underline className="h-3 w-3" />
-                        {selectedNode.highlight ? "Active" : "Off"}
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Color Palette Selector */}
-                  <div className="flex items-center justify-between gap-2 text-[11px] pt-1 border-t border-white/10">
-                    <span className="text-white/70">Text Color:</span>
-                    <div className="flex items-center gap-1.5">
-                      {COLOR_PRESETS.map((c) => (
-                        <button
-                          key={c}
-                          onClick={() => updateNode(selectedNode.id, { color: c })}
-                          style={{ backgroundColor: c }}
-                          className={`h-4 w-4 rounded-full border border-white/40 transition-transform ${
-                            selectedNode.color === c ? "scale-125 ring-2 ring-white" : "hover:scale-110"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-
-              {/* Arrow Specific Controls */}
-              {selectedNode.type === "arrow" && (
-                <>
-                  {/* Arrow Length */}
-                  <div className="flex items-center justify-between gap-2 text-[11px]">
-                    <span className="text-white/70">Length:</span>
-                    <input
-                      type="range"
-                      min="40"
-                      max="200"
-                      step="5"
-                      value={selectedNode.arrowLength || 75}
-                      onChange={(e) => updateNode(selectedNode.id, { arrowLength: parseInt(e.target.value) })}
-                      className="w-28 accent-[#FFD400]"
-                    />
-                    <span className="w-8 text-right font-bold text-[#FFD400]">
-                      {selectedNode.arrowLength || 75}px
-                    </span>
-                  </div>
-
-                  {/* Curvature (Straight vs Arc Up vs Arc Down) */}
-                  <div className="flex items-center justify-between gap-2 text-[11px]">
-                    <span className="text-white/70">Shape:</span>
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        onClick={() => updateNode(selectedNode.id, { curvature: 0 })}
-                        className={`px-2 py-0.5 rounded text-[10px] border ${
-                          (selectedNode.curvature ?? 16) === 0
-                            ? "bg-[#FFD400] text-[#0A0A0A] font-bold border-[#FFD400]"
-                            : "border-white/20 text-white/70 hover:text-white"
-                        }`}
-                      >
-                        Straight
-                      </button>
-                      <button
-                        onClick={() => updateNode(selectedNode.id, { curvature: 18 })}
-                        className={`px-2 py-0.5 rounded text-[10px] border ${
-                          (selectedNode.curvature ?? 16) > 0
-                            ? "bg-[#FFD400] text-[#0A0A0A] font-bold border-[#FFD400]"
-                            : "border-white/20 text-white/70 hover:text-white"
-                        }`}
-                      >
-                        Arc Up ↑
-                      </button>
-                      <button
-                        onClick={() => updateNode(selectedNode.id, { curvature: -18 })}
-                        className={`px-2 py-0.5 rounded text-[10px] border ${
-                          (selectedNode.curvature ?? 16) < 0
-                            ? "bg-[#FFD400] text-[#0A0A0A] font-bold border-[#FFD400]"
-                            : "border-white/20 text-white/70 hover:text-white"
-                        }`}
-                      >
-                        Arc Down ↓
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Bidirectional Curvature Slider (-50 to +50) */}
-                  <div className="flex items-center justify-between gap-2 text-[11px]">
-                    <span className="text-white/70">Curvature:</span>
-                    <input
-                      type="range"
-                      min="-50"
-                      max="50"
-                      step="1"
-                      value={selectedNode.curvature ?? 16}
-                      onChange={(e) => updateNode(selectedNode.id, { curvature: parseInt(e.target.value) })}
-                      className="w-28 accent-[#FFD400]"
-                    />
-                    <span className="w-10 text-right font-bold text-[#FFD400]">
-                      {(selectedNode.curvature ?? 16) > 0
-                        ? `+${selectedNode.curvature ?? 16}`
-                        : selectedNode.curvature ?? 16}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/10">
+                  <div className="flex items-center gap-1">
                     <button
-                      onClick={() => updateNode(selectedNode.id, { flipX: !selectedNode.flipX })}
-                      className="flex items-center gap-1.5 rounded border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] hover:border-[#FFD400] hover:text-[#FFD400] transition-colors"
+                      onClick={() => deleteNode(selectedNode.id)}
+                      title="Delete Node (Backspace)"
+                      className="text-red-400 hover:text-red-300 p-1 hover:bg-red-500/20 rounded transition-colors"
                     >
-                      <ArrowRightLeft className="h-3 w-3" />
-                      Flip Direction
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                    <button
+                      onClick={() => setSelectedId(null)}
+                      className="text-white/60 hover:text-white px-1 text-xs"
+                    >
+                      ✕
                     </button>
                   </div>
-                </>
-              )}
+                </div>
 
-              {/* General Rotation & Scale */}
-              <div className="flex items-center justify-between gap-2 text-[11px] pt-1 border-t border-white/10">
-                <span className="text-white/70">Rotation:</span>
-                <input
-                  type="range"
-                  min="-180"
-                  max="180"
-                  step="2"
-                  value={selectedNode.rotation}
-                  onChange={(e) => updateNode(selectedNode.id, { rotation: parseInt(e.target.value) })}
-                  className="w-28 accent-[#FFD400]"
-                />
-                <span className="w-8 text-right font-bold text-[#FFD400]">{selectedNode.rotation}°</span>
+                {/* Text Edit Button */}
+                {selectedNode.type !== "arrow" && (
+                  <div className="flex items-center justify-between gap-2">
+                    <button
+                      onClick={() => setEditingId(selectedNode.id)}
+                      className="flex items-center gap-1.5 w-full justify-center rounded border border-[#FFD400]/40 bg-[#FFD400]/10 py-1.5 text-[11px] font-bold text-[#FFD400] hover:bg-[#FFD400]/20 transition-colors"
+                    >
+                      <Edit3 className="h-3.5 w-3.5" />
+                      Edit Text Label
+                    </button>
+                  </div>
+                )}
+
+                {/* Typography Options (for Quotes & Tags) */}
+                {selectedNode.type !== "arrow" && (
+                  <>
+                    {/* Font Family Selector */}
+                    <div className="flex items-center justify-between gap-2 text-[11px]">
+                      <span className="text-white/70">Font Style:</span>
+                      <select
+                        value={selectedNode.fontFamily}
+                        onChange={(e) =>
+                          updateNode(selectedNode.id, { fontFamily: e.target.value as FontFamilyOption })
+                        }
+                        className="bg-black/90 border border-white/20 text-white rounded px-2 py-1 outline-none accent-[#FFD400]"
+                      >
+                        <option value="handwritten">✍️ Handwritten</option>
+                        <option value="mono">💻 Monospace</option>
+                        <option value="sans">🎨 Modern Sans</option>
+                        <option value="serif">📰 Classic Serif</option>
+                      </select>
+                    </div>
+
+                    {/* Font Size Slider */}
+                    <div className="flex items-center justify-between gap-2 text-[11px]">
+                      <span className="text-white/70">Font Size:</span>
+                      <input
+                        type="range"
+                        min="10"
+                        max="48"
+                        step="1"
+                        value={selectedNode.fontSize}
+                        onChange={(e) => updateNode(selectedNode.id, { fontSize: parseInt(e.target.value) })}
+                        className="w-28 accent-[#FFD400]"
+                      />
+                      <span className="w-8 text-right font-bold text-[#FFD400]">{selectedNode.fontSize}px</span>
+                    </div>
+
+                    {/* Text Underline Highlight Toggle */}
+                    {selectedNode.type === "quote" && (
+                      <div className="flex items-center justify-between gap-2 text-[11px]">
+                        <span className="text-white/70">Yellow Underline:</span>
+                        <button
+                          onClick={() => updateNode(selectedNode.id, { highlight: !selectedNode.highlight })}
+                          className={`flex items-center gap-1 px-2.5 py-1 rounded border text-[10px] ${
+                            selectedNode.highlight
+                              ? "bg-[#FFD400] text-black font-bold border-[#FFD400]"
+                              : "border-white/20 text-white/70"
+                          }`}
+                        >
+                          <Underline className="h-3 w-3" />
+                          {selectedNode.highlight ? "Active" : "Off"}
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Color Palette Selector */}
+                    <div className="flex items-center justify-between gap-2 text-[11px] pt-1 border-t border-white/10">
+                      <span className="text-white/70">Text Color:</span>
+                      <div className="flex items-center gap-1.5">
+                        {COLOR_PRESETS.map((c) => (
+                          <button
+                            key={c}
+                            onClick={() => updateNode(selectedNode.id, { color: c })}
+                            style={{ backgroundColor: c }}
+                            className={`h-4 w-4 rounded-full border border-white/40 transition-transform ${
+                              selectedNode.color === c ? "scale-125 ring-2 ring-white" : "hover:scale-110"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {/* Arrow Specific Controls */}
+                {selectedNode.type === "arrow" && (
+                  <>
+                    {/* Arrow Length */}
+                    <div className="flex items-center justify-between gap-2 text-[11px]">
+                      <span className="text-white/70">Length:</span>
+                      <input
+                        type="range"
+                        min="40"
+                        max="200"
+                        step="5"
+                        value={selectedNode.arrowLength || 75}
+                        onChange={(e) => updateNode(selectedNode.id, { arrowLength: parseInt(e.target.value) })}
+                        className="w-28 accent-[#FFD400]"
+                      />
+                      <span className="w-8 text-right font-bold text-[#FFD400]">
+                        {selectedNode.arrowLength || 75}px
+                      </span>
+                    </div>
+
+                    {/* Curvature (Straight vs Arc Up vs Arc Down) */}
+                    <div className="flex items-center justify-between gap-2 text-[11px]">
+                      <span className="text-white/70">Shape:</span>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => updateNode(selectedNode.id, { curvature: 0 })}
+                          className={`px-2 py-0.5 rounded text-[10px] border ${
+                            (selectedNode.curvature ?? 16) === 0
+                              ? "bg-[#FFD400] text-[#0A0A0A] font-bold border-[#FFD400]"
+                              : "border-white/20 text-white/70 hover:text-white"
+                          }`}
+                        >
+                          Straight
+                        </button>
+                        <button
+                          onClick={() => updateNode(selectedNode.id, { curvature: 18 })}
+                          className={`px-2 py-0.5 rounded text-[10px] border ${
+                            (selectedNode.curvature ?? 16) > 0
+                              ? "bg-[#FFD400] text-[#0A0A0A] font-bold border-[#FFD400]"
+                              : "border-white/20 text-white/70 hover:text-white"
+                          }`}
+                        >
+                          Arc Up ↑
+                        </button>
+                        <button
+                          onClick={() => updateNode(selectedNode.id, { curvature: -18 })}
+                          className={`px-2 py-0.5 rounded text-[10px] border ${
+                            (selectedNode.curvature ?? 16) < 0
+                              ? "bg-[#FFD400] text-[#0A0A0A] font-bold border-[#FFD400]"
+                              : "border-white/20 text-white/70 hover:text-white"
+                          }`}
+                        >
+                          Arc Down ↓
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Bidirectional Curvature Slider (-50 to +50) */}
+                    <div className="flex items-center justify-between gap-2 text-[11px]">
+                      <span className="text-white/70">Curvature:</span>
+                      <input
+                        type="range"
+                        min="-50"
+                        max="50"
+                        step="1"
+                        value={selectedNode.curvature ?? 16}
+                        onChange={(e) => updateNode(selectedNode.id, { curvature: parseInt(e.target.value) })}
+                        className="w-28 accent-[#FFD400]"
+                      />
+                      <span className="w-10 text-right font-bold text-[#FFD400]">
+                        {(selectedNode.curvature ?? 16) > 0
+                          ? `+${selectedNode.curvature ?? 16}`
+                          : selectedNode.curvature ?? 16}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/10">
+                      <button
+                        onClick={() => updateNode(selectedNode.id, { flipX: !selectedNode.flipX })}
+                        className="flex items-center gap-1.5 rounded border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] hover:border-[#FFD400] hover:text-[#FFD400] transition-colors"
+                      >
+                        <ArrowRightLeft className="h-3 w-3" />
+                        Flip Direction
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {/* General Rotation & Scale */}
+                <div className="flex items-center justify-between gap-2 text-[11px] pt-1 border-t border-white/10">
+                  <span className="text-white/70">Rotation:</span>
+                  <input
+                    type="range"
+                    min="-180"
+                    max="180"
+                    step="2"
+                    value={selectedNode.rotation}
+                    onChange={(e) => updateNode(selectedNode.id, { rotation: parseInt(e.target.value) })}
+                    className="w-28 accent-[#FFD400]"
+                  />
+                  <span className="w-8 text-right font-bold text-[#FFD400]">{selectedNode.rotation}°</span>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Main Floating HUD Bar (Appears when layoutMode is ON) */}
+          {layoutMode ? (
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-2 rounded-full border border-white/20 bg-[#0A0A0A]/95 px-4 py-2 text-xs text-[#F7F4ED] shadow-2xl backdrop-blur-md"
+            >
+              {/* Toggle Off */}
+              <button
+                onClick={() => {
+                  setLayoutMode(false);
+                  setSelectedId(null);
+                  setEditingId(null);
+                }}
+                className="flex items-center gap-2 rounded-full bg-[#FFD400] px-3.5 py-1.5 font-bold text-[11px] text-[#0A0A0A] tracking-wider transition-colors hover:bg-[#FFD400]/90"
+              >
+                <Eye className="h-3.5 w-3.5" />
+                EDIT: OFF
+              </button>
+
+              {/* Add New Elements */}
+              <div className="flex items-center gap-1 border-l border-white/20 pl-2">
+                <button
+                  onClick={() => addNewNode("quote")}
+                  title="Add New Custom Quote / Thought"
+                  className="flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] text-white hover:border-[#FFD400] hover:text-[#FFD400] transition-colors"
+                >
+                  <Plus className="h-3 w-3" />
+                  Quote
+                </button>
+                <button
+                  onClick={() => addNewNode("tag")}
+                  title="Add New Custom Skill Tag"
+                  className="flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] text-white hover:border-[#FFD400] hover:text-[#FFD400] transition-colors"
+                >
+                  <Plus className="h-3 w-3" />
+                  Tag
+                </button>
+                <button
+                  onClick={() => addNewNode("arrow")}
+                  title="Add New SVG Arrow"
+                  className="flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] text-white hover:border-[#FFD400] hover:text-[#FFD400] transition-colors"
+                >
+                  <Plus className="h-3 w-3" />
+                  Arrow
+                </button>
               </div>
-            </motion.div>
+
+              {/* Undo / Redo */}
+              <div className="flex items-center gap-1 border-l border-white/20 pl-2">
+                <button
+                  onClick={handleUndo}
+                  disabled={historyIndex <= 0}
+                  title="Undo (Ctrl+Z)"
+                  className="p-1 rounded-full hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+                >
+                  <Undo2 className="h-3.5 w-3.5 text-white" />
+                </button>
+                <button
+                  onClick={handleRedo}
+                  disabled={historyIndex >= history.length - 1}
+                  title="Redo (Ctrl+Y)"
+                  className="p-1 rounded-full hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+                >
+                  <Redo2 className="h-3.5 w-3.5 text-white" />
+                </button>
+              </div>
+
+              {/* Copy Coordinates JSON */}
+              <button
+                onClick={copyNodesJSON}
+                title="Copy entire Canvas JSON to clipboard"
+                className="flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-[11px] text-white hover:border-[#FFD400] hover:text-[#FFD400] transition-colors ml-1"
+              >
+                {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                {copied ? "COPIED JSON!" : "COPY JSON"}
+              </button>
+
+              {/* Reset All */}
+              <button
+                onClick={resetAllNodes}
+                title="Reset layout to master user baseline"
+                className="flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 hover:text-white hover:border-red-400 transition-colors"
+              >
+                <RotateCcw className="h-3 w-3" />
+                Reset
+              </button>
+            </div>
+          ) : (
+            /* Single Subtle Edit Button (Default State) */
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setLayoutMode(true);
+              }}
+              className="flex items-center gap-2 rounded-full border border-white/20 bg-[#0A0A0A]/90 px-3.5 py-2 text-xs font-bold text-white/80 tracking-wider shadow-lg backdrop-blur-md hover:border-[#FFD400] hover:text-[#FFD400] transition-colors"
+            >
+              <Pencil className="h-3.5 w-3.5 text-[#FFD400]" />
+              EDIT
+            </button>
           )}
-        </AnimatePresence>
-
-        {/* Main Floating Studio HUD Bar */}
-        <div
-          onClick={(e) => e.stopPropagation()}
-          className="flex items-center gap-2 rounded-full border border-white/20 bg-[#0A0A0A]/95 px-4 py-2 text-xs text-[#F7F4ED] shadow-2xl backdrop-blur-md"
-        >
-          {/* Toggle Studio Mode */}
-          <button
-            onClick={() => setLayoutMode(!layoutMode)}
-            className={`flex items-center gap-2 rounded-full px-3 py-1.5 font-bold text-[11px] tracking-wider transition-colors ${
-              layoutMode
-                ? "bg-[#FFD400] text-[#0A0A0A]"
-                : "border border-white/30 text-white/80 hover:border-white"
-            }`}
-          >
-            {layoutMode ? <Eye className="h-3.5 w-3.5" /> : <Move className="h-3.5 w-3.5" />}
-            {layoutMode ? "STUDIO EDIT: ON" : "STUDIO EDIT: OFF"}
-          </button>
-
-          {/* Add New Elements */}
-          <div className="flex items-center gap-1 border-l border-white/20 pl-2">
-            <button
-              onClick={() => addNewNode("quote")}
-              title="Add New Custom Quote / Thought"
-              className="flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] text-white hover:border-[#FFD400] hover:text-[#FFD400] transition-colors"
-            >
-              <Plus className="h-3 w-3" />
-              Quote
-            </button>
-            <button
-              onClick={() => addNewNode("tag")}
-              title="Add New Custom Skill Tag"
-              className="flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] text-white hover:border-[#FFD400] hover:text-[#FFD400] transition-colors"
-            >
-              <Plus className="h-3 w-3" />
-              Tag
-            </button>
-            <button
-              onClick={() => addNewNode("arrow")}
-              title="Add New SVG Arrow"
-              className="flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] text-white hover:border-[#FFD400] hover:text-[#FFD400] transition-colors"
-            >
-              <Plus className="h-3 w-3" />
-              Arrow
-            </button>
-          </div>
-
-          {/* Undo / Redo */}
-          <div className="flex items-center gap-1 border-l border-white/20 pl-2">
-            <button
-              onClick={handleUndo}
-              disabled={historyIndex <= 0}
-              title="Undo (Ctrl+Z)"
-              className="p-1 rounded-full hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
-            >
-              <Undo2 className="h-3.5 w-3.5 text-white" />
-            </button>
-            <button
-              onClick={handleRedo}
-              disabled={historyIndex >= history.length - 1}
-              title="Redo (Ctrl+Y)"
-              className="p-1 rounded-full hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
-            >
-              <Redo2 className="h-3.5 w-3.5 text-white" />
-            </button>
-          </div>
-
-          {/* Copy Coordinates JSON */}
-          <button
-            onClick={copyNodesJSON}
-            title="Copy entire Canvas JSON to clipboard"
-            className="flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-[11px] text-white hover:border-[#FFD400] hover:text-[#FFD400] transition-colors ml-1"
-          >
-            {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
-            {copied ? "COPIED JSON!" : "COPY JSON"}
-          </button>
-
-          {/* Reset All */}
-          <button
-            onClick={resetAllNodes}
-            title="Reset layout to master user baseline"
-            className="flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 hover:text-white hover:border-red-400 transition-colors"
-          >
-            <RotateCcw className="h-3 w-3" />
-            Reset
-          </button>
         </div>
-      </div>
+      )}
 
       {/* ---- Bottom Prompt: GO ON ---- */}
       <motion.div
