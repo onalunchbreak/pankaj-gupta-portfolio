@@ -28,6 +28,8 @@ import {
   Underline,
   Edit3,
   Pencil,
+  User,
+  Maximize2,
 } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { HERO } from "@/lib/data";
@@ -510,7 +512,7 @@ export default function Hero() {
   // Determine if dev environment for rendering local editor toggle
   const isDev = process.env.NODE_ENV !== "production";
 
-  // Portrait scale/offset (Untouched)
+  // Central Portrait Scale & Offsets (Editable in Edit Panel)
   const [scale, setScale] = useState(100);
   const [xOffset, setXOffset] = useState(0);
   const [yOffset, setYOffset] = useState(0);
@@ -526,7 +528,7 @@ export default function Hero() {
   const [history, setHistory] = useState<StudioNode[][]>([UNIFIED_CANVAS_BASELINE]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
-  // Load saved node configurations or fallback to master baseline
+  // Load saved node configurations and portrait settings
   useEffect(() => {
     try {
       const savedNodes = localStorage.getItem("hero_canvas_studio_master_v7");
@@ -536,16 +538,30 @@ export default function Hero() {
           setNodes(parsed);
           setHistory([parsed]);
           setHistoryIndex(0);
-          return;
         }
       }
+      const savedScale = localStorage.getItem("hero_portrait_scale");
+      if (savedScale) setScale(Number(savedScale));
+      const savedX = localStorage.getItem("hero_portrait_x");
+      if (savedX) setXOffset(Number(savedX));
+      const savedY = localStorage.getItem("hero_portrait_y");
+      if (savedY) setYOffset(Number(savedY));
     } catch {
       // fallback
     }
-    setNodes(UNIFIED_CANVAS_BASELINE);
-    setHistory([UNIFIED_CANVAS_BASELINE]);
-    setHistoryIndex(0);
   }, []);
+
+  // Update central portrait photo settings
+  const updatePortrait = (newScale: number, newX: number, newY: number) => {
+    setScale(newScale);
+    setXOffset(newX);
+    setYOffset(newY);
+    if (isDev) {
+      localStorage.setItem("hero_portrait_scale", String(newScale));
+      localStorage.setItem("hero_portrait_x", String(newX));
+      localStorage.setItem("hero_portrait_y", String(newY));
+    }
+  };
 
   // Push new state snapshot to Undo/Redo stack
   const pushState = useCallback(
@@ -627,40 +643,10 @@ export default function Hero() {
   // Reset to user's master baseline
   const resetAllNodes = () => {
     pushState(UNIFIED_CANVAS_BASELINE);
+    updatePortrait(100, 0, 0);
     setSelectedId(null);
     localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(UNIFIED_CANVAS_BASELINE));
   };
-
-  // Keyboard shortcut listener (Ctrl+Z, Delete, etc.)
-  useEffect(() => {
-    if (!layoutMode || !isDev) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (editingId || e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
-        return;
-      }
-
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "z") {
-        e.preventDefault();
-        if (e.shiftKey) {
-          handleRedo();
-        } else {
-          handleUndo();
-        }
-      } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "y") {
-        e.preventDefault();
-        handleRedo();
-      } else if (e.key === "Delete" || e.key === "Backspace") {
-        if (selectedId) {
-          e.preventDefault();
-          deleteNode(selectedId);
-        }
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [editingId, selectedId, layoutMode, isDev, handleUndo, handleRedo]);
 
   const copyNodesJSON = () => {
     navigator.clipboard.writeText(JSON.stringify(nodes, null, 2));
@@ -868,9 +854,17 @@ export default function Hero() {
       {/* ---- MAIN HERO CANVAS ---- */}
       <div className="relative z-10 my-auto flex w-full flex-1 items-center justify-center py-1">
 
-        {/* ---- Centered Cutout Portrait of Pankaj Gupta (UNTOUCHED) ---- */}
+        {/* ---- Centered Cutout Portrait of Pankaj Gupta (Clickable/Selectable when in EDIT mode) ---- */}
         <motion.div
-          className="relative z-10 flex flex-col items-center justify-end w-full max-w-[680px] lg:max-w-[820px] -mt-8 sm:-mt-12 mb-2 origin-bottom pointer-events-none"
+          onClick={(e) => {
+            if (layoutMode && isDev) {
+              e.stopPropagation();
+              setSelectedId("central-portrait");
+            }
+          }}
+          className={`relative z-10 flex flex-col items-center justify-end w-full max-w-[680px] lg:max-w-[820px] -mt-8 sm:-mt-12 mb-2 origin-bottom transition-all ${
+            layoutMode && isDev ? "pointer-events-auto cursor-pointer hover:outline hover:outline-1 hover:outline-[#FFD400]/70 rounded-lg" : "pointer-events-none"
+          } ${selectedId === "central-portrait" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] ring-4 ring-[#FFD400]/20 rounded-lg" : ""}`}
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
           animate={{ opacity: 1, scale: scale / 100, x: xOffset, y: yOffset }}
           transition={{ duration: 0.15, ease: "easeInOut" }}
@@ -925,9 +919,9 @@ export default function Hero() {
       {isDev && (
         <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 pointer-events-auto font-mono">
 
-          {/* Floating Typography & Node Inspector Panel */}
+          {/* Floating Inspector Panel (Handles Central Portrait, Quotes, Skill Tags, and Arrows) */}
           <AnimatePresence>
-            {selectedNode && layoutMode && (
+            {(selectedNode || selectedId === "central-portrait") && layoutMode && (
               <motion.div
                 initial={{ opacity: 0, y: 12, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -938,24 +932,39 @@ export default function Hero() {
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-white/10 pb-2">
                   <span className="font-bold text-[#FFD400] uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                    {selectedNode.type === "arrow" ? (
-                      <Navigation className="h-3.5 w-3.5 text-[#FFD400]" />
-                    ) : selectedNode.type === "tag" ? (
-                      <Tag className="h-3.5 w-3.5 text-[#FFD400]" />
+                    {selectedId === "central-portrait" ? (
+                      <>
+                        <User className="h-3.5 w-3.5 text-[#FFD400]" />
+                        CENTRAL PORTRAIT PHOTO
+                      </>
+                    ) : selectedNode?.type === "arrow" ? (
+                      <>
+                        <Navigation className="h-3.5 w-3.5 text-[#FFD400]" />
+                        ARROW: {selectedNode.id}
+                      </>
+                    ) : selectedNode?.type === "tag" ? (
+                      <>
+                        <Tag className="h-3.5 w-3.5 text-[#FFD400]" />
+                        TAG: {selectedNode.text}
+                      </>
                     ) : (
-                      <Type className="h-3.5 w-3.5 text-[#FFD400]" />
+                      <>
+                        <Type className="h-3.5 w-3.5 text-[#FFD400]" />
+                        QUOTE: {selectedNode?.text.replace("\n", " ").slice(0, 16)}
+                      </>
                     )}
-                    {selectedNode.type.toUpperCase()}: {selectedNode.text.replace("\n", " ").slice(0, 18) || selectedNode.id}
                   </span>
 
                   <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => deleteNode(selectedNode.id)}
-                      title="Delete Node (Backspace)"
-                      className="text-red-400 hover:text-red-300 p-1 hover:bg-red-500/20 rounded transition-colors"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </button>
+                    {selectedNode && (
+                      <button
+                        onClick={() => deleteNode(selectedNode.id)}
+                        title="Delete Node"
+                        className="text-red-400 hover:text-red-300 p-1 hover:bg-red-500/20 rounded transition-colors"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </button>
+                    )}
                     <button
                       onClick={() => setSelectedId(null)}
                       className="text-white/60 hover:text-white px-1 text-xs"
@@ -965,8 +974,64 @@ export default function Hero() {
                   </div>
                 </div>
 
-                {/* Text Edit Button */}
-                {selectedNode.type !== "arrow" && (
+                {/* Central Portrait Specific Resizer & Offsets */}
+                {selectedId === "central-portrait" && (
+                  <>
+                    <div className="flex items-center justify-between gap-2 text-[11px]">
+                      <span className="text-white/70">Portrait Scale:</span>
+                      <input
+                        type="range"
+                        min="70"
+                        max="130"
+                        step="1"
+                        value={scale}
+                        onChange={(e) => updatePortrait(Number(e.target.value), xOffset, yOffset)}
+                        className="w-28 accent-[#FFD400]"
+                      />
+                      <span className="w-8 text-right font-bold text-[#FFD400]">{scale}%</span>
+                    </div>
+
+                    <div className="flex items-center justify-between gap-2 text-[11px]">
+                      <span className="text-white/70">Position X:</span>
+                      <input
+                        type="range"
+                        min="-150"
+                        max="150"
+                        step="2"
+                        value={xOffset}
+                        onChange={(e) => updatePortrait(scale, Number(e.target.value), yOffset)}
+                        className="w-28 accent-[#FFD400]"
+                      />
+                      <span className="w-8 text-right font-bold text-[#FFD400]">{xOffset}px</span>
+                    </div>
+
+                    <div className="flex items-center justify-between gap-2 text-[11px]">
+                      <span className="text-white/70">Position Y:</span>
+                      <input
+                        type="range"
+                        min="-150"
+                        max="150"
+                        step="2"
+                        value={yOffset}
+                        onChange={(e) => updatePortrait(scale, xOffset, Number(e.target.value))}
+                        className="w-28 accent-[#FFD400]"
+                      />
+                      <span className="w-8 text-right font-bold text-[#FFD400]">{yOffset}px</span>
+                    </div>
+
+                    <div className="flex justify-end pt-1 border-t border-white/10">
+                      <button
+                        onClick={() => updatePortrait(100, 0, 0)}
+                        className="text-[10px] text-white/50 hover:text-white underline"
+                      >
+                        Reset Portrait
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {/* Node Text Edit Button */}
+                {selectedNode && selectedNode.type !== "arrow" && (
                   <div className="flex items-center justify-between gap-2">
                     <button
                       onClick={() => setEditingId(selectedNode.id)}
@@ -978,10 +1043,9 @@ export default function Hero() {
                   </div>
                 )}
 
-                {/* Typography Options (for Quotes & Tags) */}
-                {selectedNode.type !== "arrow" && (
+                {/* Typography Options */}
+                {selectedNode && selectedNode.type !== "arrow" && (
                   <>
-                    {/* Font Family Selector */}
                     <div className="flex items-center justify-between gap-2 text-[11px]">
                       <span className="text-white/70">Font Style:</span>
                       <select
@@ -998,7 +1062,6 @@ export default function Hero() {
                       </select>
                     </div>
 
-                    {/* Font Size Slider */}
                     <div className="flex items-center justify-between gap-2 text-[11px]">
                       <span className="text-white/70">Font Size:</span>
                       <input
@@ -1013,7 +1076,6 @@ export default function Hero() {
                       <span className="w-8 text-right font-bold text-[#FFD400]">{selectedNode.fontSize}px</span>
                     </div>
 
-                    {/* Text Underline Highlight Toggle */}
                     {selectedNode.type === "quote" && (
                       <div className="flex items-center justify-between gap-2 text-[11px]">
                         <span className="text-white/70">Yellow Underline:</span>
@@ -1031,7 +1093,6 @@ export default function Hero() {
                       </div>
                     )}
 
-                    {/* Color Palette Selector */}
                     <div className="flex items-center justify-between gap-2 text-[11px] pt-1 border-t border-white/10">
                       <span className="text-white/70">Text Color:</span>
                       <div className="flex items-center gap-1.5">
@@ -1050,10 +1111,9 @@ export default function Hero() {
                   </>
                 )}
 
-                {/* Arrow Specific Controls */}
-                {selectedNode.type === "arrow" && (
+                {/* Arrow Controls */}
+                {selectedNode && selectedNode.type === "arrow" && (
                   <>
-                    {/* Arrow Length */}
                     <div className="flex items-center justify-between gap-2 text-[11px]">
                       <span className="text-white/70">Length:</span>
                       <input
@@ -1070,7 +1130,6 @@ export default function Hero() {
                       </span>
                     </div>
 
-                    {/* Curvature (Straight vs Arc Up vs Arc Down) */}
                     <div className="flex items-center justify-between gap-2 text-[11px]">
                       <span className="text-white/70">Shape:</span>
                       <div className="flex items-center gap-1.5">
@@ -1107,7 +1166,6 @@ export default function Hero() {
                       </div>
                     </div>
 
-                    {/* Bidirectional Curvature Slider (-50 to +50) */}
                     <div className="flex items-center justify-between gap-2 text-[11px]">
                       <span className="text-white/70">Curvature:</span>
                       <input
@@ -1138,20 +1196,22 @@ export default function Hero() {
                   </>
                 )}
 
-                {/* General Rotation & Scale */}
-                <div className="flex items-center justify-between gap-2 text-[11px] pt-1 border-t border-white/10">
-                  <span className="text-white/70">Rotation:</span>
-                  <input
-                    type="range"
-                    min="-180"
-                    max="180"
-                    step="2"
-                    value={selectedNode.rotation}
-                    onChange={(e) => updateNode(selectedNode.id, { rotation: parseInt(e.target.value) })}
-                    className="w-28 accent-[#FFD400]"
-                  />
-                  <span className="w-8 text-right font-bold text-[#FFD400]">{selectedNode.rotation}°</span>
-                </div>
+                {/* Rotation for nodes */}
+                {selectedNode && (
+                  <div className="flex items-center justify-between gap-2 text-[11px] pt-1 border-t border-white/10">
+                    <span className="text-white/70">Rotation:</span>
+                    <input
+                      type="range"
+                      min="-180"
+                      max="180"
+                      step="2"
+                      value={selectedNode.rotation}
+                      onChange={(e) => updateNode(selectedNode.id, { rotation: parseInt(e.target.value) })}
+                      className="w-28 accent-[#FFD400]"
+                    />
+                    <span className="w-8 text-right font-bold text-[#FFD400]">{selectedNode.rotation}°</span>
+                  </div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
@@ -1173,6 +1233,20 @@ export default function Hero() {
               >
                 <Eye className="h-3.5 w-3.5" />
                 EDIT: OFF
+              </button>
+
+              {/* Edit Central Portrait Button */}
+              <button
+                onClick={() => setSelectedId("central-portrait")}
+                title="Edit Central Portrait Size & Offsets"
+                className={`flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] transition-colors ${
+                  selectedId === "central-portrait"
+                    ? "border-[#FFD400] bg-[#FFD400]/20 text-[#FFD400]"
+                    : "border-white/20 bg-white/5 text-white hover:border-[#FFD400] hover:text-[#FFD400]"
+                }`}
+              >
+                <User className="h-3 w-3" />
+                Portrait
               </button>
 
               {/* Add New Elements */}
@@ -1208,7 +1282,7 @@ export default function Hero() {
                 <button
                   onClick={handleUndo}
                   disabled={historyIndex <= 0}
-                  title="Undo (Ctrl+Z)"
+                  title="Undo"
                   className="p-1 rounded-full hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
                 >
                   <Undo2 className="h-3.5 w-3.5 text-white" />
@@ -1216,7 +1290,7 @@ export default function Hero() {
                 <button
                   onClick={handleRedo}
                   disabled={historyIndex >= history.length - 1}
-                  title="Redo (Ctrl+Y)"
+                  title="Redo"
                   className="p-1 rounded-full hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
                 >
                   <Redo2 className="h-3.5 w-3.5 text-white" />
