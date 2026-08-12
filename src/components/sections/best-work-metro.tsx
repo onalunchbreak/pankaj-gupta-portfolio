@@ -753,30 +753,12 @@ function StationPanel({
     >
 
 
-      {/* TOP HALF — index, type pill, signboard, station name */}
+      {/* TOP HALF — platform signboard & station name */}
       <div className="flex flex-col items-start gap-5">
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="font-mono text-[11px] tabular-nums uppercase tracking-[0.25em] text-[#A3A3A3]">
-            {String(index + 1).padStart(2, "0")} / 0{total}
-          </span>
-          <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400]">
-            {station.theme}
-          </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/50">
-            {`// ${station.tag}`}
-          </span>
-        </div>
-
-        {/* Platform signboard — DELHI METRO label, hindi name, platform no. */}
-        <div className="border border-white/15 bg-[#0E0E0E] px-4 py-3">
-          <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#FFD400]">
-            {"● CAREER METRO"}
-          </p>
-          <p className="mt-1 font-deva text-lg font-bold text-[#F4F1EA]">
-            {station.name}
-          </p>
-          <p className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">
-            {`Platform ${index + 1}`}
+        {/* Platform signboard — only PLATFORM 01 */}
+        <div className="border border-white/15 bg-[#0E0E0E] px-3.5 py-1.5">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
+            {`PLATFORM 0${index + 1}`}
           </p>
         </div>
 
@@ -829,11 +811,12 @@ function StationPanel({
           onClick={onStepOut}
           onMouseEnter={() => play("tick")}
           data-cursor-label="step out"
-          className="group inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.3em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
+          className="group inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-[#FFD400] transition-colors group-hover:bg-[#0A0A0A]" />
-          Step Out
-          <span aria-hidden>↗</span>
+          <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.25em] text-[#FFD400] group-hover:border-[#0A0A0A] group-hover:text-[#0A0A0A]">
+            {station.theme}
+          </span>
+          <span>Step Out ↗</span>
         </button>
       </div>
     </article>
@@ -870,26 +853,10 @@ function StackedStationCard({
     >
 
 
-      {/* Index + theme pill + tag */}
-      <div className="mb-4 flex flex-wrap items-center gap-3">
-        <span className="font-mono text-[11px] tabular-nums uppercase tracking-[0.25em] text-[#A3A3A3]">
-          {String(index + 1).padStart(2, "0")} / 0{total}
-        </span>
-        <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400]">
-          {station.theme}
-        </span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/50">
-          {`// ${station.tag}`}
-        </span>
-      </div>
-
-      {/* Platform signboard */}
-      <div className="mb-5 border border-white/15 bg-[#0A0A0A] px-4 py-3">
-        <p className="font-deva text-xl font-bold text-[#F4F1EA]">
-          {station.name}
-        </p>
-        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">
-          {`Platform ${index + 1} · CAREER METRO`}
+      {/* Platform signboard — only PLATFORM 01 */}
+      <div className="mb-5 border border-white/15 bg-[#0A0A0A] px-3 py-1.5 w-fit">
+        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
+          {`PLATFORM 0${index + 1}`}
         </p>
       </div>
 
@@ -930,11 +897,12 @@ function StackedStationCard({
         type="button"
         onClick={onStepOut}
         data-cursor-label="step out"
-        className="mt-6 inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.3em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
+        className="group mt-6 inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
       >
-        <span className="h-1.5 w-1.5 rounded-full bg-[#FFD400]" />
-        Step Out
-        <span aria-hidden>↗</span>
+        <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.25em] text-[#FFD400] group-hover:border-[#0A0A0A] group-hover:text-[#0A0A0A]">
+          {station.theme}
+        </span>
+        <span>Step Out ↗</span>
       </button>
     </motion.article>
   );
@@ -1050,21 +1018,6 @@ function DeepDiveOverlay({
             <span aria-hidden className="text-[#FFD400]">←</span>
             <span>{"RETURN TO CAREER METRO"}</span>
           </button>
-          {/* Index + theme pill + tag + station type */}
-          <div className="mb-4 flex flex-wrap items-center gap-3">
-            <span className="font-mono text-[11px] tabular-nums uppercase tracking-[0.25em] text-[#A3A3A3]">
-              {String(index + 1).padStart(2, "0")} / 0{total}
-            </span>
-            <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400]">
-              {station.theme}
-            </span>
-            <span className="border border-[#1738D5]/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#1738D5]">
-              {station.stationType.replace("-", " ")}
-            </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/50">
-              {station.tag}
-            </span>
-          </div>
 
           {/* Station name + role + Hindi subtitle */}
           <h3 className="font-display text-5xl font-bold leading-[0.92] tracking-tight text-[#F4F1EA] sm:text-6xl lg:text-7xl">
