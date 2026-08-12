@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Reveal } from "@/components/sections/_shared";
@@ -8,14 +8,6 @@ import { ORIGIN } from "@/lib/data";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
-
-// Year markers spaced along the left timeline rail.
-const YEAR_MARKERS = [
-  { year: "2019", at: 4 },
-  { year: "2022", at: 32 },
-  { year: "2024", at: 60 },
-  { year: "2026", at: 88 },
-];
 
 // Hand-drawn wiggly SVG path connecting the notebook milestones. Stroke
 // progressively draws as the user scrolls through the section. Distinct
@@ -66,13 +58,6 @@ export default function Origin() {
   const contentRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLHeadingElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
-
-  // Fill the left timeline rail as the section scrolls through.
-  const { scrollYProgress } = useScroll({
-    target: contentRef,
-    offset: ["start end", "end start"],
-  });
-  const railScale = useTransform(scrollYProgress, [0.05, 0.95], [0, 1]);
 
   // GSAP scrub: word-by-word highlight + SVG path draw.
   useEffect(() => {
@@ -197,36 +182,9 @@ export default function Origin() {
           </div>
         </motion.div>
 
-        {/* ---- Left vertical timeline rail (lg+) — hairline + blue fill ---- */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute left-4 top-32 hidden w-px bg-[#1a1a1a]/15 lg:block lg:left-12"
-          style={{ height: "calc(100% - 12rem)" }}
-        >
-          <motion.div
-            className="absolute inset-0 origin-top bg-[#1738D5]"
-            style={{ scaleY: reduced ? 1 : railScale }}
-          />
-        </div>
+        {/* Content container aligned left */}
+        <div>
 
-        {/* ---- Year markers along the rail ---- */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute left-4 top-32 hidden lg:block lg:left-12"
-          style={{ height: "calc(100% - 12rem)" }}
-        >
-          {YEAR_MARKERS.map((m) => (
-            <div key={m.year} className="absolute left-0" style={{ top: `${m.at}%` }}>
-              <span className="absolute left-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 bg-[#1738D5]" />
-              <span className="absolute left-2 top-0 -translate-y-1/2 whitespace-nowrap font-mono text-[10px] tracking-[0.25em] text-[#1a1a1a]/75">
-                {m.year}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Content offset right to make room for the rail + markers */}
-        <div className="lg:pl-16">
           {/* ---- Motif stamp 1 — top-right of content ---- */}
           <MotifStamp
             className="absolute right-4 top-32 -rotate-[8deg] sm:right-12 sm:top-36"
@@ -273,60 +231,31 @@ export default function Origin() {
           </h2>
 
           {/* ---- Supporting paragraphs ---- */}
-          <div className="relative max-w-2xl space-y-12 mt-10 sm:mt-12 lg:mt-16">
-            {ORIGIN.paragraphs.map((para, i) => {
-              // Group annotations by corresponding paragraph index
-              const groupAnnotations =
-                i === 0
-                  ? [ORIGIN.annotations[0], ORIGIN.annotations[1]]
-                  : i === 1
-                  ? [ORIGIN.annotations[2]]
-                  : [ORIGIN.annotations[3], ORIGIN.annotations[4]];
-
-              return (
-                <Reveal key={i} delay={i * 0.08}>
-                  <div className="relative border-l border-[#1a1a1a]/15 pl-6">
-                    {/* blue dot on the left border */}
-                    <span
-                      className="absolute left-0 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 bg-[#1738D5]"
-                      aria-hidden
-                    />
-                    {/* editorial index marker */}
-                    <div className="mb-2 flex flex-wrap items-baseline gap-2 font-mono text-[10px] tracking-[0.25em] text-[#1a1a1a]/75">
-                      <span>{`0${i + 1}`}</span>
-                      {i === 0 && (
-                        <span className="text-[#1738D5]/90 lowercase italic font-mono text-[11px] tracking-normal">
-                          · engineering was only the beginning
-                        </span>
-                      )}
-                    </div>
-
-                    <p className="font-sans text-base leading-relaxed text-[#2a2a2a]/85 sm:text-lg">
-                      {para}
-                    </p>
-
-                    {/* Respective handwritten annotations rendered directly below this paragraph */}
-                    <div className="mt-4 flex flex-col items-start gap-3">
-                      {groupAnnotations.map((note, ni) => {
-                        if (!note) return null;
-                        return (
-                          <motion.span
-                            key={ni}
-                            className="hand-display inline-block -rotate-[0.5deg] text-lg text-[#1738D5]/75 sm:text-xl"
-                            initial={{ opacity: 0, y: 8 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: ni * 0.1 }}
-                          >
-                            ↳ {note}
-                          </motion.span>
-                        );
-                      })}
-                    </div>
+          <div className="relative max-w-2xl space-y-10 mt-10 sm:mt-12 lg:mt-14">
+            {ORIGIN.paragraphs.map((para, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="relative border-l border-[#1a1a1a]/15 pl-6">
+                  {/* blue dot on the left border */}
+                  <span
+                    className="absolute left-0 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 bg-[#1738D5]"
+                    aria-hidden
+                  />
+                  {/* editorial index marker */}
+                  <div className="mb-2 flex flex-wrap items-baseline gap-2 font-mono text-[10px] tracking-[0.25em] text-[#1a1a1a]/75">
+                    <span>{`0${i + 1}`}</span>
+                    {i === 0 && (
+                      <span className="text-[#1738D5]/90 lowercase italic font-mono text-[11px] tracking-normal">
+                        · engineering was only the beginning
+                      </span>
+                    )}
                   </div>
-                </Reveal>
-              );
-            })}
+
+                  <p className="font-sans text-base leading-relaxed text-[#2a2a2a]/85 sm:text-lg">
+                    {para}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
           </div>
 
         </div>

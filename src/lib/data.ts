@@ -136,11 +136,7 @@ export const ORIGIN = {
     { year: "2025–26", label: "SENSEHQ", sub: "Product × HR Tech × AI" },
     { year: "NOW", label: "MR. ONALUNCHBREAK", sub: "Still Building" },
   ],
-  annotations: [
-    "somehow ended up launching products.",
-    "users > models.",
-    "still figuring it out.",
-  ],
+  annotations: [],
   motif: "PRODUCT ROADMAP?",
   motifCrossed: "ROADMAP",
   motifSub: "plans changed.",
