@@ -503,8 +503,8 @@ function StudioArrow({
       style={{ transform: flipX ? "scaleX(-1)" : "none" }}
       className="overflow-visible select-none pointer-events-none transition-transform"
     >
-      <path d={pathD} strokeDasharray="4 4" />
-      <path d={`M ${x1} ${y1} L ${endX} ${endY} L ${x2} ${y2}`} strokeWidth={strokeWidth + 0.6} />
+      <path d={pathD} strokeDasharray="4 4" suppressHydrationWarning />
+      <path d={`M ${x1} ${y1} L ${endX} ${endY} L ${x2} ${y2}`} strokeWidth={strokeWidth + 0.6} suppressHydrationWarning />
     </svg>
   );
 }
@@ -529,6 +529,20 @@ export default function Hero() {
   const [saveModalOpen, setSaveModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+
+  // Restore native cursor while the save modal is open
+  // (the custom cursor component applies cursor-none-fine to <html>, which hides all cursors)
+  useEffect(() => {
+    const html = document.documentElement;
+    if (saveModalOpen) {
+      html.classList.remove("cursor-none-fine");
+    } else {
+      // Only re-add if the custom cursor would have added it (pointer: fine device)
+      if (window.matchMedia("(pointer: fine)").matches) {
+        html.classList.add("cursor-none-fine");
+      }
+    }
+  }, [saveModalOpen]);
 
   // Dynamic Nodes + Undo/Redo Stack
   const [nodes, setNodes] = useState<StudioNode[]>(UNIFIED_CANVAS_BASELINE);
