@@ -395,7 +395,7 @@ export const METRO_STATIONS: MetroStation[] = [
     role: "PROGRAM ASSISTANT, STRATEGIC PUBLIC FINANCE",
     theme: "GOVTECH",
     tag: "ML Tax-Evasion Detection",
-    headline: "HOW DO YOU CATCH TAX FRAUD ACROSS 30M+ RECORDS WITHOUT MOVING THE DATA?",
+    headline: "HOW DO YOU DETECT GST TAX EVASION ACROSS MILLIONS OF RECORDS WITHOUT LEAVING STATE BOUNDARIES?",
     problem:
       "State tax authorities wouldn't send live taxpayer records to a third-party platform, even for a project they'd commissioned. That left the initial training set stuck on historical data from 2017 to 2020.",
     system: ["Federated learning (FedAvg)", "Prophet & SARIMAX time-series", "XGBoost & Isolation Forests", "Buyer-seller GSTIN graph analytics"],
