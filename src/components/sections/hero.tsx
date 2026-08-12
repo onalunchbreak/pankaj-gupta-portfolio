@@ -86,7 +86,7 @@ const COLOR_PRESETS = [
   "#FFFFFF", // Pure White
 ];
 
-// Clean baseline layout with proper multi-line quotes (\n) and spatial distribution
+// Clean baseline layout with comfortable spatial distribution
 const CLEAN_BASELINE_NODES: StudioNode[] = [
   // ==================== LEFT COLUMN ====================
   // Row 1: PRODUCT STRATEGY
@@ -124,7 +124,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "tag",
     text: "PRODUCT STRATEGY",
     x: 10,
-    y: 72,
+    y: 70,
     scale: 1,
     rotation: -1,
     fontSize: 12,
@@ -139,7 +139,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "tag",
     text: "USER RESEARCH",
     x: 0,
-    y: 180,
+    y: 160,
     scale: 1,
     rotation: 2,
     fontSize: 12,
@@ -152,7 +152,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "arrow",
     text: "",
     x: 165,
-    y: 180,
+    y: 160,
     scale: 1,
     rotation: 0,
     fontSize: 14,
@@ -168,7 +168,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "quote",
     text: "small bets,\nbig impact.",
     x: 240,
-    y: 165,
+    y: 150,
     scale: 1,
     rotation: 2,
     fontSize: 24,
@@ -183,7 +183,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "quote",
     text: "Fewer clicks,\nsame outcome.",
     x: 0,
-    y: 320,
+    y: 285,
     scale: 1,
     rotation: -1,
     fontSize: 20,
@@ -196,7 +196,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "arrow",
     text: "",
     x: 35,
-    y: 380,
+    y: 340,
     scale: 1,
     rotation: 90,
     fontSize: 14,
@@ -212,7 +212,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "tag",
     text: "WORKFLOW AUTOMATION",
     x: 0,
-    y: 435,
+    y: 385,
     scale: 1,
     rotation: 1,
     fontSize: 12,
@@ -221,13 +221,13 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     highlight: false,
   },
 
-  // Row 4: ROADMAPPING
+  // Row 4: ROADMAPPING (Comfortable Y offset fitting standard viewports)
   {
     id: "quote-roadmapping",
     type: "quote",
     text: "Plans change.\nDirection shouldn't.",
-    x: 40,
-    y: 495,
+    x: 30,
+    y: 445,
     scale: 1,
     rotation: -2,
     fontSize: 20,
@@ -239,8 +239,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "arrow-roadmapping",
     type: "arrow",
     text: "",
-    x: 75,
-    y: 555,
+    x: 65,
+    y: 500,
     scale: 1,
     rotation: 90,
     fontSize: 14,
@@ -255,8 +255,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "tag-roadmapping",
     type: "tag",
     text: "ROADMAPPING",
-    x: 40,
-    y: 610,
+    x: 30,
+    y: 545,
     scale: 1,
     rotation: -2,
     fontSize: 12,
@@ -302,7 +302,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "tag",
     text: "APPLIED AI",
     x: 180,
-    y: 72,
+    y: 70,
     scale: 1,
     rotation: 2,
     fontSize: 12,
@@ -317,7 +317,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "quote",
     text: "Numbers don't sell.\nStories do.",
     x: 70,
-    y: 165,
+    y: 150,
     scale: 1,
     rotation: 1,
     fontSize: 20,
@@ -330,7 +330,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "arrow",
     text: "",
     x: 145,
-    y: 225,
+    y: 205,
     scale: 1,
     rotation: 90,
     fontSize: 14,
@@ -346,7 +346,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "tag",
     text: "STORYTELLING",
     x: 120,
-    y: 280,
+    y: 250,
     scale: 1,
     rotation: -1,
     fontSize: 12,
@@ -361,7 +361,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "tag",
     text: "PRODUCT DISCOVERY",
     x: 110,
-    y: 350,
+    y: 320,
     scale: 1,
     rotation: 3,
     fontSize: 12,
@@ -374,7 +374,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "arrow",
     text: "",
     x: 155,
-    y: 390,
+    y: 360,
     scale: 1,
     rotation: -90,
     fontSize: 14,
@@ -390,7 +390,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "quote",
     text: "data > opinion,\nalways.",
     x: 110,
-    y: 445,
+    y: 410,
     scale: 1,
     rotation: 1,
     fontSize: 24,
@@ -405,7 +405,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "tag",
     text: "SYSTEM DESIGN",
     x: 130,
-    y: 540,
+    y: 495,
     scale: 1,
     rotation: -2,
     fontSize: 12,
@@ -418,7 +418,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "arrow",
     text: "",
     x: 160,
-    y: 580,
+    y: 535,
     scale: 1,
     rotation: 90,
     fontSize: 14,
@@ -434,7 +434,7 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     type: "quote",
     text: "scalable architectures,\nzero noise.",
     x: 50,
-    y: 635,
+    y: 580,
     scale: 1,
     rotation: -1,
     fontSize: 20,
@@ -524,7 +524,7 @@ export default function Hero() {
   // Load saved node configurations
   useEffect(() => {
     try {
-      const savedNodes = localStorage.getItem("hero_canvas_studio_clean_v4");
+      const savedNodes = localStorage.getItem("hero_canvas_studio_v5");
       if (savedNodes) {
         const parsed = JSON.parse(savedNodes);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -546,7 +546,7 @@ export default function Hero() {
       newHistory.push(newNodes);
       setHistory(newHistory);
       setHistoryIndex(newHistory.length - 1);
-      localStorage.setItem("hero_canvas_studio_clean_v4", JSON.stringify(newNodes));
+      localStorage.setItem("hero_canvas_studio_v5", JSON.stringify(newNodes));
     },
     [history, historyIndex]
   );
@@ -557,7 +557,7 @@ export default function Hero() {
       const prevIndex = historyIndex - 1;
       setHistoryIndex(prevIndex);
       setNodes(history[prevIndex]);
-      localStorage.setItem("hero_canvas_studio_clean_v4", JSON.stringify(history[prevIndex]));
+      localStorage.setItem("hero_canvas_studio_v5", JSON.stringify(history[prevIndex]));
     }
   }, [history, historyIndex]);
 
@@ -567,7 +567,7 @@ export default function Hero() {
       const nextIndex = historyIndex + 1;
       setHistoryIndex(nextIndex);
       setNodes(history[nextIndex]);
-      localStorage.setItem("hero_canvas_studio_clean_v4", JSON.stringify(history[nextIndex]));
+      localStorage.setItem("hero_canvas_studio_v5", JSON.stringify(history[nextIndex]));
     }
   }, [history, historyIndex]);
 
@@ -613,7 +613,7 @@ export default function Hero() {
   const resetAllNodes = () => {
     pushState(CLEAN_BASELINE_NODES);
     setSelectedId(null);
-    localStorage.removeItem("hero_canvas_studio_clean_v4");
+    localStorage.removeItem("hero_canvas_studio_v5");
   };
 
   // Keyboard shortcut listener (Ctrl+Z, Delete, etc.)
@@ -667,7 +667,7 @@ export default function Hero() {
 
   const selectedNode = nodes.find((n) => n.id === selectedId);
 
-  // Render individual Node with multi-line break formatting (\n)
+  // Render individual Node with high z-index and event propagation protection
   const renderStudioNode = (node: StudioNode) => {
     const isSelected = selectedId === node.id;
     const isEditing = editingId === node.id;
@@ -707,8 +707,8 @@ export default function Hero() {
           rotate: node.rotation,
         }}
         className={`pointer-events-auto absolute p-1.5 rounded-md transition-all ${
-          layoutMode ? "cursor-grab active:cursor-grabbing hover:outline hover:outline-1 hover:outline-[#FFD400]/70" : ""
-        } ${isSelected && layoutMode ? "outline outline-2 outline-[#FFD400] bg-black/60 shadow-2xl z-30" : ""}`}
+          layoutMode ? "cursor-grab active:cursor-grabbing hover:outline hover:outline-1 hover:outline-[#FFD400]/70 z-30 hover:z-40" : "z-20"
+        } ${isSelected && layoutMode ? "outline outline-2 outline-[#FFD400] bg-black/60 shadow-2xl z-40" : ""}`}
       >
         {node.type === "arrow" ? (
           <StudioArrow node={node} />
@@ -722,6 +722,7 @@ export default function Hero() {
               <input
                 type="text"
                 value={node.text}
+                onClick={(e) => e.stopPropagation()}
                 onChange={(e) => updateNode(node.id, { text: e.target.value })}
                 onBlur={() => setEditingId(null)}
                 onKeyDown={(e) => e.key === "Enter" && setEditingId(null)}
@@ -740,6 +741,7 @@ export default function Hero() {
             {isEditing ? (
               <textarea
                 value={node.text}
+                onClick={(e) => e.stopPropagation()}
                 onChange={(e) => updateNode(node.id, { text: e.target.value })}
                 onBlur={() => setEditingId(null)}
                 onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && setEditingId(null)}
@@ -768,7 +770,7 @@ export default function Hero() {
     );
   };
 
-  // Divide nodes into left and right flanks based on ID for clean spatial layout
+  // Divide nodes into left and right flanks based on ID
   const leftNodes = nodes.filter(
     (n) =>
       n.id.includes("strategy") ||
@@ -926,7 +928,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* ---- CANVAS STUDIO EDITOR HUD TOOLBAR ---- */}
+      {/* ---- CANVAS STUDIO EDITOR HUD TOOLBAR & INSPECTOR ---- */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 pointer-events-auto font-mono">
 
         {/* Floating Typography & Node Inspector Panel */}
@@ -936,7 +938,8 @@ export default function Hero() {
               initial={{ opacity: 0, y: 12, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 12, scale: 0.95 }}
-              className="flex flex-col gap-3 rounded-lg border border-[#FFD400]/40 bg-[#0A0A0A]/95 p-4 text-xs text-[#F7F4ED] shadow-2xl backdrop-blur-md w-80"
+              onClick={(e) => e.stopPropagation()} // STOP PROPAGATION SO INSPECTOR NEVER CLOSES ON CLICK
+              className="flex flex-col gap-3 rounded-lg border border-[#FFD400]/40 bg-[#0A0A0A]/95 p-4 text-xs text-[#F7F4ED] shadow-2xl backdrop-blur-md w-80 z-50"
             >
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/10 pb-2">
@@ -1149,8 +1152,10 @@ export default function Hero() {
         </AnimatePresence>
 
         {/* Main Floating Studio HUD Bar */}
-        <div className="flex items-center gap-2 rounded-full border border-white/20 bg-[#0A0A0A]/95 px-4 py-2 text-xs text-[#F7F4ED] shadow-2xl backdrop-blur-md">
-
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="flex items-center gap-2 rounded-full border border-white/20 bg-[#0A0A0A]/95 px-4 py-2 text-xs text-[#F7F4ED] shadow-2xl backdrop-blur-md"
+        >
           {/* Toggle Studio Mode */}
           <button
             onClick={() => setLayoutMode(!layoutMode)}
