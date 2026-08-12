@@ -29,7 +29,9 @@ import {
   Edit3,
   Pencil,
   User,
-  Maximize2,
+  Save,
+  Loader2,
+  AlertCircle,
 } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { HERO } from "@/lib/data";
@@ -88,6 +90,9 @@ const COLOR_PRESETS = [
   "#A855F7", // Purple
   "#FFFFFF", // Pure White
 ];
+
+// PERMANENT PORTRAIT BASELINE
+const PORTRAIT_BASELINE = { scale: 100, x: 0, y: 0 };
 
 // USER-APPROVED MASTER LAYOUT (Permanent baseline for all visitors)
 const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
@@ -513,15 +518,20 @@ export default function Hero() {
   const isDev = process.env.NODE_ENV !== "production";
 
   // Central Portrait Scale & Offsets (Editable in Edit Panel)
-  const [scale, setScale] = useState(100);
-  const [xOffset, setXOffset] = useState(0);
-  const [yOffset, setYOffset] = useState(0);
+  const [scale, setScale] = useState(PORTRAIT_BASELINE.scale);
+  const [xOffset, setXOffset] = useState(PORTRAIT_BASELINE.x);
+  const [yOffset, setYOffset] = useState(PORTRAIT_BASELINE.y);
 
   // Editor State — OFF BY DEFAULT for clean production-ready viewing
   const [layoutMode, setLayoutMode] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+
+  // Save Modal Dialog & Loading State
+  const [saveModalOpen, setSaveModalOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   // Dynamic Nodes + Undo/Redo Stack
   const [nodes, setNodes] = useState<StudioNode[]>(UNIFIED_CANVAS_BASELINE);
@@ -643,13 +653,44 @@ export default function Hero() {
   // Reset to user's master baseline
   const resetAllNodes = () => {
     pushState(UNIFIED_CANVAS_BASELINE);
-    updatePortrait(100, 0, 0);
+    updatePortrait(PORTRAIT_BASELINE.scale, PORTRAIT_BASELINE.x, PORTRAIT_BASELINE.y);
     setSelectedId(null);
     localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(UNIFIED_CANVAS_BASELINE));
   };
 
+  // Execute direct code save & git commit via API endpoint
+  const confirmAndSaveToCode = async () => {
+    setIsSaving(true);
+    try {
+      const res = await fetch("/api/save-hero-layout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nodes,
+          portrait: { scale, x: xOffset, y: yOffset },
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setSaveSuccess(true);
+        setSaveModalOpen(false);
+        setTimeout(() => setSaveSuccess(false), 3500);
+      } else {
+        alert(`Save failed: ${data.error || "Unknown error"}`);
+      }
+    } catch (err: any) {
+      alert(`Save error: ${err.message}`);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const copyNodesJSON = () => {
-    navigator.clipboard.writeText(JSON.stringify(nodes, null, 2));
+    const payload = {
+      portrait: { scale, x: xOffset, y: yOffset },
+      nodes,
+    };
+    navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -851,10 +892,25 @@ export default function Hero() {
         {clock}
       </motion.span>
 
+      {/* ---- SUCCESS BANNER ON CODE SAVE ---- */}
+      <AnimatePresence>
+        {saveSuccess && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-16 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2 rounded-full border border-emerald-500/50 bg-emerald-950/90 px-5 py-2 font-mono text-xs font-bold text-emerald-300 shadow-2xl backdrop-blur-md"
+          >
+            <Check className="h-4 w-4 text-emerald-400" />
+            Saved & Committed directly to hero.tsx source code!
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ---- MAIN HERO CANVAS ---- */}
       <div className="relative z-10 my-auto flex w-full flex-1 items-center justify-center py-1">
 
-        {/* ---- Centered Cutout Portrait of Pankaj Gupta (Clickable/Selectable when in EDIT mode) ---- */}
+        {/* ---- Centered Cutout Portrait of Pankaj Gupta ---- */}
         <motion.div
           onClick={(e) => {
             if (layoutMode && isDev) {
@@ -915,11 +971,67 @@ export default function Hero() {
         </div>
       </div>
 
+      {/* ---- CONFIRMATION SAVE MODAL DIALOG ---- */}
+      <AnimatePresence>
+        {saveModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSaveModalOpen(false)}
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 font-mono select-none"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 12 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 12 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-md rounded-xl border border-[#FFD400]/40 bg-[#0E0E0E] p-6 shadow-2xl text-[#F7F4ED]"
+            >
+              <div className="flex items-center gap-2 text-[#FFD400] font-bold text-sm tracking-wider uppercase border-b border-white/10 pb-3">
+                <Save className="h-4 w-4" />
+                Confirm & Save Changes to Code
+              </div>
+
+              <p className="mt-4 text-xs text-white/80 leading-relaxed">
+                This will automatically write your exact layout coordinates, portrait scale, and text formatting directly into <code className="text-[#FFD400]">hero.tsx</code> source code baseline and commit it to Git.
+              </p>
+
+              <div className="mt-4 rounded-lg bg-black/60 border border-white/10 p-3 text-[11px] text-white/70 space-y-1.5">
+                <div>• Total Canvas Nodes: <strong className="text-white">{nodes.length}</strong></div>
+                <div>• Portrait Scale: <strong className="text-white">{scale}%</strong></div>
+                <div>• Portrait Position Offset: <strong className="text-white">X: {xOffset}px, Y: {yOffset}px</strong></div>
+              </div>
+
+              <div className="mt-6 flex items-center justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setSaveModalOpen(false)}
+                  disabled={isSaving}
+                  className="rounded border border-white/20 px-4 py-2 text-xs font-bold text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={confirmAndSaveToCode}
+                  disabled={isSaving}
+                  className="flex items-center gap-2 rounded border border-[#FFD400] bg-[#FFD400] px-5 py-2 text-xs font-bold text-black hover:bg-[#FFD400]/90 transition-colors shadow-lg disabled:opacity-50"
+                >
+                  {isSaving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
+                  {isSaving ? "Saving to Code..." : "Confirm & Save"}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ---- LOCAL DEV ONLY: SINGLE CLEAN EDIT BUTTON & HUD TOOLBAR ---- */}
       {isDev && (
         <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 pointer-events-auto font-mono">
 
-          {/* Floating Inspector Panel (Handles Central Portrait, Quotes, Skill Tags, and Arrows) */}
+          {/* Floating Inspector Panel */}
           <AnimatePresence>
             {(selectedNode || selectedId === "central-portrait") && layoutMode && (
               <motion.div
@@ -1233,6 +1345,16 @@ export default function Hero() {
               >
                 <Eye className="h-3.5 w-3.5" />
                 EDIT: OFF
+              </button>
+
+              {/* Direct Save Button (Opens Confirmation Modal) */}
+              <button
+                onClick={() => setSaveModalOpen(true)}
+                title="Save entire Canvas layout directly into hero.tsx source code"
+                className="flex items-center gap-1.5 rounded-full border border-emerald-500/50 bg-emerald-950/60 px-3.5 py-1.5 font-bold text-[11px] text-emerald-300 hover:bg-emerald-900/80 transition-colors shadow-lg"
+              >
+                <Save className="h-3.5 w-3.5 text-emerald-400" />
+                SAVE
               </button>
 
               {/* Edit Central Portrait Button */}
