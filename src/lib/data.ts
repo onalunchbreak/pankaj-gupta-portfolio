@@ -602,10 +602,10 @@ export const LAB = {
     { label: "Iteration", rotate: 2 },
   ],
   sideProjects: [
-    { id: "queens-gambit", name: "Queen's Gambit", desc: "A personalised chess platform where classical tournament aesthetics meet modern AI.", categories: ["PRODUCT", "AI"], status: "DEPLOYED" },
-    { id: "daily-dose-of-ai", name: "Daily Dose of AI", desc: "Your go-to place for updates on AI and technology.", categories: ["PRODUCT", "WRITING"], status: "DEPLOYED" },
-    { id: "skill-tracer", name: "Skill Tracer", desc: "Build skills.md from workflows by recording interactions and using AI models of your choice.", categories: ["PRODUCT", "WORKFLOWS"], status: "BUILDING" },
-    { id: "hitchhikers-guide", name: "A Hitchhiker's Guide to Presenting Modern Data Solutions", desc: "KaggleX BIPOC Program Project.", categories: ["DATA", "WRITING"], status: "DEPLOYED" },
+    { id: "queens-gambit", name: "Queen's Gambit", desc: "A personalised chess platform where classical tournament aesthetics meet modern AI.", categories: ["PERSONALIZED CHESS", "GAME AI"], status: "DEPLOYED" },
+    { id: "daily-dose-of-ai", name: "Daily Dose of AI", desc: "Your go-to place for updates on AI and technology.", categories: ["DAILY DOSE OF AI", "NEWS"], status: "DEPLOYED" },
+    { id: "skill-tracer", name: "Skill Tracer", desc: "Build skills.md from workflows by recording interactions and using AI models of your choice.", categories: ["SKILL TRACER", "RECORDING"], status: "BUILDING" },
+    { id: "hitchhikers-guide", name: "A Hitchhiker's Guide to Presenting Modern Data Solutions", desc: "KaggleX BIPOC Program Project.", categories: ["DATA SOLUTIONS", "GUIDE"], status: "DEPLOYED" },
   ],
 };
 
