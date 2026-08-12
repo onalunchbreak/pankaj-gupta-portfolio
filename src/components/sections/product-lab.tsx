@@ -298,31 +298,17 @@ export default function ProductLab() {
         {/* ====================================================
             (3) SIDE PROJECTS — 4 cards
             ==================================================== */}
-        <div className="mt-14 sm:mt-20">
-          <Reveal>
-            <div className="mb-6 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#A3A3A3]">
-              <span className="text-[#FFD400]">{"// "}</span>
-              <span className="text-[#F4F1EA]/80">
-                SIDE PROJECTS
-              </span>
-              <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-              <span className="hidden sm:inline text-[#F4F1EA]/85">
-                {`// ${LAB.sideProjects.length} builds`}
-              </span>
-            </div>
-          </Reveal>
-
-          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 sm:mt-10">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {LAB.sideProjects.map((project, i) => {
               const url = PROJECT_URLS[project.id] ?? "";
               const available = hasLink(url);
               const theme = THEME_STYLES[PROJECT_THEMES[project.id] ?? "black"];
               const rotate = i % 2 === 0 ? -0.6 : 0.8;
-              const yOffset = i === 1 || i === 3 ? "sm:translate-y-8" : "";
               return (
                 <motion.article
                   key={project.id}
-                  className={`group relative flex h-full flex-col border p-5 transition-colors duration-300 sm:p-6 ${theme.card} ${theme.cardHover} ${yOffset}`}
+                  className={`group relative flex h-full flex-col border p-5 transition-colors duration-300 sm:p-6 ${theme.card} ${theme.cardHover}`}
                   initial={reduced ? false : { opacity: 0, y: 24, rotate }}
                   whileInView={{ opacity: 1, y: 0, rotate }}
                   viewport={{ once: true, margin: "-8% 0px" }}
@@ -416,13 +402,6 @@ export default function ProductLab() {
             })}
           </div>
         </div>
-
-        {/* Footer microcopy */}
-        <Reveal className="mt-14 sm:mt-20" delay={0.1}>
-          <p className="font-hand text-lg italic text-[#F4F1EA]/85 sm:translate-x-2 sm:text-xl">
-            ↳ still shipping, iterating, and exploring new ideas.
-          </p>
-        </Reveal>
       </div>
     </section>
   );
