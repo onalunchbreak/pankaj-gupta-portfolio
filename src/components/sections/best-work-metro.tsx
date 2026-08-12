@@ -362,39 +362,19 @@ export default function BestWorkMetro() {
       <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-10 lg:px-12">
         {/* Index header — mirrors SectionShell */}
         <motion.div
-          className="mb-6 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#A3A3A3] sm:mb-8"
+          className="mb-6 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#F4F1EA] sm:mb-8"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.6, ease: EASE }}
         >
-          <span className="text-[#1738D5]">04</span>
-          <span id="best-work-header" className="text-[#F4F1EA]/70">
-            BEST WORK / CAREER METRO
+          <span className="text-[#F4F1EA]">02</span>
+          <span id="best-work-header" className="text-[#F4F1EA]">
+            BEST WORK
           </span>
-          <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-          <span className="hidden sm:inline">{"// portfolio.sys"}</span>
+          <span className="ml-auto" />
           <ShareButton sectionId="best-work" />
         </motion.div>
-
-        {/* Metro logo mark + blinking "Next train: NOW" */}
-        <div className="mb-6 flex flex-wrap items-center gap-4">
-          <div
-            className="flex items-center gap-3"
-            data-cursor-label={METRO_INTRO.line}
-          >
-            <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#FFD400] bg-[#FFD400] text-[#0A0A0A]">
-              <span className="font-mono text-sm font-bold">M</span>
-            </span>
-            <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#FFD400]">
-              {METRO_INTRO.line}
-            </span>
-          </div>
-          <span className="ml-auto flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-[#F4F1EA]/70">
-            <span className="inline-block h-2 w-2 rounded-full bg-[#1738D5] blink" />
-            Next train: NOW
-          </span>
-        </div>
 
         {/* Bilingual title — semi-English + semi-Hindi blend */}
         <motion.h2
@@ -440,9 +420,6 @@ export default function BestWorkMetro() {
             <span aria-hidden>→</span>
           </button>
 
-          <p className="max-w-md font-mono text-xs uppercase tracking-[0.18em] text-[#A3A3A3]">
-            {`// ${METRO_STATIONS.length} stations · ${METRO_STATIONS.length} case studies · scroll to ride`}
-          </p>
         </motion.div>
       </div>
 
@@ -501,7 +478,7 @@ export default function BestWorkMetro() {
                 >
                   <div className="flex flex-col items-center gap-4 rounded-lg border border-[#FFD400]/40 bg-[#0A0A0A]/90 px-8 py-6 backdrop-blur-md">
                     <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
-                      {"// KEYBOARD REQUIRED"}
+                      {"KEYBOARD REQUIRED"}
                     </p>
                     <div className="flex items-center gap-3">
                       <motion.div
@@ -656,8 +633,6 @@ export default function BestWorkMetro() {
         <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-12 lg:px-12">
           <div className="mb-8 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#A3A3A3]">
             <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
-            <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-            <span className="hidden sm:inline">{"// stacked"}</span>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -751,41 +726,21 @@ function StationPanel({
 
   return (
     <article
-      className="relative flex h-full w-[85vw] shrink-0 flex-col justify-between px-10 py-24 sm:px-16"
+      className="relative flex h-full w-[85vw] max-w-[900px] shrink-0 flex-col justify-center gap-12 px-10 py-16 sm:gap-14 sm:px-16"
       data-cursor-label={station.name}
     >
-
-
-      {/* TOP HALF — index, type pill, signboard, station name */}
-      <div className="flex flex-col items-start gap-5">
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="font-mono text-[11px] tabular-nums uppercase tracking-[0.25em] text-[#A3A3A3]">
-            {String(index + 1).padStart(2, "0")} / 0{total}
-          </span>
-          <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400]">
-            {station.theme}
-          </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/50">
-            {`// ${station.tag}`}
-          </span>
-        </div>
-
-        {/* Platform signboard — DELHI METRO label, hindi name, platform no. */}
-        <div className="border border-white/15 bg-[#0E0E0E] px-4 py-3">
-          <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#FFD400]">
-            {"● CAREER METRO"}
-          </p>
-          <p className="mt-1 font-deva text-lg font-bold text-[#F4F1EA]">
-            {station.name}
-          </p>
-          <p className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">
-            {`Platform ${index + 1}`}
+      {/* TOP HALF — platform signboard & station name */}
+      <div className="flex flex-col items-start gap-4">
+        {/* Platform signboard — only PLATFORM 01 */}
+        <div className="border border-white/15 bg-[#0E0E0E] px-3.5 py-1.5">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
+            {`PLATFORM 0${index + 1}`}
           </p>
         </div>
 
         {/* Big station name */}
         <h3
-          className={`font-display text-6xl font-bold leading-[0.92] tracking-tight transition-colors duration-300 lg:text-8xl ${
+          className={`font-display text-6xl font-bold leading-[0.92] tracking-tight transition-colors duration-300 lg:text-7xl ${
             active ? "text-[#F4F1EA]" : "text-[#F4F1EA]/60"
           }`}
         >
@@ -808,7 +763,7 @@ function StationPanel({
       </div>
 
       {/* BOTTOM HALF — metrics + Step Out button */}
-      <div className="flex flex-col gap-7">
+      <div className="flex flex-col gap-6">
         <ul className="grid grid-cols-3 gap-4" role="list">
           {previewMetrics.map((m) => (
             <li key={m.label} className="border-l border-white/15 pl-3">
@@ -820,7 +775,7 @@ function StationPanel({
                   duration={1.2}
                 />
               </p>
-              <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">
+              <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">
                 {m.label}
               </p>
             </li>
@@ -832,11 +787,9 @@ function StationPanel({
           onClick={onStepOut}
           onMouseEnter={() => play("tick")}
           data-cursor-label="step out"
-          className="group inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.3em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
+          className="group inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.25em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-[#FFD400] transition-colors group-hover:bg-[#0A0A0A]" />
-          Step Out
-          <span aria-hidden>↗</span>
+          <span>Step Out ↗</span>
         </button>
       </div>
     </article>
@@ -873,26 +826,10 @@ function StackedStationCard({
     >
 
 
-      {/* Index + theme pill + tag */}
-      <div className="mb-4 flex flex-wrap items-center gap-3">
-        <span className="font-mono text-[11px] tabular-nums uppercase tracking-[0.25em] text-[#A3A3A3]">
-          {String(index + 1).padStart(2, "0")} / 0{total}
-        </span>
-        <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400]">
-          {station.theme}
-        </span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/50">
-          {`// ${station.tag}`}
-        </span>
-      </div>
-
-      {/* Platform signboard */}
-      <div className="mb-5 border border-white/15 bg-[#0A0A0A] px-4 py-3">
-        <p className="font-deva text-xl font-bold text-[#F4F1EA]">
-          {station.name}
-        </p>
-        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">
-          {`Platform ${index + 1} · CAREER METRO`}
+      {/* Platform signboard — only PLATFORM 01 */}
+      <div className="mb-5 border border-white/15 bg-[#0A0A0A] px-3 py-1.5 w-fit">
+        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
+          {`PLATFORM 0${index + 1}`}
         </p>
       </div>
 
@@ -933,11 +870,9 @@ function StackedStationCard({
         type="button"
         onClick={onStepOut}
         data-cursor-label="step out"
-        className="mt-6 inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.3em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
+        className="group mt-5 inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.25em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
       >
-        <span className="h-1.5 w-1.5 rounded-full bg-[#FFD400]" />
-        Step Out
-        <span aria-hidden>↗</span>
+        <span>Step Out ↗</span>
       </button>
     </motion.article>
   );
@@ -1051,23 +986,8 @@ function DeepDiveOverlay({
             data-cursor-label="back"
           >
             <span aria-hidden className="text-[#FFD400]">←</span>
-            <span>{"// RETURN TO CAREER METRO"}</span>
+            <span>{"RETURN TO CAREER METRO"}</span>
           </button>
-          {/* Index + theme pill + tag + station type */}
-          <div className="mb-4 flex flex-wrap items-center gap-3">
-            <span className="font-mono text-[11px] tabular-nums uppercase tracking-[0.25em] text-[#A3A3A3]">
-              {String(index + 1).padStart(2, "0")} / 0{total}
-            </span>
-            <span className="border border-[#FFD400]/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400]">
-              {station.theme}
-            </span>
-            <span className="border border-[#1738D5]/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#1738D5]">
-              {station.stationType.replace("-", " ")}
-            </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/50">
-              {`// ${station.tag}`}
-            </span>
-          </div>
 
           {/* Station name + role + Hindi subtitle */}
           <h3 className="font-display text-5xl font-bold leading-[0.92] tracking-tight text-[#F4F1EA] sm:text-6xl lg:text-7xl">
@@ -1154,7 +1074,7 @@ function DeepDiveOverlay({
           {station.learning && (
             <div className="mt-10 border-l-2 border-[#FFD400] bg-[#FFD400]/5 p-5 sm:p-6">
               <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
-                {"// LEARNING"}
+                {"LEARNING"}
               </p>
               <p className="font-display text-base leading-relaxed text-[#F4F1EA] sm:text-lg">
                 {station.learning}

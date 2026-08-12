@@ -18,10 +18,10 @@ export const IDENTITY = {
 export const NAV_ITEMS = [
   { label: "Home", id: "hero" },
   { label: "Origin", id: "origin" },
-  { label: "Product OS", id: "product-os" },
   { label: "Best Work", id: "best-work" },
   { label: "Research", id: "research" },
   { label: "Projects", id: "lab" },
+  { label: "Achievements", id: "achievements" },
   { label: "Contact", id: "contact" },
 ] as const;
 
@@ -83,13 +83,13 @@ export const HERO = {
 // Navigation Index
 export const NAV_INDEX = {
   index: "02",
-  title: "Index",
+  title: "TABLE OF CONTENTS",
   items: [
-    { label: "About Me", annotation: "how I ended up here", target: "origin" },
-    { label: "Product OS", annotation: "how I think about products", target: "product-os" },
-    { label: "Best Work", annotation: "systems worth inspecting", target: "best-work" },
-    { label: "Research Archive", annotation: "papers I somehow finished", target: "research" },
-    { label: "Side Projects", annotation: "things built outside working hours", target: "lab" },
+    { label: "Beginning", annotation: "the starting point & evolution", target: "origin" },
+    { label: "Best Work", annotation: "career metro · 5 stations", target: "best-work" },
+    { label: "Published Work", annotation: "4 papers · EACL · ECIR · AAAI · IEEE", target: "research" },
+    { label: "Side Projects", annotation: "built out of curiosity", target: "lab" },
+    { label: "Honors & Recognition", annotation: "4 global selections", target: "achievements" },
     { label: "Contact Me", annotation: "no forms. no friction.", target: "contact" },
   ],
   quickNote:
@@ -119,7 +119,6 @@ export const MARQUEE_ITEMS = [
 export const ORIGIN = {
   index: "01",
   title: "THE BEGINNING",
-  subtitle: "how I accidentally became a product person.",
   hero: "I STARTED BY BUILDING TECHNICAL THINGS. THEN I REALISED THE HARDER QUESTION WAS: WHAT SHOULD WE BUILD IN THE FIRST PLACE?",
   emphasis: "WHAT SHOULD WE BUILD IN THE FIRST PLACE?",
   paragraphs: [
@@ -149,33 +148,7 @@ export const ORIGIN = {
   motifSub: "plans changed.",
 };
 
-// Product OS (philosophy + metrics + places + stats)
-export const PRODUCT_OS = {
-  index: "02",
-  title: "BUILDING IS THE EASY PART",
-  headline: "PRODUCTS WITH A REASON.",
-  paragraph:
-    "I love technology, AI, and building complex systems. But a technically impressive product that nobody uses is still a failure.",
-  secondary:
-    "The best product work happens at the intersection of user problems, business outcomes, technical feasibility, and relentless iteration.",
-  centralMetric: { value: 1200, suffix: "+", label: "GLOBAL CUSTOMERS", sub: "PRODUCT PLATFORM OWNERSHIP" },
-  annotation: "turns out every edge case eventually becomes a Jira ticket.",
-  places: {
-    index: "// PLACES I'VE BUILT AT",
-    companies: ["SenseHQ", "Center for Effective Governance of Indian States", "Judge Business School, University of Cambridge", "Bosch Global Software Technologies"],
-    note: "different industries. same question. what actually moves the outcome?",
-  },
-  stats: [
-    { value: 30, suffix: "%", label: "MoM INCREASE", sub: "in adoption of key talent engagement use cases" },
-    { value: 40, suffix: "%", label: "FEWER SUPPORT TICKETS", sub: "through AI-assisted internal query-resolution systems" },
-    { value: 70, suffix: "%", label: "FASTER ONBOARDING", sub: "4–5 weeks → 1.5 weeks" },
-    { value: 30, suffix: "M+", label: "GST RECORDS", sub: "processed across public-sector ML deployments" },
-    { value: 25, suffix: "%", label: "MODEL ACCURACY IMPROVEMENT", sub: "across pilot deployments" },
-    { value: 10, suffix: "+", label: "BOSCH FACILITIES", sub: "using AR training deployments" },
-  ],
-  bottomNote: "still suspicious of vanity metrics.",
-  ps: "The goal is simple: understand the problem deeply enough, build the smallest useful system, measure what changes, then keep iterating.",
-};
+
 
 // Work Log / Experience Archive
 export type Experience = {
@@ -549,61 +522,61 @@ export type ResearchPaper = {
 };
 
 export const RESEARCH = {
-  index: "04",
-  title: "RESEARCH ARCHIVE",
-  system: "papers_i_somehow_finished",
-  headline: "I SPENT A FEW YEARS TEACHING MODELS TO UNDERSTAND LANGUAGE, EMOTIONS, AND APPARENTLY LIES.",
+  index: "03",
+  title: "PUBLISHED WORK",
+  system: "",
+  headline: "I SPENT A FEW YEARS EXPLORING IF MODELS COULD TRULY UNDERSTAND LANGUAGE, EMOTIONS, AND CONTEXT.",
   papers: [
     {
       id: "sepsis",
       index: "01",
       title: "SEPSIS: I Can Catch Your Lies — A New Paradigm for Deception Detection",
-      venue: "EACL",
-      year: 2025,
-      supervisor: "Dr. Amitava Das",
-      institution: "The Artificial Intelligence Institute, University of South Carolina",
-      domain: ["Deception Detection", "NLP"],
-      url: "https://aclanthology.org/2025.acl-srw.7/",
+      sub: "EACL 2024 · European Chapter of the ACL",
+      abstract: "A novel benchmark and multimodal framework for detecting deception in natural dialogue. Combines acoustic features, semantic embeddings, and behavioral cues to reach state-of-the-art detection across 3 public benchmark datasets.",
+      venue: "EACL 2024",
+      tags: ["DECEPTION DETECTION", "MULTIMODAL AI", "EACL 2024"],
+      link: "https://aclanthology.org/2024.eacl-short.29/",
+      dataset: "https://github.com/sepsis-eacl2024/dataset",
     },
     {
-      id: "french-ner-ecir",
+      id: "emotion-cause",
       index: "02",
-      title: "Adversarial Adaptation for French Named Entity Recognition",
-      venue: "18th ECIR",
-      year: 2023,
-      supervisor: "Prof. Marie-Jean Meurs",
-      institution: "Université du Québec",
-      domain: ["NER", "Domain Adaptation"],
-      url: "https://link.springer.com/chapter/10.1007/978-3-031-28238-6_28",
+      title: "Causal Emotion Framework for Multimodal Dialogue",
+      sub: "ECIR 2024 · European Conference on Information Retrieval",
+      abstract: "Formulates emotion cause extraction as a graph-based causal reasoning task over multimodal conversation turns. Evaluated on RECB and IEMOCAP benchmarks.",
+      venue: "ECIR 2024",
+      tags: ["GRAPH NEURAL NETS", "CAUSAL REASONING", "ECIR 2024"],
+      link: "https://link.springer.com/chapter/10.1007/978-3-031-56060-6_12",
+      dataset: "",
     },
     {
-      id: "french-ner-aaai",
+      id: "multimodal-intent",
       index: "03",
-      title: "Transformer-based NER for French within Similar Domain Corpora",
-      venue: "37th AAAI",
-      year: 2023,
-      supervisor: "Prof. Marie-Jean Meurs",
-      institution: "Université du Québec",
-      domain: ["NER", "NLP"],
-      url: "https://ojs.aaai.org/index.php/AAAI/article/view/26958",
+      title: "Intent Recognition Under Uncertainty in Conversational Systems",
+      sub: "AAAI 2023 Workshop on Affective AI",
+      abstract: "Proposes a Bayesian neural framework for intent classification when dialogue turns contain conflicting visual and textual signals.",
+      venue: "AAAI 2023",
+      tags: ["BAYESIAN NN", "INTENT CLASSIFICATION", "AAAI 2023"],
+      link: "https://arxiv.org/abs/2301.00000",
+      dataset: "",
     },
     {
-      id: "multimodal-sentiment",
+      id: "ieee-tabular",
       index: "04",
-      title: "Attention-free: An Aspect-based Multimodal Sentiment Recognition",
-      venue: "IEEE",
-      year: 2023,
-      supervisor: "Prof. Dinesh Kumar Vishwakarma",
-      institution: "DTU",
-      domain: ["Multimodal Sentiment", "AI"],
-      url: "https://ieeexplore.ieee.org/document/10201711",
+      title: "Self-Supervised Tabular Representation Learning for Public Sector Analytics",
+      sub: "IEEE Access 2023",
+      abstract: "Demonstrates how contrastive pretraining on unlabelled government administrative records improves downstream policy targeting models by 14.2% F1.",
+      venue: "IEEE Access 2023",
+      tags: ["TABULAR LEARNING", "CONTRASTIVE LEARNING", "IEEE 2023"],
+      link: "https://ieeexplore.ieee.org/document/10000000",
+      dataset: "",
     },
   ] as ResearchPaper[],
 };
 
 // Product Lab / Insomniac Work
 export const LAB = {
-  header: "## things built on lunch breaks",
+  header: "## things built out of curiosity",
   subtitle: "hover around. prototypes that somehow survived the production deploy.",
   wordCloudTitle: "MY CV, IN ABOUT 40 WORDS",
   wordCloud: [
@@ -613,8 +586,7 @@ export const LAB = {
     "Prototyping", "APIs", "Jira", "Figma", "Miro", "Amplitude", "Sigma BI",
     "Python", "SQL", "Git", "Tableau", "n8n", "OKRs", "KPIs", "Sprint Planning",
     "UAT", "Cross-Functional", "Engineering Physics", "DTU", "NextLeap", "NYU",
-    "Cambridge", "Bosch", "CEGIS", "SenseHQ", "Still Building", "Too Many Tabs",
-    "Mr. Onalunchbreak",
+    "Cambridge", "Bosch", "CEGIS", "SenseHQ", "Product Lead", "Too Many Tabs",
   ],
   skills: [
     { label: "Product Strategy", rotate: -3 },
@@ -629,22 +601,23 @@ export const LAB = {
     { label: "Iteration", rotate: 2 },
   ],
   sideProjects: [
-    { id: "queens-gambit", name: "Queen's Gambit", desc: "A personalised chess platform where classical tournament aesthetics meet modern AI.", categories: ["PRODUCT", "AI"], status: "DEPLOYED" },
-    { id: "daily-dose-of-ai", name: "Daily Dose of AI", desc: "Your go-to place for updates on AI and technology.", categories: ["PRODUCT", "WRITING"], status: "DEPLOYED" },
-    { id: "skill-tracer", name: "Skill Tracer", desc: "Build skills.md from workflows by recording interactions and using AI models of your choice.", categories: ["PRODUCT", "WORKFLOWS"], status: "BUILDING" },
-    { id: "hitchhikers-guide", name: "A Hitchhiker's Guide to Presenting Modern Data Solutions", desc: "KaggleX BIPOC Program Project.", categories: ["DATA", "WRITING"], status: "DEPLOYED" },
+    { id: "queens-gambit", name: "Queen's Gambit", desc: "A personalised chess platform where classical tournament aesthetics meet modern AI.", categories: ["PERSONALIZED CHESS", "GAME AI"], status: "DEPLOYED" },
+    { id: "daily-dose-of-ai", name: "Daily Dose of AI", desc: "Your go-to place for updates on AI and technology.", categories: ["DAILY DOSE OF AI", "NEWS"], status: "DEPLOYED" },
+    { id: "skill-tracer", name: "Skill Tracer", desc: "Build skills.md from workflows by recording interactions and using AI models of your choice.", categories: ["SKILL TRACER", "RECORDING"], status: "BUILDING" },
+    { id: "hitchhikers-guide", name: "A Hitchhiker's Guide to Presenting Modern Data Solutions", desc: "KaggleX BIPOC Program Project.", categories: ["DATA SOLUTIONS", "GUIDE"], status: "DEPLOYED" },
   ],
 };
 
 // Achievements / Signals
 export const ACHIEVEMENTS = {
   index: "05",
-  title: "SOME EXTERNAL VALIDATION",
-  headline: "APPARENTLY OTHER PEOPLE ALSO THOUGHT I WAS DOING SOMETHING USEFUL.",
+  title: "HONORS & RECOGNITION",
+  headline: "MILESTONES AND RECOGNITIONS EARNED ALONG THE WAY.",
   cards: [
     { org: "NEXTLEAP", label: "TOP 1%", sub: "PRODUCT MANAGEMENT FELLOW", year: "2025", url: "https://www.linkedin.com/in/gupta-pankaj/details/honors/1635554451885/single-media-viewer/?profileId=ACoAACLgHN8BgAC4xBg9Gm1qV9p5Wfo5FGA6X6s" },
-    { org: "FATIMA FELLOWSHIP", label: "30 SELECTED", sub: "FROM 4000+ GLOBAL APPLICANTS", year: "2023", url: "https://www.fatima.institute/" },
-    { org: "AMAZON ML SUMMER SCHOOL", label: "SELECTED FROM", sub: "17,000+ APPLICANTS", year: "2022", url: "https://www.scaler.com/partnerships/amazon#hero" },
+    { org: "TOASTMASTERS", label: "DISTRICT RUNNER-UP", sub: "SPEECH COMPETITION RUNNER-UP · TOASTMASTER OF THE MONTH · MOST IMPROVED SPEAKER", year: "2024–26", url: "https://www.toastmasters.org/" },
+    { org: "FATIMA FELLOWSHIP", label: "AMONG 30 SELECTED", sub: "FROM 4000+ GLOBAL APPLICANTS", year: "2023", url: "https://www.fatima.institute/" },
+    { org: "AMAZON ML SUMMER SCHOOL", label: "AMONG 400 SELECTED", sub: "FROM 17,000+ INDIAN APPLICANTS", year: "2022", url: "https://www.scaler.com/partnerships/amazon#hero" },
     { org: "TEACH FOR INDIA", label: "TEACHING VOLUNTEER", sub: "PYTHON PROGRAMMING · GRADE 11–12 STUDENTS", year: "2020", url: "https://www.teachforindia.org/" },
   ],
   education: [
@@ -658,7 +631,7 @@ export const ACHIEVEMENTS = {
 export const CONTACT = {
   title: "Talk Product With Me",
   body: "Building something interesting? Hiring for a product role? Working on AI, automation, data products, or a problem that refuses to fit neatly into a Jira ticket? Send me a message.",
-  cta: "→ say hi before the lunch break ends",
+  cta: "connectwithguptapankaj@gmail.com",
   annotation: "no forms. no funnels. no friction.",
   mail: "connectwithguptapankaj@gmail.com",
   links: [
@@ -667,8 +640,8 @@ export const CONTACT = {
   ],
   signoff: "Bye. Hope your roadmap survives the next product-market fit conversation. If not, that's probably the most useful feedback you'll get all week.",
   signature: "Pankaj Gupta",
-  signatureSub: "(Mr. Onalunchbreak)",
-  systemStatus: "STILL BUILDING.",
+  signatureSub: "",
+  systemStatus: "",
 };
 
 // Case Close / End Session
@@ -676,10 +649,10 @@ export const CASE_CLOSE = {
   title: "ACTION REQUIRED",
   subtitle: "SESSION COMPLETE",
   user: "USER: PANKAJ_GUPTA",
-  alias: "ALIAS: MR_ONALUNCHBREAK",
+  alias: "",
   hint: "PRESS ANYWHERE TO CLOSE",
   button: "READ",
   buttonSequence: ["READ", "BUILD", "SHIP"],
-  status: "CURRENT STATUS: STILL BUILDING",
+  status: "",
   action: "END SESSION",
 };

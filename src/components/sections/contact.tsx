@@ -127,12 +127,8 @@ export default function Contact() {
             viewport={{ once: true, margin: "-10% 0px" }}
             transition={{ duration: 0.6, ease: EASE }}
           >
-            <span className="text-[#1738D5]">{"// "}</span>
+            <span className="text-[#1738D5]">06</span>
             <span className="text-[#F4F1EA]/70">CONTACT</span>
-            <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-            <span className="hidden sm:inline text-[#1738D5]/70">
-              {"// portfolio.sys"}
-            </span>
           </motion.div>
 
           {/* Stacked handwritten heading — "Talk Product" (white) +
@@ -162,46 +158,10 @@ export default function Contact() {
           </motion.div>
 
           {/* Body — muted ink, max-w-2xl */}
-          <Reveal className="mt-8 max-w-2xl sm:mt-12" delay={0.15}>
-            <p className="font-display text-lg leading-relaxed text-[#F4F1EA]/70 sm:text-xl">
+          <Reveal className="mt-8 max-w-2xl sm:mt-10" delay={0.15}>
+            <p className="font-display text-lg leading-relaxed text-[#F4F1EA]/75 sm:text-xl">
               {CONTACT.body}
             </p>
-          </Reveal>
-
-          {/* MAGNETIC CTA — mailto link. Pointer-driven pull on desktop.
-              Underline reveal + arrow translation on hover. */}
-          <Reveal className="mt-12 sm:mt-16" delay={0.25}>
-            <motion.a
-              ref={ctaRef}
-              href={mailto}
-              onMouseMove={onCtaMove}
-              onMouseLeave={onCtaLeave}
-              onMouseEnter={() => play("tick")}
-              onClick={() => play("confirm")}
-              data-cursor-label="say hi"
-              aria-label={`Email ${CONTACT.mail}`}
-              style={reduced ? undefined : { x: springX, y: springY }}
-              className="group relative inline-block origin-left"
-            >
-              {/* Underline reveal — grows from 0 to full width on hover */}
-              <span
-                aria-hidden
-                className={`absolute -bottom-2 left-0 h-[3px] w-0 bg-[#1738D5] ${
-                  reduced ? "" : "transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                } group-hover:w-full`}
-              />
-              <span className="font-display text-[5.8vw] font-bold leading-[0.95] tracking-tight text-[#F4F1EA] transition-colors duration-300 group-hover:text-[#1738D5] sm:text-4xl lg:text-5xl">
-                {CONTACT.cta}
-              </span>
-              {/* Arrow — pulls slightly further than the button for parallax */}
-              <motion.span
-                aria-hidden
-                style={reduced ? undefined : { x: arrowX, y: arrowY }}
-                className="ml-3 inline-block text-[#1738D5] transition-transform duration-300 group-hover:translate-x-2"
-              >
-                <ArrowRight className="inline h-8 w-8 align-baseline sm:h-12 sm:w-12" />
-              </motion.span>
-            </motion.a>
           </Reveal>
 
           {/* Annotation — mono muted */}
@@ -330,11 +290,11 @@ export default function Contact() {
               </p>
             </motion.div>
 
-            {/* Right Column: Signature and System Status stacked vertically */}
-            <div className="flex flex-col items-end gap-5">
-              {/* Signature — handwritten, blue, right-aligned, blinking cursor */}
+            {/* Right Column: Signature */}
+            <div className="flex flex-col items-end">
+              {/* Signature — handwritten, blue, right-aligned */}
               <motion.div
-                className="flex flex-col items-end gap-0.5"
+                className="flex flex-col items-end"
                 initial={reduced ? false : { opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10% 0px" }}
@@ -343,32 +303,7 @@ export default function Contact() {
                 <p className="hand-display text-2xl text-[#1738D5] sm:text-4xl lg:text-5xl whitespace-nowrap">
                   {CONTACT.signature}
                 </p>
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#2a2a2a]/60 whitespace-nowrap">
-                  {CONTACT.signatureSub}
-                  <span
-                    aria-hidden
-                    className="blink ml-1 inline-block h-2.5 w-[5px] translate-y-0.5 bg-[#1738D5]"
-                  />
-                </p>
               </motion.div>
-
-              {/* System status + EOF terminal label */}
-              <div className="flex flex-col items-end gap-1.5 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
-                <span className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.3em] text-[#1738D5]">
-                  <span
-                    aria-hidden
-                    className="blink inline-block h-1.5 w-1.5 bg-[#1738D5]"
-                  />
-                  {CONTACT.systemStatus}
-                </span>
-                <span
-                  aria-hidden
-                  className="hidden h-3 w-px bg-[#2a2a2a]/25 sm:inline-block"
-                />
-                <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#2a2a2a]/55">
-                  {"// EOF · session complete"}
-                </div>
-              </div>
             </div>
           </div>
         </div>

@@ -16,6 +16,7 @@ export default function Cursor() {
   );
   const [hovering, setHovering] = useState(false);
   const [down, setDown] = useState(false);
+  const [hasMoved, setHasMoved] = useState(false);
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
@@ -28,6 +29,7 @@ export default function Cursor() {
     document.documentElement.classList.add("cursor-none-fine");
 
     const move = (e: MouseEvent) => {
+      setHasMoved(true);
       x.set(e.clientX);
       y.set(e.clientY);
       const t = e.target as HTMLElement | null;
@@ -49,7 +51,7 @@ export default function Cursor() {
     };
   }, [x, y]);
 
-  if (!enabled) return null;
+  if (!enabled || !hasMoved) return null;
 
   return (
     <>

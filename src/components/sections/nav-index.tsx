@@ -13,18 +13,8 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * Nav Index — Section "02 — Index".
  *
  * Editorial table-of-contents. Black environment after the blue hero.
- * Seven oversized handwritten Caveat links (`.hand-display` text-5xl→7xl)
- * with mono annotations to their right. Each link is intentionally
- * misaligned (alternating translate-x + slight rotate) so the column
- * reads as a hand-set list, not a grid.
- *
- * Interaction: hover brightens the focused link to electric blue, dims
- * every sibling, and grows a blue underline from the left. Hovering
- * plays a tick SFX; clicking plays "confirm" and dispatches a Lenis
- * smooth-scroll to the target section. A rotated paper quickNote card
- * with tape strips is sticky-offset on the right. BottomMicrocopy sits
- * as a footer line. Reduced motion: links still clickable, hover
- * transitions instant.
+ * Six oversized handwritten Caveat links (`.hand-display` text-5xl→7xl)
+ * with mono annotations to their right.
  */
 export default function NavIndex() {
   const reduced = usePrefersReducedMotion();
@@ -60,8 +50,7 @@ export default function NavIndex() {
       <div className="bg-scanlines pointer-events-none absolute inset-0 opacity-40" aria-hidden />
 
       <div className="relative mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
-        {/* We use a flex-col layout on mobile (ordered by custom order-* utilities), 
-            and a CSS Grid on desktop to place elements side-by-side. */}
+        {/* We use a flex-col layout on mobile, and CSS Grid on desktop. */}
         <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_auto] lg:items-start lg:gap-x-16 lg:gap-y-8">
           
           {/* ---- Section header (order-1) ---- */}
@@ -73,16 +62,14 @@ export default function NavIndex() {
             transition={{ duration: 0.6, ease: EASE }}
           >
             <div className="flex items-baseline gap-3">
-              <span className="text-[#1738D5]">{NAV_INDEX.index}</span>
+              <span className="text-[#FFD400] font-bold">{NAV_INDEX.index}</span>
               <span className="text-white font-bold">{NAV_INDEX.title}</span>
-              <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-              <span className="hidden sm:inline text-white/90">{"// table of contents"}</span>
             </div>
           </motion.div>
 
-          {/* ---- Quick note card (order-2 on mobile, col-2 / row-3 on desktop) ---- */}
+          {/* ---- Quick note card (Vertically Centered in right column) ---- */}
           <motion.aside
-            className="order-2 relative mx-auto w-full max-w-[280px] sm:max-w-[300px] lg:order-none lg:col-start-2 lg:row-start-3 lg:sticky lg:top-24"
+            className="order-2 relative mx-auto w-full max-w-[280px] sm:max-w-[300px] lg:order-none lg:col-start-2 lg:row-start-3 lg:self-center lg:my-auto lg:sticky lg:top-36"
             initial={{ opacity: 0, y: 20, rotate: 0 }}
             whileInView={{ opacity: 1, y: 0, rotate: -3 }}
             viewport={{ once: true, margin: "-12% 0px" }}
@@ -100,18 +87,15 @@ export default function NavIndex() {
             />
             <div className="env-paper paper-texture relative w-full rounded-[2px] border border-[#1a1a1a]/30 p-5 shadow-[6px_6px_0_0_rgba(10,10,10,0.6)]">
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/70">
-                {"// quick note"}
+                {"quick note"}
               </p>
               <blockquote className="hand-display mt-3 text-xl leading-tight text-[#1a1a1a] sm:text-2xl">
                 {NAV_INDEX.quickNote}
               </blockquote>
-              <p className="mt-4 text-right font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/70">
-                — Mr. Onalunchbreak
-              </p>
             </div>
           </motion.aside>
 
-          {/* ---- Top Table of Contents Hint / Instruction (order-3 on mobile, col-span-full / row-2 on desktop) ---- */}
+          {/* ---- Top Table of Contents Hint / Instruction ---- */}
           <motion.div
             className="order-3 lg:order-none lg:col-span-full lg:row-start-2 text-center font-mono text-[11px] uppercase tracking-[0.25em] text-white/80 sm:text-[12px]"
             initial={{ opacity: 0, y: -10 }}
@@ -122,7 +106,7 @@ export default function NavIndex() {
             {NAV_INDEX.bottomMicrocopy}
           </motion.div>
 
-          {/* ---- The link list (order-4 on mobile, col-1 / row-3 on desktop) ---- */}
+          {/* ---- The link list ---- */}
           <nav
             className="order-4 lg:order-none lg:col-start-1 lg:row-start-3 group/list relative"
             aria-label={NAV_INDEX.title}
@@ -132,7 +116,6 @@ export default function NavIndex() {
               {NAV_INDEX.items.map((item, i) => {
                 const isHot = hovered === i;
                 const dim = hovered !== null && !isHot;
-                // intentional misalignment — alternate slight translate-x + rotate
                 const shift =
                   i % 2 === 0 ? "-translate-x-1 sm:-translate-x-2" : "translate-x-1 sm:translate-x-2";
                 const rot = i % 2 === 0 ? "-rotate-[0.6deg]" : "rotate-[0.6deg]";
@@ -152,7 +135,7 @@ export default function NavIndex() {
                         onNavigate(item.target);
                       }}
                       onKeyDown={(e) => onKey(e, item.target)}
-                      className={`group/link relative block w-full cursor-pointer rounded-none px-1 py-2 outline-none transition-opacity duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1738D5] ${
+                      className={`group/link relative block w-full cursor-pointer rounded-none px-1 py-2 outline-none transition-opacity duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FFD400] ${
                         dim ? "opacity-65" : "opacity-100"
                       }`}
                       initial={{ opacity: 0, y: 18 }}
@@ -162,26 +145,27 @@ export default function NavIndex() {
                     >
                       <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-5">
                         {/* label — oversized handwritten, brighter default for contrast */}
-                        <span className="hand-display flex items-baseline gap-2 text-4xl text-white transition-all duration-300 group-hover/link:text-[#1738D5] group-hover/link:translate-x-1 sm:text-5xl lg:text-6xl sm:whitespace-nowrap">
-                          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-[#1738D5]/70 transition-colors duration-300 group-hover/link:text-[#1738D5]">
+                        <span className="hand-display flex items-baseline gap-2 text-4xl text-white transition-all duration-300 group-hover/link:text-[#FFD400] group-hover/link:translate-x-1 sm:text-5xl lg:text-6xl sm:whitespace-nowrap">
+                          {/* Serial numbers recolored to high-visibility yellow (#FFD400) */}
+                          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-[#FFD400] font-bold transition-colors duration-300 group-hover/link:text-[#FFD400]">
                             {String(i + 1).padStart(2, "0")}
                           </span>
                           <span>{item.label}</span>
                           <ArrowUpRight
-                            className="hidden h-7 w-7 -translate-y-1 text-[#1738D5] opacity-0 transition-all duration-300 group-hover/link:opacity-100 group-hover/link:translate-x-0.5 sm:inline-block lg:h-9 lg:w-9"
+                            className="hidden h-7 w-7 -translate-y-1 text-[#FFD400] opacity-0 transition-all duration-300 group-hover/link:opacity-100 group-hover/link:translate-x-0.5 sm:inline-block lg:h-9 lg:w-9"
                             aria-hidden
                           />
                         </span>
-                        {/* annotation — mono, brighter for readability */}
-                        <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-white transition-colors duration-300 group-hover/link:text-[#1738D5] sm:translate-y-1">
+                        {/* annotation — mono */}
+                        <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-white transition-colors duration-300 group-hover/link:text-[#FFD400] sm:translate-y-1">
                           {item.annotation}
                         </span>
                       </div>
 
-                      {/* blue underline that grows from left on hover/focus */}
+                      {/* yellow underline that grows from left on hover/focus */}
                       <span
                         aria-hidden
-                        className="absolute -bottom-0.5 left-1 h-[2px] w-0 bg-[#1738D5] transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/link:w-[calc(100%-0.5rem)]"
+                        className="absolute -bottom-0.5 left-1 h-[2px] w-0 bg-[#FFD400] transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/link:w-[calc(100%-0.5rem)]"
                       />
                     </motion.a>
                   </li>

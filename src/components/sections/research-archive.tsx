@@ -39,7 +39,8 @@ function PaperSheet({
   const reduced = usePrefersReducedMotion();
   const tilt = CARD_TILTS[index % CARD_TILTS.length];
   const offset = CARD_OFFSETS[index % CARD_OFFSETS.length];
-  const urlAvailable = hasLink(paper.url);
+  const paperUrl = (paper as any).url || (paper as any).link || "";
+  const urlAvailable = hasLink(paperUrl);
 
   const initialRotate = reduced ? 0 : tilt;
 
@@ -60,16 +61,10 @@ function PaperSheet({
       <span aria-hidden className="pointer-events-none absolute bottom-1.5 left-1.5 h-2.5 w-2.5 border-b border-l border-[#1a1a1a]/30" />
       <span aria-hidden className="pointer-events-none absolute bottom-1.5 right-1.5 h-2.5 w-2.5 border-b border-r border-[#1a1a1a]/30" />
 
-      {/* Stamp: index + ARCHIVED marker */}
+      {/* Stamp: index */}
       <div className="mb-3 flex items-center justify-between">
         <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/75">
           {paper.index.padStart(2, "0")} / 04
-        </span>
-        <span
-          aria-hidden
-          className="select-none bg-[#1738D5] px-2 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-[#F4F1EA] rotate-[-4deg] shadow-[2px_2px_0_0_rgba(10,10,10,0.2)]"
-        >
-          ▣ ARCHIVED
         </span>
       </div>
 
@@ -88,20 +83,23 @@ function PaperSheet({
         </span>
       </div>
 
-      {/* Metadata — supervisor + institution (mono, muted). On hover the
-          metadata becomes more prominent (darker ink + accent rule). */}
-      <div className="mt-5 border-l-2 border-[#1738D5]/30 pl-3 transition-colors duration-300 group-hover:border-[#1738D5]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/75 transition-colors duration-300 group-hover:text-[#1a1a1a] sm:text-xs">
-          {paper.supervisor}
-        </p>
-        <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/80 transition-colors duration-300 group-hover:text-[#1a1a1a]/80 sm:text-xs">
-          {paper.institution}
-        </p>
-      </div>
+      {/* Metadata — sub / abstract / tags */}
+      {((paper as any).sub || (paper as any).supervisor) && (
+        <div className="mt-5 border-l-2 border-[#1738D5]/30 pl-3 transition-colors duration-300 group-hover:border-[#1738D5]">
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/75 transition-colors duration-300 group-hover:text-[#1a1a1a] sm:text-xs">
+            {(paper as any).sub || (paper as any).supervisor}
+          </p>
+          {(paper as any).institution && (
+            <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/80 transition-colors duration-300 group-hover:text-[#1a1a1a]/80 sm:text-xs">
+              {(paper as any).institution}
+            </p>
+          )}
+        </div>
+      )}
 
-      {/* Domain tags */}
+      {/* Domain / Tags */}
       <div className="mt-5 flex flex-wrap gap-1.5">
-        {paper.domain.map((d) => (
+        {((paper as any).tags || (paper as any).domain || []).map((d: string) => (
           <span
             key={d}
             className="border border-[#1a1a1a]/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1a1a1a]/65"
@@ -118,7 +116,7 @@ function PaperSheet({
       <div className="mt-6 border-t border-[#1a1a1a]/10 pt-4">
         {urlAvailable ? (
           <a
-            href={paper.url}
+            href={paperUrl}
             target="_blank"
             rel="noopener noreferrer"
             onMouseEnter={() => play("tick")}
@@ -173,10 +171,7 @@ export default function ResearchArchive() {
         >
           <span className="text-[#1738D5]">{RESEARCH.index}</span>
           <span className="text-[#1a1a1a]/70">{RESEARCH.title}</span>
-          <span className="ml-auto hidden h-px flex-1 bg-[#1a1a1a]/10 sm:block" />
-          <span className="hidden whitespace-nowrap text-[10px] normal-case tracking-normal text-[#1738D5]/70 sm:inline">
-            {"// "}{RESEARCH.system}
-          </span>
+          <span className="ml-auto" />
           <ShareButton sectionId="research" />
         </motion.div>
 
@@ -192,21 +187,6 @@ export default function ResearchArchive() {
           {RESEARCH.headline}
         </motion.h2>
 
-        {/* Sub-meta: paper count + venues strip */}
-        <Reveal className="mt-8" delay={0.15}>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.25em] text-[#1a1a1a]/75">
-            <span className="flex items-center gap-2">
-              <FileText className="h-3.5 w-3.5 text-[#1738D5]" aria-hidden />
-              <span>{RESEARCH.papers.length} papers · 4 venues</span>
-            </span>
-            <span aria-hidden className="text-[#1a1a1a]/20">
-              ·
-            </span>
-            <span className="text-[#1a1a1a]/55">
-              EACL · ECIR · AAAI · INDEPENDENT
-            </span>
-          </div>
-        </Reveal>
 
         {/* Papers grid — 4 sheets with rotation correction + staggered offset */}
         <div className="mt-12 grid grid-cols-1 gap-6 sm:mt-16 sm:grid-cols-2 sm:gap-7 lg:grid-cols-4 lg:gap-5">

@@ -1,6 +1,7 @@
 "use client";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
 import { Reveal } from "@/components/sections/_shared";
 import ShareButton from "@/components/shell/share-button";
 import { ACHIEVEMENTS } from "@/lib/data";
@@ -10,110 +11,160 @@ import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/* ============================================================
-   ACHIEVEMENTS / EXTERNAL VALIDATION
-   Warm-paper environment. 4 validation cards (paper sheets with
-   rotation correction) + a secondary education strip below.
-   ============================================================ */
-
-/* Deterministic per-card rotation + entry-offset for the
-   intentional misalignment the spec calls for. Cards enter at a
-   1–2° tilt and animate to 0°. */
-const CARD_TILTS = [1.6, -1.2, 1.3, -1.6] as const;
-const CARD_OFFSETS = [
-  "sm:translate-y-0",
-  "sm:translate-y-8",
-  "sm:translate-y-2",
-  "sm:translate-y-12",
-] as const;
-
 type AchievementCard = (typeof ACHIEVEMENTS.cards)[number];
 type EducationItem = (typeof ACHIEVEMENTS.education)[number];
 
-function ValidationCard({
-  card,
-  index,
-}: {
-  card: AchievementCard;
-  index: number;
-}) {
+/* ============================================================
+   CAROUSEL DECK COMPONENT (SOLE & DEFAULT VIEW)
+   ============================================================ */
+function CarouselDeck({ cards }: { cards: AchievementCard[] }) {
   const { play } = useSound();
-  const reduced = usePrefersReducedMotion();
-  const tilt = CARD_TILTS[index % CARD_TILTS.length];
-  const offset = CARD_OFFSETS[index % CARD_OFFSETS.length];
-  const urlAvailable = hasLink(card.url);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const inner = (
-    <motion.article
-      className={`group relative flex h-full flex-col border border-[#1a1a1a]/15 bg-[#F4F1EA]/95 p-5 shadow-[0_1px_0_rgba(0,0,0,0.04)] transition-colors duration-300 sm:p-6 ${urlAvailable ? "cursor-pointer hover:border-[#1738D5]/50" : ""} ${offset}`}
-      style={{ rotate: reduced ? 0 : tilt }}
-      initial={reduced ? false : { opacity: 0, y: 24, rotate: tilt }}
-      whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-      viewport={{ once: true, margin: "-8% 0px" }}
-      transition={{ duration: 0.7, delay: index * 0.08, ease: EASE }}
-      whileHover={reduced ? undefined : { y: -4, rotate: 0 }}
-      onMouseEnter={() => play("tick")}
-      data-cursor-label={urlAvailable ? "open" : `${card.org} · ${card.year}`}
-    >
-      {/* Corner registration marks */}
-      <span aria-hidden className="pointer-events-none absolute left-1.5 top-1.5 h-2.5 w-2.5 border-l border-t border-[#1a1a1a]/30" />
-      <span aria-hidden className="pointer-events-none absolute right-1.5 top-1.5 h-2.5 w-2.5 border-r border-t border-[#1a1a1a]/30" />
-      <span aria-hidden className="pointer-events-none absolute bottom-1.5 left-1.5 h-2.5 w-2.5 border-b border-l border-[#1a1a1a]/30" />
-      <span aria-hidden className="pointer-events-none absolute bottom-1.5 right-1.5 h-2.5 w-2.5 border-b border-r border-[#1a1a1a]/30" />
+  const scrollTo = (index: number) => {
+    if (!carouselRef.current) return;
+    const clamped = Math.max(0, Math.min(cards.length - 1, index));
+    setActiveIndex(clamped);
+    const container = carouselRef.current;
+    const children = container.children;
+    if (children[clamped]) {
+      (children[clamped] as HTMLElement).scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+  };
 
-      {/* Stamp: index + year badge */}
+  return (
+    <div className="relative mt-6 sm:mt-8">
+      {/* Navigation Controls */}
       <div className="mb-4 flex items-center justify-between">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/75">
-          {String(index + 1).padStart(2, "0")} / 04
-        </span>
-        <span className="border border-[#1738D5]/50 bg-[#1738D5]/5 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#1738D5]">
-          {card.year}
-        </span>
-      </div>
-
-      {/* Focal metric — the big number/label is the hero of the card */}
-      <p className="font-display text-4xl font-bold leading-[0.9] tracking-tighter text-[#1738D5] sm:text-5xl">
-        {card.label}
-      </p>
-
-      {/* Org name — medium, dark ink */}
-      <h3 className="mt-3 font-display text-lg font-bold leading-[1.1] tracking-tight text-[#1a1a1a] sm:text-xl">
-        {card.org}
-      </h3>
-
-      {/* Spacer pushes sub to bottom */}
-      <div className="flex-1" />
-
-      {/* Sub — mono, muted, with a hover accent rule on the left */}
-      <div className="mt-4 flex items-start gap-2 border-t border-[#1a1a1a]/10 pt-3 transition-colors duration-300 group-hover:border-[#1738D5]/30">
-        <span aria-hidden className="mt-1 h-3 w-1 shrink-0 bg-[#1738D5]/40 transition-colors duration-300 group-hover:bg-[#1738D5]" />
-        <p className="flex-1 font-mono text-[10px] uppercase leading-relaxed tracking-[0.15em] text-[#1a1a1a]/75 transition-colors duration-300 group-hover:text-[#1a1a1a]/90">
-          {card.sub}
-        </p>
-        {urlAvailable && (
-          <span className="flex shrink-0 items-center gap-1 font-mono text-[9px] uppercase tracking-[0.2em] text-[#1738D5] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            open
-            <ExternalLink className="h-2.5 w-2.5" aria-hidden />
+        <div className="flex items-center gap-1.5 font-mono text-xs text-[#1a1a1a]/60">
+          <span className="font-semibold text-[#1738D5]">
+            {String(activeIndex + 1).padStart(2, "0")}
           </span>
-        )}
-      </div>
-    </motion.article>
-  );
+          <span>/</span>
+          <span>{String(cards.length).padStart(2, "0")}</span>
+        </div>
 
-  if (urlAvailable) {
-    return (
-      <a
-        href={card.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`${card.org} — open credential (opens in new tab)`}
-        className="block h-full focus-ring"
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={() => {
+              play("click");
+              scrollTo(activeIndex - 1);
+            }}
+            disabled={activeIndex === 0}
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#1a1a1a]/20 bg-[#F4F1EA] text-[#1a1a1a] transition-all hover:border-[#1738D5] hover:bg-[#1738D5] hover:text-white disabled:opacity-30 disabled:hover:border-[#1a1a1a]/20 disabled:hover:bg-[#F4F1EA] disabled:hover:text-[#1a1a1a]"
+            aria-label="Previous card"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <button
+            onClick={() => {
+              play("click");
+              scrollTo(activeIndex + 1);
+            }}
+            disabled={activeIndex === cards.length - 1}
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#1a1a1a]/20 bg-[#F4F1EA] text-[#1a1a1a] transition-all hover:border-[#1738D5] hover:bg-[#1738D5] hover:text-white disabled:opacity-30 disabled:hover:border-[#1a1a1a]/20 disabled:hover:bg-[#F4F1EA] disabled:hover:text-[#1a1a1a]"
+            aria-label="Next card"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+
+      {/* Horizontal Carousel Track */}
+      <div
+        ref={carouselRef}
+        className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto pb-6 pt-1"
+        onScroll={(e) => {
+          const target = e.currentTarget;
+          const cardWidth = target.scrollWidth / cards.length;
+          const idx = Math.round(target.scrollLeft / cardWidth);
+          if (idx !== activeIndex && idx >= 0 && idx < cards.length) {
+            setActiveIndex(idx);
+          }
+        }}
       >
-        {inner}
-      </a>
-    );
-  }
-  return inner;
+        {cards.map((card, index) => {
+          const isActive = index === activeIndex;
+          const urlAvailable = hasLink(card.url);
+
+          const innerCard = (
+            <div
+              className={`group relative flex h-full flex-col justify-between border bg-[#F4F1EA] p-5 shadow-sm transition-all duration-300 sm:p-6 ${
+                isActive
+                  ? "border-[#1738D5] shadow-md ring-1 ring-[#1738D5]/20"
+                  : "border-[#1a1a1a]/15 opacity-85 hover:border-[#1738D5]/40 hover:opacity-100"
+              }`}
+              onMouseEnter={() => play("tick")}
+            >
+              {/* Corner marks */}
+              <span aria-hidden className="pointer-events-none absolute left-1.5 top-1.5 h-2 w-2 border-l border-t border-[#1a1a1a]/30" />
+              <span aria-hidden className="pointer-events-none absolute right-1.5 top-1.5 h-2 w-2 border-r border-t border-[#1a1a1a]/30" />
+              <span aria-hidden className="pointer-events-none absolute bottom-1.5 left-1.5 h-2 w-2 border-b border-l border-[#1a1a1a]/30" />
+              <span aria-hidden className="pointer-events-none absolute bottom-1.5 right-1.5 h-2 w-2 border-b border-r border-[#1a1a1a]/30" />
+
+              {/* Year badge top-right */}
+              <div className="mb-4 flex items-center justify-end">
+                <span className="border border-[#1738D5]/40 bg-[#1738D5]/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1738D5]">
+                  {card.year}
+                </span>
+              </div>
+
+              {/* Big Metric Label — consistent large size across all cards */}
+              <div>
+                <p className="font-display text-2xl font-bold leading-tight tracking-tight text-[#1738D5] sm:text-3xl whitespace-nowrap">
+                  {card.label}
+                </p>
+                <h3 className="mt-2.5 font-display text-lg font-bold text-[#1a1a1a] sm:text-xl whitespace-nowrap">
+                  {card.org}
+                </h3>
+              </div>
+
+              {/* Sub description */}
+              <div className="mt-5 border-t border-[#1a1a1a]/15 pt-3">
+                <p className="font-mono text-[11px] uppercase leading-relaxed tracking-[0.12em] text-[#1a1a1a]/80">
+                  {card.sub}
+                </p>
+                {urlAvailable && (
+                  <div className="mt-2.5 flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1738D5]">
+                    <span>open credential</span>
+                    <ExternalLink className="h-3 w-3" />
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+
+          return (
+            <motion.div
+              key={`${card.org}-${index}`}
+              className="w-[320px] shrink-0 snap-center sm:w-[380px] lg:w-[410px]"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: isActive ? 1 : 0.98 }}
+              transition={{ duration: 0.3 }}
+            >
+              {urlAvailable ? (
+                <a
+                  href={card.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block h-full focus-ring"
+                >
+                  {innerCard}
+                </a>
+              ) : (
+                innerCard
+              )}
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 function EducationStripItem({
@@ -126,25 +177,28 @@ function EducationStripItem({
   const reduced = usePrefersReducedMotion();
   return (
     <motion.div
-      className="flex flex-col gap-1 border-l-2 border-[#1738D5]/30 pl-3 transition-colors duration-300 hover:border-[#1738D5]"
+      className="flex flex-col gap-1.5 border-l-2 border-[#1738D5]/40 pl-4 transition-colors duration-300 hover:border-[#1738D5]"
       initial={reduced ? false : { opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-8% 0px" }}
       transition={{ duration: 0.6, delay: index * 0.07, ease: EASE }}
     >
-      <span className="font-display text-base font-bold tracking-tight text-[#1a1a1a]">
+      <span className="font-display text-xl font-bold tracking-tight text-[#1a1a1a] sm:text-2xl">
         {item.org}
       </span>
-      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#1a1a1a]/75">
+      <span className="font-mono text-xs uppercase tracking-[0.18em] text-[#1a1a1a]/85 sm:text-sm">
         {item.label}
       </span>
-      <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#1738D5]">
+      <span className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[#1738D5] sm:text-sm">
         {item.sub}
       </span>
     </motion.div>
   );
 }
 
+/* ============================================================
+   MAIN SECTION COMPONENT (CAROUSEL DECK DEFAULT)
+   ============================================================ */
 export default function Achievements() {
   const reduced = usePrefersReducedMotion();
 
@@ -166,10 +220,7 @@ export default function Achievements() {
         >
           <span className="text-[#1738D5]">{ACHIEVEMENTS.index}</span>
           <span className="text-[#1a1a1a]/70">{ACHIEVEMENTS.title}</span>
-          <span className="ml-auto hidden h-px flex-1 bg-[#1a1a1a]/10 sm:block" />
-          <span className="hidden sm:inline text-[#1738D5]/70">
-            {"// signals.log"}
-          </span>
+          <span className="ml-auto" />
           <ShareButton sectionId="achievements" />
         </motion.div>
 
@@ -185,41 +236,23 @@ export default function Achievements() {
           {ACHIEVEMENTS.headline}
         </motion.h2>
 
-        {/* Validation cards grid */}
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:mt-16 sm:grid-cols-2 sm:gap-7 lg:grid-cols-4 lg:gap-5">
-          {ACHIEVEMENTS.cards.map((card, i) => (
-            <ValidationCard key={`${card.org}-${card.year}`} card={card} index={i} />
-          ))}
-        </div>
+        {/* Sole & Default View: Carousel Deck */}
+        <CarouselDeck cards={ACHIEVEMENTS.cards} />
 
-        {/* Education strip — secondary, horizontal */}
-        <div className="mt-16 sm:mt-24">
+        {/* Education strip — shifted UPWARDS to utilize top empty space with enlarged text */}
+        <div className="mt-8 sm:mt-10">
           <Reveal>
-            <div className="mb-6 flex items-baseline gap-3 border-b border-[#1a1a1a]/15 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#1a1a1a]/75">
-              <span className="text-[#1738D5]">{"// "}</span>
-              <span className="text-[#1a1a1a]/70">
-                education · secondary signal
-              </span>
-              <span className="ml-auto hidden h-px flex-1 bg-[#1a1a1a]/10 sm:block" />
-              <span className="hidden sm:inline text-[#1a1a1a]/75">
-                {`// ${ACHIEVEMENTS.education.length} institutions`}
-              </span>
+            <div className="mb-6 flex items-baseline gap-3 border-b border-[#1a1a1a]/20 pb-3 font-mono text-xs font-semibold uppercase tracking-[0.25em] text-[#1a1a1a]">
+              <span>EDUCATION</span>
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {ACHIEVEMENTS.education.map((item, i) => (
               <EducationStripItem key={`${item.org}-${i}`} item={item} index={i} />
             ))}
           </div>
         </div>
-
-        {/* Footer microcopy */}
-        <Reveal className="mt-14 sm:mt-20" delay={0.1}>
-          <p className="font-hand text-lg italic text-[#1a1a1a]/85 sm:translate-x-2 sm:text-xl">
-            ↳ external validation, not the goal. the work is.
-          </p>
-        </Reveal>
       </div>
     </section>
   );

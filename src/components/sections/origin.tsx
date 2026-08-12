@@ -183,9 +183,9 @@ export default function Origin() {
         ref={contentRef}
         className="relative mx-auto w-full max-w-[1200px] px-5 pt-16 pb-10 sm:px-8 sm:pt-20 sm:pb-12 lg:px-12"
       >
-        {/* ---- Header: 01 — THE BEGINNING + subtitle ---- */}
+        {/* ---- Header: 01 — THE BEGINNING ---- */}
         <motion.div
-          className="mb-12 flex flex-col gap-3 border-b border-[#1a1a1a]/15 pb-4 sm:mb-16"
+          className="mb-8 flex flex-col gap-3 border-b border-[#1a1a1a]/15 pb-3 sm:mb-10"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
@@ -194,12 +194,7 @@ export default function Origin() {
           <div className="flex items-baseline gap-3 font-mono text-[11px] uppercase tracking-widest text-[#1a1a1a]/75">
             <span className="text-[#1738D5]">{ORIGIN.index}</span>
             <span className="text-[#2a2a2a]/70">— {ORIGIN.title}</span>
-            <span className="ml-auto hidden h-px flex-1 bg-[#1a1a1a]/15 sm:block" />
-            <span className="hidden sm:inline">{"// notebook entry"}</span>
           </div>
-          <p className="hand-display text-3xl text-[#2a2a2a]/80 sm:text-4xl">
-            {ORIGIN.subtitle}
-          </p>
         </motion.div>
 
         {/* ---- Left vertical timeline rail (lg+) — hairline + blue fill ---- */}
@@ -298,7 +293,7 @@ export default function Origin() {
                     />
                     {/* editorial index marker */}
                     <span className="mb-2 block font-mono text-[10px] tracking-[0.25em] text-[#1a1a1a]/75">
-                      {`// 0${i + 1}`}
+                      {`0${i + 1}`}
                     </span>
 
                     <p className="font-sans text-base leading-relaxed text-[#2a2a2a]/85 sm:text-lg">

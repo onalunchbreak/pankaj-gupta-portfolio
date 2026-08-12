@@ -54,7 +54,7 @@
   --radius: 0.125rem; /* sharp corners, 2px */
 
   /* ---- Four primary visual environments ---- */
-  --blue: #1738D5;       /* electric / royal blue — hero, projects, accents */
+  --blue: #0430BB;       /* royal blue — hero, projects, accents (exact match with 01_51_01 AM image) */
   --paper: #F4F1EA;      /* warm paper — editorial sections, case studies */
   --black: #0A0A0A;      /* system surfaces, overlays, terminal, contact */
   --white: #F7F4ED;      /* ink against blue and black */
@@ -266,6 +266,16 @@
     .cursor-none-fine, .cursor-none-fine * {
       cursor: none !important;
     }
+  }
+
+  /* Restore native cursor inside any modal overlay — overrides cursor-none-fine globally */
+  .modal-cursor-restore,
+  .modal-cursor-restore * {
+    cursor: auto !important;
+  }
+  .modal-cursor-restore button,
+  .modal-cursor-restore [role="button"] {
+    cursor: pointer !important;
   }
 
   .text-stroke-ink {

@@ -9,12 +9,12 @@ import { getLenis } from "@/lib/lenis-instance";
 
 // Mini-preview metadata for each nav item — shown on hover as a floating card.
 const PEEK_INFO: Record<string, { env: string; desc: string }> = {
-  hero: { env: "BLUE", desc: "Mr. Onalunchbreak — product × AI × systems" },
-  origin: { env: "PAPER", desc: "How I accidentally became a product person" },
-  "product-os": { env: "PAPER", desc: "Products with a reason — 1200+ customers" },
+  hero: { env: "BLUE", desc: "Pankaj Gupta — product × AI × systems" },
+  origin: { env: "PAPER", desc: "My journey into product & AI systems" },
   "best-work": { env: "BLACK", desc: "Product Line metro — 5 stations" },
   research: { env: "PAPER", desc: "4 papers — EACL · ECIR · AAAI · IEEE" },
   lab: { env: "BLACK", desc: "Side projects + 44-word CV cloud" },
+  achievements: { env: "PAPER", desc: "Honors & recognition" },
   contact: { env: "BLACK+PAPER", desc: "Talk product with me" },
 };
 
@@ -22,7 +22,6 @@ const PEEK_INFO: Record<string, { env: string; desc: string }> = {
 // Sections with dark (blue/black) backgrounds need light nav text.
 const LIGHT_BG_SECTIONS = new Set([
   "origin",
-  "product-os",
   "research",
   "achievements",
 ]);
@@ -51,7 +50,7 @@ export default function Nav() {
 
   return (
     <AnimatePresence>
-      {booted && (
+      {booted && active !== "hero" && (
         <motion.nav
           className="fixed right-0 top-1/2 z-[75] hidden -translate-y-1/2 flex-col items-end gap-1 pr-4 xl:flex"
           initial={{ opacity: 0, x: 24 }}
@@ -66,16 +65,16 @@ export default function Nav() {
             const isHovered = hovered === item.id;
             const peek = PEEK_INFO[item.id];
             // Color tokens that flip based on the active section's background.
-            // On paper (light) sections: dark text + dark accent.
-            // On dark/blue/black sections: light text + blue accent.
+            // On paper (light) sections: dark text + blue accent.
+            // On dark/blue/black sections: yellow accent + yellow text.
             const inactiveText = onLightBg
               ? "text-[#1a1a1a]/70 group-hover:text-[#1a1a1a]"
               : "text-[#F4F1EA]/80 group-hover:text-[#F4F1EA]";
             const inactiveRule = onLightBg
               ? "bg-[#1a1a1a]/25 group-hover:bg-[#1738D5]"
-              : "bg-white/25 group-hover:bg-[#1738D5]";
-            const activeText = "text-[#1738D5]";
-            const activeRule = "bg-[#1738D5]";
+              : "bg-white/25 group-hover:bg-[#FFD400]";
+            const activeText = onLightBg ? "text-[#1738D5] font-bold" : "text-[#FFD400] font-bold";
+            const activeRule = onLightBg ? "bg-[#1738D5]" : "bg-[#FFD400]";
             return (
               <div key={item.id} className="relative flex items-center justify-end">
                 {/* Floating peek card — appears on hover to the LEFT of the nav item */}
