@@ -15,7 +15,7 @@ type AchievementCard = (typeof ACHIEVEMENTS.cards)[number];
 type EducationItem = (typeof ACHIEVEMENTS.education)[number];
 
 /* ============================================================
-   1. SPOTIFY CAROUSEL DECK COMPONENT
+   1. CAROUSEL DECK COMPONENT (SLEEK & COMPACT)
    ============================================================ */
 function CarouselDeck({ cards }: { cards: AchievementCard[] }) {
   const { play } = useSound();
@@ -38,30 +38,28 @@ function CarouselDeck({ cards }: { cards: AchievementCard[] }) {
   };
 
   return (
-    <div className="relative mt-8 sm:mt-12">
+    <div className="relative mt-6 sm:mt-8">
       {/* Navigation Controls */}
-      <div className="mb-6 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#1738D5]">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex items-center gap-1.5 font-mono text-xs text-[#1a1a1a]/60">
+          <span className="font-semibold text-[#1738D5]">
             {String(activeIndex + 1).padStart(2, "0")}
           </span>
-          <span className="font-mono text-xs text-[#1a1a1a]/40">/</span>
-          <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#1a1a1a]/60">
-            {String(cards.length).padStart(2, "0")}
-          </span>
+          <span>/</span>
+          <span>{String(cards.length).padStart(2, "0")}</span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <button
             onClick={() => {
               play("click");
               scrollTo(activeIndex - 1);
             }}
             disabled={activeIndex === 0}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#1a1a1a]/20 bg-[#F4F1EA] text-[#1a1a1a] transition-all hover:border-[#1738D5] hover:bg-[#1738D5] hover:text-white disabled:opacity-30 disabled:hover:border-[#1a1a1a]/20 disabled:hover:bg-[#F4F1EA] disabled:hover:text-[#1a1a1a]"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#1a1a1a]/20 bg-[#F4F1EA] text-[#1a1a1a] transition-all hover:border-[#1738D5] hover:bg-[#1738D5] hover:text-white disabled:opacity-30 disabled:hover:border-[#1a1a1a]/20 disabled:hover:bg-[#F4F1EA] disabled:hover:text-[#1a1a1a]"
             aria-label="Previous card"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-4 w-4" />
           </button>
           <button
             onClick={() => {
@@ -69,10 +67,10 @@ function CarouselDeck({ cards }: { cards: AchievementCard[] }) {
               scrollTo(activeIndex + 1);
             }}
             disabled={activeIndex === cards.length - 1}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#1a1a1a]/20 bg-[#F4F1EA] text-[#1a1a1a] transition-all hover:border-[#1738D5] hover:bg-[#1738D5] hover:text-white disabled:opacity-30 disabled:hover:border-[#1a1a1a]/20 disabled:hover:bg-[#F4F1EA] disabled:hover:text-[#1a1a1a]"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#1a1a1a]/20 bg-[#F4F1EA] text-[#1a1a1a] transition-all hover:border-[#1738D5] hover:bg-[#1738D5] hover:text-white disabled:opacity-30 disabled:hover:border-[#1a1a1a]/20 disabled:hover:bg-[#F4F1EA] disabled:hover:text-[#1a1a1a]"
             aria-label="Next card"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-4 w-4" />
           </button>
         </div>
       </div>
@@ -80,7 +78,7 @@ function CarouselDeck({ cards }: { cards: AchievementCard[] }) {
       {/* Horizontal Carousel Track */}
       <div
         ref={carouselRef}
-        className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pb-8 pt-2"
+        className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto pb-6 pt-1"
         onScroll={(e) => {
           const target = e.currentTarget;
           const cardWidth = target.scrollWidth / cards.length;
@@ -96,48 +94,45 @@ function CarouselDeck({ cards }: { cards: AchievementCard[] }) {
 
           const innerCard = (
             <div
-              className={`group relative flex h-full flex-col justify-between border bg-[#F4F1EA] p-7 shadow-lg transition-all duration-500 sm:p-8 ${
+              className={`group relative flex h-full flex-col justify-between border bg-[#F4F1EA] p-5 shadow-sm transition-all duration-300 sm:p-6 ${
                 isActive
-                  ? "border-[#1738D5] shadow-xl ring-2 ring-[#1738D5]/20"
+                  ? "border-[#1738D5] shadow-md ring-1 ring-[#1738D5]/20"
                   : "border-[#1a1a1a]/15 opacity-85 hover:border-[#1738D5]/40 hover:opacity-100"
               }`}
               onMouseEnter={() => play("tick")}
             >
               {/* Corner marks */}
-              <span aria-hidden className="pointer-events-none absolute left-2 top-2 h-3 w-3 border-l-2 border-t-2 border-[#1a1a1a]/30" />
-              <span aria-hidden className="pointer-events-none absolute right-2 top-2 h-3 w-3 border-r-2 border-t-2 border-[#1a1a1a]/30" />
-              <span aria-hidden className="pointer-events-none absolute bottom-2 left-2 h-3 w-3 border-b-2 border-l-2 border-[#1a1a1a]/30" />
-              <span aria-hidden className="pointer-events-none absolute bottom-2 right-2 h-3 w-3 border-b-2 border-r-2 border-[#1a1a1a]/30" />
+              <span aria-hidden className="pointer-events-none absolute left-1.5 top-1.5 h-2 w-2 border-l border-t border-[#1a1a1a]/30" />
+              <span aria-hidden className="pointer-events-none absolute right-1.5 top-1.5 h-2 w-2 border-r border-t border-[#1a1a1a]/30" />
+              <span aria-hidden className="pointer-events-none absolute bottom-1.5 left-1.5 h-2 w-2 border-b border-l border-[#1a1a1a]/30" />
+              <span aria-hidden className="pointer-events-none absolute bottom-1.5 right-1.5 h-2 w-2 border-b border-r border-[#1a1a1a]/30" />
 
-              {/* Year badge */}
-              <div className="mb-6 flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#1738D5]">
-                  ✦ TRACK 0{index + 1}
-                </span>
-                <span className="border border-[#1738D5]/40 bg-[#1738D5]/10 px-3 py-1 font-mono text-xs uppercase tracking-[0.2em] text-[#1738D5]">
+              {/* Year badge top-right */}
+              <div className="mb-4 flex items-center justify-end">
+                <span className="border border-[#1738D5]/40 bg-[#1738D5]/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1738D5]">
                   {card.year}
                 </span>
               </div>
 
               {/* Big Metric Label */}
               <div>
-                <p className="font-display text-4xl font-bold leading-tight tracking-tight text-[#1738D5] sm:text-5xl">
+                <p className="font-display text-2xl font-bold leading-tight tracking-tight text-[#1738D5] sm:text-3xl">
                   {card.label}
                 </p>
-                <h3 className="mt-4 font-display text-xl font-bold text-[#1a1a1a] sm:text-2xl">
+                <h3 className="mt-2 font-display text-base font-bold text-[#1a1a1a] sm:text-lg">
                   {card.org}
                 </h3>
               </div>
 
               {/* Sub description */}
-              <div className="mt-8 border-t border-[#1a1a1a]/15 pt-4">
-                <p className="font-mono text-xs uppercase leading-relaxed tracking-[0.15em] text-[#1a1a1a]/80">
+              <div className="mt-5 border-t border-[#1a1a1a]/15 pt-3">
+                <p className="font-mono text-[11px] uppercase leading-relaxed tracking-[0.12em] text-[#1a1a1a]/80">
                   {card.sub}
                 </p>
                 {urlAvailable && (
-                  <div className="mt-3 flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.2em] text-[#1738D5]">
-                    <span>view credential</span>
-                    <ExternalLink className="h-3.5 w-3.5" />
+                  <div className="mt-2.5 flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1738D5]">
+                    <span>open credential</span>
+                    <ExternalLink className="h-3 w-3" />
                   </div>
                 )}
               </div>
@@ -147,10 +142,10 @@ function CarouselDeck({ cards }: { cards: AchievementCard[] }) {
           return (
             <motion.div
               key={`${card.org}-${index}`}
-              className="w-[310px] shrink-0 snap-center sm:w-[380px] lg:w-[440px]"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: isActive ? 1 : 0.97 }}
-              transition={{ duration: 0.4 }}
+              className="w-[270px] shrink-0 snap-center sm:w-[310px] lg:w-[340px]"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: isActive ? 1 : 0.98 }}
+              transition={{ duration: 0.3 }}
             >
               {urlAvailable ? (
                 <a
@@ -180,9 +175,9 @@ function ExpandableTiles({ cards }: { cards: AchievementCard[] }) {
   const [expandedIndex, setExpandedIndex] = useState(0);
 
   return (
-    <div className="mt-8 sm:mt-12">
+    <div className="mt-6 sm:mt-8">
       {/* Desktop Accordion Grid */}
-      <div className="hidden min-h-[380px] w-full gap-4 lg:flex">
+      <div className="hidden min-h-[300px] w-full gap-3.5 lg:flex">
         {cards.map((card, index) => {
           const isExpanded = expandedIndex === index;
           const urlAvailable = hasLink(card.url);
@@ -195,34 +190,29 @@ function ExpandableTiles({ cards }: { cards: AchievementCard[] }) {
                 setExpandedIndex(index);
               }}
               onMouseEnter={() => play("tick")}
-              className={`relative flex cursor-pointer flex-col justify-between border bg-[#F4F1EA] p-6 shadow-md transition-all duration-500 ${
+              className={`relative flex cursor-pointer flex-col justify-between border bg-[#F4F1EA] p-5 shadow-sm transition-all duration-400 ${
                 isExpanded
-                  ? "flex-[3.5] border-[#1738D5] bg-[#F4F1EA] ring-2 ring-[#1738D5]/20 shadow-xl"
+                  ? "flex-[3] border-[#1738D5] bg-[#F4F1EA] ring-1 ring-[#1738D5]/20 shadow-md"
                   : "flex-1 border-[#1a1a1a]/15 opacity-75 hover:border-[#1738D5]/40 hover:opacity-100"
               }`}
             >
               {/* Header / Year */}
-              <div className="flex items-center justify-between">
-                <span className="border border-[#1738D5]/40 bg-[#1738D5]/10 px-2.5 py-1 font-mono text-xs uppercase tracking-[0.18em] text-[#1738D5]">
+              <div className="flex items-center justify-end">
+                <span className="border border-[#1738D5]/40 bg-[#1738D5]/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1738D5]">
                   {card.year}
                 </span>
-                {isExpanded && (
-                  <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#1738D5]">
-                    ✦ ACTIVE EXPANSION
-                  </span>
-                )}
               </div>
 
               {/* Main Content */}
-              <div className="my-auto py-4">
+              <div className="my-auto py-3">
                 <p
                   className={`font-display font-bold leading-tight tracking-tight text-[#1738D5] transition-all duration-300 ${
-                    isExpanded ? "text-4xl sm:text-5xl" : "text-xl sm:text-2xl"
+                    isExpanded ? "text-3xl" : "text-xl"
                   }`}
                 >
                   {card.label}
                 </p>
-                <h3 className="mt-2 font-display text-lg font-bold text-[#1a1a1a]">
+                <h3 className="mt-1.5 font-display text-base font-bold text-[#1a1a1a]">
                   {card.org}
                 </h3>
               </div>
@@ -234,10 +224,10 @@ function ExpandableTiles({ cards }: { cards: AchievementCard[] }) {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="border-t border-[#1a1a1a]/15 pt-4"
+                    transition={{ duration: 0.25 }}
+                    className="border-t border-[#1a1a1a]/15 pt-3"
                   >
-                    <p className="font-mono text-xs uppercase leading-relaxed tracking-[0.15em] text-[#1a1a1a]/85">
+                    <p className="font-mono text-[11px] uppercase leading-relaxed tracking-[0.12em] text-[#1a1a1a]/85">
                       {card.sub}
                     </p>
                     {urlAvailable && (
@@ -246,10 +236,10 @@ function ExpandableTiles({ cards }: { cards: AchievementCard[] }) {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="mt-3 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.2em] text-[#1738D5] hover:underline"
+                        className="mt-2.5 inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1738D5] hover:underline"
                       >
                         <span>open credential</span>
-                        <ExternalLink className="h-3.5 w-3.5" />
+                        <ExternalLink className="h-3 w-3" />
                       </a>
                     )}
                   </motion.div>
@@ -261,7 +251,7 @@ function ExpandableTiles({ cards }: { cards: AchievementCard[] }) {
       </div>
 
       {/* Mobile Stacked Accordion */}
-      <div className="flex flex-col gap-4 lg:hidden">
+      <div className="flex flex-col gap-3 lg:hidden">
         {cards.map((card, index) => {
           const isExpanded = expandedIndex === index;
           const urlAvailable = hasLink(card.url);
@@ -273,27 +263,27 @@ function ExpandableTiles({ cards }: { cards: AchievementCard[] }) {
                 play("click");
                 setExpandedIndex(expandedIndex === index ? -1 : index);
               }}
-              className={`border bg-[#F4F1EA] p-5 transition-all ${
-                isExpanded ? "border-[#1738D5] shadow-lg" : "border-[#1a1a1a]/15"
+              className={`border bg-[#F4F1EA] p-4 transition-all ${
+                isExpanded ? "border-[#1738D5] shadow-md" : "border-[#1a1a1a]/15"
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="font-mono text-xs uppercase text-[#1738D5]">
+                <span className="font-mono text-[10px] uppercase text-[#1738D5]">
                   {card.year}
                 </span>
                 <span className="font-mono text-xs text-[#1a1a1a]/60">
                   {isExpanded ? "−" : "+"}
                 </span>
               </div>
-              <h3 className="mt-2 font-display text-2xl font-bold text-[#1738D5]">
+              <h3 className="mt-1.5 font-display text-xl font-bold text-[#1738D5]">
                 {card.label}
               </h3>
-              <p className="font-display text-base font-bold text-[#1a1a1a]">
+              <p className="font-display text-sm font-bold text-[#1a1a1a]">
                 {card.org}
               </p>
               {isExpanded && (
-                <div className="mt-4 border-t border-[#1a1a1a]/15 pt-3">
-                  <p className="font-mono text-xs uppercase leading-relaxed text-[#1a1a1a]/80">
+                <div className="mt-3 border-t border-[#1a1a1a]/15 pt-2.5">
+                  <p className="font-mono text-[11px] uppercase leading-relaxed text-[#1a1a1a]/80">
                     {card.sub}
                   </p>
                   {urlAvailable && (
@@ -301,7 +291,7 @@ function ExpandableTiles({ cards }: { cards: AchievementCard[] }) {
                       href={card.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 inline-flex items-center gap-1 font-mono text-xs uppercase text-[#1738D5]"
+                      className="mt-2.5 inline-flex items-center gap-1 font-mono text-[10px] uppercase text-[#1738D5]"
                     >
                       <span>open credential</span>
                       <ExternalLink className="h-3 w-3" />
@@ -318,7 +308,7 @@ function ExpandableTiles({ cards }: { cards: AchievementCard[] }) {
 }
 
 /* ============================================================
-   3. CLASSIC GRID COMPONENT (WITH NO STAMPS & SPACIOUS WIDTH)
+   3. CLASSIC GRID COMPONENT (COMPACT & PROPORTIONED)
    ============================================================ */
 function ValidationCard({
   card,
@@ -333,56 +323,50 @@ function ValidationCard({
 
   const inner = (
     <motion.article
-      className={`group relative flex h-full flex-col justify-between border border-[#1a1a1a]/15 bg-[#F4F1EA]/95 p-6 shadow-[0_1px_0_rgba(0,0,0,0.04)] transition-all duration-300 sm:p-7 ${
+      className={`group relative flex h-full flex-col justify-between border border-[#1a1a1a]/15 bg-[#F4F1EA]/95 p-5 shadow-[0_1px_0_rgba(0,0,0,0.04)] transition-all duration-300 sm:p-5 ${
         urlAvailable ? "cursor-pointer hover:border-[#1738D5]/50 hover:shadow-md" : ""
       }`}
-      initial={reduced ? false : { opacity: 0, y: 20 }}
+      initial={reduced ? false : { opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-8% 0px" }}
-      transition={{ duration: 0.6, delay: index * 0.08, ease: EASE }}
-      whileHover={reduced ? undefined : { y: -4 }}
+      transition={{ duration: 0.5, delay: index * 0.06, ease: EASE }}
+      whileHover={reduced ? undefined : { y: -3 }}
       onMouseEnter={() => play("tick")}
       data-cursor-label={urlAvailable ? "open" : `${card.org} · ${card.year}`}
     >
       {/* Corner registration marks */}
-      <span aria-hidden className="pointer-events-none absolute left-2 top-2 h-2.5 w-2.5 border-l border-t border-[#1a1a1a]/30" />
-      <span aria-hidden className="pointer-events-none absolute right-2 top-2 h-2.5 w-2.5 border-r border-t border-[#1a1a1a]/30" />
-      <span aria-hidden className="pointer-events-none absolute bottom-2 left-2 h-2.5 w-2.5 border-b border-l border-[#1a1a1a]/30" />
-      <span aria-hidden className="pointer-events-none absolute bottom-2 right-2 h-2.5 w-2.5 border-b border-r border-[#1a1a1a]/30" />
+      <span aria-hidden className="pointer-events-none absolute left-1.5 top-1.5 h-2 w-2 border-l border-t border-[#1a1a1a]/30" />
+      <span aria-hidden className="pointer-events-none absolute right-1.5 top-1.5 h-2 w-2 border-r border-t border-[#1a1a1a]/30" />
+      <span aria-hidden className="pointer-events-none absolute bottom-1.5 left-1.5 h-2 w-2 border-b border-l border-[#1a1a1a]/30" />
+      <span aria-hidden className="pointer-events-none absolute bottom-1.5 right-1.5 h-2 w-2 border-b border-r border-[#1a1a1a]/30" />
 
       {/* Year badge top-right */}
-      <div className="mb-4 flex items-center justify-end">
-        <span className="border border-[#1738D5]/50 bg-[#1738D5]/5 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#1738D5]">
+      <div className="mb-3 flex items-center justify-end">
+        <span className="border border-[#1738D5]/50 bg-[#1738D5]/5 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1738D5]">
           {card.year}
         </span>
       </div>
 
-      {/* Focal metric — large & readable */}
+      {/* Focal metric */}
       <div>
-        <p className={`font-display font-bold leading-[0.95] tracking-tight text-[#1738D5] break-words ${
-          card.label.length > 14
-            ? "text-2xl sm:text-3xl"
-            : card.label.length > 10
-            ? "text-3xl sm:text-4xl"
-            : "text-4xl sm:text-5xl"
-        }`}>
+        <p className="font-display text-2xl font-bold leading-tight tracking-tight text-[#1738D5] sm:text-3xl break-words">
           {card.label}
         </p>
 
         {/* Org name */}
-        <h3 className="mt-3 font-display text-lg font-bold leading-[1.1] tracking-tight text-[#1a1a1a] sm:text-xl">
+        <h3 className="mt-2 font-display text-base font-bold leading-tight tracking-tight text-[#1a1a1a] sm:text-lg">
           {card.org}
         </h3>
       </div>
 
-      {/* Sub — mono, muted */}
-      <div className="mt-6 flex items-start gap-2 border-t border-[#1a1a1a]/10 pt-4 transition-colors duration-300 group-hover:border-[#1738D5]/30">
+      {/* Sub */}
+      <div className="mt-4 flex items-start gap-2 border-t border-[#1a1a1a]/10 pt-3 transition-colors duration-300 group-hover:border-[#1738D5]/30">
         <span aria-hidden className="mt-1 h-3 w-1 shrink-0 bg-[#1738D5]/40 transition-colors duration-300 group-hover:bg-[#1738D5]" />
-        <p className="flex-1 font-mono text-[10px] uppercase leading-relaxed tracking-[0.15em] text-[#1a1a1a]/75 transition-colors duration-300 group-hover:text-[#1a1a1a]/90">
+        <p className="flex-1 font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-[#1a1a1a]/75 transition-colors duration-300 group-hover:text-[#1a1a1a]/90">
           {card.sub}
         </p>
         {urlAvailable && (
-          <span className="flex shrink-0 items-center gap-1 font-mono text-[9px] uppercase tracking-[0.2em] text-[#1738D5] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <span className="flex shrink-0 items-center gap-1 font-mono text-[9px] uppercase tracking-[0.18em] text-[#1738D5] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             open
             <ExternalLink className="h-2.5 w-2.5" aria-hidden />
           </span>
@@ -520,7 +504,7 @@ export default function Achievements() {
         {viewMode === "carousel" && <CarouselDeck cards={ACHIEVEMENTS.cards} />}
         {viewMode === "accordion" && <ExpandableTiles cards={ACHIEVEMENTS.cards} />}
         {viewMode === "grid" && (
-          <div className="mt-12 grid grid-cols-1 gap-6 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 sm:mt-12 sm:grid-cols-2 lg:grid-cols-3">
             {ACHIEVEMENTS.cards.map((card, i) => (
               <ValidationCard key={`${card.org}-${card.year}`} card={card} index={i} />
             ))}

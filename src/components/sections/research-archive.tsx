@@ -193,21 +193,6 @@ export default function ResearchArchive() {
           {RESEARCH.headline}
         </motion.h2>
 
-        {/* Sub-meta: paper count + venues strip */}
-        <Reveal className="mt-8" delay={0.15}>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.25em] text-[#1a1a1a]/75">
-            <span className="flex items-center gap-2">
-              <FileText className="h-3.5 w-3.5 text-[#1738D5]" aria-hidden />
-              <span>{RESEARCH.papers.length} papers · 4 venues</span>
-            </span>
-            <span aria-hidden className="text-[#1a1a1a]/20">
-              ·
-            </span>
-            <span className="text-[#1a1a1a]/55">
-              EACL · ECIR · AAAI · INDEPENDENT
-            </span>
-          </div>
-        </Reveal>
 
         {/* Papers grid — 4 sheets with rotation correction + staggered offset */}
         <div className="mt-12 grid grid-cols-1 gap-6 sm:mt-16 sm:grid-cols-2 sm:gap-7 lg:grid-cols-4 lg:gap-5">
