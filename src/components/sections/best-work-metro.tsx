@@ -362,38 +362,19 @@ export default function BestWorkMetro() {
       <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-10 lg:px-12">
         {/* Index header — mirrors SectionShell */}
         <motion.div
-          className="mb-6 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#A3A3A3] sm:mb-8"
+          className="mb-6 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#F4F1EA] sm:mb-8"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.6, ease: EASE }}
         >
-          <span className="text-[#1738D5]">02</span>
-          <span id="best-work-header" className="text-[#F4F1EA]/70">
-            BEST WORK / CAREER METRO
+          <span className="text-[#F4F1EA]">02</span>
+          <span id="best-work-header" className="text-[#F4F1EA]">
+            BEST WORK
           </span>
           <span className="ml-auto" />
           <ShareButton sectionId="best-work" />
         </motion.div>
-
-        {/* Metro logo mark + blinking "Next train: NOW" */}
-        <div className="mb-6 flex flex-wrap items-center gap-4">
-          <div
-            className="flex items-center gap-3"
-            data-cursor-label={METRO_INTRO.line}
-          >
-            <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#FFD400] bg-[#FFD400] text-[#0A0A0A]">
-              <span className="font-mono text-sm font-bold">M</span>
-            </span>
-            <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#FFD400]">
-              {METRO_INTRO.line}
-            </span>
-          </div>
-          <span className="ml-auto flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-[#F4F1EA]/70">
-            <span className="inline-block h-2 w-2 rounded-full bg-[#1738D5] blink" />
-            Next train: NOW
-          </span>
-        </div>
 
         {/* Bilingual title — semi-English + semi-Hindi blend */}
         <motion.h2
