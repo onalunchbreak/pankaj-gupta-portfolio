@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import {
@@ -25,8 +25,6 @@ import {
   Trash2,
   Undo2,
   Redo2,
-  Palette,
-  Baseline,
   Underline,
   Edit3,
 } from "lucide-react";
@@ -77,7 +75,7 @@ export interface StudioNode {
   arrowLength?: number;
 }
 
-// Preset color palette for fast professional styling
+// Preset color palette for styling
 const COLOR_PRESETS = [
   "#F7F4ED", // Warm Off-White
   "#FFD400", // Signature Electric Yellow
@@ -88,13 +86,14 @@ const COLOR_PRESETS = [
   "#FFFFFF", // Pure White
 ];
 
-// Initial default canvas nodes
-const INITIAL_STUDIO_NODES: StudioNode[] = [
-  // 1. PRODUCT STRATEGY
+// Clean baseline layout with proper multi-line quotes (\n) and spatial distribution
+const CLEAN_BASELINE_NODES: StudioNode[] = [
+  // ==================== LEFT COLUMN ====================
+  // Row 1: PRODUCT STRATEGY
   {
     id: "quote-strategy",
     type: "quote",
-    text: "I connect the dots others miss.",
+    text: "I connect the dots\nothers miss.",
     x: 0,
     y: 0,
     scale: 1,
@@ -108,8 +107,8 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     id: "arrow-strategy",
     type: "arrow",
     text: "",
-    x: 230,
-    y: 0,
+    x: 215,
+    y: 10,
     scale: 1,
     rotation: 0,
     fontSize: 14,
@@ -118,14 +117,14 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: false,
     curvature: 18,
     flipX: true,
-    arrowLength: 80,
+    arrowLength: 75,
   },
   {
     id: "tag-strategy",
     type: "tag",
     text: "PRODUCT STRATEGY",
-    x: 40,
-    y: 50,
+    x: 10,
+    y: 72,
     scale: 1,
     rotation: -1,
     fontSize: 12,
@@ -134,13 +133,13 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: false,
   },
 
-  // 2. USER RESEARCH
+  // Row 2: USER RESEARCH
   {
     id: "tag-research",
     type: "tag",
     text: "USER RESEARCH",
-    x: 20,
-    y: 160,
+    x: 0,
+    y: 180,
     scale: 1,
     rotation: 2,
     fontSize: 12,
@@ -152,8 +151,8 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     id: "arrow-research",
     type: "arrow",
     text: "",
-    x: 160,
-    y: 160,
+    x: 165,
+    y: 180,
     scale: 1,
     rotation: 0,
     fontSize: 14,
@@ -162,14 +161,14 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: false,
     curvature: 14,
     flipX: false,
-    arrowLength: 65,
+    arrowLength: 60,
   },
   {
     id: "quote-research",
     type: "quote",
-    text: "small bets, big impact.",
+    text: "small bets,\nbig impact.",
     x: 240,
-    y: 150,
+    y: 165,
     scale: 1,
     rotation: 2,
     fontSize: 24,
@@ -178,13 +177,13 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: true,
   },
 
-  // 3. WORKFLOW AUTOMATION
+  // Row 3: WORKFLOW AUTOMATION
   {
     id: "quote-automation",
     type: "quote",
-    text: "Fewer clicks, same outcome.",
+    text: "Fewer clicks,\nsame outcome.",
     x: 0,
-    y: 300,
+    y: 320,
     scale: 1,
     rotation: -1,
     fontSize: 20,
@@ -196,8 +195,8 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     id: "arrow-automation",
     type: "arrow",
     text: "",
-    x: 40,
-    y: 345,
+    x: 35,
+    y: 380,
     scale: 1,
     rotation: 90,
     fontSize: 14,
@@ -206,14 +205,14 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: false,
     curvature: 16,
     flipX: false,
-    arrowLength: 50,
+    arrowLength: 45,
   },
   {
     id: "tag-automation",
     type: "tag",
     text: "WORKFLOW AUTOMATION",
     x: 0,
-    y: 380,
+    y: 435,
     scale: 1,
     rotation: 1,
     fontSize: 12,
@@ -222,13 +221,13 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: false,
   },
 
-  // 4. ROADMAPPING
+  // Row 4: ROADMAPPING
   {
     id: "quote-roadmapping",
     type: "quote",
-    text: "Plans change. Direction shouldn't.",
-    x: 50,
-    y: 460,
+    text: "Plans change.\nDirection shouldn't.",
+    x: 40,
+    y: 495,
     scale: 1,
     rotation: -2,
     fontSize: 20,
@@ -240,8 +239,8 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     id: "arrow-roadmapping",
     type: "arrow",
     text: "",
-    x: 90,
-    y: 505,
+    x: 75,
+    y: 555,
     scale: 1,
     rotation: 90,
     fontSize: 14,
@@ -250,14 +249,14 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: false,
     curvature: 16,
     flipX: false,
-    arrowLength: 50,
+    arrowLength: 45,
   },
   {
     id: "tag-roadmapping",
     type: "tag",
     text: "ROADMAPPING",
-    x: 50,
-    y: 540,
+    x: 40,
+    y: 610,
     scale: 1,
     rotation: -2,
     fontSize: 12,
@@ -266,13 +265,15 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: false,
   },
 
-  // 5. APPLIED AI (Right Flank)
+
+  // ==================== RIGHT COLUMN ====================
+  // Row 1: APPLIED AI
   {
     id: "arrow-ai",
     type: "arrow",
     text: "",
-    x: 10,
-    y: 0,
+    x: 0,
+    y: 10,
     scale: 1,
     rotation: 0,
     fontSize: 14,
@@ -281,13 +282,13 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: false,
     curvature: 18,
     flipX: false,
-    arrowLength: 80,
+    arrowLength: 75,
   },
   {
     id: "quote-ai",
     type: "quote",
-    text: "curious by nature, obsessed with value. :)",
-    x: 100,
+    text: "curious by nature,\nobsessed with value. :)",
+    x: 90,
     y: 0,
     scale: 1,
     rotation: -1,
@@ -301,7 +302,7 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     type: "tag",
     text: "APPLIED AI",
     x: 180,
-    y: 50,
+    y: 72,
     scale: 1,
     rotation: 2,
     fontSize: 12,
@@ -310,13 +311,13 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: false,
   },
 
-  // 6. STORYTELLING
+  // Row 2: STORYTELLING
   {
     id: "quote-storytelling",
     type: "quote",
-    text: "Numbers don't sell. Stories do.",
-    x: 60,
-    y: 150,
+    text: "Numbers don't sell.\nStories do.",
+    x: 70,
+    y: 165,
     scale: 1,
     rotation: 1,
     fontSize: 20,
@@ -328,8 +329,8 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     id: "arrow-storytelling",
     type: "arrow",
     text: "",
-    x: 140,
-    y: 195,
+    x: 145,
+    y: 225,
     scale: 1,
     rotation: 90,
     fontSize: 14,
@@ -338,14 +339,14 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: false,
     curvature: 16,
     flipX: false,
-    arrowLength: 50,
+    arrowLength: 45,
   },
   {
     id: "tag-storytelling",
     type: "tag",
     text: "STORYTELLING",
     x: 120,
-    y: 230,
+    y: 280,
     scale: 1,
     rotation: -1,
     fontSize: 12,
@@ -354,13 +355,13 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: false,
   },
 
-  // 7. PRODUCT DISCOVERY
+  // Row 3: PRODUCT DISCOVERY
   {
     id: "tag-discovery",
     type: "tag",
     text: "PRODUCT DISCOVERY",
-    x: 100,
-    y: 320,
+    x: 110,
+    y: 350,
     scale: 1,
     rotation: 3,
     fontSize: 12,
@@ -372,8 +373,8 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     id: "arrow-discovery",
     type: "arrow",
     text: "",
-    x: 140,
-    y: 355,
+    x: 155,
+    y: 390,
     scale: 1,
     rotation: -90,
     fontSize: 14,
@@ -382,14 +383,14 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: false,
     curvature: 18,
     flipX: false,
-    arrowLength: 50,
+    arrowLength: 45,
   },
   {
     id: "quote-discovery",
     type: "quote",
-    text: "data > opinion, always.",
-    x: 100,
-    y: 395,
+    text: "data > opinion,\nalways.",
+    x: 110,
+    y: 445,
     scale: 1,
     rotation: 1,
     fontSize: 24,
@@ -398,13 +399,13 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: true,
   },
 
-  // 8. SYSTEM DESIGN
+  // Row 4: SYSTEM DESIGN
   {
     id: "tag-system",
     type: "tag",
     text: "SYSTEM DESIGN",
-    x: 120,
-    y: 470,
+    x: 130,
+    y: 540,
     scale: 1,
     rotation: -2,
     fontSize: 12,
@@ -416,8 +417,8 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     id: "arrow-system",
     type: "arrow",
     text: "",
-    x: 150,
-    y: 505,
+    x: 160,
+    y: 580,
     scale: 1,
     rotation: 90,
     fontSize: 14,
@@ -426,14 +427,14 @@ const INITIAL_STUDIO_NODES: StudioNode[] = [
     highlight: false,
     curvature: 16,
     flipX: false,
-    arrowLength: 50,
+    arrowLength: 45,
   },
   {
     id: "quote-system",
     type: "quote",
-    text: "scalable architectures, zero noise.",
-    x: 40,
-    y: 540,
+    text: "scalable architectures,\nzero noise.",
+    x: 50,
+    y: 635,
     scale: 1,
     rotation: -1,
     fontSize: 20,
@@ -451,7 +452,7 @@ function StudioArrow({
 }: {
   node: StudioNode;
 }) {
-  const width = node.arrowLength || 80;
+  const width = node.arrowLength || 75;
   const height = 36;
   const curvature = node.curvature ?? 16;
   const color = node.color || "#FFD400";
@@ -516,14 +517,14 @@ export default function Hero() {
   const [copied, setCopied] = useState(false);
 
   // Dynamic Nodes + Undo/Redo Stack
-  const [nodes, setNodes] = useState<StudioNode[]>(INITIAL_STUDIO_NODES);
-  const [history, setHistory] = useState<StudioNode[][]>([INITIAL_STUDIO_NODES]);
+  const [nodes, setNodes] = useState<StudioNode[]>(CLEAN_BASELINE_NODES);
+  const [history, setHistory] = useState<StudioNode[][]>([CLEAN_BASELINE_NODES]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
   // Load saved node configurations
   useEffect(() => {
     try {
-      const savedNodes = localStorage.getItem("hero_canvas_studio_v3");
+      const savedNodes = localStorage.getItem("hero_canvas_studio_clean_v4");
       if (savedNodes) {
         const parsed = JSON.parse(savedNodes);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -537,7 +538,7 @@ export default function Hero() {
     }
   }, []);
 
-  // Helper to commit new nodes state and push to Undo/Redo stack
+  // Push new state snapshot to Undo/Redo stack
   const pushState = useCallback(
     (newNodes: StudioNode[]) => {
       setNodes(newNodes);
@@ -545,7 +546,7 @@ export default function Hero() {
       newHistory.push(newNodes);
       setHistory(newHistory);
       setHistoryIndex(newHistory.length - 1);
-      localStorage.setItem("hero_canvas_studio_v3", JSON.stringify(newNodes));
+      localStorage.setItem("hero_canvas_studio_clean_v4", JSON.stringify(newNodes));
     },
     [history, historyIndex]
   );
@@ -556,7 +557,7 @@ export default function Hero() {
       const prevIndex = historyIndex - 1;
       setHistoryIndex(prevIndex);
       setNodes(history[prevIndex]);
-      localStorage.setItem("hero_canvas_studio_v3", JSON.stringify(history[prevIndex]));
+      localStorage.setItem("hero_canvas_studio_clean_v4", JSON.stringify(history[prevIndex]));
     }
   }, [history, historyIndex]);
 
@@ -566,7 +567,7 @@ export default function Hero() {
       const nextIndex = historyIndex + 1;
       setHistoryIndex(nextIndex);
       setNodes(history[nextIndex]);
-      localStorage.setItem("hero_canvas_studio_v3", JSON.stringify(history[nextIndex]));
+      localStorage.setItem("hero_canvas_studio_clean_v4", JSON.stringify(history[nextIndex]));
     }
   }, [history, historyIndex]);
 
@@ -589,9 +590,9 @@ export default function Hero() {
     const newNode: StudioNode = {
       id: newId,
       type,
-      text: type === "quote" ? "Your custom thought here..." : type === "tag" ? "CUSTOM SKILL" : "",
-      x: 100 + Math.random() * 80,
-      y: 100 + Math.random() * 80,
+      text: type === "quote" ? "Your custom thought\nhere..." : type === "tag" ? "CUSTOM SKILL" : "",
+      x: 100 + Math.random() * 60,
+      y: 100 + Math.random() * 60,
       scale: 1,
       rotation: 0,
       fontSize: type === "quote" ? 22 : 12,
@@ -600,7 +601,7 @@ export default function Hero() {
       highlight: type === "quote",
       curvature: 16,
       flipX: false,
-      arrowLength: 80,
+      arrowLength: 75,
     };
 
     pushState([...nodes, newNode]);
@@ -608,17 +609,16 @@ export default function Hero() {
     if (type !== "arrow") setEditingId(newId);
   };
 
-  // Reset to initial baseline
+  // Reset to original clean baseline
   const resetAllNodes = () => {
-    pushState(INITIAL_STUDIO_NODES);
+    pushState(CLEAN_BASELINE_NODES);
     setSelectedId(null);
-    localStorage.removeItem("hero_canvas_studio_v3");
+    localStorage.removeItem("hero_canvas_studio_clean_v4");
   };
 
   // Keyboard shortcut listener (Ctrl+Z, Delete, etc.)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Ignore if user is currently editing an input or textarea
       if (editingId || e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
         return;
       }
@@ -667,7 +667,7 @@ export default function Hero() {
 
   const selectedNode = nodes.find((n) => n.id === selectedId);
 
-  // Render individual Node with full typography and styling support
+  // Render individual Node with multi-line break formatting (\n)
   const renderStudioNode = (node: StudioNode) => {
     const isSelected = selectedId === node.id;
     const isEditing = editingId === node.id;
@@ -680,6 +680,8 @@ export default function Hero() {
         : node.fontFamily === "serif"
         ? "font-serif"
         : "font-sans";
+
+    const lines = node.text.split("\n");
 
     return (
       <motion.div
@@ -704,7 +706,7 @@ export default function Hero() {
           scale: node.scale,
           rotate: node.rotation,
         }}
-        className={`pointer-events-auto relative inline-flex items-center p-1.5 rounded-md transition-all ${
+        className={`pointer-events-auto absolute p-1.5 rounded-md transition-all ${
           layoutMode ? "cursor-grab active:cursor-grabbing hover:outline hover:outline-1 hover:outline-[#FFD400]/70" : ""
         } ${isSelected && layoutMode ? "outline outline-2 outline-[#FFD400] bg-black/60 shadow-2xl z-30" : ""}`}
       >
@@ -742,22 +744,50 @@ export default function Hero() {
                 onBlur={() => setEditingId(null)}
                 onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && setEditingId(null)}
                 autoFocus
-                rows={2}
-                className="bg-black/90 border border-[#FFD400] p-1.5 text-white outline-none rounded min-w-[220px]"
+                rows={3}
+                className="bg-black/90 border border-[#FFD400] p-1.5 text-white outline-none rounded min-w-[240px]"
               />
             ) : (
-              <span className="relative inline-block">
-                {node.text}
-                {node.highlight && (
-                  <span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full pointer-events-none" />
-                )}
-              </span>
+              <div className="flex flex-col items-start">
+                {lines.map((line, i) => {
+                  const isLastLine = i === lines.length - 1;
+                  return (
+                    <span key={i} className="relative inline-block">
+                      {line}
+                      {node.highlight && isLastLine && (
+                        <span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full pointer-events-none" />
+                      )}
+                    </span>
+                  );
+                })}
+              </div>
             )}
           </div>
         )}
       </motion.div>
     );
   };
+
+  // Divide nodes into left and right flanks based on ID for clean spatial layout
+  const leftNodes = nodes.filter(
+    (n) =>
+      n.id.includes("strategy") ||
+      n.id.includes("research") ||
+      n.id.includes("automation") ||
+      n.id.includes("roadmapping")
+  );
+
+  const rightNodes = nodes.filter(
+    (n) =>
+      n.id.includes("ai") ||
+      n.id.includes("storytelling") ||
+      n.id.includes("discovery") ||
+      n.id.includes("system")
+  );
+
+  const customNodes = nodes.filter(
+    (n) => !leftNodes.some((l) => l.id === n.id) && !rightNodes.some((r) => r.id === n.id)
+  );
 
   return (
     <section
@@ -855,7 +885,20 @@ export default function Hero() {
           animate={{ x: tagXOffset, opacity: tagOpacity }}
           transition={{ duration: 0.15, ease: "easeInOut" }}
         >
-          {nodes.map(renderStudioNode)}
+          {/* Left Flank Container */}
+          <div className="absolute top-[3%] bottom-[4%] left-[4%] w-[38%] pointer-events-none">
+            {leftNodes.map(renderStudioNode)}
+          </div>
+
+          {/* Right Flank Container */}
+          <div className="absolute top-[3%] bottom-[4%] right-[4%] w-[38%] pointer-events-none text-right">
+            {rightNodes.map(renderStudioNode)}
+          </div>
+
+          {/* Additional User Created Custom Nodes */}
+          <div className="absolute inset-0 pointer-events-none">
+            {customNodes.map(renderStudioNode)}
+          </div>
         </motion.div>
 
         {/* ---- MOBILE / TABLET REFLOW ---- */}
@@ -905,7 +948,7 @@ export default function Hero() {
                   ) : (
                     <Type className="h-3.5 w-3.5 text-[#FFD400]" />
                   )}
-                  {selectedNode.type.toUpperCase()}: {selectedNode.text.slice(0, 18) || selectedNode.id}
+                  {selectedNode.type.toUpperCase()}: {selectedNode.text.replace("\n", " ").slice(0, 18) || selectedNode.id}
                 </span>
 
                 <div className="flex items-center gap-1">
@@ -1021,12 +1064,12 @@ export default function Hero() {
                       min="40"
                       max="200"
                       step="5"
-                      value={selectedNode.arrowLength || 80}
+                      value={selectedNode.arrowLength || 75}
                       onChange={(e) => updateNode(selectedNode.id, { arrowLength: parseInt(e.target.value) })}
                       className="w-28 accent-[#FFD400]"
                     />
                     <span className="w-8 text-right font-bold text-[#FFD400]">
-                      {selectedNode.arrowLength || 80}px
+                      {selectedNode.arrowLength || 75}px
                     </span>
                   </div>
 
