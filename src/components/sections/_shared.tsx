@@ -39,8 +39,7 @@ export function SectionShell({
         >
           {index && <span className="text-[#FFD400]">{index}</span>}
           {label && <span className="text-[#F4F1EA]/70">{label}</span>}
-          <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-          <span className="hidden sm:inline text-[#F4F1EA]/80">{"portfolio.sys"}</span>
+          <span className="ml-auto" />
           <ShareButton sectionId={id} />
         </motion.div>
       )}

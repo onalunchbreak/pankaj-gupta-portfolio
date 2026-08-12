@@ -274,10 +274,6 @@ export default function ProductLab() {
         >
           <span className="text-[#1738D5]">{"// "}</span>
           <span className="text-[#F4F1EA]/70">SIDE PROJECTS</span>
-          <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-          <span className="hidden sm:inline text-[#1738D5]/70">
-            {"// portfolio.sys"}
-          </span>
         </motion.div>
 
         {/* Header — large hand-display with muted "## " prefix */}
@@ -290,7 +286,7 @@ export default function ProductLab() {
           transition={{ duration: 0.8, ease: EASE }}
         >
           <span className="text-[#A3A3A3]">{"## "}</span>
-          <span>things built on lunch breaks</span>
+          <span>things built out of curiosity</span>
         </motion.h2>
 
         <Reveal delay={0.15}>
@@ -424,7 +420,7 @@ export default function ProductLab() {
         {/* Footer microcopy */}
         <Reveal className="mt-14 sm:mt-20" delay={0.1}>
           <p className="font-hand text-lg italic text-[#F4F1EA]/85 sm:translate-x-2 sm:text-xl">
-            ↳ still shipping between meetings, mistakes, and midnight energy.
+            ↳ still shipping, iterating, and exploring new ideas.
           </p>
         </Reveal>
       </div>

@@ -129,10 +129,6 @@ export default function Contact() {
           >
             <span className="text-[#1738D5]">{"// "}</span>
             <span className="text-[#F4F1EA]/70">CONTACT</span>
-            <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-            <span className="hidden sm:inline text-[#1738D5]/70">
-              {"// portfolio.sys"}
-            </span>
           </motion.div>
 
           {/* Stacked handwritten heading — "Talk Product" (white) +

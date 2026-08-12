@@ -39,7 +39,8 @@ function PaperSheet({
   const reduced = usePrefersReducedMotion();
   const tilt = CARD_TILTS[index % CARD_TILTS.length];
   const offset = CARD_OFFSETS[index % CARD_OFFSETS.length];
-  const urlAvailable = hasLink(paper.url);
+  const paperUrl = (paper as any).url || (paper as any).link || "";
+  const urlAvailable = hasLink(paperUrl);
 
   const initialRotate = reduced ? 0 : tilt;
 
@@ -88,20 +89,23 @@ function PaperSheet({
         </span>
       </div>
 
-      {/* Metadata — supervisor + institution (mono, muted). On hover the
-          metadata becomes more prominent (darker ink + accent rule). */}
-      <div className="mt-5 border-l-2 border-[#1738D5]/30 pl-3 transition-colors duration-300 group-hover:border-[#1738D5]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/75 transition-colors duration-300 group-hover:text-[#1a1a1a] sm:text-xs">
-          {paper.supervisor}
-        </p>
-        <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/80 transition-colors duration-300 group-hover:text-[#1a1a1a]/80 sm:text-xs">
-          {paper.institution}
-        </p>
-      </div>
+      {/* Metadata — sub / abstract / tags */}
+      {((paper as any).sub || (paper as any).supervisor) && (
+        <div className="mt-5 border-l-2 border-[#1738D5]/30 pl-3 transition-colors duration-300 group-hover:border-[#1738D5]">
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/75 transition-colors duration-300 group-hover:text-[#1a1a1a] sm:text-xs">
+            {(paper as any).sub || (paper as any).supervisor}
+          </p>
+          {(paper as any).institution && (
+            <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/80 transition-colors duration-300 group-hover:text-[#1a1a1a]/80 sm:text-xs">
+              {(paper as any).institution}
+            </p>
+          )}
+        </div>
+      )}
 
-      {/* Domain tags */}
+      {/* Domain / Tags */}
       <div className="mt-5 flex flex-wrap gap-1.5">
-        {paper.domain.map((d) => (
+        {((paper as any).tags || (paper as any).domain || []).map((d: string) => (
           <span
             key={d}
             className="border border-[#1a1a1a]/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1a1a1a]/65"
@@ -118,7 +122,7 @@ function PaperSheet({
       <div className="mt-6 border-t border-[#1a1a1a]/10 pt-4">
         {urlAvailable ? (
           <a
-            href={paper.url}
+            href={paperUrl}
             target="_blank"
             rel="noopener noreferrer"
             onMouseEnter={() => play("tick")}
@@ -173,10 +177,7 @@ export default function ResearchArchive() {
         >
           <span className="text-[#1738D5]">{RESEARCH.index}</span>
           <span className="text-[#1a1a1a]/70">{RESEARCH.title}</span>
-          <span className="ml-auto hidden h-px flex-1 bg-[#1a1a1a]/10 sm:block" />
-          <span className="hidden whitespace-nowrap text-[10px] normal-case tracking-normal text-[#1738D5]/70 sm:inline">
-            {"// "}{RESEARCH.system}
-          </span>
+          <span className="ml-auto" />
           <ShareButton sectionId="research" />
         </motion.div>
 

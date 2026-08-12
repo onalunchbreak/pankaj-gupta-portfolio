@@ -194,8 +194,6 @@ export default function Origin() {
           <div className="flex items-baseline gap-3 font-mono text-[11px] uppercase tracking-widest text-[#1a1a1a]/75">
             <span className="text-[#1738D5]">{ORIGIN.index}</span>
             <span className="text-[#2a2a2a]/70">— {ORIGIN.title}</span>
-            <span className="ml-auto hidden h-px flex-1 bg-[#1a1a1a]/15 sm:block" />
-            <span className="hidden sm:inline">{"// notebook entry"}</span>
           </div>
           <p className="hand-display text-3xl text-[#2a2a2a]/80 sm:text-4xl">
             {ORIGIN.subtitle}

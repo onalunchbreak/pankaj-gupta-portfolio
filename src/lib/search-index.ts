@@ -55,13 +55,15 @@ export function buildSearchIndex(): SearchEntry[] {
 
   // Research papers
   RESEARCH.papers.forEach((paper) => {
+    const tagsStr = Array.isArray((paper as any).tags) ? (paper as any).tags.join(" ") : Array.isArray((paper as any).domain) ? (paper as any).domain.join(" ") : "";
+    const extraStr = (paper as any).sub || (paper as any).supervisor || "";
     entries.push({
       id: `paper-${paper.id}`,
       label: paper.title,
-      sub: `Paper · ${paper.venue} ${paper.year}`,
+      sub: `Paper · ${paper.venue}`,
       type: "paper",
       target: "research",
-      keywords: `${paper.title} ${paper.venue} ${paper.domain.join(" ")} ${paper.supervisor}`.toLowerCase(),
+      keywords: `${paper.title} ${paper.venue} ${tagsStr} ${extraStr}`.toLowerCase(),
     });
   });
 

@@ -10,7 +10,7 @@ import { getLenis } from "@/lib/lenis-instance";
 // Mini-preview metadata for each nav item — shown on hover as a floating card.
 const PEEK_INFO: Record<string, { env: string; desc: string }> = {
   hero: { env: "BLUE", desc: "Mr. Onalunchbreak — product × AI × systems" },
-  origin: { env: "PAPER", desc: "How I accidentally became a product person" },
+  origin: { env: "PAPER", desc: "My journey into product & AI systems" },
   "product-os": { env: "PAPER", desc: "Products with a reason — 1200+ customers" },
   "best-work": { env: "BLACK", desc: "Product Line metro — 5 stations" },
   research: { env: "PAPER", desc: "4 papers — EACL · ECIR · AAAI · IEEE" },

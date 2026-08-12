@@ -166,10 +166,7 @@ export default function Achievements() {
         >
           <span className="text-[#1738D5]">{ACHIEVEMENTS.index}</span>
           <span className="text-[#1a1a1a]/70">{ACHIEVEMENTS.title}</span>
-          <span className="ml-auto hidden h-px flex-1 bg-[#1a1a1a]/10 sm:block" />
-          <span className="hidden sm:inline text-[#1738D5]/70">
-            {"// signals.log"}
-          </span>
+          <span className="ml-auto" />
           <ShareButton sectionId="achievements" />
         </motion.div>
 
@@ -213,13 +210,6 @@ export default function Achievements() {
             ))}
           </div>
         </div>
-
-        {/* Footer microcopy */}
-        <Reveal className="mt-14 sm:mt-20" delay={0.1}>
-          <p className="font-hand text-lg italic text-[#1a1a1a]/85 sm:translate-x-2 sm:text-xl">
-            ↳ external validation, not the goal. the work is.
-          </p>
-        </Reveal>
       </div>
     </section>
   );

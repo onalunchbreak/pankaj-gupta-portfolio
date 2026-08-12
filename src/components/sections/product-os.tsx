@@ -184,49 +184,6 @@ export default function ProductOS() {
           </div>
         </div>
 
-        {/* ---- 6 stat cards (rotation correction 2deg → 0deg) ---- */}
-        <div className="mt-20 sm:mt-24">
-          <p className="mb-6 font-mono text-[10px] uppercase tracking-[0.3em] text-[#1a1a1a]/75">
-            {"// measured outcomes — 6 cards"}
-          </p>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {PRODUCT_OS.stats.map((s, i) => (
-              <motion.article
-                key={`${s.label}-${i}`}
-                className="group relative border border-[#1a1a1a]/15 bg-[#F4F1EA]/60 p-5 transition-colors duration-300 hover:border-[#1738D5]/50"
-                initial={reduced ? false : { opacity: 0, y: 24, rotate: 2 }}
-                whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-                viewport={{ once: true, margin: "-10% 0px" }}
-                transition={{
-                  duration: 0.6,
-                  delay: (i % 3) * 0.08,
-                  ease: EASE,
-                }}
-                data-cursor-label={`${s.value}${s.suffix} — ${s.label}`}
-              >
-                {/* card index */}
-                <span className="absolute right-3 top-3 font-mono text-[9px] tracking-[0.25em] text-[#1a1a1a]/85">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                {/* blue accent dot */}
-                <span className="mb-3 inline-block h-2 w-2 bg-[#1738D5]" aria-hidden />
-
-                {/* value — CountUp + suffix */}
-                <p className="font-display text-4xl font-bold leading-none tracking-tight text-[#1a1a1a] sm:text-5xl">
-                  <CountUp target={s.value} />
-                  <span className="text-[#1738D5]">{s.suffix}</span>
-                </p>
-                <p className="mt-3 font-display text-sm font-bold uppercase tracking-tight text-[#2a2a2a]">
-                  {s.label}
-                </p>
-                <p className="mt-1 font-mono text-[10px] leading-snug tracking-[0.04em] text-[#1a1a1a]/85">
-                  {s.sub}
-                </p>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-
         {/* ---- "different industries, same question" handwritten note ---- */}
         <Reveal className="mt-16 sm:mt-20" delay={0.1}>
           <motion.p

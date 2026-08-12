@@ -372,8 +372,7 @@ export default function BestWorkMetro() {
           <span id="best-work-header" className="text-[#F4F1EA]/70">
             BEST WORK / CAREER METRO
           </span>
-          <span className="ml-auto hidden h-px flex-1 bg-white/10 sm:block" />
-          <span className="hidden sm:inline">{"// portfolio.sys"}</span>
+          <span className="ml-auto" />
           <ShareButton sectionId="best-work" />
         </motion.div>
 
