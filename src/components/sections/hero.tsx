@@ -1042,13 +1042,13 @@ export default function Hero() {
                     </span>
                   </div>
 
-                  {/* Curvature (Straight vs Curved) */}
+                  {/* Curvature (Straight vs Arc Up vs Arc Down) */}
                   <div className="flex items-center justify-between gap-2 text-[11px]">
                     <span className="text-white/70">Shape:</span>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => updateNode(selectedNode.id, { curvature: 0 })}
-                        className={`px-2.5 py-0.5 rounded text-[10px] border ${
+                        className={`px-2 py-0.5 rounded text-[10px] border ${
                           (selectedNode.curvature ?? 16) === 0
                             ? "bg-[#FFD400] text-[#0A0A0A] font-bold border-[#FFD400]"
                             : "border-white/20 text-white/70 hover:text-white"
@@ -1058,34 +1058,45 @@ export default function Hero() {
                       </button>
                       <button
                         onClick={() => updateNode(selectedNode.id, { curvature: 18 })}
-                        className={`px-2.5 py-0.5 rounded text-[10px] border ${
+                        className={`px-2 py-0.5 rounded text-[10px] border ${
                           (selectedNode.curvature ?? 16) > 0
                             ? "bg-[#FFD400] text-[#0A0A0A] font-bold border-[#FFD400]"
                             : "border-white/20 text-white/70 hover:text-white"
                         }`}
                       >
-                        Curved
+                        Arc Up ↑
+                      </button>
+                      <button
+                        onClick={() => updateNode(selectedNode.id, { curvature: -18 })}
+                        className={`px-2 py-0.5 rounded text-[10px] border ${
+                          (selectedNode.curvature ?? 16) < 0
+                            ? "bg-[#FFD400] text-[#0A0A0A] font-bold border-[#FFD400]"
+                            : "border-white/20 text-white/70 hover:text-white"
+                        }`}
+                      >
+                        Arc Down ↓
                       </button>
                     </div>
                   </div>
 
-                  {(selectedNode.curvature ?? 16) > 0 && (
-                    <div className="flex items-center justify-between gap-2 text-[11px]">
-                      <span className="text-white/70">Curvature:</span>
-                      <input
-                        type="range"
-                        min="5"
-                        max="45"
-                        step="1"
-                        value={selectedNode.curvature ?? 18}
-                        onChange={(e) => updateNode(selectedNode.id, { curvature: parseInt(e.target.value) })}
-                        className="w-28 accent-[#FFD400]"
-                      />
-                      <span className="w-8 text-right font-bold text-[#FFD400]">
-                        {selectedNode.curvature ?? 18}
-                      </span>
-                    </div>
-                  )}
+                  {/* Bidirectional Curvature Slider (-50 to +50) */}
+                  <div className="flex items-center justify-between gap-2 text-[11px]">
+                    <span className="text-white/70">Curvature:</span>
+                    <input
+                      type="range"
+                      min="-50"
+                      max="50"
+                      step="1"
+                      value={selectedNode.curvature ?? 16}
+                      onChange={(e) => updateNode(selectedNode.id, { curvature: parseInt(e.target.value) })}
+                      className="w-28 accent-[#FFD400]"
+                    />
+                    <span className="w-10 text-right font-bold text-[#FFD400]">
+                      {(selectedNode.curvature ?? 16) > 0
+                        ? `+${selectedNode.curvature ?? 16}`
+                        : selectedNode.curvature ?? 16}
+                    </span>
+                  </div>
 
                   <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/10">
                     <button
