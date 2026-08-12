@@ -197,261 +197,226 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* ---- DESKTOP ORGANIC SCATTERED ANNOTATIONS & TAGS LAYER (Absolute Coordinates) ---- */}
+        {/* ---- DESKTOP ORGANIC SCATTERED ANNOTATIONS & TAGS LAYER (Structured Flex Columns) ---- */}
         <motion.div
           className="pointer-events-none absolute inset-0 z-20 hidden lg:block"
           animate={{ x: tagXOffset, opacity: tagOpacity }}
           transition={{ duration: 0.15, ease: "easeInOut" }}
         >
 
-          {/* ==================== LEFT COLUMN (4 TAGS + 4 CAPTIONS PAIRED VIA DIRECT ARROWS) ==================== */}
+          {/* ==================== LEFT COLUMN (4 PERFECTLY ANCHORED PAIRINGS) ==================== */}
+          <div className="absolute top-[4%] bottom-[6%] left-[7%] flex w-[30%] flex-col justify-between items-start pointer-events-none">
 
-          {/* Left Pair 1: Caption "I connect the dots others miss." -> Tag "PRODUCT STRATEGY" */}
-          <motion.div
-            className="absolute top-[8%] left-[6%] flex flex-col items-start gap-1"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          >
-            <div className="relative hand-display text-2xl text-[#F7F4ED] -rotate-3 select-none">
-              I connect the dots <span className="relative inline-block text-white">others miss.<span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full" /></span>
-              <Sparkles className="absolute -top-4 -right-6 h-5 w-5 text-[#FFD400]" />
-            </div>
+            {/* Left Pair 1: "I connect the dots others miss." -> PRODUCT STRATEGY */}
+            <motion.div
+              className="flex flex-col items-start gap-1"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              <div className="relative hand-display text-2xl text-[#F7F4ED] -rotate-2 select-none">
+                I connect the dots <span className="relative inline-block text-white">others miss.<span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full" /></span>
+                <Sparkles className="absolute -top-3 -right-5 h-4 w-4 text-[#FFD400]" />
+              </div>
+              <div className="mt-0.5 ml-8">
+                <svg className="w-14 h-8 text-white/70" viewBox="0 0 60 35" fill="none" stroke="currentColor">
+                  <path d="M10,6 Q32,24 48,20" strokeDasharray="4 4" strokeWidth="1.5" />
+                  <polygon points="44,15 54,22 46,27" fill="currentColor" />
+                </svg>
+              </div>
+              <div className="mt-1 ml-4 pointer-events-auto -rotate-1">
+                <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
+                  <Sparkles className="h-3.5 w-3.5 text-[#FFD400]" />
+                  <span className="border-b border-[#FFD400] pb-0.5">PRODUCT STRATEGY</span>
+                </div>
+              </div>
+            </motion.div>
 
-            <div className="mt-1 ml-10">
-              <svg className="w-16 h-10 text-white/70" viewBox="0 0 60 40" fill="none" stroke="currentColor">
-                <path d="M10,8 Q35,28 48,24" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="44,19 54,26 46,31" fill="currentColor" />
-              </svg>
-            </div>
-          </motion.div>
+            {/* Left Pair 2: "small bets, big impact." -> USER RESEARCH */}
+            <motion.div
+              className="flex flex-col items-start gap-1"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.42, duration: 0.6 }}
+            >
+              <div className="hand-display text-2xl text-[#F7F4ED] rotate-2 select-none">
+                small bets,<br />
+                <span className="relative inline-block text-white">big impact.<span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full" /></span>
+              </div>
+              <div className="mt-0.5 ml-10">
+                <svg className="w-14 h-8 text-white/70" viewBox="0 0 60 35" fill="none" stroke="currentColor">
+                  <path d="M10,8 Q30,24 46,18" strokeDasharray="4 4" strokeWidth="1.5" />
+                  <polygon points="42,13 52,20 44,25" fill="currentColor" />
+                </svg>
+              </div>
+              <div className="mt-1 ml-6 pointer-events-auto rotate-2">
+                <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
+                  <Search className="h-3.5 w-3.5 text-[#FFD400]" />
+                  <span className="border-b border-[#FFD400] pb-0.5">USER RESEARCH</span>
+                </div>
+              </div>
+            </motion.div>
 
-          <motion.div
-            className="absolute top-[21%] left-[11%] -rotate-2 pointer-events-auto"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-          >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
-              <Sparkles className="h-3.5 w-3.5 text-[#FFD400]" />
-              <span className="border-b border-[#FFD400] pb-0.5">PRODUCT STRATEGY</span>
-            </div>
-          </motion.div>
+            {/* Left Pair 3: "Fewer clicks, same outcome." -> WORKFLOW AUTOMATION */}
+            <motion.div
+              className="flex flex-col items-start gap-1"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.54, duration: 0.6 }}
+            >
+              <div className="hand-display text-xl text-[#F7F4ED] -rotate-1 select-none">
+                Fewer clicks,<br />
+                <span className="relative inline-block text-white">same outcome.<span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#FFD400] rounded-full" /></span>
+              </div>
+              <div className="mt-0.5 ml-6">
+                <svg className="w-12 h-7 text-white/70" viewBox="0 0 50 30" fill="none" stroke="currentColor">
+                  <path d="M10,6 Q25,20 40,16" strokeDasharray="4 4" strokeWidth="1.5" />
+                  <polygon points="36,11 46,17 38,22" fill="currentColor" />
+                </svg>
+              </div>
+              <div className="mt-1 pointer-events-auto rotate-1">
+                <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
+                  <Cpu className="h-3.5 w-3.5 text-[#FFD400]" />
+                  <span className="border-b border-[#FFD400] pb-0.5">WORKFLOW AUTOMATION</span>
+                </div>
+              </div>
+            </motion.div>
 
-          {/* Left Pair 2: Caption "small bets, big impact." -> Tag "USER RESEARCH" */}
-          <motion.div
-            className="absolute top-[32%] left-[4%] flex flex-col items-start gap-1"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.45, duration: 0.6 }}
-          >
-            <div className="hand-display text-2xl text-[#F7F4ED] rotate-2 select-none">
-              small bets,<br />
-              <span className="relative inline-block text-white">big impact.<span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full" /></span>
-            </div>
-
-            <div className="mt-1 ml-12">
-              <svg className="w-16 h-10 text-white/70" viewBox="0 0 60 40" fill="none" stroke="currentColor">
-                <path d="M10,10 Q32,28 46,22" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="42,16 52,24 44,29" fill="currentColor" />
-              </svg>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className="absolute top-[44%] left-[10%] rotate-3 pointer-events-auto"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-          >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
-              <Search className="h-3.5 w-3.5 text-[#FFD400]" />
-              <span className="border-b border-[#FFD400] pb-0.5">USER RESEARCH</span>
-            </div>
-          </motion.div>
-
-          {/* Left Pair 3: Caption "Fewer clicks, same outcome." -> Tag "WORKFLOW AUTOMATION" */}
-          <motion.div
-            className="absolute top-[54%] left-[10%] flex flex-col items-start gap-1"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.55, duration: 0.6 }}
-          >
-            <div className="hand-display text-xl text-[#F7F4ED] -rotate-1 select-none">
-              Fewer clicks,<br />
-              <span className="relative inline-block text-white">same outcome.<span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#FFD400] rounded-full" /></span>
-            </div>
-
-            <div className="mt-1 ml-4">
-              <svg className="w-14 h-9 text-white/70" viewBox="0 0 50 35" fill="none" stroke="currentColor">
-                <path d="M35,6 Q20,24 8,18" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="12,13 4,19 12,25" fill="currentColor" />
-              </svg>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className="absolute top-[66%] left-[4%] rotate-1 pointer-events-auto"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.58, duration: 0.6 }}
-          >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
-              <Cpu className="h-3.5 w-3.5 text-[#FFD400]" />
-              <span className="border-b border-[#FFD400] pb-0.5">WORKFLOW AUTOMATION</span>
-            </div>
-          </motion.div>
-
-          {/* Left Pair 4: Caption "Plans change. Direction shouldn't." -> Tag "ROADMAPPING" */}
-          <motion.div
-            className="absolute top-[76%] left-[4%] flex flex-col items-start gap-1"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.62, duration: 0.6 }}
-          >
-            <div className="hand-display text-xl text-[#F7F4ED] -rotate-2 select-none">
-              Plans change.<br />
-              <span className="relative inline-block text-white">Direction shouldn't.<span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#FFD400] rounded-full" /></span>
-            </div>
-
-            <div className="mt-1 ml-8">
-              <svg className="w-16 h-10 text-white/70" viewBox="0 0 60 40" fill="none" stroke="currentColor">
-                <path d="M10,10 Q32,28 48,22" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="44,16 54,23 46,29" fill="currentColor" />
-              </svg>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className="absolute top-[88%] left-[10%] -rotate-2 pointer-events-auto"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.65, duration: 0.6 }}
-          >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
-              <Compass className="h-3.5 w-3.5 text-[#FFD400]" />
-              <span className="border-b border-[#FFD400] pb-0.5">ROADMAPPING</span>
-            </div>
-          </motion.div>
+            {/* Left Pair 4: "Plans change. Direction shouldn't." -> ROADMAPPING */}
+            <motion.div
+              className="flex flex-col items-start gap-1"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.65, duration: 0.6 }}
+            >
+              <div className="hand-display text-xl text-[#F7F4ED] -rotate-2 select-none">
+                Plans change.<br />
+                <span className="relative inline-block text-white">Direction shouldn't.<span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#FFD400] rounded-full" /></span>
+              </div>
+              <div className="mt-0.5 ml-8">
+                <svg className="w-14 h-8 text-white/70" viewBox="0 0 60 35" fill="none" stroke="currentColor">
+                  <path d="M10,8 Q30,24 46,18" strokeDasharray="4 4" strokeWidth="1.5" />
+                  <polygon points="42,13 52,20 44,25" fill="currentColor" />
+                </svg>
+              </div>
+              <div className="mt-1 ml-4 pointer-events-auto -rotate-2">
+                <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
+                  <Compass className="h-3.5 w-3.5 text-[#FFD400]" />
+                  <span className="border-b border-[#FFD400] pb-0.5">ROADMAPPING</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
 
 
-          {/* ==================== RIGHT COLUMN (4 TAGS + 3 CAPTIONS PAIRED VIA DIRECT ARROWS) ==================== */}
+          {/* ==================== RIGHT COLUMN (4 PERFECTLY ANCHORED PAIRINGS) ==================== */}
+          <div className="absolute top-[4%] bottom-[6%] right-[7%] flex w-[30%] flex-col justify-between items-end text-right pointer-events-none">
 
-          {/* Right Tag 1: APPLIED AI */}
-          <motion.div
-            className="absolute top-[10%] right-[10%] rotate-2 pointer-events-auto"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.45, duration: 0.6 }}
-          >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
-              <Star className="h-3.5 w-3.5 fill-[#FFD400] text-[#FFD400]" />
-              <span className="border-b border-[#FFD400] pb-0.5">APPLIED AI</span>
-            </div>
-          </motion.div>
+            {/* Right Pair 1: "curious by nature, obsessed with value. :)" -> APPLIED AI */}
+            <motion.div
+              className="flex flex-col items-end gap-1 text-right"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.35, duration: 0.6 }}
+            >
+              <div className="relative hand-display text-2xl text-[#F7F4ED] -rotate-1 select-none">
+                curious by nature,<br />
+                obsessed with <span className="relative inline-block text-white">value.<span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full" /></span>
+                <span className="ml-2 font-sans text-xl text-[#FFD400]">:)</span>
+              </div>
+              <div className="mt-0.5 mr-8">
+                <svg className="w-14 h-8 text-white/70" viewBox="0 0 60 35" fill="none" stroke="currentColor">
+                  <path d="M50,8 Q30,24 14,18" strokeDasharray="4 4" strokeWidth="1.5" />
+                  <polygon points="18,13 8,20 16,25" fill="currentColor" />
+                </svg>
+              </div>
+              <div className="mt-1 mr-4 pointer-events-auto rotate-2">
+                <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
+                  <Star className="h-3.5 w-3.5 fill-[#FFD400] text-[#FFD400]" />
+                  <span className="border-b border-[#FFD400] pb-0.5">APPLIED AI</span>
+                </div>
+              </div>
+            </motion.div>
 
-          {/* Right Pair 1: Caption "curious by nature, obsessed with value. :)" -> Tag "APPLIED AI" */}
-          <motion.div
-            className="absolute top-[23%] right-[4%] flex flex-col items-end gap-1 text-right"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-          >
-            <div className="relative hand-display text-2xl text-[#F7F4ED] -rotate-2 select-none">
-              curious by nature,<br />
-              obsessed with <span className="relative inline-block text-white">value.<span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full" /></span>
-              <span className="ml-2 font-sans text-xl text-[#FFD400]">:)</span>
-            </div>
+            {/* Right Pair 2: "Numbers don't sell themselves. Stories do." -> STORYTELLING */}
+            <motion.div
+              className="flex flex-col items-end gap-1 text-right"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.48, duration: 0.6 }}
+            >
+              <div className="hand-display text-xl text-[#F7F4ED] rotate-1 select-none">
+                Numbers don't sell themselves.<br />
+                <span className="relative inline-block text-white">Stories do.<span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#FFD400] rounded-full" /></span>
+              </div>
+              <div className="mt-0.5 mr-10">
+                <svg className="w-14 h-8 text-white/70" viewBox="0 0 60 35" fill="none" stroke="currentColor">
+                  <path d="M50,8 Q30,24 14,18" strokeDasharray="4 4" strokeWidth="1.5" />
+                  <polygon points="18,13 8,20 16,25" fill="currentColor" />
+                </svg>
+              </div>
+              <div className="mt-1 mr-6 pointer-events-auto -rotate-1">
+                <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
+                  <MessageSquare className="h-3.5 w-3.5 text-[#FFD400]" />
+                  <span className="border-b border-[#FFD400] pb-0.5">STORYTELLING</span>
+                </div>
+              </div>
+            </motion.div>
 
-            <div className="mt-1 mr-12">
-              <svg className="w-16 h-10 text-white/70" viewBox="0 0 60 40" fill="none" stroke="currentColor">
-                <path d="M50,30 Q30,10 14,14" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="18,8 8,14 16,20" fill="currentColor" />
-              </svg>
-            </div>
-          </motion.div>
+            {/* Right Pair 3: "data > opinion, always." -> PRODUCT DISCOVERY */}
+            <motion.div
+              className="flex flex-col items-end gap-1 text-right"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.58, duration: 0.6 }}
+            >
+              <div className="flex items-center gap-2 hand-display text-2xl text-[#F7F4ED] rotate-1 select-none">
+                <span>
+                  data &gt; opinion<br />
+                  <span className="relative inline-block text-white">always.<span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full" /></span>
+                </span>
+                <BarChart2 className="h-6 w-6 text-[#FFD400] ml-1" />
+              </div>
+              <div className="mt-0.5 mr-10">
+                <svg className="w-14 h-8 text-white/70" viewBox="0 0 60 35" fill="none" stroke="currentColor">
+                  <path d="M50,8 Q30,24 14,18" strokeDasharray="4 4" strokeWidth="1.5" />
+                  <polygon points="18,13 8,20 16,25" fill="currentColor" />
+                </svg>
+              </div>
+              <div className="mt-1 mr-4 pointer-events-auto rotate-3">
+                <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
+                  <Sparkles className="h-3.5 w-3.5 text-[#FFD400]" />
+                  <span className="border-b border-[#FFD400] pb-0.5">PRODUCT DISCOVERY</span>
+                </div>
+              </div>
+            </motion.div>
 
-          {/* Right Tag 2: STORYTELLING */}
-          <motion.div
-            className="absolute top-[36%] right-[10%] -rotate-1 pointer-events-auto"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.52, duration: 0.6 }}
-          >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
-              <MessageSquare className="h-3.5 w-3.5 text-[#FFD400]" />
-              <span className="border-b border-[#FFD400] pb-0.5">STORYTELLING</span>
-            </div>
-          </motion.div>
+            {/* Right Pair 4: "scalable architectures, zero noise." -> SYSTEM DESIGN */}
+            <motion.div
+              className="flex flex-col items-end gap-1 text-right"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.68, duration: 0.6 }}
+            >
+              <div className="hand-display text-xl text-[#F7F4ED] -rotate-1 select-none">
+                scalable architectures,<br />
+                <span className="relative inline-block text-white">zero noise.<span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#FFD400] rounded-full" /></span>
+              </div>
+              <div className="mt-0.5 mr-6">
+                <svg className="w-14 h-8 text-white/70" viewBox="0 0 60 35" fill="none" stroke="currentColor">
+                  <path d="M50,8 Q30,24 14,18" strokeDasharray="4 4" strokeWidth="1.5" />
+                  <polygon points="18,13 8,20 16,25" fill="currentColor" />
+                </svg>
+              </div>
+              <div className="mt-1 mr-6 pointer-events-auto -rotate-2">
+                <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
+                  <Settings className="h-3.5 w-3.5 text-[#FFD400]" />
+                  <span className="border-b border-[#FFD400] pb-0.5">SYSTEM DESIGN</span>
+                </div>
+              </div>
+            </motion.div>
 
-          {/* Right Pair 2: Caption "Numbers don't sell themselves. Stories do." -> Tag "STORYTELLING" */}
-          <motion.div
-            className="absolute top-[48%] right-[5%] flex flex-col items-end gap-1 text-right"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.54, duration: 0.6 }}
-          >
-            <div className="hand-display text-xl text-[#F7F4ED] rotate-1 select-none">
-              Numbers don't sell themselves.<br />
-              <span className="relative inline-block text-white">Stories do.<span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#FFD400] rounded-full" /></span>
-            </div>
-
-            <div className="mt-1 mr-10">
-              <svg className="w-16 h-10 text-white/70" viewBox="0 0 60 40" fill="none" stroke="currentColor">
-                <path d="M50,30 Q30,10 14,14" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="18,8 8,14 16,20" fill="currentColor" />
-              </svg>
-            </div>
-          </motion.div>
-
-          {/* Right Tag 3: PRODUCT DISCOVERY */}
-          <motion.div
-            className="absolute top-[62%] right-[10%] rotate-3 pointer-events-auto"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.55, duration: 0.6 }}
-          >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
-              <Sparkles className="h-3.5 w-3.5 text-[#FFD400]" />
-              <span className="border-b border-[#FFD400] pb-0.5">PRODUCT DISCOVERY</span>
-            </div>
-          </motion.div>
-
-          {/* Right Pair 3: Caption "data > opinion, always." -> Tag "PRODUCT DISCOVERY" */}
-          <motion.div
-            className="absolute top-[74%] right-[4%] flex flex-col items-end gap-1 text-right"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-          >
-            <div className="flex items-center gap-2 hand-display text-2xl text-[#F7F4ED] rotate-1 select-none">
-              <span>
-                data &gt; opinion<br />
-                <span className="relative inline-block text-white">always.<span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full" /></span>
-              </span>
-              <BarChart2 className="h-6 w-6 text-[#FFD400] ml-1" />
-            </div>
-
-            <div className="mt-1 mr-10">
-              <svg className="w-16 h-10 text-white/70" viewBox="0 0 60 40" fill="none" stroke="currentColor">
-                <path d="M50,30 Q30,10 14,14" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="18,8 8,14 16,20" fill="currentColor" />
-              </svg>
-            </div>
-          </motion.div>
-
-          {/* Right Tag 4: SYSTEM DESIGN */}
-          <motion.div
-            className="absolute top-[88%] right-[8%] -rotate-2 pointer-events-auto"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.7, duration: 0.6 }}
-          >
-            <div className="flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-4 py-2 font-mono text-[12px] uppercase tracking-wider text-[#F7F4ED] backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] hover:text-[#FFD400] hover:scale-[1.03] transition-all select-none cursor-default">
-              <Settings className="h-3.5 w-3.5 text-[#FFD400]" />
-              <span className="border-b border-[#FFD400] pb-0.5">SYSTEM DESIGN</span>
-            </div>
-          </motion.div>
+          </div>
 
         </motion.div>
 
