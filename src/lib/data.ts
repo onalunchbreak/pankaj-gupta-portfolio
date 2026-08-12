@@ -119,8 +119,8 @@ export const MARQUEE_ITEMS = [
 export const ORIGIN = {
   index: "01",
   title: "THE BEGINNING",
-  hero: "I STARTED BY BUILDING TECHNICAL THINGS. THEN I REALISED THE HARDER QUESTION WAS: WHAT SHOULD WE BUILD IN THE FIRST PLACE?",
-  emphasis: "WHAT SHOULD WE BUILD IN THE FIRST PLACE?",
+  hero: "I USED TO BUILD WHATEVER CAME TO MIND AND TACKLE THE TECHNICAL CHALLENGES AS THEY CAME. OVER TIME, I REALISED THE REAL HARD QUESTION WAS: SHOULD WE EVEN BE BUILDING THIS IN THE FIRST PLACE?",
+  emphasis: "SHOULD WE EVEN BE BUILDING THIS IN THE FIRST PLACE?",
   paragraphs: [
     "I studied Engineering Physics at DTU. The obvious path was to keep going deeper into engineering. So naturally, I started working on computer vision, NLP, multimodal AI, AR systems, research papers, public-sector analytics platforms, and whatever else looked technically interesting.",
     "Somewhere between models, data pipelines, deployments, users, and institutions, the question changed. 'Could I build it?' became 'Should we build it? For whom? What changes if it works?'",
