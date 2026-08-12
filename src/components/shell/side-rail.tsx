@@ -48,7 +48,7 @@ export default function SideRail() {
           className={`whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.35em] transition-colors duration-500 ${nameText}`}
           style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
         >
-          Pankaj Gupta <span className="text-[#1738D5]">AKA</span> Mr. Onalunchbreak
+          Pankaj Gupta <span className="text-[#1738D5]">·</span> PORTFOLIO
         </span>
       </div>
 

@@ -9,7 +9,7 @@ import { getLenis } from "@/lib/lenis-instance";
 
 // Mini-preview metadata for each nav item — shown on hover as a floating card.
 const PEEK_INFO: Record<string, { env: string; desc: string }> = {
-  hero: { env: "BLUE", desc: "Mr. Onalunchbreak — product × AI × systems" },
+  hero: { env: "BLUE", desc: "Pankaj Gupta — product × AI × systems" },
   origin: { env: "PAPER", desc: "My journey into product & AI systems" },
   "best-work": { env: "BLACK", desc: "Product Line metro — 5 stations" },
   research: { env: "PAPER", desc: "4 papers — EACL · ECIR · AAAI · IEEE" },
@@ -65,16 +65,16 @@ export default function Nav() {
             const isHovered = hovered === item.id;
             const peek = PEEK_INFO[item.id];
             // Color tokens that flip based on the active section's background.
-            // On paper (light) sections: dark text + dark accent.
-            // On dark/blue/black sections: light text + blue accent.
+            // On paper (light) sections: dark text + blue accent.
+            // On dark/blue/black sections: yellow accent + yellow text.
             const inactiveText = onLightBg
               ? "text-[#1a1a1a]/70 group-hover:text-[#1a1a1a]"
               : "text-[#F4F1EA]/80 group-hover:text-[#F4F1EA]";
             const inactiveRule = onLightBg
               ? "bg-[#1a1a1a]/25 group-hover:bg-[#1738D5]"
-              : "bg-white/25 group-hover:bg-[#1738D5]";
-            const activeText = "text-[#1738D5]";
-            const activeRule = "bg-[#1738D5]";
+              : "bg-white/25 group-hover:bg-[#FFD400]";
+            const activeText = onLightBg ? "text-[#1738D5] font-bold" : "text-[#FFD400] font-bold";
+            const activeRule = onLightBg ? "bg-[#1738D5]" : "bg-[#FFD400]";
             return (
               <div key={item.id} className="relative flex items-center justify-end">
                 {/* Floating peek card — appears on hover to the LEFT of the nav item */}
