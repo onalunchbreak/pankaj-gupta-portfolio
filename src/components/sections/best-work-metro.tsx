@@ -439,9 +439,6 @@ export default function BestWorkMetro() {
             <span aria-hidden>→</span>
           </button>
 
-          <p className="max-w-md font-mono text-xs uppercase tracking-[0.18em] text-[#A3A3A3]">
-            {`// ${METRO_STATIONS.length} stations · ${METRO_STATIONS.length} case studies · scroll to ride`}
-          </p>
         </motion.div>
       </div>
 
