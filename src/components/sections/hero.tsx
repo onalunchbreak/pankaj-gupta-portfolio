@@ -299,7 +299,7 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     "x": 1256.82421875,
     "y": 58.5546875,
     "scale": 1,
-    "rotation": 2,
+    "rotation": 16,
     "fontSize": 12,
     "fontFamily": "mono",
     "color": "#F7F4ED",
@@ -393,8 +393,8 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     "id": "tag-system",
     "type": "tag",
     "text": "SYSTEM DESIGN",
-    "x": 1066.00390625,
-    "y": 478.7109375,
+    "x": 1058.35546875,
+    "y": 454.94140625,
     "scale": 1,
     "rotation": -2,
     "fontSize": 12,
@@ -406,8 +406,8 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     "id": "arrow-system",
     "type": "arrow",
     "text": "",
-    "x": 1157.62109375,
-    "y": 528.48046875,
+    "x": 1151.65234375,
+    "y": 502.125,
     "scale": 1,
     "rotation": 36,
     "fontSize": 14,
@@ -438,8 +438,8 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     "id": "quote-1786515031928",
     "type": "quote",
     "text": "scalable architectures,\nzero noise.",
-    "x": 1119.2442985794341,
-    "y": 580.6041970407531,
+    "x": 1170.7013298294341,
+    "y": 557.6784157907531,
     "scale": 1,
     "rotation": 0,
     "fontSize": 22,
@@ -967,36 +967,34 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSaveModalOpen(false)}
-            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 font-mono select-none"
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 font-mono cursor-auto"
           >
             <motion.div
               initial={{ scale: 0.9, y: 12 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 12 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-md rounded-xl border border-[#FFD400]/40 bg-[#0E0E0E] p-6 shadow-2xl text-[#F7F4ED]"
+              className="w-full max-w-sm rounded-xl border border-[#FFD400]/40 bg-[#0E0E0E] p-5 shadow-2xl text-[#F7F4ED] cursor-auto"
             >
               <div className="flex items-center gap-2 text-[#FFD400] font-bold text-sm tracking-wider uppercase border-b border-white/10 pb-3">
                 <Save className="h-4 w-4" />
-                Confirm & Save Changes to Code
+                Confirm Save
               </div>
 
-              <p className="mt-4 text-xs text-white/80 leading-relaxed">
-                This will automatically write your exact layout coordinates, portrait scale, and text formatting directly into <code className="text-[#FFD400]">hero.tsx</code> source code baseline and commit it to Git.
-              </p>
+              <ul className="mt-4 space-y-2 text-[12px] text-white/80">
+                <li>• <span className="text-white font-bold">{nodes.length} elements</span> on canvas</li>
+                <li>• Portrait scale: <span className="text-white font-bold">{scale}%</span></li>
+                <li>• Portrait offset: <span className="text-white font-bold">X {xOffset}px, Y {yOffset}px</span></li>
+                <li>• Writes directly into <span className="text-[#FFD400] font-bold">hero.tsx</span></li>
+                <li>• Creates a <span className="text-[#FFD400] font-bold">git commit</span></li>
+              </ul>
 
-              <div className="mt-4 rounded-lg bg-black/60 border border-white/10 p-3 text-[11px] text-white/70 space-y-1.5">
-                <div>• Total Canvas Nodes: <strong className="text-white">{nodes.length}</strong></div>
-                <div>• Portrait Scale: <strong className="text-white">{scale}%</strong></div>
-                <div>• Portrait Position Offset: <strong className="text-white">X: {xOffset}px, Y: {yOffset}px</strong></div>
-              </div>
-
-              <div className="mt-6 flex items-center justify-end gap-3 pt-2">
+              <div className="mt-5 flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setSaveModalOpen(false)}
                   disabled={isSaving}
-                  className="rounded border border-white/20 px-4 py-2 text-xs font-bold text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+                  className="rounded border border-white/20 px-4 py-2 text-xs font-bold text-white/70 hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -1004,10 +1002,10 @@ export default function Hero() {
                   type="button"
                   onClick={confirmAndSaveToCode}
                   disabled={isSaving}
-                  className="flex items-center gap-2 rounded border border-[#FFD400] bg-[#FFD400] px-5 py-2 text-xs font-bold text-black hover:bg-[#FFD400]/90 transition-colors shadow-lg disabled:opacity-50"
+                  className="flex items-center gap-2 rounded bg-[#FFD400] px-5 py-2 text-xs font-bold text-black hover:bg-[#FFD400]/90 transition-colors shadow-lg disabled:opacity-50 cursor-pointer"
                 >
                   {isSaving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
-                  {isSaving ? "Saving to Code..." : "Confirm & Save"}
+                  {isSaving ? "Saving..." : "Confirm & Save"}
                 </button>
               </div>
             </motion.div>
