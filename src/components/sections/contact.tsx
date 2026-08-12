@@ -277,18 +277,11 @@ export default function Contact() {
       <footer className="env-paper paper-texture relative w-full border-t border-black/10 py-10 sm:py-14">
         <div className="mx-auto w-full max-w-[1200px] px-5 sm:px-8 lg:px-12">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-            {/* Left Column: Signoff + Status / Tagline */}
-            <div className="max-w-xl space-y-3">
+            {/* Left Column: Signoff */}
+            <div className="max-w-xl">
               <p className="font-mono text-xs italic leading-relaxed text-[#2a2a2a]/85 sm:text-sm">
                 {CONTACT.signoff}
               </p>
-              <div className="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#1738D5]">
-                <span>PRODUCT STRATEGY</span>
-                <span>·</span>
-                <span>PRD & AI SYSTEMS</span>
-                <span>·</span>
-                <span>SHIPPING CODE</span>
-              </div>
             </div>
 
             {/* Right Column: Signature + Return to Top */}

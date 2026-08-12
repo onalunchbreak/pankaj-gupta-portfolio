@@ -5,7 +5,6 @@ import Cursor from "@/components/shell/cursor";
 import Grain from "@/components/shell/grain";
 import IssueBadge from "@/components/shell/issue-badge";
 import SoundManager from "@/components/shell/sound-manager";
-import CaseCloseOverlay from "@/components/shell/case-close-overlay";
 import KeyboardRouter from "@/components/shell/keyboard-router";
 import SectionReachTracker from "@/components/shell/section-reach-tracker";
 import ScrollToTop from "@/components/shell/scroll-to-top";
@@ -31,7 +30,6 @@ export default function Home() {
       <SoundManager />
       <Nav />
       <IssueBadge />
-      <CaseCloseOverlay />
       <KeyboardRouter />
       <SectionReachTracker />
       <ScrollToTop />
