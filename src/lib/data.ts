@@ -368,7 +368,7 @@ export const METRO_STATIONS: MetroStation[] = [
     role: "JBS RESEARCH APPRENTICE",
     theme: "APPLIED RESEARCH",
     tag: "Computer Vision for FMCG",
-    headline: "CAN COMPUTER VISION HELP A SMALL RETAILER MAKE BETTER BUSINESS DECISIONS?",
+    headline: "CAN COMPUTER VISION HELP 5,000+ LOCAL MINI-MARTS OPTIMIZE STORE LAYOUTS AND REVENUE?",
     problem:
       "Tier-2 and tier-3 FMCG micro-entrepreneurs don't have access to the data-backed planogram design that big chains use to boost dwell time and basket size. The research set out to close that gap.",
     system: ["Grounded-SAM object detection", "Grounding DINO + SAM 1", "LiDAR + ARKit RoomPlan 3D mesh", "AR recommendation engine"],
