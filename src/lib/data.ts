@@ -422,7 +422,7 @@ export const METRO_STATIONS: MetroStation[] = [
     role: "ASSOCIATE PRODUCT MANAGER, HR-AUTOMATION-TECH",
     theme: "PRODUCT MANAGEMENT",
     tag: "Talent Engagement Platform",
-    headline: "HOW DO YOU DROP SUPPORT TICKETS 40% WITHOUT TOUCHING THE PRODUCT?",
+    headline: "HOW DO YOU LOOK AT RECRUITMENT FROM AN HR'S PERSPECTIVE TO BUILD BETTER B2B SAAS PRODUCTS?",
     problem:
       "Most Jira and Zendesk tickets traced back to customers and implementation managers who didn't fully understand what the system could and couldn't do. Release blogs sat unread, and new hires needed 4–5 weeks just to get oriented.",
     system: ["NotebookLM knowledge base", "Python RAG prototype with Ollama", "Sense IQ embedded in-app assistant", "Pre-built Field Guide templates"],
