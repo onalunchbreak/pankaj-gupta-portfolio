@@ -967,7 +967,7 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSaveModalOpen(false)}
-            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 font-mono cursor-auto"
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 font-mono cursor-auto modal-cursor-restore"
           >
             <motion.div
               initial={{ scale: 0.9, y: 12 }}
