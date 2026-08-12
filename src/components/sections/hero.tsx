@@ -86,16 +86,14 @@ const COLOR_PRESETS = [
   "#FFFFFF", // Pure White
 ];
 
-// Clean unified canvas baseline layout with guaranteed viewport clearance & clickability
+// USER-APPROVED MASTER LAYOUT (Bunkered into permanent baseline)
 const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
-  // ==================== LEFT FLANK ====================
-  // Row 1: PRODUCT STRATEGY
   {
     id: "quote-strategy",
     type: "quote",
     text: "I connect the dots\nothers miss.",
-    x: 40,
-    y: 25,
+    x: 367.53515625,
+    y: 16.22265625,
     scale: 1,
     rotation: -2,
     fontSize: 24,
@@ -107,24 +105,24 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     id: "arrow-strategy",
     type: "arrow",
     text: "",
-    x: 255,
-    y: 35,
+    x: 441.26171875,
+    y: 94.6328125,
     scale: 1,
-    rotation: 0,
+    rotation: 32,
     fontSize: 14,
     fontFamily: "mono",
     color: "#FFD400",
     highlight: false,
-    curvature: 18,
+    curvature: -28,
     flipX: true,
-    arrowLength: 75,
+    arrowLength: 135,
   },
   {
     id: "tag-strategy",
     type: "tag",
     text: "PRODUCT STRATEGY",
-    x: 50,
-    y: 95,
+    x: 25.484375,
+    y: 190.63671875,
     scale: 1,
     rotation: -1,
     fontSize: 12,
@@ -132,14 +130,12 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     color: "#F7F4ED",
     highlight: false,
   },
-
-  // Row 2: USER RESEARCH
   {
     id: "tag-research",
     type: "tag",
     text: "USER RESEARCH",
-    x: 40,
-    y: 185,
+    x: 240.7109375,
+    y: 336.390625,
     scale: 1,
     rotation: 2,
     fontSize: 12,
@@ -151,24 +147,24 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     id: "arrow-research",
     type: "arrow",
     text: "",
-    x: 205,
-    y: 185,
+    x: 210.59765625,
+    y: 198.9140625,
     scale: 1,
-    rotation: 0,
+    rotation: 10,
     fontSize: 14,
     fontFamily: "mono",
     color: "#FFD400",
     highlight: false,
-    curvature: 14,
+    curvature: 24,
     flipX: false,
-    arrowLength: 60,
+    arrowLength: 135,
   },
   {
     id: "quote-research",
     type: "quote",
     text: "small bets,\nbig impact.",
-    x: 280,
-    y: 170,
+    x: 337.6171875,
+    y: 207.31640625,
     scale: 1,
     rotation: 2,
     fontSize: 24,
@@ -176,14 +172,12 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     color: "#F7F4ED",
     highlight: true,
   },
-
-  // Row 3: WORKFLOW AUTOMATION
   {
     id: "quote-automation",
     type: "quote",
     text: "Fewer clicks,\nsame outcome.",
-    x: 40,
-    y: 300,
+    x: 80.375,
+    y: 411.51953125,
     scale: 1,
     rotation: -1,
     fontSize: 20,
@@ -195,39 +189,37 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     id: "arrow-automation",
     type: "arrow",
     text: "",
-    x: 75,
-    y: 355,
+    x: 176.20703125,
+    y: 387.20703125,
     scale: 1,
-    rotation: 90,
+    rotation: -24,
     fontSize: 14,
     fontFamily: "mono",
     color: "#FFD400",
     highlight: false,
-    curvature: 16,
+    curvature: -17,
     flipX: false,
-    arrowLength: 45,
+    arrowLength: 115,
   },
   {
     id: "tag-automation",
     type: "tag",
     text: "WORKFLOW AUTOMATION",
-    x: 40,
-    y: 400,
+    x: 62.32421875,
+    y: 28.046875,
     scale: 1,
-    rotation: 1,
+    rotation: -18,
     fontSize: 12,
     fontFamily: "mono",
     color: "#F7F4ED",
     highlight: false,
   },
-
-  // Row 4: ROADMAPPING
   {
     id: "quote-roadmapping",
     type: "quote",
     text: "Plans change.\nDirection shouldn't.",
-    x: 70,
-    y: 465,
+    x: 139.890625,
+    y: 553.40625,
     scale: 1,
     rotation: -2,
     fontSize: 20,
@@ -239,24 +231,24 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     id: "arrow-roadmapping",
     type: "arrow",
     text: "",
-    x: 105,
-    y: 520,
+    x: 196.77734375,
+    y: 607.81640625,
     scale: 1,
-    rotation: 90,
+    rotation: 28,
     fontSize: 14,
     fontFamily: "mono",
     color: "#FFD400",
     highlight: false,
-    curvature: 16,
+    curvature: -20,
     flipX: false,
-    arrowLength: 45,
+    arrowLength: 110,
   },
   {
     id: "tag-roadmapping",
     type: "tag",
     text: "ROADMAPPING",
-    x: 70,
-    y: 565,
+    x: 300.21875,
+    y: 621.44921875,
     scale: 1,
     rotation: -2,
     fontSize: 12,
@@ -264,32 +256,28 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     color: "#F7F4ED",
     highlight: false,
   },
-
-
-  // ==================== RIGHT FLANK ====================
-  // Row 1: APPLIED AI
   {
     id: "arrow-ai",
     type: "arrow",
     text: "",
-    x: 760,
-    y: 35,
+    x: 863.4453125,
+    y: 50.234375,
     scale: 1,
-    rotation: 0,
+    rotation: -26,
     fontSize: 14,
     fontFamily: "mono",
     color: "#FFD400",
     highlight: false,
-    curvature: 18,
+    curvature: -18,
     flipX: false,
-    arrowLength: 75,
+    arrowLength: 135,
   },
   {
     id: "quote-ai",
     type: "quote",
     text: "curious by nature,\nobsessed with value. :)",
-    x: 850,
-    y: 25,
+    x: 1000.25,
+    y: -10.7265625,
     scale: 1,
     rotation: -1,
     fontSize: 24,
@@ -301,8 +289,8 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     id: "tag-ai",
     type: "tag",
     text: "APPLIED AI",
-    x: 940,
-    y: 95,
+    x: 1256.82421875,
+    y: 58.5546875,
     scale: 1,
     rotation: 2,
     fontSize: 12,
@@ -310,14 +298,12 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     color: "#F7F4ED",
     highlight: false,
   },
-
-  // Row 2: STORYTELLING
   {
     id: "quote-storytelling",
     type: "quote",
     text: "Numbers don't sell.\nStories do.",
-    x: 830,
-    y: 175,
+    x: 1282.91796875,
+    y: 197.12890625,
     scale: 1,
     rotation: 1,
     fontSize: 20,
@@ -329,24 +315,24 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     id: "arrow-storytelling",
     type: "arrow",
     text: "",
-    x: 905,
-    y: 230,
+    x: 1133.6640625,
+    y: 186.28125,
     scale: 1,
-    rotation: 90,
+    rotation: 16,
     fontSize: 14,
     fontFamily: "mono",
     color: "#FFD400",
     highlight: false,
-    curvature: 16,
+    curvature: -31,
     flipX: false,
-    arrowLength: 45,
+    arrowLength: 150,
   },
   {
     id: "tag-storytelling",
     type: "tag",
     text: "STORYTELLING",
-    x: 880,
-    y: 275,
+    x: 1029.359375,
+    y: 135.1328125,
     scale: 1,
     rotation: -1,
     fontSize: 12,
@@ -354,14 +340,12 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     color: "#F7F4ED",
     highlight: false,
   },
-
-  // Row 3: PRODUCT DISCOVERY
   {
     id: "tag-discovery",
     type: "tag",
     text: "PRODUCT DISCOVERY",
-    x: 870,
-    y: 340,
+    x: 1215.06640625,
+    y: 322.45703125,
     scale: 1,
     rotation: 3,
     fontSize: 12,
@@ -389,8 +373,8 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     id: "quote-discovery",
     type: "quote",
     text: "data > opinion,\nalways.",
-    x: 870,
-    y: 430,
+    x: 1036.8203125,
+    y: 317.28515625,
     scale: 1,
     rotation: 1,
     fontSize: 24,
@@ -398,14 +382,12 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     color: "#F7F4ED",
     highlight: true,
   },
-
-  // Row 4: SYSTEM DESIGN
   {
     id: "tag-system",
     type: "tag",
     text: "SYSTEM DESIGN",
-    x: 890,
-    y: 505,
+    x: 1066.00390625,
+    y: 478.7109375,
     scale: 1,
     rotation: -2,
     fontSize: 12,
@@ -417,30 +399,49 @@ const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
     id: "arrow-system",
     type: "arrow",
     text: "",
-    x: 920,
-    y: 545,
+    x: 1157.62109375,
+    y: 528.48046875,
     scale: 1,
-    rotation: 90,
+    rotation: 36,
     fontSize: 14,
     fontFamily: "mono",
     color: "#FFD400",
     highlight: false,
-    curvature: 16,
+    curvature: 3,
     flipX: false,
-    arrowLength: 45,
+    arrowLength: 85,
   },
   {
-    id: "quote-system",
+    id: "quote-1786514859021",
+    type: "quote",
+    text: "≈",
+    x: 1173.458038027487,
+    y: 304.83610866961476,
+    scale: 1,
+    rotation: 0,
+    fontSize: 38,
+    fontFamily: "serif",
+    color: "#F7F4ED",
+    highlight: false,
+    curvature: 16,
+    flipX: false,
+    arrowLength: 75,
+  },
+  {
+    id: "quote-1786515031928",
     type: "quote",
     text: "scalable architectures,\nzero noise.",
-    x: 810,
-    y: 590,
+    x: 1119.2442985794341,
+    y: 580.6041970407531,
     scale: 1,
-    rotation: -1,
-    fontSize: 20,
+    rotation: 0,
+    fontSize: 22,
     fontFamily: "handwritten",
     color: "#F7F4ED",
     highlight: true,
+    curvature: 16,
+    flipX: false,
+    arrowLength: 75,
   },
 ];
 
@@ -453,7 +454,7 @@ function StudioArrow({
   node: StudioNode;
 }) {
   const width = node.arrowLength || 75;
-  const height = 36;
+  const height = 48;
   const curvature = node.curvature ?? 16;
   const color = node.color || "#FFD400";
   const strokeWidth = 2.2;
@@ -521,21 +522,27 @@ export default function Hero() {
   const [history, setHistory] = useState<StudioNode[][]>([UNIFIED_CANVAS_BASELINE]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
-  // Load saved node configurations
+  // Load saved node configurations or fallback to master baseline
   useEffect(() => {
     try {
-      const savedNodes = localStorage.getItem("hero_canvas_studio_unified_v6");
+      const savedNodes = localStorage.getItem("hero_canvas_studio_master_v7");
       if (savedNodes) {
         const parsed = JSON.parse(savedNodes);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setNodes(parsed);
           setHistory([parsed]);
           setHistoryIndex(0);
+          return;
         }
       }
     } catch {
       // fallback
     }
+    // Set master user baseline
+    setNodes(UNIFIED_CANVAS_BASELINE);
+    setHistory([UNIFIED_CANVAS_BASELINE]);
+    setHistoryIndex(0);
+    localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(UNIFIED_CANVAS_BASELINE));
   }, []);
 
   // Push new state snapshot to Undo/Redo stack
@@ -546,7 +553,7 @@ export default function Hero() {
       newHistory.push(newNodes);
       setHistory(newHistory);
       setHistoryIndex(newHistory.length - 1);
-      localStorage.setItem("hero_canvas_studio_unified_v6", JSON.stringify(newNodes));
+      localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(newNodes));
     },
     [history, historyIndex]
   );
@@ -557,7 +564,7 @@ export default function Hero() {
       const prevIndex = historyIndex - 1;
       setHistoryIndex(prevIndex);
       setNodes(history[prevIndex]);
-      localStorage.setItem("hero_canvas_studio_unified_v6", JSON.stringify(history[prevIndex]));
+      localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(history[prevIndex]));
     }
   }, [history, historyIndex]);
 
@@ -567,7 +574,7 @@ export default function Hero() {
       const nextIndex = historyIndex + 1;
       setHistoryIndex(nextIndex);
       setNodes(history[nextIndex]);
-      localStorage.setItem("hero_canvas_studio_unified_v6", JSON.stringify(history[nextIndex]));
+      localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(history[nextIndex]));
     }
   }, [history, historyIndex]);
 
@@ -609,11 +616,11 @@ export default function Hero() {
     if (type !== "arrow") setEditingId(newId);
   };
 
-  // Reset to original clean baseline
+  // Reset to user's master baseline
   const resetAllNodes = () => {
     pushState(UNIFIED_CANVAS_BASELINE);
     setSelectedId(null);
-    localStorage.removeItem("hero_canvas_studio_unified_v6");
+    localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(UNIFIED_CANVAS_BASELINE));
   };
 
   // Keyboard shortcut listener (Ctrl+Z, Delete, etc.)
@@ -1207,7 +1214,7 @@ export default function Hero() {
           {/* Reset All */}
           <button
             onClick={resetAllNodes}
-            title="Reset layout to original baseline"
+            title="Reset layout to master user baseline"
             className="flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 hover:text-white hover:border-red-400 transition-colors"
           >
             <RotateCcw className="h-3 w-3" />
