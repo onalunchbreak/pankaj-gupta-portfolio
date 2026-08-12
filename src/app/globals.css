@@ -268,6 +268,16 @@
     }
   }
 
+  /* Restore native cursor inside any modal overlay — overrides cursor-none-fine globally */
+  .modal-cursor-restore,
+  .modal-cursor-restore * {
+    cursor: auto !important;
+  }
+  .modal-cursor-restore button,
+  .modal-cursor-restore [role="button"] {
+    cursor: pointer !important;
+  }
+
   .text-stroke-ink {
     -webkit-text-stroke: 1.5px var(--white);
     color: transparent;
