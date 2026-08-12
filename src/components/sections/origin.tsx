@@ -239,7 +239,7 @@ export default function Origin() {
           <h2
             ref={heroRef}
             id="origin-title"
-            className="hand-display max-w-4xl text-3xl text-[#2a2a2a] sm:text-5xl lg:text-7xl"
+            className="hand-display max-w-4xl text-2xl text-[#2a2a2a] leading-relaxed sm:text-4xl sm:leading-relaxed lg:text-5xl lg:leading-relaxed"
             data-cursor-label="origin / the beginning"
           >
             {renderWords(before, "before")}
