@@ -64,7 +64,7 @@ function ValidationCard({
       {/* Stamp: index + year badge */}
       <div className="mb-4 flex items-center justify-between">
         <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a]/75">
-          {String(index + 1).padStart(2, "0")} / 04
+          {String(index + 1).padStart(2, "0")} / {String(ACHIEVEMENTS.cards.length).padStart(2, "0")}
         </span>
         <span className="border border-[#1738D5]/50 bg-[#1738D5]/5 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#1738D5]">
           {card.year}
@@ -72,7 +72,13 @@ function ValidationCard({
       </div>
 
       {/* Focal metric — the big number/label is the hero of the card */}
-      <p className="font-display text-4xl font-bold leading-[0.9] tracking-tighter text-[#1738D5] sm:text-5xl">
+      <p className={`font-display font-bold leading-[0.95] tracking-tight text-[#1738D5] break-words ${
+        card.label.length > 14
+          ? "text-2xl sm:text-3xl lg:text-2xl xl:text-3xl"
+          : card.label.length > 10
+          ? "text-3xl sm:text-4xl lg:text-3xl xl:text-4xl"
+          : "text-4xl sm:text-5xl"
+      }`}>
         {card.label}
       </p>
 
@@ -183,7 +189,7 @@ export default function Achievements() {
         </motion.h2>
 
         {/* Validation cards grid */}
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:mt-16 sm:grid-cols-2 sm:gap-7 lg:grid-cols-4 lg:gap-5">
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:mt-16 sm:grid-cols-2 sm:gap-7 lg:grid-cols-3 xl:grid-cols-5 lg:gap-5">
           {ACHIEVEMENTS.cards.map((card, i) => (
             <ValidationCard key={`${card.org}-${card.year}`} card={card} index={i} />
           ))}
