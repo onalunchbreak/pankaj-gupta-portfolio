@@ -157,8 +157,15 @@ export default function Contact() {
             )}
           </motion.div>
 
-          {/* MAGNETIC CTA — mailto link. Shifted upwards right under title */}
-          <Reveal className="mt-6 sm:mt-8" delay={0.2}>
+          {/* Body — muted ink, max-w-2xl */}
+          <Reveal className="mt-8 max-w-2xl sm:mt-10" delay={0.15}>
+            <p className="font-display text-lg leading-relaxed text-[#F4F1EA]/75 sm:text-xl">
+              {CONTACT.body}
+            </p>
+          </Reveal>
+
+          {/* MAGNETIC CTA — direct email mailto link */}
+          <Reveal className="mt-6 sm:mt-8" delay={0.25}>
             <motion.a
               ref={ctaRef}
               href={mailto}
