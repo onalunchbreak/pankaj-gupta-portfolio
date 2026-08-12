@@ -114,18 +114,12 @@ function CarouselDeck({ cards }: { cards: AchievementCard[] }) {
                 </span>
               </div>
 
-              {/* Big Metric Label — fitted on a single line */}
+              {/* Big Metric Label — consistent large size across all cards */}
               <div>
-                <p
-                  className={`font-display font-bold leading-tight tracking-tight text-[#1738D5] whitespace-nowrap ${
-                    card.label.length > 15
-                      ? "text-xl sm:text-2xl"
-                      : "text-2xl sm:text-3xl"
-                  }`}
-                >
+                <p className="font-display text-2xl font-bold leading-tight tracking-tight text-[#1738D5] sm:text-3xl whitespace-nowrap">
                   {card.label}
                 </p>
-                <h3 className="mt-2 font-display text-base font-bold text-[#1a1a1a] sm:text-lg">
+                <h3 className="mt-2.5 font-display text-lg font-bold text-[#1a1a1a] sm:text-xl whitespace-nowrap">
                   {card.org}
                 </h3>
               </div>
@@ -148,7 +142,7 @@ function CarouselDeck({ cards }: { cards: AchievementCard[] }) {
           return (
             <motion.div
               key={`${card.org}-${index}`}
-              className="w-[280px] shrink-0 snap-center sm:w-[330px] lg:w-[360px]"
+              className="w-[320px] shrink-0 snap-center sm:w-[380px] lg:w-[410px]"
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: isActive ? 1 : 0.98 }}
               transition={{ duration: 0.3 }}
