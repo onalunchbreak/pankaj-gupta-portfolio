@@ -177,19 +177,19 @@ function EducationStripItem({
   const reduced = usePrefersReducedMotion();
   return (
     <motion.div
-      className="flex flex-col gap-1 border-l-2 border-[#1738D5]/30 pl-3 transition-colors duration-300 hover:border-[#1738D5]"
+      className="flex flex-col gap-1.5 border-l-2 border-[#1738D5]/40 pl-4 transition-colors duration-300 hover:border-[#1738D5]"
       initial={reduced ? false : { opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-8% 0px" }}
       transition={{ duration: 0.6, delay: index * 0.07, ease: EASE }}
     >
-      <span className="font-display text-base font-bold tracking-tight text-[#1a1a1a]">
+      <span className="font-display text-xl font-bold tracking-tight text-[#1a1a1a] sm:text-2xl">
         {item.org}
       </span>
-      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#1a1a1a]/75">
+      <span className="font-mono text-xs uppercase tracking-[0.18em] text-[#1a1a1a]/85 sm:text-sm">
         {item.label}
       </span>
-      <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#1738D5]">
+      <span className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[#1738D5] sm:text-sm">
         {item.sub}
       </span>
     </motion.div>
@@ -239,17 +239,15 @@ export default function Achievements() {
         {/* Sole & Default View: Carousel Deck */}
         <CarouselDeck cards={ACHIEVEMENTS.cards} />
 
-        {/* Education strip — secondary, horizontal */}
-        <div className="mt-16 sm:mt-24">
+        {/* Education strip — shifted UPWARDS to utilize top empty space with enlarged text */}
+        <div className="mt-8 sm:mt-10">
           <Reveal>
-            <div className="mb-6 flex items-baseline gap-3 border-b border-[#1a1a1a]/15 pb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#1a1a1a]/75">
-              <span className="text-[#1a1a1a]/70">
-                EDUCATION
-              </span>
+            <div className="mb-6 flex items-baseline gap-3 border-b border-[#1a1a1a]/20 pb-3 font-mono text-xs font-semibold uppercase tracking-[0.25em] text-[#1a1a1a]">
+              <span>EDUCATION</span>
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {ACHIEVEMENTS.education.map((item, i) => (
               <EducationStripItem key={`${item.org}-${i}`} item={item} index={i} />
             ))}
