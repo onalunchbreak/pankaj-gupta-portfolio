@@ -164,41 +164,6 @@ export default function Contact() {
             </p>
           </Reveal>
 
-          {/* MAGNETIC CTA — direct email mailto link */}
-          <Reveal className="mt-6 sm:mt-8" delay={0.25}>
-            <motion.a
-              ref={ctaRef}
-              href={mailto}
-              onMouseMove={onCtaMove}
-              onMouseLeave={onCtaLeave}
-              onMouseEnter={() => play("tick")}
-              onClick={() => play("confirm")}
-              data-cursor-label="say hi"
-              aria-label={`Email ${CONTACT.mail}`}
-              style={reduced ? undefined : { x: springX, y: springY }}
-              className="group relative inline-block origin-left"
-            >
-              {/* Underline reveal — grows from 0 to full width on hover */}
-              <span
-                aria-hidden
-                className={`absolute -bottom-2 left-0 h-[3px] w-0 bg-[#1738D5] ${
-                  reduced ? "" : "transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                } group-hover:w-full`}
-              />
-              <span className="font-display text-[5.8vw] font-bold leading-[0.95] tracking-tight text-[#F4F1EA] transition-colors duration-300 group-hover:text-[#1738D5] sm:text-4xl lg:text-5xl">
-                {CONTACT.cta}
-              </span>
-              {/* Arrow — pulls slightly further than the button for parallax */}
-              <motion.span
-                aria-hidden
-                style={reduced ? undefined : { x: arrowX, y: arrowY }}
-                className="ml-3 inline-block text-[#1738D5] transition-transform duration-300 group-hover:translate-x-2"
-              >
-                <ArrowRight className="inline h-8 w-8 align-baseline sm:h-12 sm:w-12" />
-              </motion.span>
-            </motion.a>
-          </Reveal>
-
           {/* Annotation — mono muted */}
           <Reveal className="mt-5 sm:mt-6" delay={0.35}>
             <p className="font-mono text-xs uppercase tracking-[0.25em] text-[#A3A3A3] sm:translate-x-3 sm:text-sm">
