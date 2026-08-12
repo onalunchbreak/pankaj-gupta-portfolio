@@ -11,7 +11,7 @@ import { getLenis } from "@/lib/lenis-instance";
 const PEEK_INFO: Record<string, { env: string; desc: string }> = {
   hero: { env: "BLUE", desc: "Pankaj Gupta — product × AI × systems" },
   origin: { env: "PAPER", desc: "My journey into product & AI systems" },
-  "best-work": { env: "BLACK", desc: "Product Line metro — 5 stations" },
+  "best-work": { env: "BLACK", desc: "Product Line metro — 6 stations" },
   research: { env: "PAPER", desc: "4 papers — EACL · ECIR · AAAI · IEEE" },
   lab: { env: "BLACK", desc: "Side projects + 44-word CV cloud" },
   achievements: { env: "PAPER", desc: "Honors & recognition" },
