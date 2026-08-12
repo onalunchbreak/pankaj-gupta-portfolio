@@ -13,8 +13,7 @@ import {
   MessageSquare,
   Cpu,
   Move,
-  Copy,
-  Check,
+
   RotateCcw,
   ArrowRightLeft,
   Eye,
@@ -526,8 +525,6 @@ export default function Hero() {
   const [layoutMode, setLayoutMode] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
-
   // Save Modal Dialog & Loading State
   const [saveModalOpen, setSaveModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -685,15 +682,6 @@ export default function Hero() {
     }
   };
 
-  const copyNodesJSON = () => {
-    const payload = {
-      portrait: { scale, x: xOffset, y: yOffset },
-      nodes,
-    };
-    navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -1419,15 +1407,7 @@ export default function Hero() {
                 </button>
               </div>
 
-              {/* Copy Coordinates JSON */}
-              <button
-                onClick={copyNodesJSON}
-                title="Copy entire Canvas JSON to clipboard"
-                className="flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-[11px] text-white hover:border-[#FFD400] hover:text-[#FFD400] transition-colors ml-1"
-              >
-                {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
-                {copied ? "COPIED JSON!" : "COPY JSON"}
-              </button>
+
 
               {/* Reset All */}
               <button
