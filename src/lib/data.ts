@@ -586,8 +586,7 @@ export const LAB = {
     "Prototyping", "APIs", "Jira", "Figma", "Miro", "Amplitude", "Sigma BI",
     "Python", "SQL", "Git", "Tableau", "n8n", "OKRs", "KPIs", "Sprint Planning",
     "UAT", "Cross-Functional", "Engineering Physics", "DTU", "NextLeap", "NYU",
-    "Cambridge", "Bosch", "CEGIS", "SenseHQ", "Still Building", "Too Many Tabs",
-    "Mr. Onalunchbreak",
+    "Cambridge", "Bosch", "CEGIS", "SenseHQ", "Product Lead", "Too Many Tabs",
   ],
   skills: [
     { label: "Product Strategy", rotate: -3 },
@@ -641,8 +640,8 @@ export const CONTACT = {
   ],
   signoff: "Bye. Hope your roadmap survives the next product-market fit conversation. If not, that's probably the most useful feedback you'll get all week.",
   signature: "Pankaj Gupta",
-  signatureSub: "(Mr. Onalunchbreak)",
-  systemStatus: "STILL BUILDING.",
+  signatureSub: "",
+  systemStatus: "",
 };
 
 // Case Close / End Session
@@ -650,10 +649,10 @@ export const CASE_CLOSE = {
   title: "ACTION REQUIRED",
   subtitle: "SESSION COMPLETE",
   user: "USER: PANKAJ_GUPTA",
-  alias: "ALIAS: MR_ONALUNCHBREAK",
+  alias: "",
   hint: "PRESS ANYWHERE TO CLOSE",
   button: "READ",
   buttonSequence: ["READ", "BUILD", "SHIP"],
-  status: "CURRENT STATUS: STILL BUILDING",
+  status: "",
   action: "END SESSION",
 };

@@ -290,11 +290,11 @@ export default function Contact() {
               </p>
             </motion.div>
 
-            {/* Right Column: Signature and System Status stacked vertically */}
-            <div className="flex flex-col items-end gap-5">
-              {/* Signature — handwritten, blue, right-aligned, blinking cursor */}
+            {/* Right Column: Signature */}
+            <div className="flex flex-col items-end">
+              {/* Signature — handwritten, blue, right-aligned */}
               <motion.div
-                className="flex flex-col items-end gap-0.5"
+                className="flex flex-col items-end"
                 initial={reduced ? false : { opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10% 0px" }}
@@ -303,32 +303,7 @@ export default function Contact() {
                 <p className="hand-display text-2xl text-[#1738D5] sm:text-4xl lg:text-5xl whitespace-nowrap">
                   {CONTACT.signature}
                 </p>
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#2a2a2a]/60 whitespace-nowrap">
-                  {CONTACT.signatureSub}
-                  <span
-                    aria-hidden
-                    className="blink ml-1 inline-block h-2.5 w-[5px] translate-y-0.5 bg-[#1738D5]"
-                  />
-                </p>
               </motion.div>
-
-              {/* System status + EOF terminal label */}
-              <div className="flex flex-col items-end gap-1.5 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
-                <span className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.3em] text-[#1738D5]">
-                  <span
-                    aria-hidden
-                    className="blink inline-block h-1.5 w-1.5 bg-[#1738D5]"
-                  />
-                  {CONTACT.systemStatus}
-                </span>
-                <span
-                  aria-hidden
-                  className="hidden h-3 w-px bg-[#2a2a2a]/25 sm:inline-block"
-                />
-                <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#2a2a2a]/55">
-                  {"EOF · session complete"}
-                </div>
-              </div>
             </div>
           </div>
         </div>
