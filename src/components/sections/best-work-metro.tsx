@@ -389,15 +389,17 @@ export default function BestWorkMetro() {
         </motion.h2>
 
         {/* Subtitle — hand-display style */}
-        <motion.p
-          className="mt-6 max-w-3xl font-mono text-xs uppercase tracking-[0.3em] text-[#A3A3A3] sm:text-sm"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.8, delay: 0.35, ease: EASE }}
-        >
-          {METRO_INTRO.subtitle}
-        </motion.p>
+        {METRO_INTRO.subtitle ? (
+          <motion.p
+            className="mt-6 max-w-3xl font-mono text-xs uppercase tracking-[0.3em] text-[#A3A3A3] sm:text-sm"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10% 0px" }}
+            transition={{ duration: 0.8, delay: 0.35, ease: EASE }}
+          >
+            {METRO_INTRO.subtitle}
+          </motion.p>
+        ) : null}
 
         {/* CTA + sub copy */}
         <motion.div
