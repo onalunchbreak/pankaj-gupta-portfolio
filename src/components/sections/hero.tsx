@@ -86,16 +86,16 @@ const COLOR_PRESETS = [
   "#FFFFFF", // Pure White
 ];
 
-// Clean baseline layout with comfortable spatial distribution
-const CLEAN_BASELINE_NODES: StudioNode[] = [
-  // ==================== LEFT COLUMN ====================
+// Clean unified canvas baseline layout with guaranteed viewport clearance & clickability
+const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
+  // ==================== LEFT FLANK ====================
   // Row 1: PRODUCT STRATEGY
   {
     id: "quote-strategy",
     type: "quote",
     text: "I connect the dots\nothers miss.",
-    x: 0,
-    y: 0,
+    x: 40,
+    y: 25,
     scale: 1,
     rotation: -2,
     fontSize: 24,
@@ -107,8 +107,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "arrow-strategy",
     type: "arrow",
     text: "",
-    x: 215,
-    y: 10,
+    x: 255,
+    y: 35,
     scale: 1,
     rotation: 0,
     fontSize: 14,
@@ -123,8 +123,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "tag-strategy",
     type: "tag",
     text: "PRODUCT STRATEGY",
-    x: 10,
-    y: 70,
+    x: 50,
+    y: 95,
     scale: 1,
     rotation: -1,
     fontSize: 12,
@@ -138,8 +138,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "tag-research",
     type: "tag",
     text: "USER RESEARCH",
-    x: 0,
-    y: 160,
+    x: 40,
+    y: 185,
     scale: 1,
     rotation: 2,
     fontSize: 12,
@@ -151,8 +151,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "arrow-research",
     type: "arrow",
     text: "",
-    x: 165,
-    y: 160,
+    x: 205,
+    y: 185,
     scale: 1,
     rotation: 0,
     fontSize: 14,
@@ -167,8 +167,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "quote-research",
     type: "quote",
     text: "small bets,\nbig impact.",
-    x: 240,
-    y: 150,
+    x: 280,
+    y: 170,
     scale: 1,
     rotation: 2,
     fontSize: 24,
@@ -182,8 +182,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "quote-automation",
     type: "quote",
     text: "Fewer clicks,\nsame outcome.",
-    x: 0,
-    y: 285,
+    x: 40,
+    y: 300,
     scale: 1,
     rotation: -1,
     fontSize: 20,
@@ -195,8 +195,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "arrow-automation",
     type: "arrow",
     text: "",
-    x: 35,
-    y: 340,
+    x: 75,
+    y: 355,
     scale: 1,
     rotation: 90,
     fontSize: 14,
@@ -211,8 +211,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "tag-automation",
     type: "tag",
     text: "WORKFLOW AUTOMATION",
-    x: 0,
-    y: 385,
+    x: 40,
+    y: 400,
     scale: 1,
     rotation: 1,
     fontSize: 12,
@@ -221,13 +221,13 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     highlight: false,
   },
 
-  // Row 4: ROADMAPPING (Comfortable Y offset fitting standard viewports)
+  // Row 4: ROADMAPPING
   {
     id: "quote-roadmapping",
     type: "quote",
     text: "Plans change.\nDirection shouldn't.",
-    x: 30,
-    y: 445,
+    x: 70,
+    y: 465,
     scale: 1,
     rotation: -2,
     fontSize: 20,
@@ -239,8 +239,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "arrow-roadmapping",
     type: "arrow",
     text: "",
-    x: 65,
-    y: 500,
+    x: 105,
+    y: 520,
     scale: 1,
     rotation: 90,
     fontSize: 14,
@@ -255,8 +255,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "tag-roadmapping",
     type: "tag",
     text: "ROADMAPPING",
-    x: 30,
-    y: 545,
+    x: 70,
+    y: 565,
     scale: 1,
     rotation: -2,
     fontSize: 12,
@@ -266,14 +266,14 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
   },
 
 
-  // ==================== RIGHT COLUMN ====================
+  // ==================== RIGHT FLANK ====================
   // Row 1: APPLIED AI
   {
     id: "arrow-ai",
     type: "arrow",
     text: "",
-    x: 0,
-    y: 10,
+    x: 760,
+    y: 35,
     scale: 1,
     rotation: 0,
     fontSize: 14,
@@ -288,8 +288,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "quote-ai",
     type: "quote",
     text: "curious by nature,\nobsessed with value. :)",
-    x: 90,
-    y: 0,
+    x: 850,
+    y: 25,
     scale: 1,
     rotation: -1,
     fontSize: 24,
@@ -301,8 +301,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "tag-ai",
     type: "tag",
     text: "APPLIED AI",
-    x: 180,
-    y: 70,
+    x: 940,
+    y: 95,
     scale: 1,
     rotation: 2,
     fontSize: 12,
@@ -316,8 +316,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "quote-storytelling",
     type: "quote",
     text: "Numbers don't sell.\nStories do.",
-    x: 70,
-    y: 150,
+    x: 830,
+    y: 175,
     scale: 1,
     rotation: 1,
     fontSize: 20,
@@ -329,8 +329,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "arrow-storytelling",
     type: "arrow",
     text: "",
-    x: 145,
-    y: 205,
+    x: 905,
+    y: 230,
     scale: 1,
     rotation: 90,
     fontSize: 14,
@@ -345,8 +345,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "tag-storytelling",
     type: "tag",
     text: "STORYTELLING",
-    x: 120,
-    y: 250,
+    x: 880,
+    y: 275,
     scale: 1,
     rotation: -1,
     fontSize: 12,
@@ -360,8 +360,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "tag-discovery",
     type: "tag",
     text: "PRODUCT DISCOVERY",
-    x: 110,
-    y: 320,
+    x: 870,
+    y: 340,
     scale: 1,
     rotation: 3,
     fontSize: 12,
@@ -373,8 +373,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "arrow-discovery",
     type: "arrow",
     text: "",
-    x: 155,
-    y: 360,
+    x: 915,
+    y: 380,
     scale: 1,
     rotation: -90,
     fontSize: 14,
@@ -389,8 +389,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "quote-discovery",
     type: "quote",
     text: "data > opinion,\nalways.",
-    x: 110,
-    y: 410,
+    x: 870,
+    y: 430,
     scale: 1,
     rotation: 1,
     fontSize: 24,
@@ -404,8 +404,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "tag-system",
     type: "tag",
     text: "SYSTEM DESIGN",
-    x: 130,
-    y: 495,
+    x: 890,
+    y: 505,
     scale: 1,
     rotation: -2,
     fontSize: 12,
@@ -417,8 +417,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "arrow-system",
     type: "arrow",
     text: "",
-    x: 160,
-    y: 535,
+    x: 920,
+    y: 545,
     scale: 1,
     rotation: 90,
     fontSize: 14,
@@ -433,8 +433,8 @@ const CLEAN_BASELINE_NODES: StudioNode[] = [
     id: "quote-system",
     type: "quote",
     text: "scalable architectures,\nzero noise.",
-    x: 50,
-    y: 580,
+    x: 810,
+    y: 590,
     scale: 1,
     rotation: -1,
     fontSize: 20,
@@ -517,14 +517,14 @@ export default function Hero() {
   const [copied, setCopied] = useState(false);
 
   // Dynamic Nodes + Undo/Redo Stack
-  const [nodes, setNodes] = useState<StudioNode[]>(CLEAN_BASELINE_NODES);
-  const [history, setHistory] = useState<StudioNode[][]>([CLEAN_BASELINE_NODES]);
+  const [nodes, setNodes] = useState<StudioNode[]>(UNIFIED_CANVAS_BASELINE);
+  const [history, setHistory] = useState<StudioNode[][]>([UNIFIED_CANVAS_BASELINE]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
   // Load saved node configurations
   useEffect(() => {
     try {
-      const savedNodes = localStorage.getItem("hero_canvas_studio_v5");
+      const savedNodes = localStorage.getItem("hero_canvas_studio_unified_v6");
       if (savedNodes) {
         const parsed = JSON.parse(savedNodes);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -546,7 +546,7 @@ export default function Hero() {
       newHistory.push(newNodes);
       setHistory(newHistory);
       setHistoryIndex(newHistory.length - 1);
-      localStorage.setItem("hero_canvas_studio_v5", JSON.stringify(newNodes));
+      localStorage.setItem("hero_canvas_studio_unified_v6", JSON.stringify(newNodes));
     },
     [history, historyIndex]
   );
@@ -557,7 +557,7 @@ export default function Hero() {
       const prevIndex = historyIndex - 1;
       setHistoryIndex(prevIndex);
       setNodes(history[prevIndex]);
-      localStorage.setItem("hero_canvas_studio_v5", JSON.stringify(history[prevIndex]));
+      localStorage.setItem("hero_canvas_studio_unified_v6", JSON.stringify(history[prevIndex]));
     }
   }, [history, historyIndex]);
 
@@ -567,7 +567,7 @@ export default function Hero() {
       const nextIndex = historyIndex + 1;
       setHistoryIndex(nextIndex);
       setNodes(history[nextIndex]);
-      localStorage.setItem("hero_canvas_studio_v5", JSON.stringify(history[nextIndex]));
+      localStorage.setItem("hero_canvas_studio_unified_v6", JSON.stringify(history[nextIndex]));
     }
   }, [history, historyIndex]);
 
@@ -591,8 +591,8 @@ export default function Hero() {
       id: newId,
       type,
       text: type === "quote" ? "Your custom thought\nhere..." : type === "tag" ? "CUSTOM SKILL" : "",
-      x: 100 + Math.random() * 60,
-      y: 100 + Math.random() * 60,
+      x: 120 + Math.random() * 80,
+      y: 120 + Math.random() * 80,
       scale: 1,
       rotation: 0,
       fontSize: type === "quote" ? 22 : 12,
@@ -611,9 +611,9 @@ export default function Hero() {
 
   // Reset to original clean baseline
   const resetAllNodes = () => {
-    pushState(CLEAN_BASELINE_NODES);
+    pushState(UNIFIED_CANVAS_BASELINE);
     setSelectedId(null);
-    localStorage.removeItem("hero_canvas_studio_v5");
+    localStorage.removeItem("hero_canvas_studio_unified_v6");
   };
 
   // Keyboard shortcut listener (Ctrl+Z, Delete, etc.)
@@ -667,7 +667,7 @@ export default function Hero() {
 
   const selectedNode = nodes.find((n) => n.id === selectedId);
 
-  // Render individual Node with high z-index and event propagation protection
+  // Render individual Node directly in full-screen canvas space
   const renderStudioNode = (node: StudioNode) => {
     const isSelected = selectedId === node.id;
     const isEditing = editingId === node.id;
@@ -770,27 +770,6 @@ export default function Hero() {
     );
   };
 
-  // Divide nodes into left and right flanks based on ID
-  const leftNodes = nodes.filter(
-    (n) =>
-      n.id.includes("strategy") ||
-      n.id.includes("research") ||
-      n.id.includes("automation") ||
-      n.id.includes("roadmapping")
-  );
-
-  const rightNodes = nodes.filter(
-    (n) =>
-      n.id.includes("ai") ||
-      n.id.includes("storytelling") ||
-      n.id.includes("discovery") ||
-      n.id.includes("system")
-  );
-
-  const customNodes = nodes.filter(
-    (n) => !leftNodes.some((l) => l.id === n.id) && !rightNodes.some((r) => r.id === n.id)
-  );
-
   return (
     <section
       id="hero"
@@ -881,26 +860,13 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* ---- DYNAMIC STUDIO CANVAS NODES LAYER ---- */}
+        {/* ---- DYNAMIC UNIFIED CANVAS NODES LAYER ---- */}
         <motion.div
           className="absolute inset-0 z-20 hidden lg:block pointer-events-none"
           animate={{ x: tagXOffset, opacity: tagOpacity }}
           transition={{ duration: 0.15, ease: "easeInOut" }}
         >
-          {/* Left Flank Container */}
-          <div className="absolute top-[3%] bottom-[4%] left-[4%] w-[38%] pointer-events-none">
-            {leftNodes.map(renderStudioNode)}
-          </div>
-
-          {/* Right Flank Container */}
-          <div className="absolute top-[3%] bottom-[4%] right-[4%] w-[38%] pointer-events-none text-right">
-            {rightNodes.map(renderStudioNode)}
-          </div>
-
-          {/* Additional User Created Custom Nodes */}
-          <div className="absolute inset-0 pointer-events-none">
-            {customNodes.map(renderStudioNode)}
-          </div>
+          {nodes.map(renderStudioNode)}
         </motion.div>
 
         {/* ---- MOBILE / TABLET REFLOW ---- */}
