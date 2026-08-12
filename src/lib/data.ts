@@ -87,9 +87,9 @@ export const NAV_INDEX = {
   items: [
     { label: "Beginning", annotation: "the starting point & evolution", target: "origin" },
     { label: "Best Work", annotation: "career metro · 6 stations", target: "best-work" },
-    { label: "Published Work", annotation: "4 papers · EACL · ECIR · AAAI · IEEE", target: "research" },
+    { label: "Published Work", annotation: "EACL · ECIR · AAAI · IEEE", target: "research" },
     { label: "Side Projects", annotation: "built out of curiosity", target: "lab" },
-    { label: "Honors & Recognition", annotation: "4 global selections", target: "achievements" },
+    { label: "Honors & Recognition", annotation: "global awards & fellowships", target: "achievements" },
     { label: "Contact Me", annotation: "no forms. no friction.", target: "contact" },
   ],
   quickNote:
