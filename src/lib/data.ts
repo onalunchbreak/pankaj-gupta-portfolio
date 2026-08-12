@@ -618,7 +618,7 @@ export const ACHIEVEMENTS = {
     { org: "NEXTLEAP", label: "TOP 1%", sub: "PRODUCT MANAGEMENT FELLOW", year: "2025", url: "https://www.linkedin.com/in/gupta-pankaj/details/honors/1635554451885/single-media-viewer/?profileId=ACoAACLgHN8BgAC4xBg9Gm1qV9p5Wfo5FGA6X6s" },
     { org: "TOASTMASTERS", label: "DISTRICT RUNNER-UP", sub: "SPEECH COMPETITION RUNNER-UP · TOASTMASTER OF THE MONTH · MOST IMPROVED SPEAKER", year: "2024–26", url: "https://www.toastmasters.org/" },
     { org: "FATIMA FELLOWSHIP", label: "AMONG 30 SELECTED", sub: "FROM 4000+ GLOBAL APPLICANTS", year: "2023", url: "https://www.fatima.institute/" },
-    { org: "AMAZON ML SUMMER SCHOOL", label: "SELECTED FROM", sub: "17,000+ APPLICANTS", year: "2022", url: "https://www.scaler.com/partnerships/amazon#hero" },
+    { org: "AMAZON ML SUMMER SCHOOL", label: "AMONG 400 SELECTED", sub: "FROM 17,000+ INDIAN APPLICANTS", year: "2022", url: "https://www.scaler.com/partnerships/amazon#hero" },
     { org: "TEACH FOR INDIA", label: "TEACHING VOLUNTEER", sub: "PYTHON PROGRAMMING · GRADE 11–12 STUDENTS", year: "2020", url: "https://www.teachforindia.org/" },
   ],
   education: [
