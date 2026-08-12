@@ -205,7 +205,7 @@ export default function Hero() {
         >
 
           {/* ==================== LEFT COLUMN ==================== */}
-          <div className="absolute top-[4%] bottom-[5%] left-[5%] flex w-[32%] flex-col justify-between items-start pointer-events-none">
+          <div className="absolute top-[3%] bottom-[4%] left-[4%] flex w-[33%] flex-col justify-between items-start pointer-events-none">
 
             {/* Left Pair 1: "I connect the dots others miss." -> Arrow points RIGHTWARD to Pankaj in the middle */}
             <motion.div
@@ -214,15 +214,15 @@ export default function Hero() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
             >
-              <div className="relative flex items-center gap-3">
+              <div className="relative flex items-center gap-2">
                 <div className="hand-display text-2xl text-[#F7F4ED] -rotate-2 select-none">
                   I connect the dots <span className="relative inline-block text-white">others miss.<span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full" /></span>
                   <Sparkles className="absolute -top-3 -right-4 h-4 w-4 text-[#FFD400]" />
                 </div>
-                {/* Arrow pointing inward towards Pankaj in the center */}
-                <svg className="w-16 h-8 text-[#FFD400] rotate-12" viewBox="0 0 65 35" fill="none" stroke="currentColor">
-                  <path d="M10,18 Q35,8 54,20" strokeDasharray="4 4" strokeWidth="1.8" />
-                  <polygon points="50,14 62,22 52,28" fill="currentColor" />
+                {/* Hand-drawn arrow pointing rightward towards Pankaj in center */}
+                <svg className="w-20 h-10 text-[#FFD400] shrink-0" viewBox="0 0 80 36" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M 6 18 Q 40 6 70 20" strokeDasharray="4 4" />
+                  <path d="M 58 12 L 72 21 L 60 29" strokeWidth="2.5" />
                 </svg>
               </div>
               <div className="mt-1 ml-2 pointer-events-auto -rotate-1">
@@ -235,7 +235,7 @@ export default function Hero() {
 
             {/* Left Pair 2: USER RESEARCH chip -> Arrow points RIGHTWARD to "small bets, big impact." (shifted closer to Pankaj) */}
             <motion.div
-              className="ml-6 flex items-center gap-3"
+              className="ml-4 flex items-center gap-2"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.42, duration: 0.6 }}
@@ -247,10 +247,10 @@ export default function Hero() {
                 </div>
               </div>
 
-              {/* Arrow from USER RESEARCH pointing right to quote */}
-              <svg className="w-12 h-6 text-white/70" viewBox="0 0 50 25" fill="none" stroke="currentColor">
-                <path d="M8,12 Q26,6 40,16" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="36,10 46,18 38,22" fill="currentColor" />
+              {/* Hand-drawn arrow from USER RESEARCH pointing right to quote */}
+              <svg className="w-16 h-8 text-[#FFD400] shrink-0" viewBox="0 0 65 28" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M 6 14 Q 34 6 56 16" strokeDasharray="4 4" />
+                <path d="M 44 9 L 58 17 L 46 24" strokeWidth="2.5" />
               </svg>
 
               <div className="hand-display text-2xl text-[#F7F4ED] rotate-2 select-none">
@@ -266,11 +266,11 @@ export default function Hero() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.54, duration: 0.6 }}
             >
-              <div className="flex items-center gap-3">
-                {/* Arrow coming from Pankaj (center) pointing leftward to quote */}
-                <svg className="w-16 h-8 text-[#FFD400] -rotate-12" viewBox="0 0 65 35" fill="none" stroke="currentColor">
-                  <path d="M55,18 Q30,6 12,20" strokeDasharray="4 4" strokeWidth="1.8" />
-                  <polygon points="16,28 4,22 14,14" fill="currentColor" />
+              <div className="flex items-center gap-2">
+                {/* Hand-drawn arrow coming from Pankaj (center) pointing leftward to quote */}
+                <svg className="w-20 h-10 text-[#FFD400] shrink-0" viewBox="0 0 80 36" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M 74 18 Q 40 6 10 20" strokeDasharray="4 4" />
+                  <path d="M 22 12 L 8 21 L 20 29" strokeWidth="2.5" />
                 </svg>
                 <div className="hand-display text-xl text-[#F7F4ED] -rotate-1 select-none">
                   Fewer clicks,<br />
@@ -298,11 +298,11 @@ export default function Hero() {
                   <span className="border-b border-[#FFD400] pb-0.5">ROADMAPPING</span>
                 </div>
               </div>
-              {/* Arrow pointing downwards from chip to quote */}
-              <div className="ml-8 my-0.5">
-                <svg className="w-8 h-10 text-white/70" viewBox="0 0 35 45" fill="none" stroke="currentColor">
-                  <path d="M12,6 Q24,22 18,36" strokeDasharray="4 4" strokeWidth="1.5" />
-                  <polygon points="12,32 20,42 26,34" fill="currentColor" />
+              {/* Hand-drawn arrow pointing downwards from chip to quote */}
+              <div className="ml-8 my-1">
+                <svg className="w-10 h-12 text-[#FFD400] shrink-0" viewBox="0 0 38 48" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M 18 6 Q 28 24 19 38" strokeDasharray="4 4" />
+                  <path d="M 10 28 L 19 40 L 29 29" strokeWidth="2.5" />
                 </svg>
               </div>
               <div className="hand-display text-xl text-[#F7F4ED] -rotate-2 select-none">
@@ -314,7 +314,7 @@ export default function Hero() {
 
 
           {/* ==================== RIGHT COLUMN ==================== */}
-          <div className="absolute top-[4%] bottom-[5%] right-[5%] flex w-[32%] flex-col justify-between items-end text-right pointer-events-none">
+          <div className="absolute top-[3%] bottom-[4%] right-[4%] flex w-[33%] flex-col justify-between items-end text-right pointer-events-none">
 
             {/* Right Pair 1: "curious by nature, obsessed with value. :)" -> Arrow points LEFTWARD to Pankaj in the middle */}
             <motion.div
@@ -323,11 +323,11 @@ export default function Hero() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.35, duration: 0.6 }}
             >
-              <div className="relative flex items-center gap-3">
-                {/* Arrow pointing inward towards Pankaj in the center */}
-                <svg className="w-16 h-8 text-[#FFD400] -rotate-12" viewBox="0 0 65 35" fill="none" stroke="currentColor">
-                  <path d="M55,18 Q30,8 11,20" strokeDasharray="4 4" strokeWidth="1.8" />
-                  <polygon points="15,28 3,22 13,14" fill="currentColor" />
+              <div className="relative flex items-center gap-2">
+                {/* Hand-drawn arrow pointing leftward towards Pankaj in center */}
+                <svg className="w-20 h-10 text-[#FFD400] shrink-0" viewBox="0 0 80 36" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M 74 18 Q 40 6 10 20" strokeDasharray="4 4" />
+                  <path d="M 22 12 L 8 21 L 20 29" strokeWidth="2.5" />
                 </svg>
                 <div className="hand-display text-2xl text-[#F7F4ED] -rotate-1 select-none">
                   curious by nature,<br />
@@ -345,7 +345,7 @@ export default function Hero() {
 
             {/* Right Pair 2: "Numbers don't sell themselves. Stories do." (closer to Pankaj) <- Arrow <- STORYTELLING chip */}
             <motion.div
-              className="mr-6 flex items-center gap-3 text-right"
+              className="mr-4 flex items-center gap-2 text-right"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.48, duration: 0.6 }}
@@ -355,10 +355,10 @@ export default function Hero() {
                 <span className="relative inline-block text-white">Stories do.<span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#FFD400] rounded-full" /></span>
               </div>
 
-              {/* Arrow from STORYTELLING chip pointing left to quote */}
-              <svg className="w-12 h-6 text-white/70" viewBox="0 0 50 25" fill="none" stroke="currentColor">
-                <path d="M42,12 Q24,6 10,16" strokeDasharray="4 4" strokeWidth="1.5" />
-                <polygon points="14,22 4,18 12,10" fill="currentColor" />
+              {/* Hand-drawn arrow from STORYTELLING chip pointing left to quote */}
+              <svg className="w-16 h-8 text-[#FFD400] shrink-0" viewBox="0 0 65 28" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M 58 14 Q 32 6 10 16" strokeDasharray="4 4" />
+                <path d="M 22 9 L 8 17 L 20 24" strokeWidth="2.5" />
               </svg>
 
               <div className="pointer-events-auto -rotate-1">
@@ -376,7 +376,7 @@ export default function Hero() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.58, duration: 0.6 }}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2 hand-display text-2xl text-[#F7F4ED] rotate-1 select-none">
                   <span>
                     data &gt; opinion<br />
@@ -384,10 +384,10 @@ export default function Hero() {
                   </span>
                   <BarChart2 className="h-6 w-6 text-[#FFD400] ml-1" />
                 </div>
-                {/* Arrow coming from Pankaj (center) pointing rightward to quote */}
-                <svg className="w-16 h-8 text-[#FFD400] rotate-12" viewBox="0 0 65 35" fill="none" stroke="currentColor">
-                  <path d="M10,18 Q35,6 53,20" strokeDasharray="4 4" strokeWidth="1.8" />
-                  <polygon points="49,14 61,22 51,28" fill="currentColor" />
+                {/* Hand-drawn arrow coming from Pankaj (center) pointing rightward to quote */}
+                <svg className="w-20 h-10 text-[#FFD400] shrink-0" viewBox="0 0 80 36" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M 6 18 Q 40 6 70 20" strokeDasharray="4 4" />
+                  <path d="M 58 12 L 72 21 L 60 29" strokeWidth="2.5" />
                 </svg>
               </div>
               <div className="mt-1 mr-14 pointer-events-auto rotate-3">
@@ -411,11 +411,11 @@ export default function Hero() {
                   <span className="border-b border-[#FFD400] pb-0.5">SYSTEM DESIGN</span>
                 </div>
               </div>
-              {/* Arrow pointing downwards from chip to quote */}
-              <div className="mr-8 my-0.5">
-                <svg className="w-8 h-10 text-white/70" viewBox="0 0 35 45" fill="none" stroke="currentColor">
-                  <path d="M23,6 Q11,22 17,36" strokeDasharray="4 4" strokeWidth="1.5" />
-                  <polygon points="9,34 15,44 23,34" fill="currentColor" />
+              {/* Hand-drawn arrow pointing downwards from chip to quote */}
+              <div className="mr-8 my-1">
+                <svg className="w-10 h-12 text-[#FFD400] shrink-0" viewBox="0 0 38 48" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M 20 6 Q 10 24 19 38" strokeDasharray="4 4" />
+                  <path d="M 9 28 L 19 40 L 29 29" strokeWidth="2.5" />
                 </svg>
               </div>
               <div className="hand-display text-xl text-[#F7F4ED] -rotate-1 select-none">
