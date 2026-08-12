@@ -11,10 +11,10 @@ import { getLenis } from "@/lib/lenis-instance";
 const PEEK_INFO: Record<string, { env: string; desc: string }> = {
   hero: { env: "BLUE", desc: "Mr. Onalunchbreak — product × AI × systems" },
   origin: { env: "PAPER", desc: "My journey into product & AI systems" },
-  "product-os": { env: "PAPER", desc: "Products with a reason — 1200+ customers" },
   "best-work": { env: "BLACK", desc: "Product Line metro — 5 stations" },
   research: { env: "PAPER", desc: "4 papers — EACL · ECIR · AAAI · IEEE" },
   lab: { env: "BLACK", desc: "Side projects + 44-word CV cloud" },
+  achievements: { env: "PAPER", desc: "Honors & recognition" },
   contact: { env: "BLACK+PAPER", desc: "Talk product with me" },
 };
 
@@ -22,7 +22,6 @@ const PEEK_INFO: Record<string, { env: string; desc: string }> = {
 // Sections with dark (blue/black) backgrounds need light nav text.
 const LIGHT_BG_SECTIONS = new Set([
   "origin",
-  "product-os",
   "research",
   "achievements",
 ]);

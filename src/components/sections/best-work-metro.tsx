@@ -368,7 +368,7 @@ export default function BestWorkMetro() {
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.6, ease: EASE }}
         >
-          <span className="text-[#1738D5]">04</span>
+          <span className="text-[#1738D5]">02</span>
           <span id="best-work-header" className="text-[#F4F1EA]/70">
             BEST WORK / CAREER METRO
           </span>

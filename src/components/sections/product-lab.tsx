@@ -272,7 +272,7 @@ export default function ProductLab() {
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.6, ease: EASE }}
         >
-          <span className="text-[#1738D5]">{"// "}</span>
+          <span className="text-[#1738D5]">04</span>
           <span className="text-[#F4F1EA]/70">SIDE PROJECTS</span>
         </motion.div>
 

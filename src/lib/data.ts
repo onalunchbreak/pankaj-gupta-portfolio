@@ -18,10 +18,10 @@ export const IDENTITY = {
 export const NAV_ITEMS = [
   { label: "Home", id: "hero" },
   { label: "Origin", id: "origin" },
-  { label: "Product OS", id: "product-os" },
   { label: "Best Work", id: "best-work" },
   { label: "Research", id: "research" },
   { label: "Projects", id: "lab" },
+  { label: "Achievements", id: "achievements" },
   { label: "Contact", id: "contact" },
 ] as const;
 
@@ -85,11 +85,11 @@ export const NAV_INDEX = {
   index: "02",
   title: "TABLE OF CONTENTS",
   items: [
-    { label: "About Me", annotation: "how I ended up here", target: "origin" },
-    { label: "Product Playbook", annotation: "how I think about products", target: "product-os" },
-    { label: "Best Work", annotation: "Proof, not promises.", target: "best-work" },
-    { label: "Published Work", annotation: "papers I somehow finished", target: "research" },
-    { label: "Side Projects", annotation: "Built for the fun of it.", target: "lab" },
+    { label: "Beginning", annotation: "the starting point & evolution", target: "origin" },
+    { label: "Best Work", annotation: "career metro · 5 stations", target: "best-work" },
+    { label: "Published Work", annotation: "4 papers · EACL · ECIR · AAAI · IEEE", target: "research" },
+    { label: "Side Projects", annotation: "built out of curiosity", target: "lab" },
+    { label: "Honors & Recognition", annotation: "4 global selections", target: "achievements" },
     { label: "Contact Me", annotation: "no forms. no friction.", target: "contact" },
   ],
   quickNote:
@@ -148,33 +148,7 @@ export const ORIGIN = {
   motifSub: "plans changed.",
 };
 
-// Product OS (philosophy + metrics + places + stats)
-export const PRODUCT_OS = {
-  index: "02",
-  title: "BUILDING IS THE EASY PART",
-  headline: "PRODUCTS WITH A REASON.",
-  paragraph:
-    "I love technology, AI, and building complex systems. But a technically impressive product that nobody uses is still a failure.",
-  secondary:
-    "The best product work happens at the intersection of user problems, business outcomes, technical feasibility, and relentless iteration.",
-  centralMetric: { value: 1200, suffix: "+", label: "GLOBAL CUSTOMERS", sub: "PRODUCT PLATFORM OWNERSHIP" },
-  annotation: "turns out every edge case eventually becomes a Jira ticket.",
-  places: {
-    index: "PLACES I'VE BUILT AT",
-    companies: ["SenseHQ", "Center for Effective Governance of Indian States", "Judge Business School, University of Cambridge", "Bosch Global Software Technologies"],
-    note: "different industries. same question. what actually moves the outcome?",
-  },
-  stats: [
-    { value: 30, suffix: "%", label: "MoM INCREASE", sub: "in adoption of key talent engagement use cases" },
-    { value: 40, suffix: "%", label: "FEWER SUPPORT TICKETS", sub: "through AI-assisted internal query-resolution systems" },
-    { value: 70, suffix: "%", label: "FASTER ONBOARDING", sub: "4–5 weeks → 1.5 weeks" },
-    { value: 30, suffix: "M+", label: "GST RECORDS", sub: "processed across public-sector ML deployments" },
-    { value: 25, suffix: "%", label: "MODEL ACCURACY IMPROVEMENT", sub: "across pilot deployments" },
-    { value: 10, suffix: "+", label: "BOSCH FACILITIES", sub: "using AR training deployments" },
-  ],
-  bottomNote: "still suspicious of vanity metrics.",
-  ps: "The goal is simple: understand the problem deeply enough, build the smallest useful system, measure what changes, then keep iterating.",
-};
+
 
 // Work Log / Experience Archive
 export type Experience = {
@@ -548,7 +522,7 @@ export type ResearchPaper = {
 };
 
 export const RESEARCH = {
-  index: "04",
+  index: "03",
   title: "PUBLISHED WORK",
   system: "",
   headline: "I SPENT A FEW YEARS EXPLORING IF MODELS COULD TRULY UNDERSTAND LANGUAGE, EMOTIONS, AND CONTEXT.",

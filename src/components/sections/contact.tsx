@@ -127,7 +127,7 @@ export default function Contact() {
             viewport={{ once: true, margin: "-10% 0px" }}
             transition={{ duration: 0.6, ease: EASE }}
           >
-            <span className="text-[#1738D5]">{"// "}</span>
+            <span className="text-[#1738D5]">06</span>
             <span className="text-[#F4F1EA]/70">CONTACT</span>
           </motion.div>
 

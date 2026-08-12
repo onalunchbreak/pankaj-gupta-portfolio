@@ -8,7 +8,6 @@ import { NAV_ITEMS } from "@/lib/data";
 // Sections with light (paper) backgrounds need dark rail text.
 const LIGHT_BG_SECTIONS = new Set([
   "origin",
-  "product-os",
   "research",
   "achievements",
 ]);

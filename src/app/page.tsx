@@ -15,7 +15,6 @@ import Hero from "@/components/sections/hero";
 import NavIndex from "@/components/sections/nav-index";
 import BrandMarquee from "@/components/sections/brand-marquee";
 import Origin from "@/components/sections/origin";
-import ProductOS from "@/components/sections/product-os";
 import BestWorkMetro from "@/components/sections/best-work-metro";
 import ResearchArchive from "@/components/sections/research-archive";
 import ProductLab from "@/components/sections/product-lab";
@@ -38,13 +37,12 @@ export default function Home() {
       <ScrollToTop />
       <HashScrollOnLoad />
 
-      {/* main flow — blue → black → black → black → paper → paper → blue → black → paper → black → paper → black+paper */}
+      {/* main flow — blue → black → black → paper → black → paper → black → paper → black+paper */}
       <main className="relative w-full overflow-x-clip">
         <Hero />
         <NavIndex />
         <BrandMarquee />
         <Origin />
-        <ProductOS />
         <BestWorkMetro />
         <ResearchArchive />
         <ProductLab />
