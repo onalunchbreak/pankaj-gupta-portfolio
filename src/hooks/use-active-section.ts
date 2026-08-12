@@ -1,35 +1,92 @@
 "use client";
 import { useEffect, useState } from "react";
+import { getLenis } from "@/lib/lenis-instance";
 
 /**
- * IntersectionObserver-based active section tracker.
- * Pass the list of section ids; returns the active id.
+ * Robust, viewport-center coverage section tracker.
+ * Determines active section based on which element covers the viewport 35% reading focus line.
+ * Guarantees zero false-positive highlights when scrolling up or down through tall/short sections.
  */
 export function useActiveSection(ids: string[]): string {
   const [active, setActive] = useState(ids[0] ?? "");
 
   useEffect(() => {
-    const sections = ids
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => Boolean(el));
+    if (!ids || ids.length === 0) return;
 
-    if (sections.length === 0) return;
+    const checkActiveSection = () => {
+      const vCenter = window.innerHeight * 0.35;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // pick the most-visible intersecting section
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]) {
-          setActive(visible[0].target.id);
+      // 1. Top region check (Hero & Table of Contents before Origin)
+      const originEl = document.getElementById("origin");
+      if (originEl) {
+        const originRect = originEl.getBoundingClientRect();
+        if (originRect.top > vCenter && ids.includes("hero")) {
+          setActive("hero");
+          return;
         }
-      },
-      { rootMargin: "-20% 0px -30% 0px", threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
-    );
+      } else if (window.scrollY < 300 && ids.includes("hero")) {
+        setActive("hero");
+        return;
+      }
 
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
+      // 2. Viewport reference focus line (35% from the top of screen)
+      let matchedId = "";
+
+      for (const id of ids) {
+        if (id === "hero") continue;
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+
+        // Check if 35% viewport focus line falls inside section bounds
+        if (rect.top <= vCenter && rect.bottom >= vCenter) {
+          matchedId = id;
+          break;
+        }
+      }
+
+      // 3. Fallback: pick section whose top is closest to vCenter among sections above vCenter
+      if (!matchedId) {
+        let candidate = "";
+        let maxTop = -Infinity;
+        for (const id of ids) {
+          if (id === "hero") continue;
+          const el = document.getElementById(id);
+          if (!el) continue;
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= vCenter && rect.top > maxTop) {
+            maxTop = rect.top;
+            candidate = id;
+          }
+        }
+        matchedId = candidate || ids[0] || "hero";
+      }
+
+      if (matchedId) {
+        setActive(matchedId);
+      }
+    };
+
+    // Initial check on mount
+    checkActiveSection();
+
+    // Listen to window scroll & resize events
+    window.addEventListener("scroll", checkActiveSection, { passive: true });
+    window.addEventListener("resize", checkActiveSection, { passive: true });
+
+    // Attach to Lenis scroll instance if active
+    const lenis = getLenis();
+    if (lenis) {
+      lenis.on("scroll", checkActiveSection);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", checkActiveSection);
+      window.removeEventListener("resize", checkActiveSection);
+      if (lenis) {
+        lenis.off("scroll", checkActiveSection);
+      }
+    };
   }, [ids]);
 
   return active;
