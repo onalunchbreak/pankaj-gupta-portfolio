@@ -122,9 +122,9 @@ export const ORIGIN = {
   hero: "I USED TO BUILD WHATEVER CAME TO MIND AND TACKLE THE TECHNICAL CHALLENGES AS THEY CAME. OVER TIME, I REALISED THE REAL HARD QUESTION WAS: SHOULD WE EVEN BE BUILDING THIS IN THE FIRST PLACE?",
   emphasis: "SHOULD WE EVEN BE BUILDING THIS IN THE FIRST PLACE?",
   paragraphs: [
-    "I studied Engineering Physics at DTU. The obvious path was to keep going deeper into engineering. So naturally, I started working on computer vision, NLP, multimodal AI, AR systems, research papers, public-sector analytics platforms, and whatever else looked technically interesting.",
-    "Somewhere between models, data pipelines, deployments, users, and institutions, the question changed. 'Could I build it?' became 'Should we build it? For whom? What changes if it works?'",
-    "Engineering taught me how systems work. Research taught me how to ask better questions. Product taught me to connect both to actual users.",
+    "I studied Engineering Physics at DTU, but the obvious path for me was to explore everything besides pure engineering — debating, marketing, sales, raising sponsorships, building websites, tech, and machine learning & AI. I wanted to do everything all at once.",
+    "Amidst all the exploration — competing in debates, attending campus fests, reading research blogs, and networking — research was what truly clicked when I realized its real-world impact.",
+    "I understood the power of LinkedIn early in my college days. Reaching out, sharing my work, and connecting with people unlocked doors and opportunities I never imagined I'd get so early on.",
   ],
   timeline: [
     { year: "2019", label: "DTU", sub: "Engineering Physics" },
@@ -137,8 +137,6 @@ export const ORIGIN = {
     { year: "NOW", label: "MR. ONALUNCHBREAK", sub: "Still Building" },
   ],
   annotations: [
-    "engineering was only the beginning.",
-    "yes, there were too many research papers.",
     "somehow ended up launching products.",
     "users > models.",
     "still figuring it out.",

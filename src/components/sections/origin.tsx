@@ -191,9 +191,12 @@ export default function Origin() {
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.6, ease: EASE }}
         >
-          <div className="flex items-baseline gap-3 font-mono text-[11px] uppercase tracking-widest text-[#1a1a1a]/75">
+          <div className="flex flex-wrap items-baseline gap-2 font-mono text-[11px] uppercase tracking-widest text-[#1a1a1a]/75">
             <span className="text-[#1738D5]">{ORIGIN.index}</span>
             <span className="text-[#2a2a2a]/70">— {ORIGIN.title}</span>
+            <span className="text-[#1738D5]/80 lowercase italic font-mono text-[10px] tracking-normal sm:text-[11px]">
+              · engineering was only the beginning
+            </span>
           </div>
         </motion.div>
 
