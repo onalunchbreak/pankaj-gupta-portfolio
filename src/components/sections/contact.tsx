@@ -274,40 +274,48 @@ export default function Contact() {
         className="h-8 w-full bg-gradient-to-b from-[#0A0A0A] via-[#1a1814] to-[#F4F1EA]"
       />
 
-      <footer className="env-paper paper-texture relative w-full">
-        <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-10 lg:px-12">
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
-            {/* Left Column: Signoff */}
-            <motion.div
-              className="max-w-xl md:max-w-md lg:max-w-lg"
-              initial={reduced ? false : { opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{ duration: 0.7, ease: EASE }}
-            >
-              <p className="font-mono text-xs italic leading-relaxed text-[#2a2a2a]/80">
+      <footer className="env-paper paper-texture relative w-full border-t border-black/10 py-10 sm:py-14">
+        <div className="mx-auto w-full max-w-[1200px] px-5 sm:px-8 lg:px-12">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+            {/* Left Column: Signoff + Status / Tagline */}
+            <div className="max-w-xl space-y-3">
+              <p className="font-mono text-xs italic leading-relaxed text-[#2a2a2a]/85 sm:text-sm">
                 {CONTACT.signoff}
               </p>
-            </motion.div>
+              <div className="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#1738D5]">
+                <span>PRODUCT STRATEGY</span>
+                <span>·</span>
+                <span>PRD & AI SYSTEMS</span>
+                <span>·</span>
+                <span>SHIPPING CODE</span>
+              </div>
+            </div>
 
-            {/* Right Column: Signature */}
-            <div className="flex flex-col items-end">
-              {/* Signature — handwritten, blue, right-aligned */}
-              <motion.div
-                className="flex flex-col items-end"
-                initial={reduced ? false : { opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10% 0px" }}
-                transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
-              >
-                <p className="hand-display text-2xl text-[#1738D5] sm:text-4xl lg:text-5xl whitespace-nowrap">
+            {/* Right Column: Signature + Return to Top */}
+            <div className="flex flex-col items-start md:items-end gap-3">
+              <div className="flex items-center gap-2">
+                <p className="hand-display text-3xl text-[#1738D5] sm:text-5xl whitespace-nowrap">
                   {CONTACT.signature}
                 </p>
-              </motion.div>
+                <span
+                  aria-hidden
+                  className="blink inline-block h-4 w-[6px] bg-[#1738D5]"
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="group flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.2em] text-[#2a2a2a]/70 hover:text-[#1738D5] transition-colors cursor-pointer"
+              >
+                <span>Return to Top</span>
+                <span className="transition-transform group-hover:-translate-y-0.5">↑</span>
+              </button>
             </div>
           </div>
         </div>
       </footer>
+
     </section>
   );
 }
