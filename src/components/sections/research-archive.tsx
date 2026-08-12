@@ -83,15 +83,17 @@ function PaperSheet({
         </span>
       </div>
 
-      {/* Metadata — sub / abstract / tags */}
-      {((paper as any).sub || (paper as any).supervisor) && (
+      {/* Metadata — supervisor & institution */}
+      {(paper.supervisor || paper.institution) && (
         <div className="mt-5 border-l-2 border-[#1738D5]/30 pl-3 transition-colors duration-300 group-hover:border-[#1738D5]">
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/75 transition-colors duration-300 group-hover:text-[#1a1a1a] sm:text-xs">
-            {(paper as any).sub || (paper as any).supervisor}
-          </p>
-          {(paper as any).institution && (
-            <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/80 transition-colors duration-300 group-hover:text-[#1a1a1a]/80 sm:text-xs">
-              {(paper as any).institution}
+          {paper.supervisor && (
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/85 transition-colors duration-300 group-hover:text-[#1a1a1a] sm:text-xs">
+              Supervisor: {paper.supervisor}
+            </p>
+          )}
+          {paper.institution && (
+            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-[#1a1a1a]/65 transition-colors duration-300 group-hover:text-[#1a1a1a]/80 sm:text-[11px]">
+              {paper.institution}
             </p>
           )}
         </div>
@@ -99,7 +101,7 @@ function PaperSheet({
 
       {/* Domain / Tags */}
       <div className="mt-5 flex flex-wrap gap-1.5">
-        {((paper as any).tags || (paper as any).domain || []).map((d: string) => (
+        {(paper.tags || []).map((d: string) => (
           <span
             key={d}
             className="border border-[#1a1a1a]/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1a1a1a]/65"

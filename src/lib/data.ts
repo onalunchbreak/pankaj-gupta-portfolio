@@ -500,63 +500,74 @@ export type ResearchPaper = {
   id: string;
   index: string;
   title: string;
+  sub?: string;
   venue: string;
   year: number;
   supervisor: string;
   institution: string;
-  domain: string[];
+  tags: string[];
+  link: string;
   url?: string;
+  dataset?: string;
 };
 
 export const RESEARCH = {
   index: "03",
   title: "PUBLISHED WORK",
   system: "",
-  headline: "I SPENT A FEW YEARS EXPLORING IF MODELS COULD TRULY UNDERSTAND LANGUAGE, EMOTIONS, AND CONTEXT.",
+  headline: "EXPLORING NATURAL LANGUAGE, NAMED ENTITY RECOGNITION, DECEPTION DETECTION, AND MULTIMODAL SENTIMENT.",
   papers: [
     {
       id: "sepsis",
       index: "01",
-      title: "SEPSIS: I Can Catch Your Lies — A New Paradigm for Deception Detection",
-      sub: "EACL 2024 · European Chapter of the ACL",
-      abstract: "A novel benchmark and multimodal framework for detecting deception in natural dialogue. Combines acoustic features, semantic embeddings, and behavioral cues to reach state-of-the-art detection across 3 public benchmark datasets.",
+      title: "SEPSIS: I Can Catch Your Lies - A New Paradigm for Deception Detection",
+      sub: "Supervisor: Dr. Amitava Das",
       venue: "EACL 2024",
+      year: 2024,
+      supervisor: "Dr. Amitava Das",
+      institution: "The Artificial Intelligence Institute, University of South Carolina, SC",
       tags: ["DECEPTION DETECTION", "MULTIMODAL AI", "EACL 2024"],
-      link: "https://aclanthology.org/2024.eacl-short.29/",
-      dataset: "https://github.com/sepsis-eacl2024/dataset",
+      link: "https://aclanthology.org/2025.acl-srw.7/",
+      url: "https://aclanthology.org/2025.acl-srw.7/",
     },
     {
-      id: "emotion-cause",
+      id: "french-ner-ecir",
       index: "02",
-      title: "Causal Emotion Framework for Multimodal Dialogue",
-      sub: "ECIR 2024 · European Conference on Information Retrieval",
-      abstract: "Formulates emotion cause extraction as a graph-based causal reasoning task over multimodal conversation turns. Evaluated on RECB and IEMOCAP benchmarks.",
-      venue: "ECIR 2024",
-      tags: ["GRAPH NEURAL NETS", "CAUSAL REASONING", "ECIR 2024"],
-      link: "https://link.springer.com/chapter/10.1007/978-3-031-56060-6_12",
-      dataset: "",
+      title: "Adversarial Adaptation for French Named Entity Recognition",
+      sub: "Supervisor: Prof. Marie-Jean Meurs",
+      venue: "18th ECIR 2023",
+      year: 2023,
+      supervisor: "Prof. Marie-Jean Meurs",
+      institution: "Dept. of CS, Université du Québec, Canada",
+      tags: ["NAMED ENTITY RECOGNITION", "DOMAIN ADAPTATION", "ECIR 2023"],
+      link: "https://link.springer.com/chapter/10.1007/978-3-031-28238-6_28",
+      url: "https://link.springer.com/chapter/10.1007/978-3-031-28238-6_28",
     },
     {
-      id: "multimodal-intent",
+      id: "french-ner-aaai",
       index: "03",
-      title: "Intent Recognition Under Uncertainty in Conversational Systems",
-      sub: "AAAI 2023 Workshop on Affective AI",
-      abstract: "Proposes a Bayesian neural framework for intent classification when dialogue turns contain conflicting visual and textual signals.",
-      venue: "AAAI 2023",
-      tags: ["BAYESIAN NN", "INTENT CLASSIFICATION", "AAAI 2023"],
-      link: "https://arxiv.org/abs/2301.00000",
-      dataset: "",
+      title: "Transformer-based NER for French within similar domain corpora",
+      sub: "Supervisor: Prof. Marie-Jean Meurs",
+      venue: "37th AAAI 2023",
+      year: 2023,
+      supervisor: "Prof. Marie-Jean Meurs",
+      institution: "Dept. of CS, Université du Québec, Canada",
+      tags: ["TRANSFORMERS", "FRENCH NER", "AAAI 2023"],
+      link: "https://ojs.aaai.org/index.php/AAAI/article/view/26958",
+      url: "https://ojs.aaai.org/index.php/AAAI/article/view/26958",
     },
     {
-      id: "ieee-tabular",
+      id: "aspect-sentiment-ieee",
       index: "04",
-      title: "Self-Supervised Tabular Representation Learning for Public Sector Analytics",
-      sub: "IEEE Access 2023",
-      abstract: "Demonstrates how contrastive pretraining on unlabelled government administrative records improves downstream policy targeting models by 14.2% F1.",
-      venue: "IEEE Access 2023",
-      tags: ["TABULAR LEARNING", "CONTRASTIVE LEARNING", "IEEE 2023"],
-      link: "https://ieeexplore.ieee.org/document/10000000",
-      dataset: "",
+      title: "Attention-free: An Aspect-based Multimodal Sentiment Recognition",
+      sub: "Supervisor: Prof. Dinesh Kumar Vishwakarma",
+      venue: "IEEE 2023",
+      year: 2023,
+      supervisor: "Prof. Dinesh Kumar Vishwakarma",
+      institution: "HoD, Dept. of Info. Tech, DTU, India",
+      tags: ["ATTENTION-FREE", "MULTIMODAL SENTIMENT", "IEEE 2023"],
+      link: "https://ieeexplore.ieee.org/document/10201711",
+      url: "https://ieeexplore.ieee.org/document/10201711",
     },
   ] as ResearchPaper[],
 };
