@@ -748,11 +748,11 @@ function StationPanel({
 
   return (
     <article
-      className="relative flex h-full w-[85vw] max-w-[900px] shrink-0 flex-col justify-center gap-8 px-10 py-12 sm:px-16"
+      className="relative flex h-full w-[85vw] max-w-[900px] shrink-0 flex-col justify-center gap-12 px-10 py-16 sm:gap-14 sm:px-16"
       data-cursor-label={station.name}
     >
       {/* TOP HALF — platform signboard & station name */}
-      <div className="flex flex-col items-start gap-3.5">
+      <div className="flex flex-col items-start gap-4">
         {/* Platform signboard — only PLATFORM 01 */}
         <div className="border border-white/15 bg-[#0E0E0E] px-3.5 py-1.5">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
@@ -785,7 +785,7 @@ function StationPanel({
       </div>
 
       {/* BOTTOM HALF — metrics + Step Out button */}
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-6">
         <ul className="grid grid-cols-3 gap-4" role="list">
           {previewMetrics.map((m) => (
             <li key={m.label} className="border-l border-white/15 pl-3">
