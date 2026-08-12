@@ -122,9 +122,9 @@ export const ORIGIN = {
   hero: "I USED TO BUILD WHATEVER CAME TO MIND AND TACKLE THE TECHNICAL CHALLENGES AS THEY CAME. OVER TIME, I REALISED THE REAL HARD QUESTION WAS: SHOULD WE EVEN BE BUILDING THIS IN THE FIRST PLACE?",
   emphasis: "SHOULD WE EVEN BE BUILDING THIS IN THE FIRST PLACE?",
   paragraphs: [
-    "I studied Engineering Physics at DTU, but the obvious path for me was to explore everything besides pure engineering — debating, marketing, sales, raising sponsorships, building websites, tech, and machine learning & AI. I wanted to do everything all at once.",
-    "Amidst all the exploration — competing in debates, attending campus fests, reading research blogs, and networking — research was what truly clicked when I realized its real-world impact.",
-    "I understood the power of LinkedIn early in my college days. Reaching out, sharing my work, and connecting with people unlocked doors and opportunities I never imagined I'd get so early on.",
+    "I studied Engineering Physics at DTU, but my real focus was exploring everything outside the classroom. I jumped into debating, marketing, sales, raising sponsorships, building websites, and digging into machine learning and AI, eager to try everything at once.",
+    "Amidst competing in debates, attending campus fests, reading research blogs, and networking, research was what truly clicked once I saw its real-world impact.",
+    "I recognized the power of LinkedIn early in college. Reaching out directly, sharing my work, and connecting with people unlocked opportunities I never imagined getting so early in my career.",
   ],
   timeline: [
     { year: "2019", label: "DTU", sub: "Engineering Physics" },
