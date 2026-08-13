@@ -120,8 +120,16 @@ export default function BestWorkMetro() {
 
     gsap.registerPlugin(ScrollTrigger);
 
-    const calcTotalScroll = () =>
-      Math.max(0, track.scrollWidth - viewport.clientWidth);
+    const calcTotalScroll = () => {
+      const lastCard = track.lastElementChild as HTMLElement;
+      if (lastCard) {
+        return Math.max(
+          0,
+          lastCard.offsetLeft + lastCard.offsetWidth + 48 - viewport.clientWidth
+        );
+      }
+      return Math.max(0, track.scrollWidth - viewport.clientWidth);
+    };
 
     const st = ScrollTrigger.create({
       trigger: outer,
@@ -169,6 +177,16 @@ export default function BestWorkMetro() {
         return;
       }
 
+      if (activeRef.current === METRO_STATIONS.length - 1 && delta > 0) {
+        const researchEl = document.getElementById("research");
+        if (researchEl) {
+          const lenis = getLenis();
+          if (lenis) lenis.scrollTo(researchEl);
+          else researchEl.scrollIntoView({ behavior: "smooth" });
+        }
+        return;
+      }
+
       const outer = outerRef.current;
       const track = trackRef.current;
       const viewport = viewportRef.current;
@@ -178,7 +196,13 @@ export default function BestWorkMetro() {
         0,
         Math.min(METRO_STATIONS.length - 1, activeRef.current + delta)
       );
-      const totalScroll = Math.max(0, track.scrollWidth - viewport.clientWidth);
+      const lastCard = track.lastElementChild as HTMLElement;
+      const totalScroll = Math.max(
+        0,
+        lastCard
+          ? lastCard.offsetLeft + lastCard.offsetWidth + 48 - viewport.clientWidth
+          : track.scrollWidth - viewport.clientWidth
+      );
       const outerTop = outer.offsetTop;
 
       const stationScroll = totalScroll * (idx / (METRO_STATIONS.length - 1));
@@ -334,7 +358,7 @@ export default function BestWorkMetro() {
             <div className="flex h-full items-center justify-center pt-14 pb-14">
               <div
                 ref={trackRef}
-                className="flex items-center gap-8 pl-8 sm:pl-12 pr-48"
+                className="flex items-center gap-8 pl-8 sm:pl-12 pr-12"
               >
                 {METRO_STATIONS.map((station, i) => (
                   <StationPanel
