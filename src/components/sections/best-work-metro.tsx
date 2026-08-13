@@ -34,18 +34,18 @@ const METRO_PHOTOS = [
   },
   {
     src: "/images/metro/cambridge-formal.jpg",
-    title: "UNIVERSITY FELLOWSHIP",
-    caption: "Formal Evening · Gonville & Caius College",
+    title: "CAMBRIDGE RESEARCH APPRENTICE",
+    caption: "University of Cambridge · Gonville & Caius College",
   },
   {
     src: "/images/metro/area83-team.jpg",
-    title: "PRODUCT & TEAM",
-    caption: "Retreat & Strategy · Area83",
+    title: "SENSEHQ PRODUCT OFFSITE",
+    caption: "Product & Engineering Team Retreat · Area83",
   },
   {
     src: "/images/metro/paintball-team.jpg",
-    title: "TEAM BUILDING",
-    caption: "Outdoor Tactical Challenge & Offsite",
+    title: "CJS OFFSITE",
+    caption: "CJS Outdoor Tactical Challenge & Offsite",
   },
   {
     src: "/images/metro/teaching-ml.jpg",
