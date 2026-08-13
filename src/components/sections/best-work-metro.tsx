@@ -44,8 +44,8 @@ const METRO_PHOTOS = [
   },
   {
     src: "/images/metro/paintball-team.jpg",
-    title: "CJS OFFSITE",
-    caption: "CJS Outdoor Tactical Challenge & Offsite",
+    title: "CEGIS OFFSITE",
+    caption: "CEGIS Outdoor Tactical Challenge & Offsite",
   },
   {
     src: "/images/metro/teaching-ml.jpg",
