@@ -256,9 +256,9 @@ export default function BestWorkMetro() {
       data-cursor-label="best work"
     >
       {/* HEADER */}
-      <div className="relative mx-auto w-full max-w-[1200px] px-5 pt-16 sm:px-8 sm:pt-20 lg:px-12">
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 pt-10 sm:px-8 sm:pt-12 lg:px-12">
         <motion.div
-          className="mb-8 flex flex-col gap-3 border-b border-white/10 pb-6 sm:mb-12"
+          className="mb-6 flex flex-col gap-2.5 border-b border-white/10 pb-4 sm:mb-8"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
@@ -287,7 +287,7 @@ export default function BestWorkMetro() {
             onClick={() => navigateStation(1)}
             onMouseEnter={() => play("tick")}
             data-cursor-label="board"
-            className="group mt-4 inline-flex w-fit items-center gap-3 border border-[#FFD400]/60 bg-[#FFD400]/10 px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
+            className="group mt-3 inline-flex w-fit items-center gap-3 border border-[#FFD400]/60 bg-[#FFD400]/10 px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
           >
             <span className="h-2 w-2 rounded-full bg-[#F4F1EA] transition-colors group-hover:bg-[#1738D5]" />
             {METRO_INTRO.cta}
@@ -301,7 +301,7 @@ export default function BestWorkMetro() {
         <div ref={outerRef} className="relative w-full">
           <div
             ref={viewportRef}
-            className="relative h-screen w-full overflow-hidden bg-[#0A0A0A]"
+            className="relative h-[82vh] min-h-[540px] max-h-[750px] w-full overflow-hidden bg-[#0A0A0A]"
           >
             {/* Top status bar */}
             <div className="absolute left-0 right-0 top-0 z-20 flex items-center justify-between gap-4 border-b border-white/10 bg-[#0A0A0A]/80 px-5 py-3 backdrop-blur-sm sm:px-8">
@@ -331,10 +331,10 @@ export default function BestWorkMetro() {
             </div>
 
             {/* Track content */}
-            <div className="flex h-full items-center">
+            <div className="flex h-full items-center pt-12 pb-10">
               <div
                 ref={trackRef}
-                className="flex items-center gap-8 pl-12 pr-48"
+                className="flex items-center gap-8 pl-8 sm:pl-12 pr-48"
               >
                 {METRO_STATIONS.map((station, i) => (
                   <StationPanel
@@ -428,10 +428,10 @@ function StationPanel({
 
   return (
     <article
-      className="relative flex h-full w-[85vw] max-w-[900px] shrink-0 flex-col justify-center gap-10 px-10 py-14 sm:gap-12 sm:px-16 border border-white/10 bg-[#0E0E0E]"
+      className="relative flex w-[85vw] max-w-[850px] shrink-0 flex-col justify-between gap-6 border border-white/10 bg-[#0E0E0E] p-6 sm:p-8 lg:p-10 shadow-2xl"
       data-cursor-label={station.name}
     >
-      <div className="flex flex-col items-start gap-3">
+      <div className="flex flex-col items-start gap-2.5">
         <div className="border border-white/15 bg-[#0A0A0A] px-3 py-1">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
             {`PLATFORM 0${index + 1}`}
@@ -439,7 +439,7 @@ function StationPanel({
         </div>
 
         <h3
-          className={`font-display text-5xl font-bold leading-[0.92] tracking-tight transition-colors duration-300 lg:text-6xl ${
+          className={`font-display text-4xl font-bold leading-[0.95] tracking-tight transition-colors duration-300 sm:text-5xl lg:text-6xl ${
             active ? "text-[#F4F1EA]" : "text-[#F4F1EA]/60"
           }`}
         >
@@ -459,7 +459,7 @@ function StationPanel({
         </p>
       </div>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4 pt-2">
         <ul className="grid grid-cols-3 gap-4" role="list">
           {previewMetrics.map((m) => (
             <li key={m.label} className="border-l border-white/15 pl-3">
