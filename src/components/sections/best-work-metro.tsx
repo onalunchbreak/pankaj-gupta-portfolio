@@ -426,7 +426,7 @@ export default function BestWorkMetro() {
         <div ref={outerRef} className="relative w-full">
           <div
             ref={viewportRef}
-            className="relative h-screen w-full overflow-hidden bg-[#0A0A0A]"
+            className="relative h-[500px] sm:h-[540px] w-full overflow-hidden bg-[#0A0A0A]"
           >
 
 
@@ -602,8 +602,8 @@ export default function BestWorkMetro() {
               ))}
             </div>
 
-            {/* Bottom Hindi announcement ticker — shifted up closer to Step Out button */}
-            <div className="absolute bottom-6 sm:bottom-8 left-0 right-0 z-20 overflow-hidden border-y border-[#FFD400]/30 bg-[#0A0A0A]/95 py-2.5 backdrop-blur-sm">
+            {/* Bottom Hindi announcement ticker — flush at bottom of compact container */}
+            <div className="absolute bottom-0 left-0 right-0 z-20 overflow-hidden border-t border-[#FFD400]/30 bg-[#0A0A0A]/95 py-2.5 backdrop-blur-sm">
               <div
                 className="marquee-track whitespace-nowrap will-change-transform"
                 style={{
@@ -704,7 +704,7 @@ function StationPanel({
 
   return (
     <article
-      className="relative flex h-full w-[85vw] max-w-[900px] shrink-0 flex-col justify-center gap-12 px-10 py-16 sm:gap-14 sm:px-16"
+      className="relative flex h-full w-[85vw] max-w-[850px] shrink-0 flex-col justify-center gap-6 px-8 py-10 sm:gap-8 sm:px-12"
       data-cursor-label={station.name}
     >
       {/* TOP HALF — platform signboard & station name */}
