@@ -958,13 +958,7 @@ function DeepDiveOverlay({
         tabIndex={-1}
       >
         {/* Sticky header — "● DELHI METRO // {station}" */}
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#FFD400]/40 bg-[#0E0E0E] px-6 py-3 sm:px-8">
-          <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
-            <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
-            <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
-            <span className="text-[#A3A3A3]">{"·"}</span>
-            <span className="text-[#F4F1EA]/80">{station.name}</span>
-          </div>
+        <div className="sticky top-0 z-10 flex items-center justify-end border-b border-[#FFD400]/40 bg-[#0E0E0E] px-6 py-3 sm:px-8">
           <button
             type="button"
             onClick={onClose}
