@@ -301,10 +301,10 @@ export default function BestWorkMetro() {
         <div ref={outerRef} className="relative w-full">
           <div
             ref={viewportRef}
-            className="relative h-[480px] sm:h-[500px] w-full overflow-hidden bg-[#0A0A0A]"
+            className="relative h-screen w-full overflow-hidden bg-[#0A0A0A]"
           >
             {/* Top status bar */}
-            <div className="absolute left-0 right-0 top-0 z-20 flex items-center justify-between gap-4 border-b border-white/10 bg-[#0A0A0A]/90 px-5 py-2.5 backdrop-blur-sm sm:px-8">
+            <div className="absolute left-0 right-0 top-0 z-20 flex items-center justify-between gap-4 border-b border-white/10 bg-[#0A0A0A]/90 px-5 py-3 backdrop-blur-sm sm:px-8">
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
                 <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
                 <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
@@ -330,8 +330,8 @@ export default function BestWorkMetro() {
               </div>
             </div>
 
-            {/* Track content */}
-            <div className="flex h-full items-center pt-10 pb-10">
+            {/* Track content — balanced full-screen layout */}
+            <div className="flex h-full items-center justify-center pt-14 pb-14">
               <div
                 ref={trackRef}
                 className="flex items-center gap-8 pl-8 sm:pl-12 pr-48"
@@ -428,7 +428,7 @@ function StationPanel({
 
   return (
     <article
-      className="relative flex w-[85vw] max-w-[850px] shrink-0 flex-col justify-between gap-6 border border-white/10 bg-[#0E0E0E] p-6 sm:p-8 lg:p-10 shadow-2xl"
+      className="relative flex h-[62vh] min-h-[440px] max-h-[580px] w-[85vw] max-w-[850px] shrink-0 flex-col justify-between gap-6 border border-white/10 bg-[#0E0E0E] p-6 sm:p-8 lg:p-10 shadow-2xl"
       data-cursor-label={station.name}
     >
       <div className="flex flex-col items-start gap-2.5">
