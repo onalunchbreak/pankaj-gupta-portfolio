@@ -4,22 +4,6 @@
 
 Official portfolio for **Pankaj Gupta** — Built with Next.js 16 (App Router), TypeScript, Tailwind CSS, Framer Motion, and GSAP.
 
----
-
-## Highlights & Interactive Features
-
-- **Interactive Hero Canvas & Studio Mode:** Free-form node layout with interactive sticky notes, connections, and responsive typography.
-- **Career Metro Line (`Best Work`):** Interactive metro map experience representing career milestones (SenseHQ, CEGIS, Bosch, Cambridge, etc.) with real-time station panels and metric counters.
-- **High-Res Photo Marquee Ticker:** Infinite scrolling photo gallery showcasing high-resolution AI-enhanced images from key offsites, workshops, and speaking engagements.
-- **Research Archive:** Archival document card layout displaying published research papers with venue tags and direct ACL/Springer/IEEE links.
-- **Product Lab (`Side Projects`):** Interactive product grid featuring personal builds (*Queen's Gambit*, *Daily Dose of AI*, *Skill Tracer*, *A Hitchhiker's Guide to Presenting Modern Data Solutions*).
-- **Honors & Recognition Carousel:** Interactive card deck highlighting achievements (*NextLeap Top 1% PM Fellow*, *Toastmasters District Runner-Up*, *Fatima Fellowship*, *Amazon ML Summer School*).
-- **Split 2-Column Contact & Instant Copy:** High-contrast contact module with direct mail link, copy-to-clipboard action, and custom social link highlights.
-- **Web Audio Feedback:** Synthesized UI sound effects (ticks, whooshes, clicks) powered by Web Audio API / Howler.
-- **Command Palette & Keyboard Shortcuts:** Press `Cmd+K` or `/` for global search & section navigation, plus `M` for audio mute.
-
----
-
 ## Tech Stack
 
 | Category | Technology | Description |
