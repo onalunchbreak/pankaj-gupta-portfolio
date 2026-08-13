@@ -491,30 +491,25 @@ export const METRO_STATIONS: MetroStation[] = [
       {
         "label": "01 / CONTEXT",
         "title": "5K MICROENTREPRENEURS SURVEYED",
-        "text": "Tier-2 and tier-3 FMCG micro-entrepreneurs don't have access to the data-backed planogram design that big chains use to boost dwell time and basket size. The research set out to close that gap."
+        "text": "Tier-2 and tier-3 FMCG micro-entrepreneurs don't have access to the data/Consumer Psycology-backed design that big chains use to boost dwell time and basket size. The research set out to close that gap."
       },
       {
         "label": "02 / SYSTEM: VISION PIPELINE",
         "title": "GROUNDED-SAM OBJECT DETECTION",
-        "text": "A Grounding DINO + SAM 1 pipeline detected store fixtures from natural-language prompts across 15,000+ supermarket images, zero-shot, with no manual annotation needed. It sorted shelf imagery into roughly 8–10 categories — produce, dairy, personal care, home goods, and so on."
+        "text": "A Grounding DINO + SAM 1 pipeline detected store fixtures from natural-language prompts across 15,000+ supermarket images that were collected and cleaned. The model helped categories shelf-product images into roughly 8–10 categories: produce, dairy, personal care, home goods, and so on."
       },
       {
         "label": "03 / SYSTEM: SPATIAL CAPTURE",
         "title": "LIDAR + AR RECOMMENDATION ENGINE",
-        "text": "A shop owner walked their empty store with an iPad for 30 seconds; LiDAR and ARKit's RoomPlan turned that into a 3D mesh of walls, floor area, and doors. The layout engine combined that mesh with the vision model's spatial rules and projected the recommended shelf placement back onto the owner's iPad in AR, so they could walk through it before buying a single fixture."
+        "text": "A shop owner walked in their empty store with an iPad for 30 seconds; LiDAR and ARKit's RoomPlan turned that into a 3D mesh of walls, floor area, and doors. The layout engine combined that mesh with the vision model's spatial rules and projected the recommended shelf/product placement back onto the owner's iPad in AR, so they could walk through it before buying a single equipment/furniture."
       },
       {
         "label": "04 / OUTCOME",
         "title": "35% REVENUE INFLUENCE",
-        "text": "About 1,800 of the 5,000 entrepreneurs surveyed actually implemented the layout — roughly 35% saw a measurable lift in revenue."
-      },
-      {
-        "label": "05 / LEARNING",
-        "title": "RESEARCH → REAL OUTCOMES",
-        "text": "A research finding only moves revenue once someone can act on it. Turning the CV output into a layout a shop owner could physically walk through is what got 1,800 of them to actually change their stores."
+        "text": "About 1,800 of the 5,000 entrepreneurs surveyed actually implemented the layout i.e. roughly 35% saw a measurable lift in revenue in their next mini-mart locations."
       }
     ],
-    "learning": "A research finding only moves revenue once someone can act on it. Turning the CV output into a layout a shop owner could physically walk through is what got 1,800 of them to actually change their stores.",
+    "learning": "",
     "stationType": "professional"
   },
   {
