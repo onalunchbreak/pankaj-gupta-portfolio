@@ -998,9 +998,6 @@ function DeepDiveOverlay({
           <p className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400]/80">
             {station.role}
           </p>
-          <p className="mt-2 font-deva text-xl text-[#F4F1EA]/70">
-            {station.name}
-          </p>
 
           {/* Headline — case study thesis (blockquote) */}
           <blockquote className="mt-6 border-l-2 border-[#FFD400] pl-5">
