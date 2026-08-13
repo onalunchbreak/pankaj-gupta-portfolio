@@ -345,7 +345,7 @@ export const METRO_STATIONS: MetroStation[] = [
     "role": "Data Science Intern",
     "theme": "DATA SCIENCE",
     "tag": "Educational Analytics",
-    "headline": "HOW DO YOU MEASURE THE IMPACT OF LEARNING PROGRAMS ACROSS RURAL INDIA?",
+    "headline": "HOW DO YOU ENSURE YOUNG RURAL CHILDREN DON'T FORGET THEIR ROOTS?",
     "problem": "Measuring rural learning outcomes manually is slow, error-prone, and scales poorly across thousands of villages.",
     "system": [
       "Data aggregation pipelines",
@@ -375,30 +375,25 @@ export const METRO_STATIONS: MetroStation[] = [
       {
         "label": "01 / CONTEXT",
         "title": "Rural education metrics",
-        "text": "Worked as a Data Science Intern to automate and scale assessment analysis across rural India."
+        "text": "Worked as a Data Science Intern to build an app to help students distinguish between different regional bird sounds as part of learning curriculum."
       },
       {
         "label": "02 / PROBLEM",
-        "title": "Manual reporting bottlenecks",
-        "text": "Measuring rural learning outcomes manually is slow, error-prone, and scales poorly across thousands of villages."
+        "title": "Students Moving to cities",
+        "text": "Ensuring rural learning curriculum stays balanced with theoretical and practical hands on experiences  slow, error-prone, and scales poorly across thousands of villages."
       },
       {
         "label": "03 / SYSTEM",
-        "title": "Statistical impact pipelines",
-        "text": "Built data aggregation pipelines, statistical impact models, and Tableau dashboards to automate outcome reporting."
+        "title": "Regional BIRD SOUND Identifier",
+        "text": "Trained an regional bird sound identifier model using BIRD-CLEF Data to build an app which helps interactively identify different bird sounds for village kids."
       },
       {
         "label": "04 / IMPACT",
-        "title": "100K+ records parsed",
-        "text": "Processed 100K+ village outcome records and increased assessment analytics speed by 15%."
-      },
-      {
-        "label": "05 / LEARNING",
-        "title": "Data is noise without context",
-        "text": "Large datasets of test scores are useless unless aligned with the operational realities of remote teaching volunteers."
+        "title": "Increase in School Attendence Rate",
+        "text": "The inclusion of such apps and activities as part of learning experiences helped in increase in the attendence rate among students in Haryana and Madhya Pradesh when the app was piloted across Govt. School for Grade 1-5 students."
       }
     ],
-    "learning": "Large datasets of test scores are useless unless aligned with the operational realities of remote teaching volunteers.",
+    "learning": "",
     "stationType": "professional"
   },
   {
