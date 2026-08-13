@@ -1,10 +1,8 @@
-# Pankaj Gupta | Product x AI Portfolio
+# Pankaj Gupta | Portfolio
 
 > **Live Production:** [guptapankaj.vercel.app](https://guptapankaj.vercel.app)
 
-Official portfolio for **Pankaj Gupta** — Built with Next.js 16 (App Router), TypeScript, Tailwind CSS, Framer Motion, and GSAP.
-
-## Tech Stack
+## Tech Stack (Built with Next.js 16 (App Router), TypeScript, Tailwind CSS, Framer Motion, and GSAP)
 
 | Category | Technology | Description |
 |---|---|---|
