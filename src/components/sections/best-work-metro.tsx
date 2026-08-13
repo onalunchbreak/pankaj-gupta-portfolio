@@ -333,12 +333,6 @@ export default function BestWorkMetro() {
     }
   };
 
-  // Footer parts split on "·" so we can render the "Return to Platform"
-  // segment as a button.
-  const footerParts = METRO_INTRO.footer
-    .split("·")
-    .map((s) => s.trim())
-    .filter(Boolean);
 
   return (
     <section
@@ -666,40 +660,7 @@ export default function BestWorkMetro() {
         </div>
       )}
 
-      {/* ====================================================
-          F. FOOTER — mono, muted, wrapping, · separators
-          ==================================================== */}
-      <div className="mx-auto w-full max-w-[1200px] px-5 py-6 sm:px-8 sm:py-8 lg:px-12">
-        <div className="border-t border-white/10 pt-6">
-          <p className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#F4F1EA]/65">
-            {footerParts.map((part, i) => {
-              const isReturn = part
-                .toLowerCase()
-                .includes("return to platform");
-              return (
-                <span
-                  key={i}
-                  className="inline-flex items-center gap-2"
-                >
-                  {i > 0 && <span className="text-[#FFD400]/50">·</span>}
-                  {isReturn ? (
-                    <button
-                      type="button"
-                      onClick={returnToTop}
-                      data-cursor-label="return to platform"
-                      className="text-[#FFD400] underline-offset-2 transition-colors hover:text-[#F4F1EA] hover:underline"
-                    >
-                      {part}
-                    </button>
-                  ) : (
-                    <span>{part}</span>
-                  )}
-                </span>
-              );
-            })}
-          </p>
-        </div>
-      </div>
+
 
       {/* ====================================================
           D. STEP-OUT DEEP-DIVE OVERLAY
