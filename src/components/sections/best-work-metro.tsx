@@ -444,7 +444,7 @@ export default function BestWorkMetro() {
         <div ref={outerRef} className="relative w-full">
           <div
             ref={viewportRef}
-            className="relative h-[640px] sm:h-[720px] w-full overflow-hidden bg-[#0A0A0A]"
+            className="relative h-[680px] sm:h-[760px] w-full overflow-hidden bg-[#0A0A0A]"
           >
 
 
@@ -711,7 +711,7 @@ function StationPanel({
 
   return (
     <article
-      className="relative flex h-full w-[85vw] max-w-[900px] shrink-0 flex-col justify-center gap-12 px-10 py-16 sm:gap-14 sm:px-16"
+      className="relative flex h-full w-[85vw] max-w-[850px] shrink-0 flex-col justify-start pt-14 sm:pt-16 pb-28 gap-6 sm:gap-8 px-8 sm:px-12"
       data-cursor-label={station.name}
     >
       {/* TOP HALF — platform signboard & station name */}
