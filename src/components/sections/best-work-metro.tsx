@@ -440,7 +440,7 @@ export default function BestWorkMetro() {
             <div className="absolute left-0 right-0 top-0 z-20 flex items-center justify-between gap-4 border-b border-white/10 bg-[#0A0A0A]/80 px-5 py-3 backdrop-blur-sm sm:px-8">
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
                 <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
-                <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
+                <span className="text-[#FFD400]">{"CAREER METRO"}</span>
               </div>
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
                 {/* Now-playing theme indicator — shows the active station's theme */}
@@ -618,7 +618,7 @@ export default function BestWorkMetro() {
                     ))}
                     <span className="px-3 text-[#FFD400]/50">·</span>
                     <span className="px-3 text-[#FFD400]">
-                      {"● CAREER METRO"}
+                      {"CAREER METRO"}
                     </span>
                     <span className="px-3 text-[#FFD400]/50">·</span>
                     <span className="px-3 text-[#FFD400]">
@@ -634,7 +634,7 @@ export default function BestWorkMetro() {
         /* ---- Mobile / reduced-motion: stacked station cards ---- */
         <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-12 lg:px-12">
           <div className="mb-8 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#A3A3A3]">
-            <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
+            <span className="text-[#FFD400]">{"CAREER METRO"}</span>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -961,7 +961,7 @@ function DeepDiveOverlay({
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#FFD400]/40 bg-[#0E0E0E] px-6 py-3 sm:px-8">
           <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
             <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
-            <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
+            <span className="text-[#FFD400]">{"CAREER METRO"}</span>
           </div>
           <button
             type="button"
