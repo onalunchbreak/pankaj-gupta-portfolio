@@ -443,17 +443,19 @@ export default function BestWorkMetro() {
                 <span className="text-[#FFD400]">{"CAREER METRO"}</span>
               </div>
 
-              {/* Fixed Center Return to Platform button */}
-              <button
-                type="button"
-                onClick={returnToTop}
-                onMouseEnter={() => play("tick")}
-                data-cursor-label="return to platform"
-                className="group flex items-center gap-2 border border-[#FFD400]/60 bg-[#FFD400]/10 px-3.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
-              >
-                <span className="text-xs transition-transform group-hover:-translate-y-0.5">↑</span>
-                <span>{"RETURN TO PLATFORM"}</span>
-              </button>
+              {/* Fixed Center Return to Platform button (high-visibility pinned pill) */}
+              <div className="absolute top-2.5 left-1/2 z-40 -translate-x-1/2">
+                <button
+                  type="button"
+                  onClick={returnToTop}
+                  onMouseEnter={() => play("tick")}
+                  data-cursor-label="return to platform"
+                  className="group flex items-center gap-2 border-2 border-[#FFD400] bg-[#0A0A0A] px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#FFD400] shadow-[0_0_15px_rgba(255,212,0,0.4)] transition-all hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
+                >
+                  <span className="text-sm font-bold transition-transform group-hover:-translate-y-0.5">↑</span>
+                  <span>{"RETURN TO PLATFORM"}</span>
+                </button>
+              </div>
 
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
                 {/* Now-playing theme indicator — shows the active station's theme */}
