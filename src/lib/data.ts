@@ -786,7 +786,7 @@ export const CONTACT = {
   title: "Talk Product With Me",
   body: "Building something interesting? Hiring for a product role? Working on AI, automation, data products, or a problem that refuses to fit neatly into a Jira ticket? Send me a message.",
   cta: "connectwithguptapankaj@gmail.com",
-  annotation: "no forms. no funnels. no friction.",
+  annotation: "no forms no funnels no friction",
   mail: "connectwithguptapankaj@gmail.com",
   links: [
     { label: "LINKEDIN", href: "https://www.linkedin.com/in/gupta-pankaj/" },

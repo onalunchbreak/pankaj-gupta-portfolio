@@ -164,23 +164,16 @@ export default function Contact() {
             </p>
           </Reveal>
 
-          {/* Annotation — mono muted */}
-          <Reveal className="mt-5 sm:mt-6" delay={0.35}>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-[#A3A3A3] sm:translate-x-3 sm:text-sm">
-              {CONTACT.annotation}
-            </p>
-          </Reveal>
-
-          {/* EMAIL ADDRESS BLOCK — visible address + copy-to-clipboard button. */}
-          <Reveal className="mt-10" delay={0.4}>
-            <div className="flex flex-col gap-3 border border-white/10 bg-[#0E0E0E] p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-5">
+          {/* EMAIL ADDRESS BLOCK — shifted up and reduced */}
+          <Reveal className="mt-6 sm:mt-8 max-w-[580px]" delay={0.3}>
+            <div className="flex flex-col gap-3 border border-white/10 bg-[#0E0E0E] p-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5 sm:py-3.5">
               <div className="flex min-w-0 items-center gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-[#FFD400]" aria-hidden />
                 <a
                   href={mailto}
                   onMouseEnter={() => play("tick")}
                   data-cursor-label="mail"
-                  className="truncate font-mono text-sm text-[#F4F1EA]/85 transition-colors hover:text-[#FFD400] sm:text-base"
+                  className="truncate font-mono text-xs sm:text-sm text-[#F4F1EA]/85 transition-colors hover:text-[#FFD400]"
                 >
                   {CONTACT.mail}
                 </a>
@@ -190,7 +183,7 @@ export default function Contact() {
                 onClick={copyEmail}
                 onMouseEnter={() => play("tick")}
                 data-cursor-label={copied ? "copied" : "copy"}
-                className="group flex shrink-0 items-center gap-2 border border-white/15 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors hover:border-[#FFD400] hover:text-[#FFD400] focus-ring"
+                className="group flex shrink-0 items-center gap-2 border border-white/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors hover:border-[#FFD400] hover:text-[#FFD400] focus-ring"
                 aria-label="Copy email address to clipboard"
               >
                 {copied ? (
@@ -208,56 +201,62 @@ export default function Contact() {
             </div>
           </Reveal>
 
-          {/* LINKS ROW — EMAIL (mailto), LINKEDIN, GITHUB all render as
-              clickable external links (target=_blank) via the URLs
-              extracted from the resume PDF. */}
-          <Reveal className="mt-14 sm:mt-20" delay={0.45}>
-            <nav
-              aria-label="Social links"
-              className="flex flex-wrap items-center gap-x-3 gap-y-3 sm:translate-x-6"
-            >
-              {CONTACT.links.map((link, i) => {
-                const isMail = link.href.startsWith("mailto:");
-                const available = hasLink(link.href);
-                return (
-                  <span key={link.label} className="flex items-center gap-3">
-                    {i > 0 && (
-                      <span aria-hidden className="font-mono text-xs text-[#A3A3A3]">
-                        ·
-                      </span>
-                    )}
-                    {available ? (
-                      <a
-                        href={link.href}
-                        onMouseEnter={() => play("tick")}
-                        data-cursor-label={link.label.toLowerCase()}
-                        className="group/link flex items-center gap-2 border-b border-transparent font-mono text-xs uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors duration-200 hover:border-[#FFD400] hover:text-[#FFD400] sm:text-sm"
-                        {...(!isMail
-                          ? { target: "_blank", rel: "noopener noreferrer" }
-                          : {})}
-                      >
-                        <span
-                          aria-hidden
-                          className="h-1 w-1 rounded-full bg-[#A3A3A3] transition-colors duration-200 group-hover/link:bg-[#FFD400]"
-                        />
-                        <span className="inline-block transition-transform duration-200 group-hover/link:-translate-y-0.5">
-                          {link.label}
+          {/* LINKS & ANNOTATION ROW — LINKEDIN, GITHUB + "no forms no funnels no friction" */}
+          <Reveal className="mt-10 sm:mt-14" delay={0.4}>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-3 sm:translate-x-4">
+              <nav aria-label="Social links" className="flex flex-wrap items-center gap-x-3 gap-y-3">
+                {CONTACT.links.map((link, i) => {
+                  const isMail = link.href.startsWith("mailto:");
+                  const available = hasLink(link.href);
+                  return (
+                    <span key={link.label} className="flex items-center gap-3">
+                      {i > 0 && (
+                        <span aria-hidden className="font-mono text-xs text-[#A3A3A3]">
+                          ·
                         </span>
-                      </a>
-                    ) : (
-                      <span
-                        aria-disabled="true"
-                        className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-[#A3A3A3]/60 cursor-not-allowed sm:text-sm"
-                        title="Link unavailable — no URL on file"
-                      >
-                        <Lock className="h-3 w-3" aria-hidden />
-                        <span>{link.label.toLowerCase()}_unavailable</span>
-                      </span>
-                    )}
-                  </span>
-                );
-              })}
-            </nav>
+                      )}
+                      {available ? (
+                        <a
+                          href={link.href}
+                          onMouseEnter={() => play("tick")}
+                          data-cursor-label={link.label.toLowerCase()}
+                          className="group/link flex items-center gap-2 border-b border-transparent font-mono text-xs uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors duration-200 hover:border-[#FFD400] hover:text-[#FFD400] sm:text-sm"
+                          {...(!isMail
+                            ? { target: "_blank", rel: "noopener noreferrer" }
+                            : {})}
+                        >
+                          <span
+                            aria-hidden
+                            className="h-1 w-1 rounded-full bg-[#A3A3A3] transition-colors duration-200 group-hover/link:bg-[#FFD400]"
+                          />
+                          <span className="inline-block transition-transform duration-200 group-hover/link:-translate-y-0.5">
+                            {link.label}
+                          </span>
+                        </a>
+                      ) : (
+                        <span
+                          aria-disabled="true"
+                          className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-[#A3A3A3]/60 cursor-not-allowed sm:text-sm"
+                          title="Link unavailable — no URL on file"
+                        >
+                          <Lock className="h-3 w-3" aria-hidden />
+                          <span>{link.label.toLowerCase()}_unavailable</span>
+                        </span>
+                      )}
+                    </span>
+                  );
+                })}
+              </nav>
+
+              <span aria-hidden className="font-mono text-xs text-[#A3A3A3]">
+                ·
+              </span>
+
+              {/* Annotation — no dots, positioned on the right */}
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#A3A3A3]">
+                {CONTACT.annotation}
+              </p>
+            </div>
           </Reveal>
         </div>
       </div>
