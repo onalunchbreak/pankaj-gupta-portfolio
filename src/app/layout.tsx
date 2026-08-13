@@ -42,25 +42,24 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Pankaj Gupta — Mr. Onalunchbreak // Product × AI × Systems",
+  title: "Pankaj Gupta | Product x AI",
   description:
-    "Pankaj Gupta AKA Mr. Onalunchbreak — DTU '23, Delhi. Product Manager, Applied AI builder, researcher. Product by day, side projects by lunch, overthinking by midnight.",
+    "Pankaj Gupta — DTU '23, Delhi. Product Manager, Applied AI builder, researcher.",
   keywords: [
     "Pankaj Gupta",
-    "Mr. Onalunchbreak",
     "Product Manager",
     "Applied AI",
     "Researcher",
     "DTU",
     "Delhi",
     "Portfolio",
-    "Product × AI × Systems",
+    "Product x AI",
   ],
   authors: [{ name: "Pankaj Gupta" }],
   openGraph: {
-    title: "Pankaj Gupta — Mr. Onalunchbreak // Product × AI × Systems",
+    title: "Pankaj Gupta | Product x AI",
     description:
-      "Product by day, side projects by lunch, overthinking by midnight. DTU '23 · Delhi, India.",
+      "Product Manager & Applied AI Builder. DTU '23 · Delhi, India.",
     type: "website",
   },
 };
