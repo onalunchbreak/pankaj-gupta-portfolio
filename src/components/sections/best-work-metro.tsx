@@ -711,11 +711,11 @@ function StationPanel({
 
   return (
     <article
-      className="relative flex h-full w-[85vw] max-w-[850px] shrink-0 flex-col justify-center pt-24 pb-44 gap-5 sm:gap-6 px-8 sm:px-12"
+      className="relative flex h-full w-[85vw] max-w-[850px] shrink-0 flex-col justify-center pt-24 pb-44 gap-8 sm:gap-10 px-8 sm:px-12"
       data-cursor-label={station.name}
     >
       {/* TOP HALF — platform signboard & station name */}
-      <div className="flex flex-col items-start gap-4">
+      <div className="flex flex-col items-start gap-5 sm:gap-6">
         {/* Platform signboard — only PLATFORM 01 */}
         <div className="border border-white/15 bg-[#0E0E0E] px-3.5 py-1.5">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
@@ -739,7 +739,7 @@ function StationPanel({
 
         {/* Headline — the case study thesis */}
         <p
-          className={`max-w-xl font-display text-base leading-snug transition-colors duration-300 sm:text-lg ${
+          className={`max-w-xl font-display text-base leading-relaxed transition-colors duration-300 sm:text-lg mt-1 ${
             active ? "text-[#F4F1EA]/85" : "text-[#F4F1EA]/50"
           }`}
         >
@@ -748,7 +748,7 @@ function StationPanel({
       </div>
 
       {/* BOTTOM HALF — Step Out button */}
-      <div>
+      <div className="pt-2 sm:pt-4">
         <button
           type="button"
           onClick={onStepOut}
