@@ -33,9 +33,19 @@ const METRO_PHOTOS = [
     caption: "Python Programming · Teach For India",
   },
   {
+    src: "/images/metro/cambridge-formal.jpg",
+    title: "UNIVERSITY FELLOWSHIP",
+    caption: "Formal Evening · Gonville & Caius College",
+  },
+  {
     src: "/images/metro/area83-team.jpg",
     title: "PRODUCT & TEAM",
     caption: "Retreat & Strategy · Area83",
+  },
+  {
+    src: "/images/metro/paintball-team.jpg",
+    title: "TEAM BUILDING",
+    caption: "Outdoor Tactical Challenge & Offsite",
   },
   {
     src: "/images/metro/teaching-ml.jpg",
