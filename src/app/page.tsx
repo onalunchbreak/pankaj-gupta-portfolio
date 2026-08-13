@@ -3,7 +3,6 @@ import Preloader from "@/components/shell/preloader";
 import Nav from "@/components/shell/nav";
 import Cursor from "@/components/shell/cursor";
 import Grain from "@/components/shell/grain";
-import IssueBadge from "@/components/shell/issue-badge";
 import SoundManager from "@/components/shell/sound-manager";
 import KeyboardRouter from "@/components/shell/keyboard-router";
 import SectionReachTracker from "@/components/shell/section-reach-tracker";
@@ -29,7 +28,6 @@ export default function Home() {
       <Cursor />
       <SoundManager />
       <Nav />
-      <IssueBadge />
       <KeyboardRouter />
       <SectionReachTracker />
       <ScrollToTop />
