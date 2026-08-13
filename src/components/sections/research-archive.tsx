@@ -73,13 +73,10 @@ function PaperSheet({
         {paper.title}
       </h3>
 
-      {/* Venue + year badge */}
+      {/* Venue badge */}
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <span className="border border-[#1738D5]/40 bg-[#1738D5]/5 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#1738D5]">
           {paper.venue}
-        </span>
-        <span className="border border-[#1a1a1a]/20 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#1a1a1a]/70">
-          {paper.year}
         </span>
       </div>
 

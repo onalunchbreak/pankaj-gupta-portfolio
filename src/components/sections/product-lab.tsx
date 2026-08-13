@@ -276,7 +276,7 @@ export default function ProductLab() {
           <span className="text-[#F4F1EA]/70">SIDE PROJECTS</span>
         </motion.div>
 
-        {/* Header — large hand-display with muted "## " prefix */}
+        {/* Header — large hand-display */}
         <motion.h2
           id="lab-heading"
           className="hand-display text-[12vw] leading-[0.85] tracking-tight text-[#F4F1EA] sm:text-[9vw] lg:text-8xl"
@@ -285,15 +285,8 @@ export default function ProductLab() {
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.8, ease: EASE }}
         >
-          <span className="text-[#A3A3A3]">{"## "}</span>
-          <span>things built out of curiosity</span>
+          <span>Things built out of curiosity</span>
         </motion.h2>
-
-        <Reveal delay={0.15}>
-          <p className="mt-4 font-mono text-xs uppercase tracking-[0.25em] text-[#A3A3A3] sm:translate-x-2 sm:text-sm">
-            {LAB.subtitle}
-          </p>
-        </Reveal>
 
         {/* ====================================================
             (3) SIDE PROJECTS — 4 cards

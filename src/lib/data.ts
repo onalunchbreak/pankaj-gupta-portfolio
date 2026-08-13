@@ -682,7 +682,7 @@ export const RESEARCH = {
       year: 2024,
       supervisor: "Dr. Amitava Das",
       institution: "The Artificial Intelligence Institute, University of South Carolina, SC",
-      tags: ["DECEPTION DETECTION", "MULTIMODAL AI", "EACL 2024"],
+      tags: ["DECEPTION DETECTION", "MULTIMODAL AI"],
       link: "https://aclanthology.org/2025.acl-srw.7/",
       url: "https://aclanthology.org/2025.acl-srw.7/",
     },
@@ -695,7 +695,7 @@ export const RESEARCH = {
       year: 2023,
       supervisor: "Prof. Marie-Jean Meurs",
       institution: "Dept. of CS, Université du Québec, Canada",
-      tags: ["NAMED ENTITY RECOGNITION", "DOMAIN ADAPTATION", "ECIR 2023"],
+      tags: ["NAMED ENTITY RECOGNITION", "DOMAIN ADAPTATION"],
       link: "https://link.springer.com/chapter/10.1007/978-3-031-28238-6_28",
       url: "https://link.springer.com/chapter/10.1007/978-3-031-28238-6_28",
     },
@@ -708,7 +708,7 @@ export const RESEARCH = {
       year: 2023,
       supervisor: "Prof. Marie-Jean Meurs",
       institution: "Dept. of CS, Université du Québec, Canada",
-      tags: ["TRANSFORMERS", "FRENCH NER", "AAAI 2023"],
+      tags: ["TRANSFORMERS", "FRENCH NER"],
       link: "https://ojs.aaai.org/index.php/AAAI/article/view/26958",
       url: "https://ojs.aaai.org/index.php/AAAI/article/view/26958",
     },
@@ -721,7 +721,7 @@ export const RESEARCH = {
       year: 2023,
       supervisor: "Prof. Dinesh Kumar Vishwakarma",
       institution: "HoD, Dept. of Info. Tech, DTU, India",
-      tags: ["ATTENTION-FREE", "MULTIMODAL SENTIMENT", "IEEE 2023"],
+      tags: ["ATTENTION-FREE", "MULTIMODAL SENTIMENT"],
       link: "https://ieeexplore.ieee.org/document/10201711",
       url: "https://ieeexplore.ieee.org/document/10201711",
     },
@@ -730,8 +730,8 @@ export const RESEARCH = {
 
 // Product Lab / Insomniac Work
 export const LAB = {
-  header: "## things built out of curiosity",
-  subtitle: "hover around. prototypes that somehow survived the production deploy.",
+  header: "Things built out of curiosity",
+  subtitle: "",
   wordCloudTitle: "MY CV, IN ABOUT 40 WORDS",
   wordCloud: [
     "Product", "AI", "Systems", "Research", "Customer Journeys", "Roadmaps",
@@ -768,11 +768,11 @@ export const ACHIEVEMENTS = {
   title: "HONORS & RECOGNITION",
   headline: "MILESTONES AND RECOGNITIONS EARNED ALONG THE WAY.",
   cards: [
-    { org: "NEXTLEAP", label: "TOP 1%", sub: "PRODUCT MANAGEMENT FELLOW", year: "2025", url: "https://www.linkedin.com/in/gupta-pankaj/details/honors/1635554451885/single-media-viewer/?profileId=ACoAACLgHN8BgAC4xBg9Gm1qV9p5Wfo5FGA6X6s" },
     { org: "TOASTMASTERS", label: "DISTRICT RUNNER-UP", sub: "SPEECH COMPETITION RUNNER-UP · TOASTMASTER OF THE MONTH · MOST IMPROVED SPEAKER", year: "2024–26", url: "https://www.toastmasters.org/" },
     { org: "FATIMA FELLOWSHIP", label: "AMONG 30 SELECTED", sub: "FROM 4000+ GLOBAL APPLICANTS", year: "2023", url: "https://www.fatima.institute/" },
     { org: "AMAZON ML SUMMER SCHOOL", label: "AMONG 400 SELECTED", sub: "FROM 17,000+ INDIAN APPLICANTS", year: "2022", url: "https://www.scaler.com/partnerships/amazon#hero" },
     { org: "TEACH FOR INDIA", label: "TEACHING VOLUNTEER", sub: "PYTHON PROGRAMMING · GRADE 11–12 STUDENTS", year: "2020", url: "https://www.teachforindia.org/" },
+    { org: "NEXTLEAP", label: "TOP 1%", sub: "PRODUCT MANAGEMENT FELLOW", year: "2025", url: "https://www.linkedin.com/in/gupta-pankaj/details/honors/1635554451885/single-media-viewer/?profileId=ACoAACLgHN8BgAC4xBg9Gm1qV9p5Wfo5FGA6X6s" },
   ],
   education: [
     { org: "DTU", label: "B.Tech Engineering Physics", sub: "8.69 / 10.00", url: "" },

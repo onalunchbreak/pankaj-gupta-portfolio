@@ -180,7 +180,7 @@ export default function Contact() {
                   href={mailto}
                   onMouseEnter={() => play("tick")}
                   data-cursor-label="mail"
-                  className="truncate font-mono text-sm text-[#F4F1EA]/85 transition-colors hover:text-[#1738D5] sm:text-base"
+                  className="truncate font-mono text-sm text-[#F4F1EA]/85 transition-colors hover:text-[#FFD400] sm:text-base"
                 >
                   {CONTACT.mail}
                 </a>
@@ -190,13 +190,13 @@ export default function Contact() {
                 onClick={copyEmail}
                 onMouseEnter={() => play("tick")}
                 data-cursor-label={copied ? "copied" : "copy"}
-                className="group flex shrink-0 items-center gap-2 border border-white/15 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors hover:border-[#1738D5] hover:text-[#1738D5] focus-ring"
+                className="group flex shrink-0 items-center gap-2 border border-white/15 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors hover:border-[#FFD400] hover:text-[#FFD400] focus-ring"
                 aria-label="Copy email address to clipboard"
               >
                 {copied ? (
                   <>
-                    <Check className="h-3.5 w-3.5 text-[#1738D5]" aria-hidden />
-                    <span className="text-[#1738D5]">copied</span>
+                    <Check className="h-3.5 w-3.5 text-[#FFD400]" aria-hidden />
+                    <span className="text-[#FFD400]">copied</span>
                   </>
                 ) : (
                   <>
@@ -231,14 +231,14 @@ export default function Contact() {
                         href={link.href}
                         onMouseEnter={() => play("tick")}
                         data-cursor-label={link.label.toLowerCase()}
-                        className="group/link flex items-center gap-2 border-b border-transparent font-mono text-xs uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors duration-200 hover:border-[#1738D5] hover:text-[#1738D5] sm:text-sm"
+                        className="group/link flex items-center gap-2 border-b border-transparent font-mono text-xs uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors duration-200 hover:border-[#FFD400] hover:text-[#FFD400] sm:text-sm"
                         {...(!isMail
                           ? { target: "_blank", rel: "noopener noreferrer" }
                           : {})}
                       >
                         <span
                           aria-hidden
-                          className="h-1 w-1 rounded-full bg-[#A3A3A3] transition-colors duration-200 group-hover/link:bg-[#1738D5]"
+                          className="h-1 w-1 rounded-full bg-[#A3A3A3] transition-colors duration-200 group-hover/link:bg-[#FFD400]"
                         />
                         <span className="inline-block transition-transform duration-200 group-hover/link:-translate-y-0.5">
                           {link.label}
