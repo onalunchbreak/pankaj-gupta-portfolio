@@ -72,6 +72,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${spaceGrotesk.variable} ${spaceMono.variable} ${inter.variable} ${notoDeva.variable} ${caveat.variable} antialiased bg-background text-foreground`}
       >
         {children}
