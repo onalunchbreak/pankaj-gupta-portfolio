@@ -333,6 +333,12 @@ export default function BestWorkMetro() {
     }
   };
 
+  // Footer parts split on "·" so we can render the "Return to Platform"
+  // segment as a button.
+  const footerParts = METRO_INTRO.footer
+    .split("·")
+    .map((s) => s.trim())
+    .filter(Boolean);
 
   return (
     <section
@@ -426,7 +432,7 @@ export default function BestWorkMetro() {
         <div ref={outerRef} className="relative w-full">
           <div
             ref={viewportRef}
-            className="relative h-[500px] sm:h-[540px] w-full overflow-hidden bg-[#0A0A0A]"
+            className="relative h-screen w-full overflow-hidden bg-[#0A0A0A]"
           >
 
 
@@ -436,21 +442,6 @@ export default function BestWorkMetro() {
                 <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
                 <span className="text-[#FFD400]">{"CAREER METRO"}</span>
               </div>
-
-              {/* Fixed Center Return to Platform button (high-visibility pinned pill) */}
-              <div className="absolute top-2.5 left-1/2 z-40 -translate-x-1/2">
-                <button
-                  type="button"
-                  onClick={returnToTop}
-                  onMouseEnter={() => play("tick")}
-                  data-cursor-label="return to platform"
-                  className="group flex items-center gap-2 border-2 border-[#FFD400] bg-[#0A0A0A] px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#FFD400] shadow-[0_0_15px_rgba(255,212,0,0.4)] transition-all hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
-                >
-                  <span className="text-sm font-bold transition-transform group-hover:-translate-y-0.5">↑</span>
-                  <span>{"RETURN TO PLATFORM"}</span>
-                </button>
-              </div>
-
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
                 {/* Now-playing theme indicator — shows the active station's theme */}
                 <span className="hidden items-center gap-1.5 border border-[#FFD400]/30 bg-[#FFD400]/5 px-2 py-0.5 sm:flex">
@@ -602,8 +593,8 @@ export default function BestWorkMetro() {
               ))}
             </div>
 
-            {/* Bottom Hindi announcement ticker — flush at bottom of compact container */}
-            <div className="absolute bottom-0 left-0 right-0 z-20 overflow-hidden border-t border-[#FFD400]/30 bg-[#0A0A0A]/95 py-2.5 backdrop-blur-sm">
+            {/* Bottom Hindi announcement ticker — uses METRO_INTRO.announcements */}
+            <div className="absolute bottom-0 left-0 right-0 z-20 overflow-hidden border-t border-[#FFD400]/30 bg-[#0A0A0A]/92 py-2.5 backdrop-blur-sm">
               <div
                 className="marquee-track whitespace-nowrap will-change-transform"
                 style={{
@@ -660,7 +651,40 @@ export default function BestWorkMetro() {
         </div>
       )}
 
-
+      {/* ====================================================
+          F. FOOTER — mono, muted, wrapping, · separators
+          ==================================================== */}
+      <div className="mx-auto w-full max-w-[1200px] px-5 py-6 sm:px-8 sm:py-8 lg:px-12">
+        <div className="border-t border-white/10 pt-6">
+          <p className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#F4F1EA]/65">
+            {footerParts.map((part, i) => {
+              const isReturn = part
+                .toLowerCase()
+                .includes("return to platform");
+              return (
+                <span
+                  key={i}
+                  className="inline-flex items-center gap-2"
+                >
+                  {i > 0 && <span className="text-[#FFD400]/50">·</span>}
+                  {isReturn ? (
+                    <button
+                      type="button"
+                      onClick={returnToTop}
+                      data-cursor-label="return to platform"
+                      className="text-[#FFD400] underline-offset-2 transition-colors hover:text-[#F4F1EA] hover:underline"
+                    >
+                      {part}
+                    </button>
+                  ) : (
+                    <span>{part}</span>
+                  )}
+                </span>
+              );
+            })}
+          </p>
+        </div>
+      </div>
 
       {/* ====================================================
           D. STEP-OUT DEEP-DIVE OVERLAY
@@ -704,7 +728,7 @@ function StationPanel({
 
   return (
     <article
-      className="relative flex h-full w-[85vw] max-w-[850px] shrink-0 flex-col justify-center gap-6 px-8 py-10 sm:gap-8 sm:px-12"
+      className="relative flex h-full w-[85vw] max-w-[900px] shrink-0 flex-col justify-center gap-12 px-10 py-16 sm:gap-14 sm:px-16"
       data-cursor-label={station.name}
     >
       {/* TOP HALF — platform signboard & station name */}
