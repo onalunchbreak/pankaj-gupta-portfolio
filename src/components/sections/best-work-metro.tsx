@@ -442,6 +442,19 @@ export default function BestWorkMetro() {
                 <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
                 <span className="text-[#FFD400]">{"CAREER METRO"}</span>
               </div>
+
+              {/* Fixed Center Return to Platform button */}
+              <button
+                type="button"
+                onClick={returnToTop}
+                onMouseEnter={() => play("tick")}
+                data-cursor-label="return to platform"
+                className="group flex items-center gap-2 border border-[#FFD400]/60 bg-[#FFD400]/10 px-3.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
+              >
+                <span className="text-xs transition-transform group-hover:-translate-y-0.5">↑</span>
+                <span>{"RETURN TO PLATFORM"}</span>
+              </button>
+
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
                 {/* Now-playing theme indicator — shows the active station's theme */}
                 <span className="hidden items-center gap-1.5 border border-[#FFD400]/30 bg-[#FFD400]/5 px-2 py-0.5 sm:flex">
