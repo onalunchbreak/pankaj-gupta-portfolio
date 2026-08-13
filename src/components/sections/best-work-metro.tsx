@@ -636,7 +636,8 @@ export default function BestWorkMetro() {
                           <img
                             src={photo.src}
                             alt={photo.caption}
-                            className="h-full w-full object-cover transition-opacity duration-300 opacity-85 group-hover:opacity-100"
+                            className="h-full w-full object-cover object-center contrast-[1.08] brightness-[1.02] saturate-[1.06] transition-all duration-500 group-hover:scale-105 group-hover:contrast-100"
+                            loading="eager"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-85" />
                           <div className="absolute bottom-2 left-2.5 right-2.5">
