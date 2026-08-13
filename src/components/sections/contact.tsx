@@ -229,9 +229,6 @@ export default function Contact() {
             <div className="lg:col-span-5 flex flex-col justify-end">
               <Reveal delay={0.25}>
                 <div className="flex flex-col gap-3 rounded-sm border border-white/15 bg-[#0E0E0E] p-4 sm:p-5 shadow-xl transition-all duration-300 hover:border-[#FFD400]/40">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-                    DIRECT EMAIL
-                  </p>
                   <div className="flex items-center gap-2 text-[#FFD400]">
                     <Mail className="h-4 w-4 shrink-0" aria-hidden />
                     <a
@@ -254,12 +251,12 @@ export default function Contact() {
                     {copied ? (
                       <>
                         <Check className="h-3.5 w-3.5 text-[#FFD400]" aria-hidden />
-                        <span className="text-[#FFD400]">COPIED TO CLIPBOARD</span>
+                        <span className="text-[#FFD400]">COPIED</span>
                       </>
                     ) : (
                       <>
                         <Copy className="h-3.5 w-3.5" aria-hidden />
-                        <span>COPY EMAIL</span>
+                        <span>COPY</span>
                       </>
                     )}
                   </button>
