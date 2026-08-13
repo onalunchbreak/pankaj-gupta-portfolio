@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, Trash2, Plus, Save, Check, Edit3 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CountUp } from "@/components/sections/_shared";
@@ -44,28 +44,15 @@ const getValueFontSize = (display?: string, isMobileList = false, isModal = fals
   }
 };
 
-/* ============================================================
-   SECTION 04 — BEST WORK / DELHI METRO METRO
-   Gamified horizontal metro track with pinned GSAP scroll,
-   step-out deep-dive overlays, keyboard nav, Hindi announcement
-   ticker, door-chime SFX. Degrades to a vertical stacked grid
-   below 1024px or when prefers-reduced-motion is set.
-
-   Station content (per spec Section 06, Pankaj re-personalisation):
-   - Each station carries headline + caseStudy: CaseStudyBlock[]
-     (each block has label / title / text) + extras + learning.
-   - The deep-dive overlay exposes the full case study:
-     headline (blockquote), caseStudy blocks as labelled sections,
-     ALL metrics as CountUp grid, extras as labelled lists,
-     learning as a highlighted note.
-   - 6 stations: Bosch · Research Lab · Cambridge JBS · CEGIS ·
-     SenseHQ · Mr. Onalunchbreak.
-   - DELHI METRO branding (yellow line identity kept).
-   ============================================================ */
 export default function BestWorkMetro() {
   const { play } = useSound();
   const reduced = usePrefersReducedMotion();
   const openCaseStudy = useSessionStats((s) => s.openCaseStudy);
+
+  const isDev = process.env.NODE_ENV !== "production";
+  const [localStations, setLocalStations] = useState<MetroStation[]>(METRO_STATIONS);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   const [isDesktop, setIsDesktop] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -79,19 +66,13 @@ export default function BestWorkMetro() {
   const trackRef = useRef<HTMLDivElement>(null);
   const trainRef = useRef<HTMLDivElement>(null);
 
-  // Latest active index + play ref so the GSAP onUpdate closure can read
-  // fresh values without re-subscribing on every render.
   const progressRef = useRef(0);
   const activeRef = useRef(0);
   const playRef = useRef(play);
 
-  // Track the trigger button so focus can be restored when the deep-dive
-  // overlay closes.
   const triggerRef = useRef<HTMLElement | null>(null);
   const deepDivePanelRef = useRef<HTMLDivElement | null>(null);
 
-  // Keep playRef in sync with the latest play closure without touching refs
-  // during render (which would trip react-hooks/refs).
   useEffect(() => {
     playRef.current = play;
   }, [play]);
@@ -99,13 +80,43 @@ export default function BestWorkMetro() {
   const showPinned = isDesktop && !reduced;
 
   const openStation =
-    METRO_STATIONS.find((s) => s.id === openStationId) ?? null;
+    localStations.find((s) => s.id === openStationId) ?? null;
   const nextStation =
-    METRO_STATIONS[(activeIndex + 1) % METRO_STATIONS.length];
+    localStations[(activeIndex + 1) % localStations.length];
 
   // Lock scroll + trap focus while the deep-dive overlay is open.
   useBodyScrollLock(openStationId !== null);
   useFocusTrap(deepDivePanelRef, openStationId !== null, triggerRef);
+
+  /* ---- Station Update Helper ---- */
+  const handleUpdateStation = (stationId: string, updated: MetroStation) => {
+    setLocalStations((prev) =>
+      prev.map((s) => (s.id === stationId ? updated : s))
+    );
+  };
+
+  /* ---- Save Metro Data API Call ---- */
+  const handleSaveMetroData = async () => {
+    setIsSaving(true);
+    try {
+      const res = await fetch("/api/save-metro-data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stations: localStations }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSaveSuccess(true);
+        setTimeout(() => setSaveSuccess(false), 3000);
+      } else {
+        alert("Failed to save metro data: " + data.error);
+      }
+    } catch (err: any) {
+      alert("Save error: " + err.message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   /* ---- desktop breakpoint detection ---- */
   useEffect(() => {
@@ -117,8 +128,6 @@ export default function BestWorkMetro() {
   }, []);
 
   /* ---- section-in-view tracking for keyboard nav ---- */
-  // Uses a generous rootMargin so keyboard nav activates as soon as the
-  // metro section is approaching the viewport, not just when it's 15% visible.
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -126,8 +135,6 @@ export default function BestWorkMetro() {
       ([entry]) => {
         setInView(entry.isIntersecting);
         if (entry.isIntersecting) {
-          // Show the prominent keyboard hint the first time the user enters
-          // the metro section, then auto-dismiss after 5s.
           setShowKeyHint(true);
           setTimeout(() => setShowKeyHint(false), 5000);
         }
@@ -138,7 +145,7 @@ export default function BestWorkMetro() {
     return () => io.disconnect();
   }, []);
 
-  /* ---- GSAP pinned horizontal track (desktop + not reduced) ---- */
+  /* ---- GSAP pinned horizontal track ---- */
   useEffect(() => {
     if (!showPinned) return;
     const outer = outerRef.current;
@@ -148,294 +155,230 @@ export default function BestWorkMetro() {
 
     gsap.registerPlugin(ScrollTrigger);
 
-    const ctx = gsap.context(() => {
-      const getDistance = () =>
-        Math.max(0, track.scrollWidth - window.innerWidth);
+    const calcTotalScroll = () =>
+      Math.max(0, track.scrollWidth - viewport.clientWidth);
 
-      gsap.to(track, {
-        x: () => -getDistance(),
-        ease: "none",
-        scrollTrigger: {
-          trigger: outer,
-          start: "top top",
-          end: () => "+=" + (getDistance() + window.innerHeight),
-          scrub: 1,
-          pin: viewport,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            progressRef.current = self.progress;
-            const idx = Math.min(
-              METRO_STATIONS.length - 1,
-              Math.floor(self.progress * METRO_STATIONS.length)
-            );
-            // State guard: only fire door chime + state update when the
-            // active index actually changes. Prevents repeated sound firing
-            // during minor scrub reversals.
-            if (idx !== activeRef.current) {
-              activeRef.current = idx;
-              setActiveIndex(idx);
-              playRef.current("door");
-            }
-            // Train marker ● travels along the line with progress.
-            if (trainRef.current) {
-              const tx = self.progress * (window.innerWidth - 40);
-              trainRef.current.style.transform = `translate3d(${tx}px, -50%, 0)`;
-            }
-          },
-          onLeaveBack: () => {
-            // Reset to the first station when scrolling back above the section.
-            if (activeRef.current !== 0) {
-              activeRef.current = 0;
-              setActiveIndex(0);
-            }
-            if (trainRef.current) {
-              trainRef.current.style.transform = "translate3d(0, -50%, 0)";
-            }
-          },
-        },
-      });
+    const st = ScrollTrigger.create({
+      trigger: outer,
+      pin: viewport,
+      start: "top top",
+      end: () => `+=${calcTotalScroll()}`,
+      scrub: 1,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        progressRef.current = self.progress;
+        const total = calcTotalScroll();
+        gsap.set(track, { x: -self.progress * total });
 
-      ScrollTrigger.refresh();
-    }, outer);
+        if (trainRef.current) {
+          gsap.set(trainRef.current, { scaleX: self.progress });
+        }
 
-    const onResize = () => ScrollTrigger.refresh();
-    window.addEventListener("resize", onResize);
+        const newIndex = Math.min(
+          localStations.length - 1,
+          Math.floor(self.progress * localStations.length)
+        );
+
+        if (newIndex !== activeRef.current) {
+          activeRef.current = newIndex;
+          setActiveIndex(newIndex);
+          playRef.current("door-chime");
+        }
+      },
+    });
 
     return () => {
-      window.removeEventListener("resize", onResize);
-      ctx.revert();
+      st.kill();
     };
-  }, [showPinned]);
+  }, [showPinned, localStations.length]);
 
-  /* ---- keyboard nav (←/→) active only when section in view + pinned ---- */
-  const scrollToStation = useCallback((idx: number) => {
-    const outer = outerRef.current;
-    const track = trackRef.current;
-    if (!outer || !track) return;
-    const outerTop = outer.getBoundingClientRect().top + window.scrollY;
-    const distance = Math.max(0, track.scrollWidth - window.innerWidth);
-    const totalScroll = distance + window.innerHeight;
-    const stationScroll = totalScroll * (idx / (METRO_STATIONS.length - 1));
-    const targetTop = outerTop + stationScroll;
-    const lenis = getLenis();
-    if (lenis) {
-      lenis.scrollTo(targetTop, { duration: 0.8 });
-    } else {
-      window.scrollTo({ top: targetTop, behavior: "smooth" });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!inView || !showPinned || openStationId) return;
-    let isScrolling = false;
-
-    const navigate = (dir: "left" | "right") => {
-      setShowKeyHint(false);
-      if (isScrolling) return;
-      const delta = dir === "right" ? 1 : -1;
-      const target = Math.max(
-        0,
-        Math.min(METRO_STATIONS.length - 1, activeRef.current + delta)
-      );
-      if (target === activeRef.current) return;
-      activeRef.current = target;
-      setActiveIndex(target);
-      playRef.current("blip");
-      isScrolling = true;
-      scrollToStation(target);
-      setTimeout(() => { isScrolling = false; }, 150);
-    };
-
-    // Direct keydown listener for maximum reliability — one press = one station.
-    // Does NOT rely on the keyboard-router's custom event chain.
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-        e.preventDefault();
-        navigate(e.key === "ArrowRight" ? "right" : "left");
+  const navigateStation = useCallback(
+    (delta: number) => {
+      if (!showPinned) {
+        const nextIdx = Math.max(
+          0,
+          Math.min(localStations.length - 1, activeIndex + delta)
+        );
+        setActiveIndex(nextIdx);
+        play("tick");
+        return;
       }
-    };
-    const onHome = () => {
-      if (activeRef.current === 0 || isScrolling) return;
-      activeRef.current = 0;
-      setActiveIndex(0);
-      playRef.current("blip");
-      isScrolling = true;
-      scrollToStation(0);
-      setTimeout(() => { isScrolling = false; }, 150);
-    };
-    const onEnd = () => {
-      if (activeRef.current === METRO_STATIONS.length - 1 || isScrolling) return;
-      const last = METRO_STATIONS.length - 1;
-      activeRef.current = last;
-      setActiveIndex(last);
-      playRef.current("blip");
-      isScrolling = true;
-      scrollToStation(last);
-      setTimeout(() => { isScrolling = false; }, 150);
-    };
-    window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("portfolio:metro-home", onHome);
-    window.addEventListener("portfolio:metro-end", onEnd);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("portfolio:metro-home", onHome);
-      window.removeEventListener("portfolio:metro-end", onEnd);
-    };
-  }, [inView, showPinned, openStationId, scrollToStation]);
 
-  /* ---- Esc closes the deep-dive overlay ---- */
+      const outer = outerRef.current;
+      const track = trackRef.current;
+      const viewport = viewportRef.current;
+      if (!outer || !track || !viewport) return;
+
+      const idx = Math.max(
+        0,
+        Math.min(localStations.length - 1, activeRef.current + delta)
+      );
+      const totalScroll = Math.max(0, track.scrollWidth - viewport.clientWidth);
+      const outerTop = outer.offsetTop;
+
+      const stationScroll = totalScroll * (idx / (localStations.length - 1));
+      const targetTop = outerTop + stationScroll;
+
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.scrollTo(targetTop, { duration: 1 });
+      } else {
+        window.scrollTo({ top: targetTop, behavior: "smooth" });
+      }
+    },
+    [showPinned, activeIndex, localStations.length, play]
+  );
+
   useEffect(() => {
-    if (!openStationId) return;
+    if (!inView || openStationId !== null) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setOpenStationId(null);
-        playRef.current("confirm");
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigateStation(1);
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigateStation(-1);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [openStationId]);
+  }, [inView, openStationId, navigateStation]);
 
-  /* ---- handlers ---- */
-  const enterMetro = () => {
-    playRef.current("door");
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      if (!showPinned || openStationId !== null) return;
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 30) {
+        const last = localStations.length - 1;
+        if (
+          (activeRef.current === 0 && e.deltaX < 0) ||
+          (activeRef.current === last && e.deltaX > 0)
+        ) {
+          return;
+        }
+        e.preventDefault();
+        const delta = e.deltaX > 0 ? 1 : -1;
+        navigateStation(delta);
+      }
+    },
+    [showPinned, openStationId, localStations.length, navigateStation]
+  );
+
+  useEffect(() => {
     const outer = outerRef.current;
-    if (!outer) return;
-    const lenis = getLenis();
-    if (lenis) {
-      lenis.scrollTo(outer, { duration: 1.2 });
-    } else {
-      outer.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
+    if (!outer || !showPinned) return;
+    outer.addEventListener("wheel", handleWheel, { passive: false });
+    return () => outer.removeEventListener("wheel", handleWheel);
+  }, [showPinned, handleWheel]);
 
-  const openDeepDive = (e: React.MouseEvent<HTMLElement>, station: MetroStation) => {
+  const openDeepDive = (id: string, e: React.MouseEvent<HTMLElement>) => {
     triggerRef.current = e.currentTarget;
-    setOpenStationId(station.id);
-    play("door");
-    openCaseStudy();
+    setOpenStationId(id);
+    play("chime");
+    openCaseStudy(id);
   };
 
   const closeDeepDive = () => {
     setOpenStationId(null);
-    play("confirm");
+    play("tick");
   };
-
-  const returnToTop = () => {
-    const sec = sectionRef.current;
-    if (!sec) return;
-    const lenis = getLenis();
-    if (lenis) {
-      lenis.scrollTo(sec, { duration: 1.2 });
-    } else {
-      sec.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
-
-  // Footer parts split on "·" so we can render the "Return to Platform"
-  // segment as a button.
-  const footerParts = METRO_INTRO.footer
-    .split("·")
-    .map((s) => s.trim())
-    .filter(Boolean);
 
   return (
     <section
-      ref={sectionRef}
       id="best-work"
-      className="env-black relative w-full"
-      aria-labelledby="best-work-header"
+      ref={sectionRef}
+      className="env-black relative w-full overflow-hidden bg-[#0A0A0A] text-[#F4F1EA]"
+      aria-labelledby="best-work-heading"
       data-cursor-label="best work"
     >
-      {/* CSS keyframes for the Hindi ticker marquee */}
-      <style>{`
-        @keyframes pankajMetroTicker {
-          from { transform: translate3d(0, 0, 0); }
-          to   { transform: translate3d(-50%, 0, 0); }
-        }
-      `}</style>
-
       {/* ====================================================
-          A. INTRO PANEL
+          DEV MODE FLOATING BAR
           ==================================================== */}
-      <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-10 lg:px-12">
-        {/* Index header — mirrors SectionShell */}
+      {isDev && (
+        <div className="sticky top-0 z-50 flex flex-wrap items-center justify-between gap-4 border-b-2 border-[#FFD400] bg-[#0E0E0E] px-6 py-3 shadow-2xl">
+          <div className="flex items-center gap-3">
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#FFD400] blink" />
+            <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#FFD400]">
+              DEV INLINE EDITOR: METRO PLATFORMS
+            </span>
+            <span className="hidden font-mono text-[11px] text-[#A3A3A3] sm:inline">
+              (Edit text inline • Click Step Out to edit case study sections or delete points)
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={handleSaveMetroData}
+            disabled={isSaving}
+            className={`flex items-center gap-2 rounded px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md ${
+              saveSuccess
+                ? "bg-[#30D158] text-black"
+                : "bg-[#FFD400] text-black hover:bg-[#ffe033]"
+            }`}
+          >
+            {isSaving ? (
+              <span>SAVING...</span>
+            ) : saveSuccess ? (
+              <>
+                <Check className="h-4 w-4" />
+                <span>✓ SAVED TO DATA.TS & COMMITTED!</span>
+              </>
+            ) : (
+              <>
+                <Save className="h-4 w-4" />
+                <span>SAVE METRO DATA</span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
+
+      {/* HEADER */}
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 pt-16 sm:px-8 sm:pt-20 lg:px-12">
         <motion.div
-          className="mb-6 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#F4F1EA] sm:mb-8"
+          className="mb-8 flex flex-col gap-3 border-b border-white/10 pb-6 sm:mb-12"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.6, ease: EASE }}
         >
-          <span className="text-[#F4F1EA]">02</span>
-          <span id="best-work-header" className="text-[#F4F1EA]">
-            BEST WORK
-          </span>
-          <span className="ml-auto" />
-          <ShareButton sectionId="best-work" />
-        </motion.div>
+          <div className="flex items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-widest text-[#F4F1EA]/70">
+            <div className="flex items-center gap-3">
+              <span className="text-[#FFD400]">{"02"}</span>
+              <span className="text-[#F4F1EA]/80">{"/ CAREER METRO"}</span>
+            </div>
+            <ShareButton sectionId="best-work" />
+          </div>
 
-        {/* Bilingual title — semi-English + semi-Hindi blend */}
-        <motion.h2
-          className="text-4xl font-bold leading-tight tracking-tight text-[#F4F1EA] sm:text-6xl"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.8, ease: EASE }}
-        >
-          <span className="font-display">Career Metro</span>{" "}
-          <span className="font-deva text-[#FFD400]">की लाइन में आपका स्वागत है</span>
-        </motion.h2>
-
-        {/* Subtitle — hand-display style */}
-        {METRO_INTRO.subtitle ? (
-          <motion.p
-            className="mt-6 max-w-3xl font-mono text-xs uppercase tracking-[0.3em] text-[#A3A3A3] sm:text-sm"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10% 0px" }}
-            transition={{ duration: 0.8, delay: 0.35, ease: EASE }}
+          <h2
+            id="best-work-heading"
+            className="font-display text-4xl font-bold tracking-tight text-[#F4F1EA] sm:text-5xl lg:text-6xl"
           >
-            {METRO_INTRO.subtitle}
-          </motion.p>
-        ) : null}
+            {METRO_INTRO.english}
+          </h2>
+          <p className="font-deva text-2xl text-[#FFD400]/80">
+            {METRO_INTRO.hindi}
+          </p>
 
-        {/* CTA + sub copy */}
-        <motion.div
-          className="mt-6 hidden lg:flex flex-wrap items-center gap-6"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.8, delay: 0.45, ease: EASE }}
-        >
-          {/* BOARD TRAIN button — electric blue per spec */}
           <button
             type="button"
-            onClick={enterMetro}
+            onClick={() => navigateStation(1)}
             onMouseEnter={() => play("tick")}
-            data-cursor-label="board train"
-            className="group inline-flex items-center gap-3 border-2 border-[#1738D5] bg-[#1738D5] px-6 py-3.5 font-mono text-xs uppercase tracking-[0.3em] text-[#F4F1EA] transition-colors hover:bg-transparent hover:text-[#1738D5] focus-ring"
+            data-cursor-label="board"
+            className="group mt-4 inline-flex w-fit items-center gap-3 border border-[#FFD400]/60 bg-[#FFD400]/10 px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
           >
             <span className="h-2 w-2 rounded-full bg-[#F4F1EA] transition-colors group-hover:bg-[#1738D5]" />
             {METRO_INTRO.cta}
             <span aria-hidden>→</span>
           </button>
-
         </motion.div>
       </div>
 
-      {/* ====================================================
-          B. PINNED HORIZONTAL TRACK (desktop) — OR STACKED (mobile/reduced)
-          ==================================================== */}
+      {/* TRACK (PINNED OR STACKED) */}
       {showPinned ? (
         <div ref={outerRef} className="relative w-full">
           <div
             ref={viewportRef}
             className="relative h-screen w-full overflow-hidden bg-[#0A0A0A]"
           >
-
-
             {/* Top status bar */}
             <div className="absolute left-0 right-0 top-0 z-20 flex items-center justify-between gap-4 border-b border-white/10 bg-[#0A0A0A]/80 px-5 py-3 backdrop-blur-sm sm:px-8">
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
@@ -443,15 +386,13 @@ export default function BestWorkMetro() {
                 <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
               </div>
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
-                {/* Now-playing theme indicator — shows the active station's theme */}
                 <span className="hidden items-center gap-1.5 border border-[#FFD400]/30 bg-[#FFD400]/5 px-2 py-0.5 sm:flex">
                   <span className="text-[#A3A3A3]">{"THEME:"}</span>
                   <span className="font-bold text-[#FFD400]">
-                    {METRO_STATIONS[activeIndex]?.theme ?? "—"}
+                    {localStations[activeIndex]?.theme ?? "—"}
                   </span>
                 </span>
                 <span className="hidden text-[#A3A3A3] sm:inline">/</span>
-                {/* Persistent keyboard hint — animated key icons */}
                 <span className="flex items-center gap-1.5">
                   <kbd className="inline-flex h-5 w-5 items-center justify-center border border-[#FFD400]/50 bg-[#FFD400]/10 font-mono text-[10px] text-[#FFD400] animate-pulse">←</kbd>
                   <kbd className="inline-flex h-5 w-5 items-center justify-center border border-[#FFD400]/50 bg-[#FFD400]/10 font-mono text-[10px] text-[#FFD400] animate-pulse">→</kbd>
@@ -460,243 +401,89 @@ export default function BestWorkMetro() {
                 <span className="hidden text-[#A3A3A3] md:inline">/</span>
                 <span className="text-[#F4F1EA]/70 tabular-nums">
                   {String(activeIndex + 1).padStart(2, "0")} / 0
-                  {METRO_STATIONS.length}
+                  {localStations.length}
                 </span>
               </div>
             </div>
 
-            {/* PROMINENT KEYBOARD HINT OVERLAY — appears the first time the
-                user enters the metro section, then auto-dismisses. Makes it
-                clear that arrow keys navigate the slowly-sliding stations. */}
-            <AnimatePresence>
-              {showKeyHint && inView && showPinned && !openStationId && (
-                <motion.div
-                  className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                  aria-hidden
-                >
-                  <div className="flex flex-col items-center gap-4 rounded-lg border border-[#FFD400]/40 bg-[#0A0A0A]/90 px-8 py-6 backdrop-blur-md">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
-                      {"KEYBOARD REQUIRED"}
-                    </p>
-                    <div className="flex items-center gap-3">
-                      <motion.div
-                        className="flex h-14 w-14 items-center justify-center rounded-lg border-2 border-[#FFD400] bg-[#FFD400]/10 font-mono text-2xl text-[#FFD400]"
-                        animate={{ scale: [1, 1.15, 1], opacity: [0.7, 1, 0.7] }}
-                        transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
-                      >
-                        ←
-                      </motion.div>
-                      <motion.div
-                        className="flex h-14 w-14 items-center justify-center rounded-lg border-2 border-[#FFD400] bg-[#FFD400]/10 font-mono text-2xl text-[#FFD400]"
-                        animate={{ scale: [1, 1.15, 1], opacity: [0.7, 1, 0.7] }}
-                        transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
-                      >
-                        →
-                      </motion.div>
-                    </div>
-                    <p className="text-center font-display text-lg font-bold tracking-tight text-[#F4F1EA]">
-                      USE ARROW KEYS
-                    </p>
-                    <p className="text-center font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">
-                      to navigate between stations
-                    </p>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Route-map mini-indicator — all 6 stations as dots with
-                active highlighted + progress fill. Click a dot to jump. */}
-            <div className="absolute left-0 right-0 top-[46px] z-20 hidden items-center gap-2 border-b border-white/5 bg-[#0A0A0A]/60 px-5 py-2 backdrop-blur-sm sm:flex sm:px-8">
-              <span className="mr-1 font-mono text-[9px] uppercase tracking-[0.3em] text-[#A3A3A3]">
-                {"route"}
-              </span>
-              <div className="relative flex flex-1 items-center">
-                {/* base line */}
-                <span className="pointer-events-none absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-white/10" />
-                {/* progress fill — grows to the active station */}
-                <span
-                  className="pointer-events-none absolute left-0 top-1/2 h-px -translate-y-1/2 bg-[#FFD400] transition-[width] duration-500 ease-out"
-                  style={{
-                    width: `${(activeIndex / (METRO_STATIONS.length - 1)) * 100}%`,
-                  }}
-                />
-                {METRO_STATIONS.map((s, i) => {
-                  const isActive = i === activeIndex;
-                  const isVisited = i < activeIndex;
-                  return (
-                    <button
-                      key={s.id}
-                      type="button"
-                      onClick={() => {
-                        playRef.current("blip");
-                        scrollToStation(i);
-                      }}
-                      onMouseEnter={() => playRef.current("tick")}
-                      data-cursor-label={s.name}
-                      className="group relative z-10 flex flex-1 flex-col items-center gap-1 focus-ring"
-                      aria-label={`Jump to station ${i + 1}: ${s.name}`}
-                      aria-current={isActive ? "true" : undefined}
-                    >
-                      <span
-                        className={`h-2.5 w-2.5 rounded-full border transition-all duration-300 ${
-                          isActive
-                            ? "scale-150 border-[#FFD400] bg-[#FFD400]"
-                            : isVisited
-                              ? "border-[#FFD400] bg-[#FFD400]/40"
-                              : "border-white/30 bg-[#0A0A0A] group-hover:border-[#FFD400]"
-                        }`}
-                        style={
-                          isActive
-                            ? { boxShadow: "0 0 10px rgba(255,212,0,0.7)" }
-                            : undefined
-                        }
-                      />
-                      <span
-                        className={`font-mono text-[8px] uppercase tracking-[0.18em] transition-colors duration-300 ${
-                          isActive
-                            ? "text-[#FFD400]"
-                            : isVisited
-                              ? "text-[#F4F1EA]/55"
-                              : "text-[#A3A3A3] group-hover:text-[#F4F1EA]/80"
-                        }`}
-                      >
-                        {s.name.slice(0, 3).toUpperCase()}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-              <span className="ml-2 font-mono text-[9px] uppercase tracking-[0.3em] tabular-nums text-[#FFD400]">
-                {String(activeIndex + 1).padStart(2, "0")}/0{METRO_STATIONS.length}
-              </span>
-            </div>
-
-            {/* Horizontal track of station panels */}
-            <div
-              ref={trackRef}
-              className="absolute inset-0 z-10 flex will-change-transform"
-            >
-              {METRO_STATIONS.map((station, i) => (
-                <StationPanel
-                  key={station.id}
-                  station={station}
-                  index={i}
-                  total={METRO_STATIONS.length}
-                  active={i === activeIndex}
-                  onStepOut={(e) => openDeepDive(e, station)}
-                />
-              ))}
-            </div>
-
-            {/* Bottom Hindi announcement ticker — uses METRO_INTRO.announcements */}
-            <div className="absolute bottom-0 left-0 right-0 z-20 overflow-hidden border-t border-[#FFD400]/30 bg-[#0A0A0A]/92 py-2.5 backdrop-blur-sm">
+            {/* Track content */}
+            <div className="flex h-full items-center">
               <div
-                className="marquee-track whitespace-nowrap will-change-transform"
-                style={{
-                  animation: reduced
-                    ? "none"
-                    : "pankajMetroTicker 40s linear infinite",
-                }}
+                ref={trackRef}
+                className="flex items-center gap-8 pl-12 pr-48"
               >
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <span
-                    key={i}
-                    className="font-deva text-base font-medium text-[#F4F1EA]"
-                  >
-                    {METRO_INTRO.announcements.map((ann, ai) => (
-                      <span key={ai}>
-                        {ai > 0 && (
-                          <span className="px-3 text-[#FFD400]/50">·</span>
-                        )}
-                        <span className="px-3">{ann}</span>
-                      </span>
-                    ))}
-                    <span className="px-3 text-[#FFD400]/50">·</span>
-                    <span className="px-3 text-[#FFD400]">
-                      {"● CAREER METRO"}
-                    </span>
-                    <span className="px-3 text-[#FFD400]/50">·</span>
-                    <span className="px-3 text-[#FFD400]">
-                      अगला स्टेशन: {nextStation.name}
-                    </span>
-                  </span>
+                {localStations.map((station, i) => (
+                  <StationPanel
+                    key={station.id}
+                    station={station}
+                    index={i}
+                    total={localStations.length}
+                    active={i === activeIndex}
+                    isDev={isDev}
+                    onUpdateStation={(updated) => handleUpdateStation(station.id, updated)}
+                    onStepOut={(e) => openDeepDive(station.id, e)}
+                  />
                 ))}
+              </div>
+            </div>
+
+            {/* Bottom status bar */}
+            <div className="absolute bottom-0 left-0 right-0 z-20 border-t border-white/10 bg-[#0A0A0A]/90 px-5 py-3 backdrop-blur-sm sm:px-8">
+              <div className="mx-auto flex max-w-[1200px] flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="relative h-1.5 w-32 overflow-hidden rounded-full bg-white/15">
+                    <div
+                      ref={trainRef}
+                      className="absolute inset-y-0 left-0 w-full origin-left bg-[#FFD400]"
+                      style={{ transform: "scaleX(0)" }}
+                    />
+                  </div>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] tabular-nums">
+                    {String(activeIndex + 1).padStart(2, "0")}/0{localStations.length}
+                  </span>
+                </div>
+
+                <div className="overflow-hidden font-mono text-[10px] uppercase tracking-[0.2em] text-[#F4F1EA]/70">
+                  <span className="text-[#A3A3A3]">NEXT: </span>
+                  <span className="text-[#FFD400]">{nextStation?.name}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       ) : (
-        /* ---- Mobile / reduced-motion: stacked station cards ---- */
-        <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-12 lg:px-12">
-          <div className="mb-8 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#A3A3A3]">
-            <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {METRO_STATIONS.map((station, i) => (
+        /* STACKED FALLBACK (MOBILE) */
+        <div className="mx-auto max-w-[1200px] px-5 py-12 sm:px-8">
+          <div className="space-y-8">
+            {localStations.map((station, i) => (
               <StackedStationCard
                 key={station.id}
                 station={station}
                 index={i}
-                total={METRO_STATIONS.length}
-                onStepOut={(e) => openDeepDive(e, station)}
+                total={localStations.length}
+                isDev={isDev}
+                onUpdateStation={(updated) => handleUpdateStation(station.id, updated)}
+                onStepOut={(e) => openDeepDive(station.id, e)}
               />
             ))}
           </div>
         </div>
       )}
 
-      {/* ====================================================
-          F. FOOTER — mono, muted, wrapping, · separators
-          ==================================================== */}
-      <div className="mx-auto w-full max-w-[1200px] px-5 py-6 sm:px-8 sm:py-8 lg:px-12">
-        <div className="border-t border-white/10 pt-6">
-          <p className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[#F4F1EA]/65">
-            {footerParts.map((part, i) => {
-              const isReturn = part
-                .toLowerCase()
-                .includes("return to platform");
-              return (
-                <span
-                  key={i}
-                  className="inline-flex items-center gap-2"
-                >
-                  {i > 0 && <span className="text-[#FFD400]/50">·</span>}
-                  {isReturn ? (
-                    <button
-                      type="button"
-                      onClick={returnToTop}
-                      data-cursor-label="return to platform"
-                      className="text-[#FFD400] underline-offset-2 transition-colors hover:text-[#F4F1EA] hover:underline"
-                    >
-                      {part}
-                    </button>
-                  ) : (
-                    <span>{part}</span>
-                  )}
-                </span>
-              );
-            })}
-          </p>
-        </div>
-      </div>
-
-      {/* ====================================================
-          D. STEP-OUT DEEP-DIVE OVERLAY
-          ==================================================== */}
+      {/* DEEP DIVE OVERLAY */}
       <AnimatePresence>
         {openStation && (
           <DeepDiveOverlay
             key={openStation.id}
             station={openStation}
+            isDev={isDev}
+            onUpdateStation={(updated) => handleUpdateStation(openStation.id, updated)}
+            onSave={handleSaveMetroData}
+            isSaving={isSaving}
+            saveSuccess={saveSuccess}
             onClose={closeDeepDive}
-            index={METRO_STATIONS.findIndex((s) => s.id === openStation.id)}
-            total={METRO_STATIONS.length}
+            index={localStations.findIndex((s) => s.id === openStation.id)}
+            total={localStations.length}
             panelRef={deepDivePanelRef}
           />
         )}
@@ -706,65 +493,88 @@ export default function BestWorkMetro() {
 }
 
 /* ============================================================
-   Station panel — lives inside the pinned horizontal track
+   Station Panel — Pinned Track Card
    ============================================================ */
 function StationPanel({
   station,
   index,
   total,
   active,
+  isDev,
+  onUpdateStation,
   onStepOut,
 }: {
   station: MetroStation;
   index: number;
   total: number;
   active: boolean;
+  isDev?: boolean;
+  onUpdateStation?: (updated: MetroStation) => void;
   onStepOut: (e: React.MouseEvent<HTMLElement>) => void;
 }) {
   const { play } = useSound();
-
-  // The pinned track shows the headline metric set only (first 3 metrics).
   const previewMetrics = station.metrics.slice(0, 3);
 
   return (
     <article
-      className="relative flex h-full w-[85vw] max-w-[900px] shrink-0 flex-col justify-center gap-12 px-10 py-16 sm:gap-14 sm:px-16"
+      className="relative flex h-full w-[85vw] max-w-[900px] shrink-0 flex-col justify-center gap-10 px-10 py-14 sm:gap-12 sm:px-16 border border-white/10 bg-[#0E0E0E]"
       data-cursor-label={station.name}
     >
-      {/* TOP HALF — platform signboard & station name */}
-      <div className="flex flex-col items-start gap-4">
-        {/* Platform signboard — only PLATFORM 01 */}
-        <div className="border border-white/15 bg-[#0E0E0E] px-3.5 py-1.5">
+      <div className="flex flex-col items-start gap-3">
+        <div className="border border-white/15 bg-[#0A0A0A] px-3 py-1">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
             {`PLATFORM 0${index + 1}`}
           </p>
         </div>
 
-        {/* Big station name */}
-        <h3
-          className={`font-display text-6xl font-bold leading-[0.92] tracking-tight transition-colors duration-300 lg:text-7xl ${
-            active ? "text-[#F4F1EA]" : "text-[#F4F1EA]/60"
-          }`}
-        >
-          {station.name}
-        </h3>
+        {isDev && onUpdateStation ? (
+          <input
+            type="text"
+            value={station.name}
+            onChange={(e) => onUpdateStation({ ...station, name: e.target.value })}
+            className="w-full border-b border-[#FFD400] bg-transparent font-display text-5xl font-bold uppercase text-[#F4F1EA] focus:outline-none lg:text-6xl"
+          />
+        ) : (
+          <h3
+            className={`font-display text-5xl font-bold leading-[0.92] tracking-tight transition-colors duration-300 lg:text-6xl ${
+              active ? "text-[#F4F1EA]" : "text-[#F4F1EA]/60"
+            }`}
+          >
+            {station.name}
+          </h3>
+        )}
 
-        {/* Role line */}
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400]/80">
-          {station.role}
-        </p>
+        {isDev && onUpdateStation ? (
+          <input
+            type="text"
+            value={station.role}
+            onChange={(e) => onUpdateStation({ ...station, role: e.target.value })}
+            className="w-full border-b border-[#FFD400]/40 bg-transparent font-mono text-xs uppercase text-[#FFD400] focus:outline-none"
+          />
+        ) : (
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400]/80">
+            {station.role}
+          </p>
+        )}
 
-        {/* Headline — the case study thesis */}
-        <p
-          className={`max-w-xl font-display text-base leading-snug transition-colors duration-300 sm:text-lg ${
-            active ? "text-[#F4F1EA]/85" : "text-[#F4F1EA]/50"
-          }`}
-        >
-          {station.headline}
-        </p>
+        {isDev && onUpdateStation ? (
+          <textarea
+            value={station.headline}
+            onChange={(e) => onUpdateStation({ ...station, headline: e.target.value })}
+            rows={2}
+            className="mt-2 w-full rounded border border-white/20 bg-[#0A0A0A] p-2 font-display text-base text-[#F4F1EA] focus:border-[#FFD400] focus:outline-none sm:text-lg"
+          />
+        ) : (
+          <p
+            className={`max-w-xl font-display text-base leading-snug transition-colors duration-300 sm:text-lg ${
+              active ? "text-[#F4F1EA]/85" : "text-[#F4F1EA]/50"
+            }`}
+          >
+            {station.headline}
+          </p>
+        )}
       </div>
 
-      {/* BOTTOM HALF — metrics + Step Out button */}
       <div className="flex flex-col gap-6">
         <ul className="grid grid-cols-3 gap-4" role="list">
           {previewMetrics.map((m) => (
@@ -799,17 +609,21 @@ function StationPanel({
 }
 
 /* ============================================================
-   Stacked station card — mobile / reduced-motion fallback
+   Stacked station card — Mobile Fallback
    ============================================================ */
 function StackedStationCard({
   station,
   index,
   total,
+  isDev,
+  onUpdateStation,
   onStepOut,
 }: {
   station: MetroStation;
   index: number;
   total: number;
+  isDev?: boolean;
+  onUpdateStation?: (updated: MetroStation) => void;
   onStepOut: (e: React.MouseEvent<HTMLElement>) => void;
 }) {
   const reduced = usePrefersReducedMotion();
@@ -826,16 +640,12 @@ function StackedStationCard({
       onMouseEnter={() => play("tick")}
       data-cursor-label="station"
     >
-
-
-      {/* Platform signboard — only PLATFORM 01 */}
       <div className="mb-5 border border-white/15 bg-[#0A0A0A] px-3 py-1.5 w-fit">
         <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
           {`PLATFORM 0${index + 1}`}
         </p>
       </div>
 
-      {/* Big station name + role */}
       <h3 className="font-display text-4xl font-bold leading-[0.92] tracking-tight text-[#F4F1EA] sm:text-5xl">
         {station.name}
       </h3>
@@ -843,12 +653,10 @@ function StackedStationCard({
         {station.role}
       </p>
 
-      {/* Headline */}
       <p className="mt-4 max-w-md font-display text-base leading-snug text-[#F4F1EA]/80 sm:text-lg">
         {station.headline}
       </p>
 
-      {/* Metrics — preview set */}
       <ul className="mt-6 grid grid-cols-3 gap-3" role="list">
         {previewMetrics.map((m) => (
           <li key={m.label} className="border-l border-white/15 pl-3">
@@ -867,7 +675,6 @@ function StackedStationCard({
         ))}
       </ul>
 
-      {/* Step Out button */}
       <button
         type="button"
         onClick={onStepOut}
@@ -881,19 +688,26 @@ function StackedStationCard({
 }
 
 /* ============================================================
-   Deep-dive overlay — full case study
-   Renders (per spec): headline (blockquote), caseStudy blocks
-   as labelled sections, ALL metrics as CountUp grid, extras as
-   labelled lists, learning as a highlighted note.
+   Deep-Dive Overlay — Full Case Study & Step Out Modal
    ============================================================ */
 function DeepDiveOverlay({
   station,
+  isDev,
+  onUpdateStation,
+  onSave,
+  isSaving,
+  saveSuccess,
   onClose,
   index,
   total,
   panelRef,
 }: {
   station: MetroStation;
+  isDev?: boolean;
+  onUpdateStation?: (updated: MetroStation) => void;
+  onSave?: () => void;
+  isSaving?: boolean;
+  saveSuccess?: boolean;
   onClose: () => void;
   index: number;
   total: number;
@@ -901,9 +715,6 @@ function DeepDiveOverlay({
 }) {
   const { play } = useSound();
 
-  // Keyboard up/down scrolls the panel content (in addition to the
-  // native mouse/trackpad/touch scrolling). Ensures the modal is
-  // fully accessible via keyboard.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const panel = panelRef.current;
@@ -939,13 +750,11 @@ function DeepDiveOverlay({
       aria-modal="true"
       aria-label={`${station.name} — case study deep dive`}
     >
-      {/* Backdrop */}
       <div
         className="absolute inset-0 bg-[#0A0A0A]/90 backdrop-blur-md"
         aria-hidden
       />
 
-      {/* Panel — yellow border, fully scrollable (mouse, trackpad, keyboard, touch) */}
       <motion.div
         ref={panelRef}
         data-lenis-prevent
@@ -957,28 +766,57 @@ function DeepDiveOverlay({
         onClick={(e) => e.stopPropagation()}
         tabIndex={-1}
       >
-        {/* Sticky header — "● DELHI METRO // {station}" */}
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#FFD400]/40 bg-[#0E0E0E] px-6 py-3 sm:px-8">
+        {/* Sticky Header with Save Button in Dev Mode */}
+        <div className="sticky top-0 z-20 flex flex-wrap items-center justify-between gap-3 border-b border-[#FFD400]/40 bg-[#0E0E0E] px-6 py-3 sm:px-8">
           <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
             <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
             <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
             <span className="text-[#A3A3A3]">{"//"}</span>
             <span className="text-[#F4F1EA]/80">{station.name}</span>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            onMouseEnter={() => play("tick")}
-            className="flex h-8 w-8 items-center justify-center border border-white/15 text-[#F4F1EA] transition-colors hover:border-[#FF3B30] hover:text-[#FF3B30] focus-ring"
-            aria-label="Close deep dive"
-            data-cursor-label="close"
-          >
-            <X className="h-4 w-4" aria-hidden />
-          </button>
+
+          <div className="flex items-center gap-3">
+            {isDev && onSave && (
+              <button
+                type="button"
+                onClick={onSave}
+                disabled={isSaving}
+                className={`flex items-center gap-2 rounded px-3 py-1.5 font-mono text-[11px] font-bold uppercase tracking-wider transition-all ${
+                  saveSuccess
+                    ? "bg-[#30D158] text-black"
+                    : "bg-[#FFD400] text-black hover:bg-[#ffe033]"
+                }`}
+              >
+                {isSaving ? (
+                  <span>SAVING...</span>
+                ) : saveSuccess ? (
+                  <>
+                    <Check className="h-3.5 w-3.5" />
+                    <span>✓ SAVED TO DATA.TS & COMMITTED!</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-3.5 w-3.5" />
+                    <span>SAVE METRO DATA</span>
+                  </>
+                )}
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={onClose}
+              onMouseEnter={() => play("tick")}
+              className="flex h-8 w-8 items-center justify-center border border-white/15 text-[#F4F1EA] transition-colors hover:border-[#FF3B30] hover:text-[#FF3B30] focus-ring"
+              aria-label="Close deep dive"
+              data-cursor-label="close"
+            >
+              <X className="h-4 w-4" aria-hidden />
+            </button>
+          </div>
         </div>
 
         <div className="px-6 py-8 sm:px-8 sm:py-10">
-          {/* Return-to-section breadcrumb */}
           <button
             type="button"
             onClick={onClose}
@@ -991,37 +829,109 @@ function DeepDiveOverlay({
             <span>{"RETURN TO CAREER METRO"}</span>
           </button>
 
-          {/* Station name + role + Hindi subtitle */}
-          <h3 className="font-display text-5xl font-bold leading-[0.92] tracking-tight text-[#F4F1EA] sm:text-6xl lg:text-7xl">
-            {station.name}
-          </h3>
-          <p className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400]/80">
-            {station.role}
-          </p>
-          <p className="mt-2 font-deva text-xl text-[#F4F1EA]/70">
-            {station.name}
-          </p>
+          {/* Station Name & Role */}
+          {isDev && onUpdateStation ? (
+            <div className="space-y-3">
+              <div>
+                <label className="block font-mono text-[10px] uppercase tracking-widest text-[#FFD400]">
+                  EDIT PLATFORM NAME:
+                </label>
+                <input
+                  type="text"
+                  value={station.name}
+                  onChange={(e) => onUpdateStation({ ...station, name: e.target.value })}
+                  className="w-full border-b border-[#FFD400] bg-transparent font-display text-4xl font-bold uppercase text-[#F4F1EA] focus:outline-none sm:text-5xl"
+                />
+              </div>
+              <div>
+                <label className="block font-mono text-[10px] uppercase tracking-widest text-[#FFD400]">
+                  EDIT ROLE:
+                </label>
+                <input
+                  type="text"
+                  value={station.role}
+                  onChange={(e) => onUpdateStation({ ...station, role: e.target.value })}
+                  className="w-full border-b border-[#FFD400]/40 bg-transparent font-mono text-xs uppercase text-[#FFD400] focus:outline-none"
+                />
+              </div>
+            </div>
+          ) : (
+            <>
+              <h3 className="font-display text-5xl font-bold leading-[0.92] tracking-tight text-[#F4F1EA] sm:text-6xl lg:text-7xl">
+                {station.name}
+              </h3>
+              <p className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400]/80">
+                {station.role}
+              </p>
+            </>
+          )}
 
-          {/* Headline — case study thesis (blockquote) */}
+          {/* Headline Quote */}
           <blockquote className="mt-6 border-l-2 border-[#FFD400] pl-5">
-            <p className="font-display text-lg leading-snug text-[#F4F1EA]/90 sm:text-2xl">
-              {station.headline}
-            </p>
+            {isDev && onUpdateStation ? (
+              <div>
+                <label className="block font-mono text-[10px] uppercase tracking-widest text-[#FFD400] mb-1">
+                  EDIT HERO QUESTION:
+                </label>
+                <textarea
+                  value={station.headline}
+                  onChange={(e) => onUpdateStation({ ...station, headline: e.target.value })}
+                  rows={2}
+                  className="w-full rounded border border-[#FFD400]/40 bg-[#0A0A0A] p-2 font-display text-lg font-bold text-[#F4F1EA] focus:border-[#FFD400] focus:outline-none sm:text-xl"
+                />
+              </div>
+            ) : (
+              <p className="font-display text-lg leading-snug text-[#F4F1EA]/90 sm:text-2xl">
+                {station.headline}
+              </p>
+            )}
           </blockquote>
 
-          {/* Case-study blocks — labelled sections.
-              Each CaseStudyBlock has { label, title, text }. The labels
-              differ per stationType (PROBLEM/SYSTEM/IMPACT/LEARNING for
-              professional, QUESTION/METHOD/PAPERS/RESULT/LEARNING for
-              research, IDEA/WHY I BUILT IT/SYSTEM/STATUS/WHAT'S NEXT for
-              side-project). Render as-is per spec. */}
+          {/* Case Study Sections */}
           <div className="mt-8 space-y-7 border-t border-white/10 pt-7">
             {station.caseStudy.map((block: CaseStudyBlock, i) => (
-              <CaseStudySection key={`${block.label}-${i}`} block={block} index={i + 1} />
+              <CaseStudySection
+                key={`${block.label}-${i}`}
+                block={block}
+                index={i + 1}
+                isDev={isDev}
+                onUpdate={(updatedBlock) => {
+                  if (!onUpdateStation) return;
+                  const newCaseStudy = [...station.caseStudy];
+                  newCaseStudy[i] = { ...newCaseStudy[i], ...updatedBlock };
+                  onUpdateStation({ ...station, caseStudy: newCaseStudy });
+                }}
+                onDelete={() => {
+                  if (!onUpdateStation) return;
+                  const newCaseStudy = station.caseStudy.filter((_, idx) => idx !== i);
+                  onUpdateStation({ ...station, caseStudy: newCaseStudy });
+                }}
+              />
             ))}
+
+            {isDev && onUpdateStation && (
+              <button
+                type="button"
+                onClick={() => {
+                  const newCaseStudy = [
+                    ...station.caseStudy,
+                    {
+                      label: `0${station.caseStudy.length + 1} / NEW SECTION`,
+                      title: "NEW SECTION TITLE",
+                      text: "Add section description details here...",
+                    },
+                  ];
+                  onUpdateStation({ ...station, caseStudy: newCaseStudy });
+                }}
+                className="flex items-center gap-2 rounded border border-dashed border-[#FFD400]/60 bg-[#FFD400]/5 px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-[#FFD400] transition-colors hover:bg-[#FFD400]/20"
+              >
+                <Plus className="h-4 w-4" />
+                <span>+ Add Section</span>
+              </button>
+            )}
           </div>
 
-          {/* Metrics — ALL metrics as CountUp grid */}
+          {/* Metrics */}
           <ul
             className="mt-10 grid grid-cols-2 gap-6 border-t border-white/10 pt-7 sm:grid-cols-3"
             role="list"
@@ -1046,45 +956,40 @@ function DeepDiveOverlay({
             ))}
           </ul>
 
-          {/* Extras — labelled lists (papers, themes, side projects, etc.) */}
-          {station.extras && station.extras.length > 0 && (
-            <div className="mt-10 space-y-8 border-t border-white/10 pt-7">
-              {station.extras.map((extra) => (
-                <div key={extra.label}>
-                  <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
-                    {extra.label}
-                  </p>
-                  <ul
-                    className="flex flex-wrap gap-2"
-                    role="list"
-                  >
-                    {extra.items.map((item) => (
-                      <li
-                        key={item}
-                        className="border border-white/15 bg-[#0A0A0A] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-[#F4F1EA]/80"
-                      >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          )}
+          {/* Learning Note */}
+          {(station.learning !== undefined || isDev) && (
+            <div className="relative mt-10 border-l-2 border-[#FFD400] bg-[#FFD400]/5 p-5 sm:p-6">
+              {isDev && onUpdateStation && station.learning && (
+                <button
+                  type="button"
+                  onClick={() => onUpdateStation({ ...station, learning: "" })}
+                  className="mb-3 flex items-center gap-1.5 rounded bg-[#FF3B30] px-2.5 py-1 font-mono text-[10px] font-bold text-white transition-colors hover:bg-red-700"
+                >
+                  <Trash2 className="h-3 w-3" />
+                  <span>Delete Learning Note</span>
+                </button>
+              )}
 
-          {/* Learning — highlighted note */}
-          {station.learning && (
-            <div className="mt-10 border-l-2 border-[#FFD400] bg-[#FFD400]/5 p-5 sm:p-6">
               <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
                 {"LEARNING"}
               </p>
-              <p className="font-display text-base leading-relaxed text-[#F4F1EA] sm:text-lg">
-                {station.learning}
-              </p>
+
+              {isDev && onUpdateStation ? (
+                <textarea
+                  value={station.learning || ""}
+                  onChange={(e) => onUpdateStation({ ...station, learning: e.target.value })}
+                  placeholder="Enter learning insight note..."
+                  rows={2}
+                  className="w-full rounded border border-[#FFD400]/40 bg-[#0A0A0A] p-2 font-display text-base text-[#F4F1EA] focus:border-[#FFD400] focus:outline-none sm:text-lg"
+                />
+              ) : (
+                <p className="font-display text-base leading-relaxed text-[#F4F1EA] sm:text-lg">
+                  {station.learning}
+                </p>
+              )}
             </div>
           )}
 
-          {/* Return to Platform link */}
           <button
             type="button"
             onClick={onClose}
@@ -1094,43 +999,84 @@ function DeepDiveOverlay({
             <span aria-hidden>←</span>
             Return to Platform
           </button>
-
-          {/* Close hint */}
-          <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-[0.3em] text-[#A3A3A3]">
-            CLICK ANYWHERE TO CLOSE
-          </p>
         </div>
       </motion.div>
     </motion.div>
   );
 }
 
-/* ---- CaseStudy section block — renders a labelled case-study block.
-   Each block has a small mono label (PROBLEM / SYSTEM / IMPACT etc.),
-   a bold display title, and the body text. ---- */
 function CaseStudySection({
   block,
   index,
+  isDev,
+  onUpdate,
+  onDelete,
 }: {
   block: CaseStudyBlock;
   index: number;
+  isDev?: boolean;
+  onUpdate?: (updated: Partial<CaseStudyBlock>) => void;
+  onDelete?: () => void;
 }) {
   return (
-    <div className="border-l-2 border-[#FFD400]/60 pl-5">
-      <div className="mb-2 flex items-center gap-3">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
-          {block.label}
-        </span>
-        <span className="font-mono text-[10px] tabular-nums text-[#6B6B6B]">
-          {`0${index}`}
-        </span>
+    <div className="group/section relative border-l-2 border-[#FFD400]/60 pl-5">
+      <div className="mb-2 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          {isDev && onUpdate ? (
+            <input
+              type="text"
+              value={block.label}
+              onChange={(e) => onUpdate({ label: e.target.value })}
+              className="border-b border-[#FFD400]/40 bg-transparent font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400] focus:border-[#FFD400] focus:outline-none"
+            />
+          ) : (
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
+              {block.label}
+            </span>
+          )}
+          <span className="font-mono text-[10px] tabular-nums text-[#6B6B6B]">
+            {`0${index}`}
+          </span>
+        </div>
+
+        {isDev && onDelete && (
+          <button
+            type="button"
+            onClick={onDelete}
+            className="flex items-center gap-1 rounded bg-[#FF3B30]/90 px-2 py-0.5 font-mono text-[10px] font-bold text-white transition-opacity hover:bg-red-700 focus-ring"
+            title="Delete this section"
+          >
+            <Trash2 className="h-3 w-3" />
+            <span>Delete Section</span>
+          </button>
+        )}
       </div>
-      <p className="font-display text-lg font-bold uppercase tracking-tight text-[#F4F1EA] sm:text-xl">
-        {block.title}
-      </p>
-      <p className="mt-2 font-sans text-sm leading-relaxed text-[#F4F1EA]/75 sm:text-base">
-        {block.text}
-      </p>
+
+      {isDev && onUpdate ? (
+        <input
+          type="text"
+          value={block.title}
+          onChange={(e) => onUpdate({ title: e.target.value })}
+          className="w-full border-b border-white/20 bg-transparent font-display text-lg font-bold uppercase tracking-tight text-[#F4F1EA] focus:border-[#FFD400] focus:outline-none sm:text-xl"
+        />
+      ) : (
+        <p className="font-display text-lg font-bold uppercase tracking-tight text-[#F4F1EA] sm:text-xl">
+          {block.title}
+        </p>
+      )}
+
+      {isDev && onUpdate ? (
+        <textarea
+          value={block.text}
+          onChange={(e) => onUpdate({ text: e.target.value })}
+          rows={3}
+          className="mt-2 w-full rounded border border-white/20 bg-[#0A0A0A] p-2 font-sans text-sm leading-relaxed text-[#F4F1EA]/90 focus:border-[#FFD400] focus:outline-none sm:text-base"
+        />
+      ) : (
+        <p className="mt-2 font-sans text-sm leading-relaxed text-[#F4F1EA]/75 sm:text-base">
+          {block.text}
+        </p>
+      )}
     </div>
   );
 }
