@@ -444,7 +444,7 @@ export default function BestWorkMetro() {
         <div ref={outerRef} className="relative w-full">
           <div
             ref={viewportRef}
-            className="relative h-[580px] sm:h-[640px] w-full overflow-hidden bg-[#0A0A0A]"
+            className="relative h-[640px] sm:h-[720px] w-full overflow-hidden bg-[#0A0A0A]"
           >
 
 
@@ -606,41 +606,34 @@ export default function BestWorkMetro() {
             </div>
 
             {/* Bottom Scrolling Photo Marquee Gallery */}
-            <div className="absolute bottom-0 left-0 right-0 z-20 border-t border-[#FFD400]/30 bg-[#0A0A0A]/95 py-3 backdrop-blur-md">
-              <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 pb-2 font-mono text-[9px] uppercase tracking-[0.3em] text-[#FFD400]">
-                <span className="flex items-center gap-2">
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#FFD400] blink" />
-                  <span>FIELD GALLERY // PHOTOS & MEMORIES</span>
-                </span>
-                <span className="hidden sm:inline text-[#A3A3A3]">AUTOSCROLLING</span>
-              </div>
+            <div className="absolute bottom-0 left-0 right-0 z-20 border-t border-white/10 bg-[#0A0A0A]/95 py-4 backdrop-blur-md">
               <div className="overflow-hidden w-full">
                 <div
-                  className="marquee-track flex items-center gap-4 whitespace-nowrap will-change-transform"
+                  className="marquee-track flex items-center gap-5 whitespace-nowrap will-change-transform"
                   style={{
                     animation: reduced
                       ? "none"
-                      : "pankajMetroTicker 35s linear infinite",
+                      : "pankajMetroTicker 40s linear infinite",
                   }}
                 >
                   {Array.from({ length: 4 }).map((_, loopIdx) => (
-                    <div key={loopIdx} className="flex items-center gap-4 shrink-0">
+                    <div key={loopIdx} className="flex items-center gap-5 shrink-0">
                       {METRO_PHOTOS.map((photo, i) => (
                         <div
                           key={`${loopIdx}-${i}`}
-                          className="group relative h-28 w-44 shrink-0 overflow-hidden rounded border border-white/20 bg-[#121212] transition-all duration-300 hover:scale-105 hover:border-[#FFD400]"
+                          className="group relative h-36 w-56 sm:h-40 sm:w-64 shrink-0 overflow-hidden rounded-md border border-white/20 bg-[#121212] transition-all duration-300 hover:scale-105 hover:border-[#FFD400] shadow-xl"
                         >
                           <img
                             src={photo.src}
                             alt={photo.caption}
-                            className="h-full w-full object-cover transition-opacity duration-300 opacity-80 group-hover:opacity-100"
+                            className="h-full w-full object-cover transition-opacity duration-300 opacity-85 group-hover:opacity-100"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-90" />
-                          <div className="absolute bottom-1.5 left-2 right-2">
-                            <p className="font-mono text-[8px] font-bold uppercase tracking-wider text-[#FFD400]">
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-85" />
+                          <div className="absolute bottom-2 left-2.5 right-2.5">
+                            <p className="font-mono text-[9px] font-bold uppercase tracking-wider text-[#FFD400]">
                               {photo.title}
                             </p>
-                            <p className="truncate font-mono text-[8px] text-[#F4F1EA]/75">
+                            <p className="truncate font-mono text-[9px] text-[#F4F1EA]/80">
                               {photo.caption}
                             </p>
                           </div>
