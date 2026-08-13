@@ -157,107 +157,116 @@ export default function Contact() {
             )}
           </motion.div>
 
-          {/* Body — muted ink, max-w-2xl */}
-          <Reveal className="mt-8 max-w-2xl sm:mt-10" delay={0.15}>
-            <p className="font-display text-lg leading-relaxed text-[#F4F1EA]/75 sm:text-xl">
-              {CONTACT.body}
-            </p>
-          </Reveal>
+          {/* ---- Split 2-Column Content (utilizes both left and right space) ---- */}
+          <div className="mt-6 sm:mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
+            {/* LEFT COLUMN: Body + Social Links & Annotation */}
+            <div className="lg:col-span-7 flex flex-col justify-between gap-6">
+              <Reveal delay={0.15}>
+                <p className="font-display text-lg leading-relaxed text-[#F4F1EA]/80 sm:text-xl max-w-xl">
+                  {CONTACT.body}
+                </p>
+              </Reveal>
 
-          {/* EMAIL ADDRESS BLOCK — shifted up and reduced */}
-          <Reveal className="mt-6 sm:mt-8 max-w-[580px]" delay={0.3}>
-            <div className="flex flex-col gap-3 border border-white/10 bg-[#0E0E0E] p-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5 sm:py-3.5">
-              <div className="flex min-w-0 items-center gap-3">
-                <Mail className="h-4 w-4 shrink-0 text-[#FFD400]" aria-hidden />
-                <a
-                  href={mailto}
-                  onMouseEnter={() => play("tick")}
-                  data-cursor-label="mail"
-                  className="truncate font-mono text-xs sm:text-sm text-[#F4F1EA]/85 transition-colors hover:text-[#FFD400]"
-                >
-                  {CONTACT.mail}
-                </a>
-              </div>
-              <button
-                type="button"
-                onClick={copyEmail}
-                onMouseEnter={() => play("tick")}
-                data-cursor-label={copied ? "copied" : "copy"}
-                className="group flex shrink-0 items-center gap-2 border border-white/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors hover:border-[#FFD400] hover:text-[#FFD400] focus-ring"
-                aria-label="Copy email address to clipboard"
-              >
-                {copied ? (
-                  <>
-                    <Check className="h-3.5 w-3.5 text-[#FFD400]" aria-hidden />
-                    <span className="text-[#FFD400]">copied</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-3.5 w-3.5" aria-hidden />
-                    <span>copy</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </Reveal>
-
-          {/* LINKS & ANNOTATION ROW — LINKEDIN, GITHUB + "no forms no funnels no friction" */}
-          <Reveal className="mt-10 sm:mt-14" delay={0.4}>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-3 sm:translate-x-4">
-              <nav aria-label="Social links" className="flex flex-wrap items-center gap-x-3 gap-y-3">
-                {CONTACT.links.map((link, i) => {
-                  const isMail = link.href.startsWith("mailto:");
-                  const available = hasLink(link.href);
-                  return (
-                    <span key={link.label} className="flex items-center gap-3">
-                      {i > 0 && (
-                        <span aria-hidden className="font-mono text-xs text-[#A3A3A3]">
-                          ·
+              {/* LINKS & ANNOTATION ROW — LINKEDIN, GITHUB + "no forms, no funnels, no friction" */}
+              <Reveal delay={0.35}>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs uppercase tracking-[0.2em] text-[#A3A3A3]">
+                  <nav aria-label="Social links" className="flex items-center gap-3">
+                    {CONTACT.links.map((link, i) => {
+                      const isMail = link.href.startsWith("mailto:");
+                      const available = hasLink(link.href);
+                      return (
+                        <span key={link.label} className="flex items-center gap-3">
+                          {i > 0 && (
+                            <span aria-hidden className="text-[#A3A3A3]">
+                              ·
+                            </span>
+                          )}
+                          {available ? (
+                            <a
+                              href={link.href}
+                              onMouseEnter={() => play("tick")}
+                              data-cursor-label={link.label.toLowerCase()}
+                              className="group/link flex items-center gap-2 border-b border-transparent font-mono text-xs uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors duration-200 hover:border-[#FFD400] hover:text-[#FFD400] sm:text-sm"
+                              {...(!isMail
+                                ? { target: "_blank", rel: "noopener noreferrer" }
+                                : {})}
+                            >
+                              <span
+                                aria-hidden
+                                className="h-1 w-1 rounded-full bg-[#A3A3A3] transition-colors duration-200 group-hover/link:bg-[#FFD400]"
+                              />
+                              <span className="inline-block transition-transform duration-200 group-hover/link:-translate-y-0.5">
+                                {link.label}
+                              </span>
+                            </a>
+                          ) : (
+                            <span
+                              aria-disabled="true"
+                              className="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#A3A3A3]/60 cursor-not-allowed"
+                            >
+                              <Lock className="h-3 w-3" aria-hidden />
+                              <span>{link.label.toLowerCase()}_unavailable</span>
+                            </span>
+                          )}
                         </span>
-                      )}
-                      {available ? (
-                        <a
-                          href={link.href}
-                          onMouseEnter={() => play("tick")}
-                          data-cursor-label={link.label.toLowerCase()}
-                          className="group/link flex items-center gap-2 border-b border-transparent font-mono text-xs uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors duration-200 hover:border-[#FFD400] hover:text-[#FFD400] sm:text-sm"
-                          {...(!isMail
-                            ? { target: "_blank", rel: "noopener noreferrer" }
-                            : {})}
-                        >
-                          <span
-                            aria-hidden
-                            className="h-1 w-1 rounded-full bg-[#A3A3A3] transition-colors duration-200 group-hover/link:bg-[#FFD400]"
-                          />
-                          <span className="inline-block transition-transform duration-200 group-hover/link:-translate-y-0.5">
-                            {link.label}
-                          </span>
-                        </a>
-                      ) : (
-                        <span
-                          aria-disabled="true"
-                          className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-[#A3A3A3]/60 cursor-not-allowed sm:text-sm"
-                          title="Link unavailable — no URL on file"
-                        >
-                          <Lock className="h-3 w-3" aria-hidden />
-                          <span>{link.label.toLowerCase()}_unavailable</span>
-                        </span>
-                      )}
-                    </span>
-                  );
-                })}
-              </nav>
+                      );
+                    })}
+                  </nav>
 
-              <span aria-hidden className="font-mono text-xs text-[#A3A3A3]">
-                ·
-              </span>
+                  <span aria-hidden className="text-[#A3A3A3]">
+                    ·
+                  </span>
 
-              {/* Annotation — no dots, positioned on the right */}
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#A3A3A3]">
-                {CONTACT.annotation}
-              </p>
+                  {/* Annotation with proper commas */}
+                  <p className="text-[#A3A3A3]">
+                    {CONTACT.annotation}
+                  </p>
+                </div>
+              </Reveal>
             </div>
-          </Reveal>
+
+            {/* RIGHT COLUMN: Email Address Block & Copy Button */}
+            <div className="lg:col-span-5 flex flex-col justify-end">
+              <Reveal delay={0.25}>
+                <div className="flex flex-col gap-3 rounded-sm border border-white/15 bg-[#0E0E0E] p-4 sm:p-5 shadow-xl transition-all duration-300 hover:border-[#FFD400]/40">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
+                    DIRECT EMAIL
+                  </p>
+                  <div className="flex items-center gap-2 text-[#FFD400]">
+                    <Mail className="h-4 w-4 shrink-0" aria-hidden />
+                    <a
+                      href={mailto}
+                      onMouseEnter={() => play("tick")}
+                      data-cursor-label="mail"
+                      className="truncate font-mono text-xs sm:text-sm text-[#F4F1EA] transition-colors hover:text-[#FFD400] underline-offset-2 hover:underline"
+                    >
+                      {CONTACT.mail}
+                    </a>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={copyEmail}
+                    onMouseEnter={() => play("tick")}
+                    data-cursor-label={copied ? "copied" : "copy"}
+                    className="group mt-1 flex w-full items-center justify-center gap-2 border border-white/20 bg-[#141414] px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] text-[#F4F1EA] transition-colors hover:border-[#FFD400] hover:text-[#FFD400] focus-ring"
+                    aria-label="Copy email address to clipboard"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="h-3.5 w-3.5 text-[#FFD400]" aria-hidden />
+                        <span className="text-[#FFD400]">COPIED TO CLIPBOARD</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3.5 w-3.5" aria-hidden />
+                        <span>COPY EMAIL</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </Reveal>
+            </div>
+          </div>
         </div>
       </div>
 
