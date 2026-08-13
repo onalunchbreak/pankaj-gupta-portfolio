@@ -962,7 +962,7 @@ function DeepDiveOverlay({
           <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
             <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
             <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
-            <span className="text-[#A3A3A3]">{"//"}</span>
+            <span className="text-[#A3A3A3]">{"·"}</span>
             <span className="text-[#F4F1EA]/80">{station.name}</span>
           </div>
           <button
