@@ -293,7 +293,7 @@ export const METRO_STATIONS: MetroStation[] = [
       "Virtual classroom tools",
       "Low-bandwidth worksheets",
       "Parent engagement tracking",
-      "Digital literacy sessions"
+      "Programming literacy sessions"
     ],
     "impact": "100% learning continuity. 40+ students trained remotely. 2020 remote teaching model executed.",
     "metrics": [
@@ -308,7 +308,7 @@ export const METRO_STATIONS: MetroStation[] = [
         "suffix": "%"
       },
       {
-        "label": "Digital Literacy",
+        "label": "Programming Literacy",
         "value": 0,
         "display": "IMPLEMENTED"
       }
