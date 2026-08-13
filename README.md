@@ -2,7 +2,7 @@
 
 > **Live Production:** [guptapankaj.vercel.app](https://guptapankaj.vercel.app)
 
-An interactive, high-end editorial portfolio for **Pankaj Gupta** — Product Manager, Applied AI Builder, Researcher, and DTU '23 alumnus. Built with Next.js 16 (App Router), TypeScript, Tailwind CSS v4, Framer Motion, GSAP, and custom Web Audio API feedback.
+Official portfolio for **Pankaj Gupta** — Product Manager, Applied AI Builder, and Researcher. Built with Next.js 16 (App Router), TypeScript, Tailwind CSS, Framer Motion, and GSAP.
 
 ---
 
