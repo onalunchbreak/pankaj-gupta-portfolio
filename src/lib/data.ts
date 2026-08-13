@@ -295,11 +295,11 @@ export const METRO_STATIONS: MetroStation[] = [
       "Parent engagement tracking",
       "Programming literacy sessions"
     ],
-    "impact": "100% learning continuity. 40+ students trained remotely. 2020 remote teaching model executed.",
+    "impact": "100% learning continuity. 50+ students trained remotely. 2020 remote teaching model executed.",
     "metrics": [
       {
         "label": "Students Reached",
-        "value": 40,
+        "value": 50,
         "suffix": "+"
       },
       {
