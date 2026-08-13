@@ -281,167 +281,378 @@ export type MetroStation = {
 
 export const METRO_STATIONS: MetroStation[] = [
   {
-    id: "teach-for-india",
-    index: "01",
-    name: "TEACH FOR INDIA",
-    role: "Teaching Volunteer",
-    theme: "EDUCATION",
-    tag: "Community Teaching",
-    headline: "CAN VIRTUAL CLASSROOMS PRESERVE EDUCATION DURING GLOBAL LOCKDOWNS?",
-    problem:
-      "Sudden lockdowns threatened school closures. Students in low-resource schools lacked digital infrastructure and remote engagement.",
-    system: ["Virtual classroom tools", "Low-bandwidth worksheets", "Parent engagement tracking", "Digital literacy sessions"],
-    impact: "100% learning continuity. 40+ students trained remotely. 2020 remote teaching model executed.",
-    metrics: [
-      { label: "Students Reached", value: 40, suffix: "+" },
-      { label: "Learning Continuity", value: 100, suffix: "%" },
-      { label: "Digital Literacy", value: 0, display: "IMPLEMENTED" },
+    "id": "teach-for-india",
+    "index": "01",
+    "name": "TEACH FOR INDIA",
+    "role": "Teaching Volunteer",
+    "theme": "EDUCATION",
+    "tag": "Community Teaching",
+    "headline": "CAN CLASSROOMS PRESERVE PROGRAMMING EDUCATION DURING GLOBAL LOCKDOWNS?",
+    "problem": "Sudden lockdowns threatened school closures. Students in low-resource schools lacked digital infrastructure and remote engagement.",
+    "system": [
+      "Virtual classroom tools",
+      "Low-bandwidth worksheets",
+      "Parent engagement tracking",
+      "Digital literacy sessions"
     ],
-    caseStudy: [
-      { label: "01 / CONTEXT", title: "Low-resource community school", text: "Volunteered as a teacher for under-resourced schools to ensure education continuity during the pandemic." },
-      { label: "02 / PROBLEM", title: "Lockdown learning loss", text: "Sudden lockdowns threatened school closures. Students in low-resource schools lacked digital infrastructure and remote engagement." },
-      { label: "03 / SYSTEM", title: "Low-bandwidth remote tools", text: "Designed virtual classroom sessions, low-bandwidth WhatsApp learning worksheets, and parent engagement tracking sheets." },
-      { label: "04 / IMPACT", title: "100% remote continuity", text: "Maintained 100% learning continuity for 40+ students throughout the lockdown period." },
-      { label: "05 / LEARNING", title: "Access over quality", text: "In low-resource environments, optimizing for access and simplicity is far more critical than high-end visual learning systems." },
+    "impact": "100% learning continuity. 40+ students trained remotely. 2020 remote teaching model executed.",
+    "metrics": [
+      {
+        "label": "Students Reached",
+        "value": 40,
+        "suffix": "+"
+      },
+      {
+        "label": "Learning Continuity",
+        "value": 100,
+        "suffix": "%"
+      },
+      {
+        "label": "Digital Literacy",
+        "value": 0,
+        "display": "IMPLEMENTED"
+      }
     ],
-    learning: "In low-resource environments, optimizing for access and simplicity is far more critical than high-end visual learning systems.",
-    stationType: "professional",
+    "caseStudy": [
+      {
+        "label": "01 / CONTEXT",
+        "title": "Low-resource community school",
+        "text": "Volunteered as an Instructor for under-resourced boys school to ensure programming education continuity during the pandemic."
+      },
+      {
+        "label": "02 / PROBLEM",
+        "title": "Lockdown learning loss",
+        "text": "Sudden lockdowns threatened school closures. Students in low-resource schools lacked remote engagement and access to computers."
+      },
+      {
+        "label": "03 / SYSTEM",
+        "title": "Low-bandwidth remote tools",
+        "text": "Designed hybrid classroom sessions, low-bandwidth WhatsApp learning worksheets for Python Programming, and parent engagement tracking sheets."
+      },
+      {
+        "label": "04 / IMPACT",
+        "title": "50% remote continuity",
+        "text": "Maintained 50% remote learning continuity for 50+ students throughout the lockdown period for one year."
+      }
+    ],
+    "learning": "",
+    "stationType": "professional"
   },
   {
-    id: "pratham-education",
-    index: "02",
-    name: "PRATHAM EDUCATION",
-    role: "Data Science Intern",
-    theme: "DATA SCIENCE",
-    tag: "Educational Analytics",
-    headline: "HOW DO YOU MEASURE THE IMPACT OF LEARNING PROGRAMS ACROSS RURAL INDIA?",
-    problem:
-      "Measuring rural learning outcomes manually is slow, error-prone, and scales poorly across thousands of villages.",
-    system: ["Data aggregation pipelines", "Statistical impact models", "Automated outcome reporting", "Tableau metrics dashboards"],
-    impact: "15% assessment speed increase. 100K+ village outcome records processed. 2021 analytics pipelines shipped.",
-    metrics: [
-      { label: "Records Processed", value: 100, suffix: "K+" },
-      { label: "Assessment Speed", value: 15, suffix: "%" },
-      { label: "Analytics Pipelines", value: 0, display: "SHIPPED" },
+    "id": "pratham-education",
+    "index": "02",
+    "name": "PRATHAM EDUCATION",
+    "role": "Data Science Intern",
+    "theme": "DATA SCIENCE",
+    "tag": "Educational Analytics",
+    "headline": "HOW DO YOU MEASURE THE IMPACT OF LEARNING PROGRAMS ACROSS RURAL INDIA?",
+    "problem": "Measuring rural learning outcomes manually is slow, error-prone, and scales poorly across thousands of villages.",
+    "system": [
+      "Data aggregation pipelines",
+      "Statistical impact models",
+      "Automated outcome reporting",
+      "Tableau metrics dashboards"
     ],
-    caseStudy: [
-      { label: "01 / CONTEXT", title: "Rural education metrics", text: "Worked as a Data Science Intern to automate and scale assessment analysis across rural India." },
-      { label: "02 / PROBLEM", title: "Manual reporting bottlenecks", text: "Measuring rural learning outcomes manually is slow, error-prone, and scales poorly across thousands of villages." },
-      { label: "03 / SYSTEM", title: "Statistical impact pipelines", text: "Built data aggregation pipelines, statistical impact models, and Tableau dashboards to automate outcome reporting." },
-      { label: "04 / IMPACT", title: "100K+ records parsed", text: "Processed 100K+ village outcome records and increased assessment analytics speed by 15%." },
-      { label: "05 / LEARNING", title: "Data is noise without context", text: "Large datasets of test scores are useless unless aligned with the operational realities of remote teaching volunteers." },
+    "impact": "15% assessment speed increase. 100K+ village outcome records processed. 2021 analytics pipelines shipped.",
+    "metrics": [
+      {
+        "label": "Records Processed",
+        "value": 100,
+        "suffix": "K+"
+      },
+      {
+        "label": "Assessment Speed",
+        "value": 15,
+        "suffix": "%"
+      },
+      {
+        "label": "Analytics Pipelines",
+        "value": 0,
+        "display": "SHIPPED"
+      }
     ],
-    learning: "Large datasets of test scores are useless unless aligned with the operational realities of remote teaching volunteers.",
-    stationType: "professional",
+    "caseStudy": [
+      {
+        "label": "01 / CONTEXT",
+        "title": "Rural education metrics",
+        "text": "Worked as a Data Science Intern to automate and scale assessment analysis across rural India."
+      },
+      {
+        "label": "02 / PROBLEM",
+        "title": "Manual reporting bottlenecks",
+        "text": "Measuring rural learning outcomes manually is slow, error-prone, and scales poorly across thousands of villages."
+      },
+      {
+        "label": "03 / SYSTEM",
+        "title": "Statistical impact pipelines",
+        "text": "Built data aggregation pipelines, statistical impact models, and Tableau dashboards to automate outcome reporting."
+      },
+      {
+        "label": "04 / IMPACT",
+        "title": "100K+ records parsed",
+        "text": "Processed 100K+ village outcome records and increased assessment analytics speed by 15%."
+      },
+      {
+        "label": "05 / LEARNING",
+        "title": "Data is noise without context",
+        "text": "Large datasets of test scores are useless unless aligned with the operational realities of remote teaching volunteers."
+      }
+    ],
+    "learning": "Large datasets of test scores are useless unless aligned with the operational realities of remote teaching volunteers.",
+    "stationType": "professional"
   },
   {
-    id: "bosch",
-    index: "03",
-    name: "BOSCH",
-    role: "APPLIED AI INTERN",
-    theme: "APPLIED AI",
-    tag: "AR Workforce Training",
-    headline: "WHAT IF REMOTE TRAINING COULD FEEL MORE LIKE BEING THERE?",
-    problem:
-      "Flying senior instructors out to remote factories to train technicians on multi-million dollar machinery was slow, expensive, and risky — mistakes on live equipment wasn't cheap. Remote training efficiency sat around 3%.",
-    system: ["Mixed Reality training platform", "Unity 3D and C#", "Meta Oculus headsets", "6DoF hand-tracking & Text-to-Speech"],
-    impact: "Remote self-guided training coverage went from 3% to 30%. Live across 10+ Bosch manufacturing facilities in India.",
-    metrics: [
-      { label: "TRAINING EFFICIENCY", value: 0, display: "3% → 30%" },
-      { label: "MANUFACTURING FACILITIES", value: 10, suffix: "+" },
-      { label: "AR × AI", value: 0, display: "DEPLOYED" },
+    "id": "bosch",
+    "index": "03",
+    "name": "BOSCH",
+    "role": "APPLIED AI INTERN",
+    "theme": "APPLIED AI",
+    "tag": "AR Workforce Training",
+    "headline": "WHAT IF REMOTE TRAINING COULD FEEL MORE LIKE BEING THERE?",
+    "problem": "Flying senior instructors out to remote factories to train technicians on multi-million dollar machinery was slow, expensive, and risky — mistakes on live equipment wasn't cheap. Remote training efficiency sat around 3%.",
+    "system": [
+      "Mixed Reality training platform",
+      "Unity 3D and C#",
+      "Meta Oculus headsets",
+      "6DoF hand-tracking & Text-to-Speech"
     ],
-    caseStudy: [
-      { label: "01 / PROBLEM", title: "REMOTE TRAINING WAS BROKEN", text: "Flying senior instructors out to remote factories to train technicians on multi-million dollar machinery was slow, expensive, and risky — mistakes on live equipment weren't cheap. Remote training efficiency sat around 3%." },
-      { label: "02 / SYSTEM", title: "MIXED-REALITY DIGITAL TWIN", text: "Built a Mixed Reality training platform in Unity 3D and C# for Meta Oculus headsets — 3D digital twins of plant equipment that workers could practice on with 6DoF hand-tracking. A text-to-speech layer read out step-by-step instructions in the worker's own language." },
-      { label: "03 / DEPLOYMENT", title: "10+ FACILITIES", text: "The MVP went live across 10+ Bosch manufacturing facilities in India." },
-      { label: "04 / IMPACT", title: "10× EFFICIENCY LIFT", text: "Remote self-guided training coverage went from 3% to 30%. Bosch featured the project in its \"Digital Twin / Digital Mirror\" innovation showcase that year." },
-      { label: "05 / LEARNING", title: "IMMERSIVE > MANUAL", text: "Manual, screen-based remote training couldn't replicate hands-on machinery work. Immersive AR could, because it let people's hands do the learning instead of only their eyes." },
+    "impact": "Remote self-guided training coverage went from 3% to 30%. Live across 10+ Bosch manufacturing facilities in India.",
+    "metrics": [
+      {
+        "label": "TRAINING EFFICIENCY",
+        "value": 0,
+        "display": "3% → 30%"
+      },
+      {
+        "label": "MANUFACTURING FACILITIES",
+        "value": 10,
+        "suffix": "+"
+      },
+      {
+        "label": "AR × AI",
+        "value": 0,
+        "display": "DEPLOYED"
+      }
     ],
-    learning: "Manual, screen-based remote training couldn't replicate hands-on machinery work. Immersive AR could, because it let people's hands do the learning instead of only their eyes.",
-    stationType: "professional",
+    "caseStudy": [
+      {
+        "label": "01 / PROBLEM",
+        "title": "REMOTE TRAINING WAS BROKEN",
+        "text": "Flying senior instructors out to remote factories to train technicians on multi-million dollar machinery was slow, expensive, and risky — mistakes on live equipment weren't cheap. Remote training efficiency sat around 3%."
+      },
+      {
+        "label": "02 / SYSTEM",
+        "title": "MIXED-REALITY DIGITAL TWIN",
+        "text": "Built a Mixed Reality training platform in Unity 3D and C# for Meta Oculus headsets — 3D digital twins of plant equipment that workers could practice on with 6DoF hand-tracking. A text-to-speech layer read out step-by-step instructions in the worker's own language."
+      },
+      {
+        "label": "03 / DEPLOYMENT",
+        "title": "10+ FACILITIES",
+        "text": "The MVP went live across 10+ Bosch manufacturing facilities in India."
+      },
+      {
+        "label": "04 / IMPACT",
+        "title": "10× EFFICIENCY LIFT",
+        "text": "Remote self-guided training coverage went from 3% to 30%. Bosch featured the project in its \"Digital Twin / Digital Mirror\" innovation showcase that year."
+      },
+      {
+        "label": "05 / LEARNING",
+        "title": "IMMERSIVE > MANUAL",
+        "text": "Manual, screen-based remote training couldn't replicate hands-on machinery work. Immersive AR could, because it let people's hands do the learning instead of only their eyes."
+      }
+    ],
+    "learning": "Manual, screen-based remote training couldn't replicate hands-on machinery work. Immersive AR could, because it let people's hands do the learning instead of only their eyes.",
+    "stationType": "professional"
   },
   {
-    id: "cambridge-jbs",
-    index: "04",
-    name: "CAMBRIDGE JBS",
-    role: "JBS RESEARCH APPRENTICE",
-    theme: "APPLIED RESEARCH",
-    tag: "Computer Vision for FMCG",
-    headline: "CAN COMPUTER VISION HELP 5,000+ LOCAL MINI-MARTS OPTIMIZE STORE LAYOUTS AND REVENUE?",
-    problem:
-      "Tier-2 and tier-3 FMCG micro-entrepreneurs don't have access to the data-backed planogram design that big chains use to boost dwell time and basket size. The research set out to close that gap.",
-    system: ["Grounded-SAM object detection", "Grounding DINO + SAM 1", "LiDAR + ARKit RoomPlan 3D mesh", "AR recommendation engine"],
-    impact: "About 1,800 of 5,000 surveyed entrepreneurs implemented the layout; ~35% saw a measurable lift in revenue.",
-    metrics: [
-      { label: "ENTREPRENEURS SURVEYED", value: 5, suffix: "K" },
-      { label: "REVENUE INFLUENCED", value: 35, suffix: "%" },
-      { label: "COMPUTER VISION", value: 0, display: "OBJECT DETECTION" },
+    "id": "cambridge-jbs",
+    "index": "04",
+    "name": "CAMBRIDGE JBS",
+    "role": "JBS RESEARCH APPRENTICE",
+    "theme": "APPLIED RESEARCH",
+    "tag": "Computer Vision for FMCG",
+    "headline": "CAN COMPUTER VISION HELP 5,000+ LOCAL MINI-MARTS OPTIMIZE STORE LAYOUTS AND REVENUE?",
+    "problem": "Tier-2 and tier-3 FMCG micro-entrepreneurs don't have access to the data-backed planogram design that big chains use to boost dwell time and basket size. The research set out to close that gap.",
+    "system": [
+      "Grounded-SAM object detection",
+      "Grounding DINO + SAM 1",
+      "LiDAR + ARKit RoomPlan 3D mesh",
+      "AR recommendation engine"
     ],
-    caseStudy: [
-      { label: "01 / CONTEXT", title: "5K MICROENTREPRENEURS SURVEYED", text: "Tier-2 and tier-3 FMCG micro-entrepreneurs don't have access to the data-backed planogram design that big chains use to boost dwell time and basket size. The research set out to close that gap." },
-      { label: "02 / SYSTEM: VISION PIPELINE", title: "GROUNDED-SAM OBJECT DETECTION", text: "A Grounding DINO + SAM 1 pipeline detected store fixtures from natural-language prompts across 15,000+ supermarket images, zero-shot, with no manual annotation needed. It sorted shelf imagery into roughly 8–10 categories — produce, dairy, personal care, home goods, and so on." },
-      { label: "03 / SYSTEM: SPATIAL CAPTURE", title: "LIDAR + AR RECOMMENDATION ENGINE", text: "A shop owner walked their empty store with an iPad for 30 seconds; LiDAR and ARKit's RoomPlan turned that into a 3D mesh of walls, floor area, and doors. The layout engine combined that mesh with the vision model's spatial rules and projected the recommended shelf placement back onto the owner's iPad in AR, so they could walk through it before buying a single fixture." },
-      { label: "04 / OUTCOME", title: "35% REVENUE INFLUENCE", text: "About 1,800 of the 5,000 entrepreneurs surveyed actually implemented the layout — roughly 35% saw a measurable lift in revenue." },
-      { label: "05 / LEARNING", title: "RESEARCH → REAL OUTCOMES", text: "A research finding only moves revenue once someone can act on it. Turning the CV output into a layout a shop owner could physically walk through is what got 1,800 of them to actually change their stores." },
+    "impact": "About 1,800 of 5,000 surveyed entrepreneurs implemented the layout; ~35% saw a measurable lift in revenue.",
+    "metrics": [
+      {
+        "label": "ENTREPRENEURS SURVEYED",
+        "value": 5,
+        "suffix": "K"
+      },
+      {
+        "label": "REVENUE INFLUENCED",
+        "value": 35,
+        "suffix": "%"
+      },
+      {
+        "label": "COMPUTER VISION",
+        "value": 0,
+        "display": "OBJECT DETECTION"
+      }
     ],
-    learning: "A research finding only moves revenue once someone can act on it. Turning the CV output into a layout a shop owner could physically walk through is what got 1,800 of them to actually change their stores.",
-    stationType: "professional",
+    "caseStudy": [
+      {
+        "label": "01 / CONTEXT",
+        "title": "5K MICROENTREPRENEURS SURVEYED",
+        "text": "Tier-2 and tier-3 FMCG micro-entrepreneurs don't have access to the data-backed planogram design that big chains use to boost dwell time and basket size. The research set out to close that gap."
+      },
+      {
+        "label": "02 / SYSTEM: VISION PIPELINE",
+        "title": "GROUNDED-SAM OBJECT DETECTION",
+        "text": "A Grounding DINO + SAM 1 pipeline detected store fixtures from natural-language prompts across 15,000+ supermarket images, zero-shot, with no manual annotation needed. It sorted shelf imagery into roughly 8–10 categories — produce, dairy, personal care, home goods, and so on."
+      },
+      {
+        "label": "03 / SYSTEM: SPATIAL CAPTURE",
+        "title": "LIDAR + AR RECOMMENDATION ENGINE",
+        "text": "A shop owner walked their empty store with an iPad for 30 seconds; LiDAR and ARKit's RoomPlan turned that into a 3D mesh of walls, floor area, and doors. The layout engine combined that mesh with the vision model's spatial rules and projected the recommended shelf placement back onto the owner's iPad in AR, so they could walk through it before buying a single fixture."
+      },
+      {
+        "label": "04 / OUTCOME",
+        "title": "35% REVENUE INFLUENCE",
+        "text": "About 1,800 of the 5,000 entrepreneurs surveyed actually implemented the layout — roughly 35% saw a measurable lift in revenue."
+      },
+      {
+        "label": "05 / LEARNING",
+        "title": "RESEARCH → REAL OUTCOMES",
+        "text": "A research finding only moves revenue once someone can act on it. Turning the CV output into a layout a shop owner could physically walk through is what got 1,800 of them to actually change their stores."
+      }
+    ],
+    "learning": "A research finding only moves revenue once someone can act on it. Turning the CV output into a layout a shop owner could physically walk through is what got 1,800 of them to actually change their stores.",
+    "stationType": "professional"
   },
   {
-    id: "cegis",
-    index: "05",
-    name: "CEGIS",
-    role: "PROGRAM ASSISTANT, STRATEGIC PUBLIC FINANCE",
-    theme: "GOVTECH",
-    tag: "ML Tax-Evasion Detection",
-    headline: "HOW DO YOU DETECT GST TAX EVASION ACROSS MILLIONS OF RECORDS WITHOUT LEAVING STATE BOUNDARIES?",
-    problem:
-      "State tax authorities wouldn't send live taxpayer records to a third-party platform, even for a project they'd commissioned. That left the initial training set stuck on historical data from 2017 to 2020.",
-    system: ["Federated learning (FedAvg)", "Prophet & SARIMAX time-series", "XGBoost & Isolation Forests", "Buyer-seller GSTIN graph analytics"],
-    impact: "Scaled to 30M+ GST records in-perimeter. 25% improvement in flagging precision for high-risk evaders.",
-    metrics: [
-      { label: "GST RECORDS PROCESSED", value: 30, suffix: "M+" },
-      { label: "SHARPER FRAUD DETECTION", value: 25, suffix: "%" },
-      { label: "PRIVACY-PRESERVING ML", value: 0, display: "FEDERATED LEARNING" },
+    "id": "cegis",
+    "index": "05",
+    "name": "CEGIS",
+    "role": "PROGRAM ASSISTANT, STRATEGIC PUBLIC FINANCE",
+    "theme": "GOVTECH",
+    "tag": "ML Tax-Evasion Detection",
+    "headline": "HOW DO YOU DETECT GST TAX EVASION ACROSS MILLIONS OF RECORDS WITHOUT LEAVING STATE BOUNDARIES?",
+    "problem": "State tax authorities wouldn't send live taxpayer records to a third-party platform, even for a project they'd commissioned. That left the initial training set stuck on historical data from 2017 to 2020.",
+    "system": [
+      "Federated learning (FedAvg)",
+      "Prophet & SARIMAX time-series",
+      "XGBoost & Isolation Forests",
+      "Buyer-seller GSTIN graph analytics"
     ],
-    caseStudy: [
-      { label: "01 / CONTEXT", title: "ML-POWERED TAX-EVASION DETECTION", text: "Led product strategy for an ML-based tax-evasion detection platform, piloted with the Delhi and Tamil Nadu state tax departments to catch fake Input Tax Credit claims, circular trading, and mismatched HSN code reporting." },
-      { label: "02 / PROBLEM", title: "SENSITIVE DATA COULDN'T LEAVE THE STATE", text: "State tax authorities wouldn't send live taxpayer records to a third-party platform, even for a project they'd commissioned. That left the initial training set stuck on historical data from 2017 to 2020." },
-      { label: "03 / SYSTEM", title: "FEDERATED LEARNING + GRAPH ANALYTICS", text: "The fix was a federated learning setup (FedAvg), where model scripts ran inside each state's own secure environment instead of pulling their data out. A hybrid model paired time-series forecasting (Prophet, SARIMAX) with gradient-boosted anomaly detection (XGBoost, Isolation Forests), while graph analytics traced buyer-seller GSTIN chains to catch shell-company fraud." },
-      { label: "04 / IMPACT", title: "25% SHARPER FRAUD DETECTION", text: "The pipeline scaled to 30M+ GST records while each state's data stayed inside its own perimeter. Flagging precision for high-risk evaders improved 25%, and audit selection got noticeably faster for the tax officers using it." },
-      { label: "05 / LEARNING", title: "PRIVACY DIDN'T COST US FRESH DATA", text: "Federated learning kept each state's data inside its own perimeter, and the model still improved from fresh, aggregated learning across states. Privacy-by-design didn't mean settling for stale data." },
+    "impact": "Scaled to 30M+ GST records in-perimeter. 25% improvement in flagging precision for high-risk evaders.",
+    "metrics": [
+      {
+        "label": "GST RECORDS PROCESSED",
+        "value": 30,
+        "suffix": "M+"
+      },
+      {
+        "label": "SHARPER FRAUD DETECTION",
+        "value": 25,
+        "suffix": "%"
+      },
+      {
+        "label": "PRIVACY-PRESERVING ML",
+        "value": 0,
+        "display": "FEDERATED LEARNING"
+      }
     ],
-    learning: "Federated learning kept each state's data inside its own perimeter, and the model still improved from fresh, aggregated learning across states. Privacy-by-design didn't mean settling for stale data.",
-    stationType: "professional",
+    "caseStudy": [
+      {
+        "label": "01 / CONTEXT",
+        "title": "ML-POWERED TAX-EVASION DETECTION",
+        "text": "Led product strategy for an ML-based tax-evasion detection platform, piloted with the Delhi and Tamil Nadu state tax departments to catch fake Input Tax Credit claims, circular trading, and mismatched HSN code reporting."
+      },
+      {
+        "label": "02 / PROBLEM",
+        "title": "SENSITIVE DATA COULDN'T LEAVE THE STATE",
+        "text": "State tax authorities wouldn't send live taxpayer records to a third-party platform, even for a project they'd commissioned. That left the initial training set stuck on historical data from 2017 to 2020."
+      },
+      {
+        "label": "03 / SYSTEM",
+        "title": "FEDERATED LEARNING + GRAPH ANALYTICS",
+        "text": "The fix was a federated learning setup (FedAvg), where model scripts ran inside each state's own secure environment instead of pulling their data out. A hybrid model paired time-series forecasting (Prophet, SARIMAX) with gradient-boosted anomaly detection (XGBoost, Isolation Forests), while graph analytics traced buyer-seller GSTIN chains to catch shell-company fraud."
+      },
+      {
+        "label": "04 / IMPACT",
+        "title": "25% SHARPER FRAUD DETECTION",
+        "text": "The pipeline scaled to 30M+ GST records while each state's data stayed inside its own perimeter. Flagging precision for high-risk evaders improved 25%, and audit selection got noticeably faster for the tax officers using it."
+      },
+      {
+        "label": "05 / LEARNING",
+        "title": "PRIVACY DIDN'T COST US FRESH DATA",
+        "text": "Federated learning kept each state's data inside its own perimeter, and the model still improved from fresh, aggregated learning across states. Privacy-by-design didn't mean settling for stale data."
+      }
+    ],
+    "learning": "Federated learning kept each state's data inside its own perimeter, and the model still improved from fresh, aggregated learning across states. Privacy-by-design didn't mean settling for stale data.",
+    "stationType": "professional"
   },
   {
-    id: "sensehq",
-    index: "06",
-    name: "SENSEHQ",
-    role: "ASSOCIATE PRODUCT MANAGER, HR-AUTOMATION-TECH",
-    theme: "PRODUCT MANAGEMENT",
-    tag: "Talent Engagement Platform",
-    headline: "HOW DO YOU LOOK AT RECRUITMENT FROM AN HR'S PERSPECTIVE TO BUILD BETTER B2B SAAS PRODUCTS?",
-    problem:
-      "Most Jira and Zendesk tickets traced back to customers and implementation managers who didn't fully understand what the system could and couldn't do. Release blogs sat unread, and new hires needed 4–5 weeks just to get oriented.",
-    system: ["NotebookLM knowledge base", "Python RAG prototype with Ollama", "Sense IQ embedded in-app assistant", "Pre-built Field Guide templates"],
-    impact: "40% drop in support tickets. Ramp-up time cut 70% (4–5 weeks → 1.5 weeks). 30% MoM workflow adoption increase.",
-    metrics: [
-      { label: "SUPPORT TICKETS CUT", value: 40, suffix: "%" },
-      { label: "FASTER RAMP-UP", value: 70, suffix: "%" },
-      { label: "SENSE IQ AI ASSISTANT", value: 0, display: "SHIPPED" },
+    "id": "sensehq",
+    "index": "06",
+    "name": "SENSEHQ",
+    "role": "ASSOCIATE PRODUCT MANAGER, HR-AUTOMATION-TECH",
+    "theme": "PRODUCT MANAGEMENT",
+    "tag": "Talent Engagement Platform",
+    "headline": "HOW DO YOU LOOK AT RECRUITMENT FROM AN HR'S PERSPECTIVE TO BUILD BETTER B2B SAAS PRODUCTS?",
+    "problem": "Most Jira and Zendesk tickets traced back to customers and implementation managers who didn't fully understand what the system could and couldn't do. Release blogs sat unread, and new hires needed 4–5 weeks just to get oriented.",
+    "system": [
+      "NotebookLM knowledge base",
+      "Python RAG prototype with Ollama",
+      "Sense IQ embedded in-app assistant",
+      "Pre-built Field Guide templates"
     ],
-    caseStudy: [
-      { label: "01 / CONTEXT", title: "1,200+ CLIENT WORKFLOW PLATFORM", text: "Owned the roadmap for Sense's talent engagement platform, used by 1,200+ clients including L&T, Staffmark, and Aditi Consulting. Also led the migration off a legacy rules engine called Journeys onto the newer node-based Workflows Automation Tool." },
-      { label: "02 / PROBLEM", title: "SUPPORT TICKETS TRACED TO A KNOWLEDGE GAP", text: "Most Jira and Zendesk tickets traced back to customers and implementation managers who didn't fully understand what the system could and couldn't do. Release blogs sat unread, and new hires needed 4–5 weeks just to get oriented." },
-      { label: "03 / SYSTEM", title: "RAG-BASED IN-APP ASSISTANT (SENSE IQ)", text: "Piloted an internal NotebookLM knowledge base across Sales, Support, and Engineering, then built a RAG prototype in Python — screenshot-context prompts feeding a local LLM through Ollama — to prove the assistant could answer questions about whatever screen a user was on. That became Sense IQ, an embedded in-app assistant, tested first in a staging environment." },
-      { label: "04 / IMPACT", title: "40% FEWER SUPPORT TICKETS", text: "Support tickets dropped 40% once Sense IQ launched. New-hire ramp-up time fell too, from 4–5 weeks to about 1.5 weeks. A separate effort — pre-built Field Guide templates for onboarding, data hygiene, and retention workflows — pushed workflow adoption up 30% month over month." },
-      { label: "05 / LEARNING", title: "NOBODY READS RELEASE NOTES", text: "Static release notes get ignored no matter how well they're written. Wiring a context-aware assistant into the product, so it can see what a user is looking at and answer directly, gets used instead." },
+    "impact": "40% drop in support tickets. Ramp-up time cut 70% (4–5 weeks → 1.5 weeks). 30% MoM workflow adoption increase.",
+    "metrics": [
+      {
+        "label": "SUPPORT TICKETS CUT",
+        "value": 40,
+        "suffix": "%"
+      },
+      {
+        "label": "FASTER RAMP-UP",
+        "value": 70,
+        "suffix": "%"
+      },
+      {
+        "label": "SENSE IQ AI ASSISTANT",
+        "value": 0,
+        "display": "SHIPPED"
+      }
     ],
-    learning: "Static release notes get ignored no matter how well they're written. Wiring a context-aware assistant into the product, so it can see what a user is looking at and answer directly, gets used instead.",
-    stationType: "professional",
-  },
+    "caseStudy": [
+      {
+        "label": "01 / CONTEXT",
+        "title": "1,200+ CLIENT WORKFLOW PLATFORM",
+        "text": "Owned the roadmap for Sense's talent engagement platform, used by 1,200+ clients including L&T, Staffmark, and Aditi Consulting. Also led the migration off a legacy rules engine called Journeys onto the newer node-based Workflows Automation Tool."
+      },
+      {
+        "label": "02 / PROBLEM",
+        "title": "SUPPORT TICKETS TRACED TO A KNOWLEDGE GAP",
+        "text": "Most Jira and Zendesk tickets traced back to customers and implementation managers who didn't fully understand what the system could and couldn't do. Release blogs sat unread, and new hires needed 4–5 weeks just to get oriented."
+      },
+      {
+        "label": "03 / SYSTEM",
+        "title": "RAG-BASED IN-APP ASSISTANT (SENSE IQ)",
+        "text": "Piloted an internal NotebookLM knowledge base across Sales, Support, and Engineering, then built a RAG prototype in Python — screenshot-context prompts feeding a local LLM through Ollama — to prove the assistant could answer questions about whatever screen a user was on. That became Sense IQ, an embedded in-app assistant, tested first in a staging environment."
+      },
+      {
+        "label": "04 / IMPACT",
+        "title": "40% FEWER SUPPORT TICKETS",
+        "text": "Support tickets dropped 40% once Sense IQ launched. New-hire ramp-up time fell too, from 4–5 weeks to about 1.5 weeks. A separate effort — pre-built Field Guide templates for onboarding, data hygiene, and retention workflows — pushed workflow adoption up 30% month over month."
+      },
+      {
+        "label": "05 / LEARNING",
+        "title": "NOBODY READS RELEASE NOTES",
+        "text": "Static release notes get ignored no matter how well they're written. Wiring a context-aware assistant into the product, so it can see what a user is looking at and answer directly, gets used instead."
+      }
+    ],
+    "learning": "Static release notes get ignored no matter how well they're written. Wiring a context-aware assistant into the product, so it can see what a user is looking at and answer directly, gets used instead.",
+    "stationType": "professional"
+  }
 ];
 
 export const METRO_INTRO = {
