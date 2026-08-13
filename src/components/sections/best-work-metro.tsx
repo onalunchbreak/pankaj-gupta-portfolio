@@ -768,16 +768,18 @@ function StationPanel({
       <div className="flex flex-col gap-6">
         <ul className="grid grid-cols-3 gap-4" role="list">
           {previewMetrics.map((m) => (
-            <li key={m.label} className="border-l border-white/15 pl-3">
-              <p className={`font-display font-bold leading-none tracking-tight text-[#FFD400] ${getValueFontSize(m.display, false, false)}`}>
-                <CountUp
-                  target={m.value}
-                  suffix={m.suffix ?? ""}
-                  display={m.display}
-                  duration={1.2}
-                />
-              </p>
-              <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">
+            <li key={m.label} className="flex flex-col justify-end border-l border-white/15 pl-3">
+              <div className="flex h-12 items-end lg:h-14">
+                <p className={`font-display font-bold leading-none tracking-tight text-[#FFD400] ${getValueFontSize(m.display, false, false)}`}>
+                  <CountUp
+                    target={m.value}
+                    suffix={m.suffix ?? ""}
+                    display={m.display}
+                    duration={1.2}
+                  />
+                </p>
+              </div>
+              <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">
                 {m.label}
               </p>
             </li>
@@ -851,15 +853,17 @@ function StackedStationCard({
       {/* Metrics — preview set */}
       <ul className="mt-6 grid grid-cols-3 gap-3" role="list">
         {previewMetrics.map((m) => (
-          <li key={m.label} className="border-l border-white/15 pl-3">
-            <p className={`font-display font-bold leading-none tracking-tight text-[#FFD400] ${getValueFontSize(m.display, true, false)}`}>
-              <CountUp
-                target={m.value}
-                suffix={m.suffix ?? ""}
-                display={m.display}
-                duration={1.2}
-              />
-            </p>
+          <li key={m.label} className="flex flex-col justify-end border-l border-white/15 pl-3">
+            <div className="flex h-10 items-end sm:h-12">
+              <p className={`font-display font-bold leading-none tracking-tight text-[#FFD400] ${getValueFontSize(m.display, true, false)}`}>
+                <CountUp
+                  target={m.value}
+                  suffix={m.suffix ?? ""}
+                  display={m.display}
+                  duration={1.2}
+                />
+              </p>
+            </div>
             <p className="mt-1.5 font-mono text-[9px] uppercase tracking-[0.2em] text-[#A3A3A3]">
               {m.label}
             </p>
@@ -1009,19 +1013,21 @@ function DeepDiveOverlay({
             className="mt-10 grid grid-cols-2 gap-6 border-t border-white/10 pt-7 sm:grid-cols-3"
             role="list"
           >
-            {station.metrics.map((m, mi) => (
+            {station.metrics.map((m) => (
               <li
                 key={m.label}
-                className={mi % 3 === 1 ? "sm:translate-y-3" : ""}
+                className="flex flex-col justify-end border-l border-white/15 pl-3"
               >
-                <p className={`font-display font-bold leading-none tracking-tight text-[#FFD400] ${getValueFontSize(m.display, false, true)}`}>
-                  <CountUp
-                    target={m.value}
-                    suffix={m.suffix ?? ""}
-                    display={m.display}
-                    duration={1.4}
-                  />
-                </p>
+                <div className="flex h-12 items-end sm:h-14">
+                  <p className={`font-display font-bold leading-none tracking-tight text-[#FFD400] ${getValueFontSize(m.display, false, true)}`}>
+                    <CountUp
+                      target={m.value}
+                      suffix={m.suffix ?? ""}
+                      display={m.display}
+                      duration={1.4}
+                    />
+                  </p>
+                </div>
                 <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[#A3A3A3]">
                   {m.label}
                 </p>
