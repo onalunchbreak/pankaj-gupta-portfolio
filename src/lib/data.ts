@@ -432,13 +432,13 @@ export const METRO_STATIONS: MetroStation[] = [
     "caseStudy": [
       {
         "label": "01 / PROBLEM",
-        "title": "REMOTE TRAINING WAS BROKEN",
-        "text": "Flying senior instructors out to remote factories to train technicians on multi-million dollar machinery was slow, expensive, and risky — mistakes on live equipment weren't cheap. Remote training efficiency sat around 3%."
+        "title": "TRAINING Pipeline WAS BROKEN",
+        "text": "Flying limited specialised instructors out to remote factories to train technicians on multi-million dollar machinery was slow, expensive, and inefficient and led to mistakes on live equipment i.e. Remote training efficiency sat around 3%."
       },
       {
         "label": "02 / SYSTEM",
         "title": "MIXED-REALITY DIGITAL TWIN",
-        "text": "Built a Mixed Reality training platform in Unity 3D and C# for Meta Oculus headsets — 3D digital twins of plant equipment that workers could practice on with 6DoF hand-tracking. A text-to-speech layer read out step-by-step instructions in the worker's own language."
+        "text": "Built a Mixed Reality training platform in Unity 3D and C# for Meta Oculus headsets i.e. 3D digital twins of plant equipment that workers could practice on with hand-tracking along with a text-to-speech layer for reading out step-by-step instructions in the worker's own language."
       },
       {
         "label": "03 / DEPLOYMENT",
@@ -448,15 +448,10 @@ export const METRO_STATIONS: MetroStation[] = [
       {
         "label": "04 / IMPACT",
         "title": "10× EFFICIENCY LIFT",
-        "text": "Remote self-guided training coverage went from 3% to 30%. Bosch featured the project in its \"Digital Twin / Digital Mirror\" innovation showcase that year."
-      },
-      {
-        "label": "05 / LEARNING",
-        "title": "IMMERSIVE > MANUAL",
-        "text": "Manual, screen-based remote training couldn't replicate hands-on machinery work. Immersive AR could, because it let people's hands do the learning instead of only their eyes."
+        "text": "Remote self-guided training efficiency went from 3% to 30%. Bosch featured the project in its Annual Tech innovation showcase that year."
       }
     ],
-    "learning": "Manual, screen-based remote training couldn't replicate hands-on machinery work. Immersive AR could, because it let people's hands do the learning instead of only their eyes.",
+    "learning": "",
     "stationType": "professional"
   },
   {
