@@ -607,30 +607,25 @@ export const METRO_STATIONS: MetroStation[] = [
       {
         "label": "01 / CONTEXT",
         "title": "1,200+ CLIENT WORKFLOW PLATFORM",
-        "text": "Owned the roadmap for Sense's talent engagement platform, used by 1,200+ clients including L&T, Staffmark, and Aditi Consulting. Also led the migration off a legacy rules engine called Journeys onto the newer node-based Workflows Automation Tool."
+        "text": "Owned the roadmap for Sense's talent engagement platform, used by 1,200+ clients including L&T, Staffmark, Aditi Consulting, Noida International Airport. Also led the migration of key use cases from legacy product called Journeys onto the newer node-based Workflows tool."
       },
       {
         "label": "02 / PROBLEM",
         "title": "SUPPORT TICKETS TRACED TO A KNOWLEDGE GAP",
-        "text": "Most Jira and Zendesk tickets traced back to customers and implementation managers who didn't fully understand what the system could and couldn't do. Release blogs sat unread, and new hires needed 4–5 weeks just to get oriented."
+        "text": "Most Jira and Zendesk tickets traced back to customers and implementation managers who didn't fully understand what the system could and couldn't do. Release blogs sat unread, and additionally any new new hires needed 4–5 weeks just to get oriented."
       },
       {
         "label": "03 / SYSTEM",
         "title": "RAG-BASED IN-APP ASSISTANT (SENSE IQ)",
-        "text": "Piloted an internal NotebookLM knowledge base across Sales, Support, and Engineering, then built a RAG prototype in Python — screenshot-context prompts feeding a local LLM through Ollama — to prove the assistant could answer questions about whatever screen a user was on. That became Sense IQ, an embedded in-app assistant, tested first in a staging environment."
+        "text": "Piloted an internal NotebookLM knowledge base across Sales, Support, and Engineering, then built a RAG prototype in Python, such that the system included screenshots for context in addition to the input prompts feeding into local LLM through Ollama, to prove the assistant could answer questions about whatever screen a user was on. That eventually became Sense IQ, an embedded in-app assistant, tested first in a staging environment."
       },
       {
         "label": "04 / IMPACT",
         "title": "40% FEWER SUPPORT TICKETS",
-        "text": "Support tickets dropped 40% once Sense IQ launched. New-hire ramp-up time fell too, from 4–5 weeks to about 1.5 weeks. A separate effort — pre-built Field Guide templates for onboarding, data hygiene, and retention workflows — pushed workflow adoption up 30% month over month."
-      },
-      {
-        "label": "05 / LEARNING",
-        "title": "NOBODY READS RELEASE NOTES",
-        "text": "Static release notes get ignored no matter how well they're written. Wiring a context-aware assistant into the product, so it can see what a user is looking at and answer directly, gets used instead."
+        "text": "Support tickets dropped 40% once Sense IQ launched. New-hire ramp-up time fell too, from 4–5 weeks to about 1.5 weeks. In a separate  task, I took ownership of pre-building Field Guide templates for onboarding, candidate opportunity-matching and retention workflows which  pushed the product adoption up 30% month over month."
       }
     ],
-    "learning": "Static release notes get ignored no matter how well they're written. Wiring a context-aware assistant into the product, so it can see what a user is looking at and answer directly, gets used instead.",
+    "learning": "",
     "stationType": "professional"
   }
 ];
