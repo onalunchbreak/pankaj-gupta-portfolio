@@ -301,10 +301,10 @@ export default function BestWorkMetro() {
         <div ref={outerRef} className="relative w-full">
           <div
             ref={viewportRef}
-            className="relative h-[82vh] min-h-[540px] max-h-[750px] w-full overflow-hidden bg-[#0A0A0A]"
+            className="relative h-[480px] sm:h-[500px] w-full overflow-hidden bg-[#0A0A0A]"
           >
             {/* Top status bar */}
-            <div className="absolute left-0 right-0 top-0 z-20 flex items-center justify-between gap-4 border-b border-white/10 bg-[#0A0A0A]/80 px-5 py-3 backdrop-blur-sm sm:px-8">
+            <div className="absolute left-0 right-0 top-0 z-20 flex items-center justify-between gap-4 border-b border-white/10 bg-[#0A0A0A]/90 px-5 py-2.5 backdrop-blur-sm sm:px-8">
               <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em]">
                 <span className="inline-block h-2 w-2 rounded-full bg-[#FFD400] blink" />
                 <span className="text-[#FFD400]">{"● CAREER METRO"}</span>
@@ -331,7 +331,7 @@ export default function BestWorkMetro() {
             </div>
 
             {/* Track content */}
-            <div className="flex h-full items-center pt-12 pb-10">
+            <div className="flex h-full items-center pt-10 pb-10">
               <div
                 ref={trackRef}
                 className="flex items-center gap-8 pl-8 sm:pl-12 pr-48"
