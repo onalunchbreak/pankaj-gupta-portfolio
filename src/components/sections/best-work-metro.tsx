@@ -602,8 +602,8 @@ export default function BestWorkMetro() {
               ))}
             </div>
 
-            {/* Bottom Hindi announcement ticker — uses METRO_INTRO.announcements */}
-            <div className="absolute bottom-0 left-0 right-0 z-20 overflow-hidden border-t border-[#FFD400]/30 bg-[#0A0A0A]/92 py-2.5 backdrop-blur-sm">
+            {/* Bottom Hindi announcement ticker — shifted up closer to Step Out button */}
+            <div className="absolute bottom-6 sm:bottom-8 left-0 right-0 z-20 overflow-hidden border-y border-[#FFD400]/30 bg-[#0A0A0A]/95 py-2.5 backdrop-blur-sm">
               <div
                 className="marquee-track whitespace-nowrap will-change-transform"
                 style={{
