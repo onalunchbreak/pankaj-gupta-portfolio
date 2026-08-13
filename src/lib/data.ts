@@ -549,7 +549,7 @@ export const METRO_STATIONS: MetroStation[] = [
       {
         "label": "01 / CONTEXT",
         "title": "ML-POWERED TAX-EVASION DETECTION",
-        "text": "Led product strategy for an ML-based tax-evasion detection platform, piloted with the Delhi and Tamil Nadu state tax departments to catch fake Input Tax Credit claims, circular trading, and mismatched HSN code reporting."
+        "text": "Led product strategy for an ML-based tax-evasion detection platform, piloted with the Delhi and Tamil Nadu state tax departments to catch fake Input Tax Credit claims, and mismatched HSN code reporting."
       },
       {
         "label": "02 / PROBLEM",
@@ -559,20 +559,15 @@ export const METRO_STATIONS: MetroStation[] = [
       {
         "label": "03 / SYSTEM",
         "title": "FEDERATED LEARNING + GRAPH ANALYTICS",
-        "text": "The fix was a federated learning setup (FedAvg), where model scripts ran inside each state's own secure environment instead of pulling their data out. A hybrid model paired time-series forecasting (Prophet, SARIMAX) with gradient-boosted anomaly detection (XGBoost, Isolation Forests), while graph analytics traced buyer-seller GSTIN chains to catch shell-company fraud."
+        "text": "The fix was a federated learning setup (FedAvg), where model scripts ran inside each state's own secure environment instead of pulling their data out. A hybrid model paired time-series forecasting while graph analytics traced buyer-seller GSTIN chains to catch shell-company fraud."
       },
       {
         "label": "04 / IMPACT",
         "title": "25% SHARPER FRAUD DETECTION",
         "text": "The pipeline scaled to 30M+ GST records while each state's data stayed inside its own perimeter. Flagging precision for high-risk evaders improved 25%, and audit selection got noticeably faster for the tax officers using it."
-      },
-      {
-        "label": "05 / LEARNING",
-        "title": "PRIVACY DIDN'T COST US FRESH DATA",
-        "text": "Federated learning kept each state's data inside its own perimeter, and the model still improved from fresh, aggregated learning across states. Privacy-by-design didn't mean settling for stale data."
       }
     ],
-    "learning": "Federated learning kept each state's data inside its own perimeter, and the model still improved from fresh, aggregated learning across states. Privacy-by-design didn't mean settling for stale data.",
+    "learning": "",
     "stationType": "professional"
   },
   {
