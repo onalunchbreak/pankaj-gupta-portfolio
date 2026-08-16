@@ -57,7 +57,7 @@ export default function Cursor() {
     <>
       {/* dot — follows instantly, uses mix-blend-difference for visibility on all backgrounds */}
       <motion.div
-        className="pointer-events-none fixed z-[100] mix-blend-difference"
+        className="pointer-events-none fixed z-[999] mix-blend-difference"
         style={{ x, y }}
         aria-hidden
       >
@@ -75,7 +75,7 @@ export default function Cursor() {
       {/* ring — lags via spring, grows + turns blue on interactive hover.
            No mix-blend-difference so the blue color change is clearly visible. */}
       <motion.div
-        className="pointer-events-none fixed z-[100]"
+        className="pointer-events-none fixed z-[999]"
         style={{ x: ringX, y: ringY }}
         aria-hidden
       >

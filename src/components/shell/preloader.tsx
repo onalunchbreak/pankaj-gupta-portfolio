@@ -186,7 +186,7 @@ export default function Preloader() {
     <AnimatePresence>
       {!done && (
         <motion.div
-          className="fixed inset-0 z-[200] flex flex-col justify-between bg-[#0A0A0A] text-[#F4F1EA]"
+          className="fixed inset-0 z-[200] flex flex-col justify-between bg-[#0A0A0A] text-[#F4F1EA] modal-cursor-restore"
           exit={{ y: "-100%" }}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >

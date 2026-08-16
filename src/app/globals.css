@@ -268,12 +268,15 @@
     }
   }
 
-  /* Restore native cursor inside any modal overlay — overrides cursor-none-fine globally */
+  /* Restore native cursor inside modal overlays & preloader — overrides cursor-none-fine globally */
   .modal-cursor-restore,
   .modal-cursor-restore * {
-    cursor: auto !important;
+    cursor: default !important;
   }
   .modal-cursor-restore button,
+  .modal-cursor-restore a,
+  .modal-cursor-restore input,
+  .modal-cursor-restore input[type="range"],
   .modal-cursor-restore [role="button"] {
     cursor: pointer !important;
   }
