@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Saving is disabled in production" }, { status: 403 });
     }
 
-    const { nodes, portrait } = await request.json();
+    const { nodes, portrait, mobileNodes, mobilePortrait } = await request.json();
 
     if (!Array.isArray(nodes) || !portrait) {
       return NextResponse.json({ error: "Invalid payload format" }, { status: 400 });
@@ -37,14 +37,12 @@ export async function POST(request: Request) {
     const nodesJsonString = JSON.stringify(nodes, null, 2);
     const baselineRegex = /const UNIFIED_CANVAS_BASELINE: StudioNode\[\] = \[\s*[\s\S]*?\n\];/;
 
-    if (!baselineRegex.test(fileContent)) {
-      return NextResponse.json({ error: "UNIFIED_CANVAS_BASELINE regex match failed" }, { status: 500 });
+    if (baselineRegex.test(fileContent)) {
+      fileContent = fileContent.replace(
+        baselineRegex,
+        `const UNIFIED_CANVAS_BASELINE: StudioNode[] = ${nodesJsonString};`
+      );
     }
-
-    fileContent = fileContent.replace(
-      baselineRegex,
-      `const UNIFIED_CANVAS_BASELINE: StudioNode[] = ${nodesJsonString};`
-    );
 
     // Replace PORTRAIT_BASELINE content
     const portraitRegex = /const PORTRAIT_BASELINE = \{ scale: \d+, x: -?\d+, y: -?\d+ \};/;
@@ -53,6 +51,29 @@ export async function POST(request: Request) {
         portraitRegex,
         `const PORTRAIT_BASELINE = { scale: ${portrait.scale}, x: ${portrait.x}, y: ${portrait.y} };`
       );
+    }
+
+    // Replace MOBILE_CANVAS_BASELINE content if provided
+    if (Array.isArray(mobileNodes)) {
+      const mobileNodesJson = JSON.stringify(mobileNodes, null, 2);
+      const mobileBaselineRegex = /const MOBILE_CANVAS_BASELINE: StudioNode\[\] = \[\s*[\s\S]*?\n\];/;
+      if (mobileBaselineRegex.test(fileContent)) {
+        fileContent = fileContent.replace(
+          mobileBaselineRegex,
+          `const MOBILE_CANVAS_BASELINE: StudioNode[] = ${mobileNodesJson};`
+        );
+      }
+    }
+
+    // Replace MOBILE_PORTRAIT_BASELINE content if provided
+    if (mobilePortrait) {
+      const mobilePortraitRegex = /const MOBILE_PORTRAIT_BASELINE = \{ scale: \d+, x: -?\d+, y: -?\d+ \};/;
+      if (mobilePortraitRegex.test(fileContent)) {
+        fileContent = fileContent.replace(
+          mobilePortraitRegex,
+          `const MOBILE_PORTRAIT_BASELINE = { scale: ${mobilePortrait.scale}, x: ${mobilePortrait.x}, y: ${mobilePortrait.y} };`
+        );
+      }
     }
 
     // Write updated content back to hero.tsx

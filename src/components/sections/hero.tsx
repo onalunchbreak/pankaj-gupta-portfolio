@@ -100,36 +100,10 @@ const MOBILE_CANVAS_BASELINE: StudioNode[] = [
     id: "mob-tag-strategy",
     type: "tag",
     text: "PRODUCT STRATEGY",
-    x: 8,
-    y: 18,
+    x: 32,
+    y: 72,
     scale: 1,
     rotation: -2,
-    fontSize: 9,
-    fontFamily: "mono",
-    color: "#F7F4ED",
-    highlight: false,
-  },
-  {
-    id: "mob-tag-ai",
-    type: "tag",
-    text: "APPLIED AI",
-    x: 232,
-    y: 18,
-    scale: 1,
-    rotation: 2,
-    fontSize: 9,
-    fontFamily: "mono",
-    color: "#F7F4ED",
-    highlight: false,
-  },
-  {
-    id: "mob-tag-research",
-    type: "tag",
-    text: "USER RESEARCH",
-    x: 4,
-    y: 160,
-    scale: 1,
-    rotation: 1,
     fontSize: 9,
     fontFamily: "mono",
     color: "#F7F4ED",
@@ -139,10 +113,36 @@ const MOBILE_CANVAS_BASELINE: StudioNode[] = [
     id: "mob-tag-storytelling",
     type: "tag",
     text: "STORYTELLING",
-    x: 238,
-    y: 160,
+    x: 220,
+    y: 92,
     scale: 1,
-    rotation: -1,
+    rotation: 0,
+    fontSize: 9,
+    fontFamily: "mono",
+    color: "#F7F4ED",
+    highlight: false,
+  },
+  {
+    id: "mob-tag-research",
+    type: "tag",
+    text: "USER RESEARCH",
+    x: 10,
+    y: 215,
+    scale: 1,
+    rotation: 0,
+    fontSize: 9,
+    fontFamily: "mono",
+    color: "#F7F4ED",
+    highlight: false,
+  },
+  {
+    id: "mob-tag-ai",
+    type: "tag",
+    text: "APPLIED AI",
+    x: 242,
+    y: 270,
+    scale: 1,
+    rotation: 0,
     fontSize: 9,
     fontFamily: "mono",
     color: "#F7F4ED",
@@ -152,10 +152,10 @@ const MOBILE_CANVAS_BASELINE: StudioNode[] = [
     id: "mob-tag-automation",
     type: "tag",
     text: "WORKFLOW AUTOMATION",
-    x: 6,
-    y: 305,
+    x: 8,
+    y: 445,
     scale: 1,
-    rotation: -1,
+    rotation: 0,
     fontSize: 9,
     fontFamily: "mono",
     color: "#F7F4ED",
@@ -165,10 +165,10 @@ const MOBILE_CANVAS_BASELINE: StudioNode[] = [
     id: "mob-tag-system",
     type: "tag",
     text: "SYSTEM DESIGN",
-    x: 226,
-    y: 305,
+    x: 232,
+    y: 495,
     scale: 1,
-    rotation: 2,
+    rotation: 0,
     fontSize: 9,
     fontFamily: "mono",
     color: "#F7F4ED",
@@ -806,6 +806,8 @@ export default function Hero() {
         body: JSON.stringify({
           nodes,
           portrait: { scale, x: xOffset, y: yOffset },
+          mobileNodes,
+          mobilePortrait: { scale: mobileScale, x: mobileXOffset, y: mobileYOffset },
         }),
       });
 
@@ -1193,13 +1195,12 @@ export default function Hero() {
         </div>
 
         {/* ============================================================ */}
-        {/* MOBILE & TABLET VIEW (lg:hidden) — OPTICALLY CENTERED STAGE  */}
+        {/* MOBILE & TABLET VIEW (lg:hidden) — FULLY RESPONSIVE STAGE    */}
         {/* ============================================================ */}
-        <div className="relative z-10 flex w-full flex-col items-center justify-center lg:hidden my-auto py-1">
+        <div className="relative z-10 flex w-full max-w-[400px] sm:max-w-[480px] flex-col items-center justify-between lg:hidden my-auto py-1">
           
-          {/* 1. Optical Center Stage: 130% Scaled Portrait + Draggable Mobile Nodes */}
-          <div className="relative w-full max-w-[380px] sm:max-w-[480px] h-[380px] sm:h-[460px] flex items-center justify-center my-0.5">
-            
+          {/* 1. Portrait Stage + 4 Framing Silhouette Tags */}
+          <div className="relative w-full h-[340px] sm:h-[400px] flex items-end justify-center my-0.5">
             {/* Centered Cutout Portrait with 130% Default Scale & Full Edit Support */}
             <motion.div
               onClick={(e) => {
@@ -1220,30 +1221,154 @@ export default function Hero() {
                 width={1000}
                 height={1200}
                 priority
-                className="h-full w-auto max-h-[380px] sm:max-h-[460px] object-contain object-bottom select-none pointer-events-none drop-shadow-2xl"
+                className="h-full w-auto max-h-[340px] sm:max-h-[400px] object-contain object-bottom select-none pointer-events-none drop-shadow-2xl"
               />
             </motion.div>
 
-            {/* Mobile Drag-and-Drop Nodes Layer */}
-            <div className="absolute inset-0 z-20 pointer-events-none">
-              {mobileNodes.map(renderMobileNode)}
-            </div>
+            {/* Tag 1: Upper Left (Product Strategy) */}
+            <motion.div
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.25 }}
+              onClick={(e) => {
+                if (layoutMode && isDev) {
+                  e.stopPropagation();
+                  setSelectedId("mob-tag-strategy");
+                }
+              }}
+              className={`absolute top-[14%] left-1 sm:left-3 z-20 pointer-events-auto transition-all ${
+                selectedId === "mob-tag-strategy" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] rounded-xs" : ""
+              }`}
+            >
+              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono text-[8.5px] sm:text-[10px] uppercase text-white shadow-xl -rotate-2">
+                <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
+                <span className="border-b border-[#FFD400] whitespace-nowrap">PRODUCT STRATEGY</span>
+              </span>
+            </motion.div>
+
+            {/* Tag 2: Upper Right (Storytelling) */}
+            <motion.div
+              initial={{ opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+              onClick={(e) => {
+                if (layoutMode && isDev) {
+                  e.stopPropagation();
+                  setSelectedId("mob-tag-storytelling");
+                }
+              }}
+              className={`absolute top-[18%] right-1 sm:right-3 z-20 pointer-events-auto transition-all ${
+                selectedId === "mob-tag-storytelling" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] rounded-xs" : ""
+              }`}
+            >
+              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono text-[8.5px] sm:text-[10px] uppercase text-white shadow-xl">
+                <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
+                <span className="border-b border-[#FFD400] whitespace-nowrap">STORYTELLING</span>
+              </span>
+            </motion.div>
+
+            {/* Tag 3: Mid Left (User Research) */}
+            <motion.div
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.35 }}
+              onClick={(e) => {
+                if (layoutMode && isDev) {
+                  e.stopPropagation();
+                  setSelectedId("mob-tag-research");
+                }
+              }}
+              className={`absolute top-[48%] left-0 sm:left-2 z-20 pointer-events-auto transition-all ${
+                selectedId === "mob-tag-research" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] rounded-xs" : ""
+              }`}
+            >
+              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono text-[8.5px] sm:text-[10px] uppercase text-white shadow-xl">
+                <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
+                <span className="border-b border-[#FFD400] whitespace-nowrap">USER RESEARCH</span>
+              </span>
+            </motion.div>
+
+            {/* Tag 4: Mid Right (Applied AI) */}
+            <motion.div
+              initial={{ opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+              onClick={(e) => {
+                if (layoutMode && isDev) {
+                  e.stopPropagation();
+                  setSelectedId("mob-tag-ai");
+                }
+              }}
+              className={`absolute top-[56%] right-0 sm:right-2 z-20 pointer-events-auto transition-all ${
+                selectedId === "mob-tag-ai" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] rounded-xs" : ""
+              }`}
+            >
+              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono text-[8.5px] sm:text-[10px] uppercase text-white shadow-xl">
+                <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
+                <span className="border-b border-[#FFD400] whitespace-nowrap">APPLIED AI</span>
+              </span>
+            </motion.div>
           </div>
 
-          {/* 2. Top Hook Headline Placed BELOW the Portrait on Mobile */}
+          {/* 2. Top Hook Headline Placed BELOW the Portrait with Increased Font Size & Breathing Gap */}
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-center z-20 px-3 mt-3 mb-1 max-w-sm"
+            className="text-center z-20 px-4 mt-5 sm:mt-7 mb-3 sm:mb-4 max-w-sm"
           >
-            <div className="hand-display text-[21px] sm:text-2xl text-[#F7F4ED] tracking-wide leading-tight drop-shadow-sm">
+            <div className="hand-display text-[23px] sm:text-[26px] text-[#F7F4ED] tracking-wide leading-tight drop-shadow-sm">
               I connect the dots <span className="relative inline-block border-b-2 border-[#FFD400]">others miss.</span>
             </div>
-            <div className="hand-display text-xs sm:text-sm text-[#F7F4ED]/85 tracking-wide mt-1">
+            <div className="hand-display text-[15px] sm:text-[17px] text-[#F7F4ED]/90 tracking-wide mt-1.5 leading-snug">
               curious by nature, obsessed with <span className="border-b border-[#FFD400]">value. :)</span>
             </div>
           </motion.div>
+
+          {/* 3. Lower Flanking Tags (Workflow Automation & System Design Shifted Further Down) */}
+          <div className="w-full flex flex-col gap-3 px-3 z-20 mt-3 sm:mt-4 mb-2 pointer-events-auto">
+            {/* Tag 5: Left (Workflow Automation) */}
+            <motion.div
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.45 }}
+              onClick={(e) => {
+                if (layoutMode && isDev) {
+                  e.stopPropagation();
+                  setSelectedId("mob-tag-automation");
+                }
+              }}
+              className={`self-start ml-1 sm:ml-2 transition-all ${
+                selectedId === "mob-tag-automation" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] rounded-xs" : ""
+              }`}
+            >
+              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono text-[8.5px] sm:text-[10px] uppercase text-white shadow-xl">
+                <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
+                <span className="border-b border-[#FFD400] whitespace-nowrap">WORKFLOW AUTOMATION</span>
+              </span>
+            </motion.div>
+
+            {/* Tag 6: Right (System Design) */}
+            <motion.div
+              initial={{ opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 }}
+              onClick={(e) => {
+                if (layoutMode && isDev) {
+                  e.stopPropagation();
+                  setSelectedId("mob-tag-system");
+                }
+              }}
+              className={`self-end mr-1 sm:mr-2 transition-all ${
+                selectedId === "mob-tag-system" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] rounded-xs" : ""
+              }`}
+            >
+              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono text-[8.5px] sm:text-[10px] uppercase text-white shadow-xl">
+                <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
+                <span className="border-b border-[#FFD400] whitespace-nowrap">SYSTEM DESIGN</span>
+              </span>
+            </motion.div>
+          </div>
         </div>
       </div>
 

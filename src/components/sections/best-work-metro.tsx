@@ -659,11 +659,7 @@ export default function BestWorkMetro() {
         </div>
       ) : (
         /* ---- Mobile / reduced-motion: stacked station cards ---- */
-        <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-12 lg:px-12">
-          <div className="mb-8 flex items-baseline gap-3 border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-widest text-[#A3A3A3]">
-            <span className="text-[#FFD400]">{"CAREER METRO"}</span>
-          </div>
-
+        <div className="mx-auto w-full max-w-[1200px] px-5 py-4 sm:px-8 sm:py-6 lg:px-12">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {METRO_STATIONS.map((station, i) => (
               <StackedStationCard
