@@ -1,30 +1,46 @@
 "use client";
 import { useEffect, useState, useSyncExternalStore } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence, animate } from "framer-motion";
 import { useBootStore } from "@/hooks/use-boot";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { PRELOADER } from "@/lib/data";
 
+const PIKACHU_FRAMES = [
+  "/images/pikachu-vector-frame-1.png",
+  "/images/pikachu-vector-frame-2.png",
+  "/images/pikachu-vector-frame-3.png",
+  "/images/pikachu-vector-frame-4.png",
+];
+
 function PikachuRunner() {
+  const [frameIndex, setFrameIndex] = useState(0);
+
+  useEffect(() => {
+    // 110ms per frame produces a smooth 9 FPS natural running loop
+    const timer = setInterval(() => {
+      setFrameIndex((prev) => (prev + 1) % PIKACHU_FRAMES.length);
+    }, 110);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="relative flex flex-col items-center justify-center py-2">
       {/* Speed lines & electric sparks */}
       <div className="relative flex items-center justify-center">
         {/* Trailing speed dashes */}
-        <div className="pointer-events-none absolute -bottom-1 -left-10 flex flex-col gap-1.5 opacity-80 sm:-left-14">
+        <div className="pointer-events-none absolute -bottom-1 -left-10 flex flex-col gap-1.5 opacity-80 sm:-left-16">
           {[0, 1, 2].map((i) => (
             <motion.span
               key={i}
               className="h-0.5 rounded-full bg-[#FFD400]"
               animate={{
-                width: ["24px", "6px", "0px"],
-                x: [0, -32],
+                width: ["28px", "8px", "0px"],
+                x: [0, -36],
                 opacity: [0.9, 0.3, 0],
               }}
               transition={{
                 repeat: Infinity,
-                duration: 0.4,
+                duration: 0.38,
                 delay: i * 0.12,
                 ease: "easeOut",
               }}
@@ -33,7 +49,7 @@ function PikachuRunner() {
         </div>
 
         {/* Electric spark particles */}
-        <div className="pointer-events-none absolute -right-4 -top-3">
+        <div className="pointer-events-none absolute -right-6 -top-3">
           <motion.span
             animate={{
               scale: [0.6, 1.3, 0.6],
@@ -46,7 +62,7 @@ function PikachuRunner() {
             ⚡
           </motion.span>
         </div>
-        <div className="pointer-events-none absolute -left-6 top-6">
+        <div className="pointer-events-none absolute -left-8 top-6">
           <motion.span
             animate={{
               scale: [1, 0.4, 1],
@@ -60,11 +76,11 @@ function PikachuRunner() {
           </motion.span>
         </div>
 
-        {/* Authentic Animated Running Pikachu GIF */}
-        <div className="relative h-28 w-36 sm:h-36 sm:w-48 md:h-44 md:w-56 select-none flex items-center justify-center">
+        {/* Crisp Vector Pikachu Running Frame Cycle */}
+        <div className="relative h-28 w-44 sm:h-36 sm:w-56 md:h-44 md:w-64 select-none flex items-center justify-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/pikachu-running.gif"
+            src={PIKACHU_FRAMES[frameIndex]}
             alt="Pikachu Running"
             className="h-full w-full object-contain drop-shadow-[0_0_25px_rgba(255,212,0,0.35)]"
           />
@@ -82,7 +98,7 @@ function PikachuRunner() {
           duration: 0.3,
           ease: "easeInOut",
         }}
-        className="mt-1 h-2 w-28 rounded-full bg-black/70 blur-[3px] sm:w-36"
+        className="mt-1 h-2 w-32 rounded-full bg-black/70 blur-[3px] sm:w-44"
       />
     </div>
   );
@@ -184,7 +200,7 @@ export default function Preloader() {
             <span className="opacity-80">{clock} IST</span>
           </div>
 
-          {/* center: Running Pikachu loader + dynamic status line */}
+          {/* center: Crisp HD Vector Running Pikachu loader + dynamic status line */}
           <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-5 text-center sm:px-10">
             <PikachuRunner />
 
