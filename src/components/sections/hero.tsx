@@ -92,6 +92,89 @@ const COLOR_PRESETS = [
 
 // PERMANENT PORTRAIT BASELINE
 const PORTRAIT_BASELINE = { scale: 100, x: -8, y: 0 };
+const MOBILE_PORTRAIT_BASELINE = { scale: 130, x: 0, y: 0 };
+
+// MOBILE-SPECIFIC CANVAS BASELINE (Independent from Desktop)
+const MOBILE_CANVAS_BASELINE: StudioNode[] = [
+  {
+    id: "mob-tag-strategy",
+    type: "tag",
+    text: "PRODUCT STRATEGY",
+    x: 8,
+    y: 18,
+    scale: 1,
+    rotation: -2,
+    fontSize: 9,
+    fontFamily: "mono",
+    color: "#F7F4ED",
+    highlight: false,
+  },
+  {
+    id: "mob-tag-ai",
+    type: "tag",
+    text: "APPLIED AI",
+    x: 232,
+    y: 18,
+    scale: 1,
+    rotation: 2,
+    fontSize: 9,
+    fontFamily: "mono",
+    color: "#F7F4ED",
+    highlight: false,
+  },
+  {
+    id: "mob-tag-research",
+    type: "tag",
+    text: "USER RESEARCH",
+    x: 4,
+    y: 160,
+    scale: 1,
+    rotation: 1,
+    fontSize: 9,
+    fontFamily: "mono",
+    color: "#F7F4ED",
+    highlight: false,
+  },
+  {
+    id: "mob-tag-storytelling",
+    type: "tag",
+    text: "STORYTELLING",
+    x: 238,
+    y: 160,
+    scale: 1,
+    rotation: -1,
+    fontSize: 9,
+    fontFamily: "mono",
+    color: "#F7F4ED",
+    highlight: false,
+  },
+  {
+    id: "mob-tag-automation",
+    type: "tag",
+    text: "WORKFLOW AUTOMATION",
+    x: 6,
+    y: 305,
+    scale: 1,
+    rotation: -1,
+    fontSize: 9,
+    fontFamily: "mono",
+    color: "#F7F4ED",
+    highlight: false,
+  },
+  {
+    id: "mob-tag-system",
+    type: "tag",
+    text: "SYSTEM DESIGN",
+    x: 226,
+    y: 305,
+    scale: 1,
+    rotation: 2,
+    fontSize: 9,
+    fontFamily: "mono",
+    color: "#F7F4ED",
+    highlight: false,
+  },
+];
 
 // USER-APPROVED MASTER LAYOUT (Permanent baseline for all visitors)
 const UNIFIED_CANVAS_BASELINE: StudioNode[] = [
@@ -515,11 +598,16 @@ export default function Hero() {
 
   // Determine if dev environment for rendering local editor toggle
   const isDev = process.env.NODE_ENV !== "production";
-
+  
   // Central Portrait Scale & Offsets (Editable in Edit Panel)
   const [scale, setScale] = useState(PORTRAIT_BASELINE.scale);
   const [xOffset, setXOffset] = useState(PORTRAIT_BASELINE.x);
   const [yOffset, setYOffset] = useState(PORTRAIT_BASELINE.y);
+
+  // Mobile Portrait Scale & Offsets (130% default on mobile)
+  const [mobileScale, setMobileScale] = useState(MOBILE_PORTRAIT_BASELINE.scale);
+  const [mobileXOffset, setMobileXOffset] = useState(MOBILE_PORTRAIT_BASELINE.x);
+  const [mobileYOffset, setMobileYOffset] = useState(MOBILE_PORTRAIT_BASELINE.y);
 
   // Editor State — OFF BY DEFAULT for clean production-ready viewing
   const [layoutMode, setLayoutMode] = useState(false);
@@ -544,10 +632,13 @@ export default function Hero() {
     }
   }, [saveModalOpen]);
 
-  // Dynamic Nodes + Undo/Redo Stack
+  // Desktop Dynamic Nodes + Undo/Redo Stack
   const [nodes, setNodes] = useState<StudioNode[]>(UNIFIED_CANVAS_BASELINE);
   const [history, setHistory] = useState<StudioNode[][]>([UNIFIED_CANVAS_BASELINE]);
   const [historyIndex, setHistoryIndex] = useState(0);
+
+  // Mobile Dynamic Nodes (Independent from Desktop)
+  const [mobileNodes, setMobileNodes] = useState<StudioNode[]>(MOBILE_CANVAS_BASELINE);
 
   // Load saved node configurations and portrait settings
   useEffect(() => {
@@ -561,30 +652,66 @@ export default function Hero() {
           setHistoryIndex(0);
         }
       }
-      const savedScale = localStorage.getItem("hero_portrait_scale");
-      if (savedScale) setScale(Number(savedScale));
-      const savedX = localStorage.getItem("hero_portrait_x");
+      const savedMobileNodes = localStorage.getItem("hero_canvas_mobile_studio_v1");
+      if (savedMobileNodes) {
+        const parsed = JSON.parse(savedMobileNodes);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setMobileNodes(parsed);
+        }
+      }
+      // Desktop Portrait Settings (100% baseline)
+      const savedDesktopScale = localStorage.getItem("hero_desktop_portrait_scale");
+      if (savedDesktopScale) {
+        setScale(Number(savedDesktopScale));
+      } else {
+        setScale(PORTRAIT_BASELINE.scale); // 100%
+      }
+      const savedX = localStorage.getItem("hero_desktop_portrait_x");
       if (savedX) setXOffset(Number(savedX));
-      const savedY = localStorage.getItem("hero_portrait_y");
+      const savedY = localStorage.getItem("hero_desktop_portrait_y");
       if (savedY) setYOffset(Number(savedY));
+
+      // Mobile Portrait Settings (130% baseline)
+      const savedMobileScale = localStorage.getItem("hero_mobile_portrait_scale");
+      if (savedMobileScale) {
+        setMobileScale(Number(savedMobileScale));
+      } else {
+        setMobileScale(MOBILE_PORTRAIT_BASELINE.scale); // 130%
+      }
+      const savedMobileX = localStorage.getItem("hero_mobile_portrait_x");
+      if (savedMobileX) setMobileXOffset(Number(savedMobileX));
+      const savedMobileY = localStorage.getItem("hero_mobile_portrait_y");
+      if (savedMobileY) setMobileYOffset(Number(savedMobileY));
     } catch {
       // fallback
     }
   }, []);
 
-  // Update central portrait photo settings
+  // Update desktop portrait photo settings
   const updatePortrait = (newScale: number, newX: number, newY: number) => {
     setScale(newScale);
     setXOffset(newX);
     setYOffset(newY);
     if (isDev) {
-      localStorage.setItem("hero_portrait_scale", String(newScale));
-      localStorage.setItem("hero_portrait_x", String(newX));
-      localStorage.setItem("hero_portrait_y", String(newY));
+      localStorage.setItem("hero_desktop_portrait_scale", String(newScale));
+      localStorage.setItem("hero_desktop_portrait_x", String(newX));
+      localStorage.setItem("hero_desktop_portrait_y", String(newY));
     }
   };
 
-  // Push new state snapshot to Undo/Redo stack
+  // Update mobile portrait photo settings
+  const updateMobilePortrait = (newScale: number, newX: number, newY: number) => {
+    setMobileScale(newScale);
+    setMobileXOffset(newX);
+    setMobileYOffset(newY);
+    if (isDev) {
+      localStorage.setItem("hero_mobile_portrait_scale", String(newScale));
+      localStorage.setItem("hero_mobile_portrait_x", String(newX));
+      localStorage.setItem("hero_mobile_portrait_y", String(newY));
+    }
+  };
+
+  // Push new state snapshot to Undo/Redo stack (Desktop)
   const pushState = useCallback(
     (newNodes: StudioNode[]) => {
       setNodes(newNodes);
@@ -598,6 +725,17 @@ export default function Hero() {
     },
     [history, historyIndex, isDev]
   );
+
+  // Update a single mobile node property
+  const updateMobileNode = (id: string, partial: Partial<StudioNode>) => {
+    setMobileNodes((prev) => {
+      const updated = prev.map((n) => (n.id === id ? { ...n, ...partial } : n));
+      if (isDev) {
+        localStorage.setItem("hero_canvas_mobile_studio_v1", JSON.stringify(updated));
+      }
+      return updated;
+    });
+  };
 
   // Undo action
   const handleUndo = useCallback(() => {
@@ -623,50 +761,39 @@ export default function Hero() {
     }
   }, [history, historyIndex, isDev]);
 
-  // Update a single node property
+  // Update a single node property (Handles both desktop and mobile nodes)
   const updateNode = (id: string, partial: Partial<StudioNode>) => {
+    if (mobileNodes.some((n) => n.id === id)) {
+      updateMobileNode(id, partial);
+      return;
+    }
     const updated = nodes.map((n) => (n.id === id ? { ...n, ...partial } : n));
     pushState(updated);
   };
 
   // Delete node
   const deleteNode = (id: string) => {
+    if (mobileNodes.some((n) => n.id === id)) {
+      const updated = mobileNodes.filter((n) => n.id !== id);
+      setMobileNodes(updated);
+      if (isDev) localStorage.setItem("hero_canvas_mobile_studio_v1", JSON.stringify(updated));
+      if (selectedId === id) setSelectedId(null);
+      return;
+    }
     const updated = nodes.filter((n) => n.id !== id);
     pushState(updated);
     if (selectedId === id) setSelectedId(null);
-  };
-
-  // Add a brand new custom node
-  const addNewNode = (type: NodeType) => {
-    const newId = `${type}-${Date.now()}`;
-    const newNode: StudioNode = {
-      id: newId,
-      type,
-      text: type === "quote" ? "Your custom thought\nhere..." : type === "tag" ? "CUSTOM SKILL" : "",
-      x: 120 + Math.random() * 80,
-      y: 120 + Math.random() * 80,
-      scale: 1,
-      rotation: 0,
-      fontSize: type === "quote" ? 22 : 12,
-      fontFamily: type === "quote" ? "handwritten" : "mono",
-      color: type === "arrow" ? "#FFD400" : "#F7F4ED",
-      highlight: type === "quote",
-      curvature: 16,
-      flipX: false,
-      arrowLength: 75,
-    };
-
-    pushState([...nodes, newNode]);
-    setSelectedId(newId);
-    if (type !== "arrow") setEditingId(newId);
   };
 
   // Reset to user's master baseline
   const resetAllNodes = () => {
     pushState(UNIFIED_CANVAS_BASELINE);
     updatePortrait(PORTRAIT_BASELINE.scale, PORTRAIT_BASELINE.x, PORTRAIT_BASELINE.y);
+    setMobileNodes(MOBILE_CANVAS_BASELINE);
+    updateMobilePortrait(MOBILE_PORTRAIT_BASELINE.scale, MOBILE_PORTRAIT_BASELINE.x, MOBILE_PORTRAIT_BASELINE.y);
     setSelectedId(null);
     localStorage.setItem("hero_canvas_studio_master_v7", JSON.stringify(UNIFIED_CANVAS_BASELINE));
+    localStorage.setItem("hero_canvas_mobile_studio_v1", JSON.stringify(MOBILE_CANVAS_BASELINE));
   };
 
   // Execute direct code save & git commit via API endpoint
@@ -681,21 +808,81 @@ export default function Hero() {
           portrait: { scale, x: xOffset, y: yOffset },
         }),
       });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setSaveSuccess(true);
-        setSaveModalOpen(false);
-        setTimeout(() => setSaveSuccess(false), 3500);
-      } else {
-        alert(`Save failed: ${data.error || "Unknown error"}`);
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Save failed");
       }
-    } catch (err: any) {
-      alert(`Save error: ${err.message}`);
+
+      setSaveSuccess(true);
+      setTimeout(() => {
+        setSaveSuccess(false);
+        setSaveModalOpen(false);
+      }, 1400);
+    } catch (err: unknown) {
+      console.error("Save layout error:", err);
+      alert(`Save error: ${err instanceof Error ? err.message : "Unknown error"}`);
     } finally {
       setIsSaving(false);
     }
   };
 
+  // Active selected node
+  const selectedNode =
+    nodes.find((n) => n.id === selectedId) ||
+    mobileNodes.find((n) => n.id === selectedId) ||
+    null;
+
+  // Keyboard navigation & deletion shortcuts in edit mode
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!layoutMode || !isDev || editingId) return;
+
+      if (e.key === "Escape") {
+        setSelectedId(null);
+        setEditingId(null);
+      }
+
+      if ((e.key === "Delete" || e.key === "Backspace") && selectedId) {
+        if (selectedId !== "central-portrait" && selectedId !== "central-portrait-mobile") {
+          e.preventDefault();
+          deleteNode(selectedId);
+        }
+      }
+
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "z") {
+        e.preventDefault();
+        if (e.shiftKey) {
+          handleRedo();
+        } else {
+          handleUndo();
+        }
+      }
+
+      if (selectedNode) {
+        const step = e.shiftKey ? 10 : 2;
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          updateNode(selectedNode.id, { x: selectedNode.x - step });
+        }
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          updateNode(selectedNode.id, { x: selectedNode.x + step });
+        }
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          updateNode(selectedNode.id, { y: selectedNode.y - step });
+        }
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          updateNode(selectedNode.id, { y: selectedNode.y + step });
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [layoutMode, isDev, editingId, selectedId, selectedNode, handleUndo, handleRedo]);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -711,23 +898,74 @@ export default function Hero() {
   const tagXOffset = -xOffset * 0.75;
   const tagOpacity = Math.max(0.15, 1 - Math.abs(xOffset) / 550);
 
-  const selectedNode = nodes.find((n) => n.id === selectedId);
-
-  // Render individual Node cleanly
-  const renderStudioNode = (node: StudioNode) => {
+  // Render a mobile draggable studio node
+  const renderMobileNode = (node: StudioNode) => {
     const isSelected = selectedId === node.id;
     const isEditing = editingId === node.id;
 
-    const fontClass =
-      node.fontFamily === "handwritten"
-        ? "hand-display"
-        : node.fontFamily === "mono"
-        ? "font-mono"
-        : node.fontFamily === "serif"
-        ? "font-serif"
-        : "font-sans";
+    return (
+      <motion.div
+        key={node.id}
+        drag={layoutMode && isDev}
+        dragMomentum={false}
+        onDragEnd={(_, info) => {
+          if (layoutMode && isDev) {
+            updateMobileNode(node.id, { x: node.x + info.offset.x, y: node.y + info.offset.y });
+          }
+        }}
+        onClick={(e) => {
+          if (layoutMode && isDev) {
+            e.stopPropagation();
+            setSelectedId(node.id);
+          }
+        }}
+        onDoubleClick={(e) => {
+          if (layoutMode && isDev) {
+            e.stopPropagation();
+            setSelectedId(node.id);
+            if (node.type !== "arrow") setEditingId(node.id);
+          }
+        }}
+        style={{
+          x: node.x,
+          y: node.y,
+          scale: node.scale,
+          rotate: node.rotation,
+        }}
+        className={`pointer-events-auto absolute p-1 rounded-md transition-all ${
+          layoutMode && isDev
+            ? "cursor-grab active:cursor-grabbing hover:outline hover:outline-1 hover:outline-[#FFD400]/70 z-30 hover:z-40"
+            : "z-20 pointer-events-none"
+        } ${isSelected && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] bg-black/60 shadow-2xl z-40" : ""}`}
+      >
+        <div
+          className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 uppercase tracking-wider shadow-xl hover:border-[#FFD400] select-none font-mono"
+          style={{ fontSize: `${node.fontSize}px`, color: node.color }}
+        >
+          <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
+          {isEditing && layoutMode && isDev ? (
+            <input
+              type="text"
+              value={node.text}
+              onClick={(e) => e.stopPropagation()}
+              onChange={(e) => updateMobileNode(node.id, { text: e.target.value })}
+              onBlur={() => setEditingId(null)}
+              onKeyDown={(e) => e.key === "Enter" && setEditingId(null)}
+              autoFocus
+              className="bg-black/80 border border-[#FFD400] px-1 py-0.5 text-white outline-none rounded"
+            />
+          ) : (
+            <span className="border-b border-[#FFD400] whitespace-nowrap">{node.text}</span>
+          )}
+        </div>
+      </motion.div>
+    );
+  };
 
-    const lines = node.text.split("\n");
+  // Render a single studio canvas node (Quote, Tag, or Curved Arrow)
+  const renderStudioNode = (node: StudioNode) => {
+    const isSelected = selectedId === node.id;
+    const isEditing = editingId === node.id;
 
     return (
       <motion.div
@@ -758,7 +996,7 @@ export default function Hero() {
           scale: node.scale,
           rotate: node.rotation,
         }}
-        className={`pointer-events-auto absolute p-1.5 rounded-md transition-all ${
+        className={`pointer-events-auto absolute p-1 rounded-md transition-all ${
           layoutMode && isDev
             ? "cursor-grab active:cursor-grabbing hover:outline hover:outline-1 hover:outline-[#FFD400]/70 z-30 hover:z-40"
             : "z-20 pointer-events-none"
@@ -768,10 +1006,10 @@ export default function Hero() {
           <StudioArrow node={node} />
         ) : node.type === "tag" ? (
           <div
-            className={`flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-3.5 py-1.5 uppercase tracking-wider backdrop-blur-[2px] shadow-xs hover:border-[#FFD400] select-none ${fontClass}`}
+            className="flex items-center gap-1 rounded-xs border border-white/40 bg-black/40 backdrop-blur-xs px-2.5 py-1 font-mono uppercase tracking-wider text-white shadow-xs hover:border-[#FFD400] select-none"
             style={{ fontSize: `${node.fontSize}px`, color: node.color }}
           >
-            <Sparkles className="h-3.5 w-3.5 text-[#FFD400] shrink-0" />
+            <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
             {isEditing && layoutMode && isDev ? (
               <input
                 type="text"
@@ -784,12 +1022,14 @@ export default function Hero() {
                 className="bg-black/80 border border-[#FFD400] px-1 py-0.5 text-white outline-none rounded"
               />
             ) : (
-              <span className="border-b border-[#FFD400] pb-0.5">{node.text}</span>
+              <span className="border-b border-[#FFD400] whitespace-nowrap">{node.text}</span>
             )}
           </div>
         ) : (
           <div
-            className={`relative leading-snug select-none ${fontClass}`}
+            className={`whitespace-pre-line leading-snug select-none ${
+              node.fontFamily === "mono" ? "font-mono" : "hand-display"
+            }`}
             style={{ fontSize: `${node.fontSize}px`, color: node.color }}
           >
             {isEditing && layoutMode && isDev ? (
@@ -798,25 +1038,24 @@ export default function Hero() {
                 onClick={(e) => e.stopPropagation()}
                 onChange={(e) => updateNode(node.id, { text: e.target.value })}
                 onBlur={() => setEditingId(null)}
-                onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && setEditingId(null)}
                 autoFocus
-                rows={3}
-                className="bg-black/90 border border-[#FFD400] p-1.5 text-white outline-none rounded min-w-[240px]"
+                className="bg-black/80 border border-[#FFD400] p-1.5 text-white outline-none rounded min-w-[160px] min-h-[60px]"
               />
-            ) : (
-              <div className="flex flex-col items-start">
-                {lines.map((line, i) => {
-                  const isLastLine = i === lines.length - 1;
-                  return (
-                    <span key={i} className="relative inline-block">
+            ) : node.highlight ? (
+              node.text.split("\n").map((line, idx, arr) => (
+                <span key={idx} className="block">
+                  {idx === arr.length - 1 ? (
+                    <span className="relative inline-block">
                       {line}
-                      {node.highlight && isLastLine && (
-                        <span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FFD400] rounded-full pointer-events-none" />
-                      )}
+                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#FFD400]" />
                     </span>
-                  );
-                })}
-              </div>
+                  ) : (
+                    line
+                  )}
+                </span>
+              ))
+            ) : (
+              node.text
             )}
           </div>
         )}
@@ -910,66 +1149,101 @@ export default function Hero() {
       </AnimatePresence>
 
       {/* ---- MAIN HERO CANVAS ---- */}
-      <div className="relative z-10 my-auto flex w-full flex-1 items-center justify-center py-1">
+      <div className="relative z-10 my-auto flex w-full flex-1 items-center justify-center py-2">
 
-        {/* ---- Centered Cutout Portrait of Pankaj Gupta ---- */}
-        <motion.div
-          onClick={(e) => {
-            if (layoutMode && isDev) {
-              e.stopPropagation();
-              setSelectedId("central-portrait");
-            }
-          }}
-          className={`relative z-10 flex flex-col items-center justify-end w-full max-w-[680px] lg:max-w-[820px] -mt-8 sm:-mt-12 mb-2 origin-bottom transition-all ${
-            layoutMode && isDev ? "pointer-events-auto cursor-pointer hover:outline hover:outline-1 hover:outline-[#FFD400]/70 rounded-lg" : "pointer-events-none"
-          } ${selectedId === "central-portrait" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] ring-4 ring-[#FFD400]/20 rounded-lg" : ""}`}
-          initial={{ opacity: 0, y: 30, scale: 0.95 }}
-          animate={{ opacity: 1, scale: scale / 100, x: xOffset, y: yOffset }}
-          transition={{ duration: 0.15, ease: "easeInOut" }}
-        >
-          <div className="relative w-full h-[72vh] min-h-[500px] max-h-[760px] flex items-end justify-center">
-            <Image
-              src="/pankaj-hero-cutout.png"
-              alt="Pankaj Gupta"
-              width={1000}
-              height={1200}
-              priority
-              className="h-full w-auto object-contain object-bottom select-none pointer-events-none transform-gpu"
-            />
-          </div>
-        </motion.div>
+        {/* ============================================================ */}
+        {/* DESKTOP VIEW (lg:flex) — FULL STUDIO CANVAS & MASTER NODES   */}
+        {/* ============================================================ */}
+        <div className="relative w-full hidden lg:flex items-center justify-center min-h-[72vh]">
+          {/* Centered Cutout Portrait */}
+          <motion.div
+            onClick={(e) => {
+              if (layoutMode && isDev) {
+                e.stopPropagation();
+                setSelectedId("central-portrait");
+              }
+            }}
+            className={`relative z-10 flex flex-col items-center justify-end w-full max-w-[820px] -mt-8 sm:-mt-12 mb-2 origin-bottom transition-all ${
+              layoutMode && isDev ? "pointer-events-auto cursor-pointer hover:outline hover:outline-1 hover:outline-[#FFD400]/70 rounded-lg" : "pointer-events-none"
+            } ${selectedId === "central-portrait" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] ring-4 ring-[#FFD400]/20 rounded-lg" : ""}`}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, scale: scale / 100, x: xOffset, y: yOffset }}
+            transition={{ duration: 0.15, ease: "easeInOut" }}
+          >
+            <div className="relative w-full h-[72vh] min-h-[500px] max-h-[760px] flex items-end justify-center">
+              <Image
+                src="/pankaj-hero-cutout.png"
+                alt="Pankaj Gupta"
+                width={1000}
+                height={1200}
+                priority
+                className="h-full w-auto object-contain object-bottom select-none pointer-events-none transform-gpu"
+              />
+            </div>
+          </motion.div>
 
-        {/* ---- DYNAMIC UNIFIED CANVAS NODES LAYER ---- */}
-        <motion.div
-          className="absolute inset-0 z-20 hidden lg:block pointer-events-none"
-          animate={{ x: tagXOffset, opacity: tagOpacity }}
-          transition={{ duration: 0.15, ease: "easeInOut" }}
-        >
-          {nodes.map(renderStudioNode)}
-        </motion.div>
+          {/* Desktop Studio Canvas Nodes */}
+          <motion.div
+            className="absolute inset-0 z-20 pointer-events-none"
+            animate={{ x: tagXOffset, opacity: tagOpacity }}
+            transition={{ duration: 0.15, ease: "easeInOut" }}
+          >
+            {nodes.map(renderStudioNode)}
+          </motion.div>
+        </div>
 
-        {/* ---- MOBILE / TABLET REFLOW ---- */}
-        <div className="relative z-20 mt-6 flex flex-col items-center gap-4 text-center lg:hidden px-4">
-          <div className="hand-display text-xl text-[#F7F4ED]">
-            I connect the dots <span className="border-b-2 border-[#FFD400]">others miss.</span>
-          </div>
-          <div className="hand-display text-xl text-[#F7F4ED]">
-            curious by nature, obsessed with <span className="border-b-2 border-[#FFD400]">value. :)</span>
+        {/* ============================================================ */}
+        {/* MOBILE & TABLET VIEW (lg:hidden) — OPTICALLY CENTERED STAGE  */}
+        {/* ============================================================ */}
+        <div className="relative z-10 flex w-full flex-col items-center justify-center lg:hidden my-auto py-1">
+          
+          {/* 1. Optical Center Stage: 130% Scaled Portrait + Draggable Mobile Nodes */}
+          <div className="relative w-full max-w-[380px] sm:max-w-[480px] h-[380px] sm:h-[460px] flex items-center justify-center my-0.5">
+            
+            {/* Centered Cutout Portrait with 130% Default Scale & Full Edit Support */}
+            <motion.div
+              onClick={(e) => {
+                if (layoutMode && isDev) {
+                  e.stopPropagation();
+                  setSelectedId("central-portrait-mobile");
+                }
+              }}
+              className={`relative z-10 h-full w-full flex items-end justify-center origin-bottom transition-all ${
+                layoutMode && isDev ? "pointer-events-auto cursor-pointer hover:outline hover:outline-1 hover:outline-[#FFD400]/70 rounded-lg" : "pointer-events-none"
+              } ${selectedId === "central-portrait-mobile" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] ring-4 ring-[#FFD400]/20 rounded-lg" : ""}`}
+              animate={{ scale: mobileScale / 100, x: mobileXOffset, y: mobileYOffset }}
+              transition={{ duration: 0.15, ease: "easeInOut" }}
+            >
+              <Image
+                src="/pankaj-hero-cutout.png"
+                alt="Pankaj Gupta"
+                width={1000}
+                height={1200}
+                priority
+                className="h-full w-auto max-h-[380px] sm:max-h-[460px] object-contain object-bottom select-none pointer-events-none drop-shadow-2xl"
+              />
+            </motion.div>
+
+            {/* Mobile Drag-and-Drop Nodes Layer */}
+            <div className="absolute inset-0 z-20 pointer-events-none">
+              {mobileNodes.map(renderMobileNode)}
+            </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-2.5 mt-2">
-            {nodes
-              .filter((n) => n.type === "tag")
-              .map((n) => (
-                <span
-                  key={n.id}
-                  className="flex items-center gap-1.5 rounded-sm border border-white/40 px-3 py-1 font-mono text-[10px] uppercase text-white"
-                >
-                  <Sparkles className="h-3 w-3 text-[#FFD400]" />
-                  <span className="border-b border-[#FFD400]">{n.text}</span>
-                </span>
-              ))}
-          </div>
+          {/* 2. Top Hook Headline Placed BELOW the Portrait on Mobile */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-center z-20 px-3 mt-3 mb-1 max-w-sm"
+          >
+            <div className="hand-display text-[21px] sm:text-2xl text-[#F7F4ED] tracking-wide leading-tight drop-shadow-sm">
+              I connect the dots <span className="relative inline-block border-b-2 border-[#FFD400]">others miss.</span>
+            </div>
+            <div className="hand-display text-xs sm:text-sm text-[#F7F4ED]/85 tracking-wide mt-1">
+              curious by nature, obsessed with <span className="border-b border-[#FFD400]">value. :)</span>
+            </div>
+          </motion.div>
         </div>
       </div>
 
@@ -1047,7 +1321,12 @@ export default function Hero() {
                     {selectedId === "central-portrait" ? (
                       <>
                         <User className="h-3.5 w-3.5 text-[#FFD400]" />
-                        CENTRAL PORTRAIT PHOTO
+                        DESKTOP PORTRAIT PHOTO
+                      </>
+                    ) : selectedId === "central-portrait-mobile" ? (
+                      <>
+                        <User className="h-3.5 w-3.5 text-[#FFD400]" />
+                        MOBILE PORTRAIT PHOTO ({mobileScale}%)
                       </>
                     ) : selectedNode?.type === "arrow" ? (
                       <>
@@ -1086,21 +1365,30 @@ export default function Hero() {
                   </div>
                 </div>
 
-                {/* Central Portrait Specific Resizer & Offsets */}
-                {selectedId === "central-portrait" && (
+                {/* Central Portrait Specific Resizer & Offsets (Desktop & Mobile) */}
+                {(selectedId === "central-portrait" || selectedId === "central-portrait-mobile") && (
                   <>
                     <div className="flex items-center justify-between gap-2 text-[11px]">
                       <span className="text-white/70">Portrait Scale:</span>
                       <input
                         type="range"
                         min="70"
-                        max="130"
+                        max="160"
                         step="1"
-                        value={scale}
-                        onChange={(e) => updatePortrait(Number(e.target.value), xOffset, yOffset)}
+                        value={selectedId === "central-portrait-mobile" ? mobileScale : scale}
+                        onChange={(e) => {
+                          const val = Number(e.target.value);
+                          if (selectedId === "central-portrait-mobile") {
+                            updateMobilePortrait(val, mobileXOffset, mobileYOffset);
+                          } else {
+                            updatePortrait(val, xOffset, yOffset);
+                          }
+                        }}
                         className="w-28 accent-[#FFD400]"
                       />
-                      <span className="w-8 text-right font-bold text-[#FFD400]">{scale}%</span>
+                      <span className="w-8 text-right font-bold text-[#FFD400]">
+                        {selectedId === "central-portrait-mobile" ? mobileScale : scale}%
+                      </span>
                     </div>
 
                     <div className="flex items-center justify-between gap-2 text-[11px]">
@@ -1110,11 +1398,20 @@ export default function Hero() {
                         min="-150"
                         max="150"
                         step="2"
-                        value={xOffset}
-                        onChange={(e) => updatePortrait(scale, Number(e.target.value), yOffset)}
+                        value={selectedId === "central-portrait-mobile" ? mobileXOffset : xOffset}
+                        onChange={(e) => {
+                          const val = Number(e.target.value);
+                          if (selectedId === "central-portrait-mobile") {
+                            updateMobilePortrait(mobileScale, val, mobileYOffset);
+                          } else {
+                            updatePortrait(scale, val, yOffset);
+                          }
+                        }}
                         className="w-28 accent-[#FFD400]"
                       />
-                      <span className="w-8 text-right font-bold text-[#FFD400]">{xOffset}px</span>
+                      <span className="w-8 text-right font-bold text-[#FFD400]">
+                        {selectedId === "central-portrait-mobile" ? mobileXOffset : xOffset}px
+                      </span>
                     </div>
 
                     <div className="flex items-center justify-between gap-2 text-[11px]">
@@ -1124,16 +1421,31 @@ export default function Hero() {
                         min="-150"
                         max="150"
                         step="2"
-                        value={yOffset}
-                        onChange={(e) => updatePortrait(scale, xOffset, Number(e.target.value))}
+                        value={selectedId === "central-portrait-mobile" ? mobileYOffset : yOffset}
+                        onChange={(e) => {
+                          const val = Number(e.target.value);
+                          if (selectedId === "central-portrait-mobile") {
+                            updateMobilePortrait(mobileScale, mobileXOffset, val);
+                          } else {
+                            updatePortrait(scale, xOffset, val);
+                          }
+                        }}
                         className="w-28 accent-[#FFD400]"
                       />
-                      <span className="w-8 text-right font-bold text-[#FFD400]">{yOffset}px</span>
+                      <span className="w-8 text-right font-bold text-[#FFD400]">
+                        {selectedId === "central-portrait-mobile" ? mobileYOffset : yOffset}px
+                      </span>
                     </div>
 
                     <div className="flex justify-end pt-1 border-t border-white/10">
                       <button
-                        onClick={() => updatePortrait(100, 0, 0)}
+                        onClick={() => {
+                          if (selectedId === "central-portrait-mobile") {
+                            updateMobilePortrait(MOBILE_PORTRAIT_BASELINE.scale, MOBILE_PORTRAIT_BASELINE.x, MOBILE_PORTRAIT_BASELINE.y);
+                          } else {
+                            updatePortrait(PORTRAIT_BASELINE.scale, PORTRAIT_BASELINE.x, PORTRAIT_BASELINE.y);
+                          }
+                        }}
                         className="text-[10px] text-white/50 hover:text-white underline"
                       >
                         Reset Portrait
