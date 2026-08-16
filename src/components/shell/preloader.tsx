@@ -1,9 +1,106 @@
 "use client";
 import { useEffect, useState, useSyncExternalStore } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence, animate } from "framer-motion";
 import { useBootStore } from "@/hooks/use-boot";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { PRELOADER } from "@/lib/data";
+
+function PikachuRunner() {
+  return (
+    <div className="relative flex flex-col items-center justify-center py-2">
+      {/* Speed lines & electric sparks */}
+      <div className="relative flex items-center justify-center">
+        {/* Trailing speed dashes */}
+        <div className="pointer-events-none absolute -bottom-1 -left-10 flex flex-col gap-1.5 opacity-80 sm:-left-14">
+          {[0, 1, 2].map((i) => (
+            <motion.span
+              key={i}
+              className="h-0.5 rounded-full bg-[#FFD400]"
+              animate={{
+                width: ["24px", "6px", "0px"],
+                x: [0, -32],
+                opacity: [0.9, 0.3, 0],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 0.4,
+                delay: i * 0.12,
+                ease: "easeOut",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Electric spark particles */}
+        <div className="pointer-events-none absolute -right-3 -top-2">
+          <motion.span
+            animate={{
+              scale: [0.6, 1.3, 0.6],
+              opacity: [0.2, 1, 0.2],
+              rotate: [0, 45, 0],
+            }}
+            transition={{ repeat: Infinity, duration: 0.32 }}
+            className="block text-sm text-[#FFD400]"
+          >
+            ⚡
+          </motion.span>
+        </div>
+        <div className="pointer-events-none absolute -left-5 top-5">
+          <motion.span
+            animate={{
+              scale: [1, 0.4, 1],
+              opacity: [0.9, 0.1, 0.9],
+              rotate: [20, -25, 20],
+            }}
+            transition={{ repeat: Infinity, duration: 0.38, delay: 0.14 }}
+            className="block text-xs text-[#FFD400]"
+          >
+            ⚡
+          </motion.span>
+        </div>
+
+        {/* Pikachu Character with energetic running physics */}
+        <motion.div
+          animate={{
+            y: [0, -12, 0, -7, 0],
+            rotate: [-2, 3, -2],
+            scaleX: [1, 1.03, 0.98, 1],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 0.36,
+            ease: "easeInOut",
+          }}
+          className="relative h-32 w-32 sm:h-44 sm:w-44 md:h-52 md:w-52 select-none"
+        >
+          <Image
+            src="/images/pikachu-running.png"
+            alt="Pikachu Running"
+            fill
+            priority
+            sizes="(max-width: 768px) 176px, 208px"
+            className="object-contain drop-shadow-[0_0_30px_rgba(255,212,0,0.4)]"
+          />
+        </motion.div>
+      </div>
+
+      {/* Ground contact shadow */}
+      <motion.div
+        animate={{
+          scaleX: [1, 0.7, 1],
+          opacity: [0.6, 0.25, 0.6],
+        }}
+        transition={{
+          repeat: Infinity,
+          duration: 0.36,
+          ease: "easeInOut",
+        }}
+        className="mt-1 h-2.5 w-24 rounded-full bg-black/60 blur-[3px] sm:w-32"
+      />
+    </div>
+  );
+}
 
 const STATUS_LINES = [
   "SHIPPING SOMETHING... · PROBABLY OVER-SCOPED",
@@ -71,8 +168,8 @@ export default function Preloader() {
       return () => clearTimeout(t);
     }
     const controls = animate(0, 100, {
-      duration: 5.5,
-      ease: "easeOut",
+      duration: 3.8,
+      ease: "easeInOut",
       onUpdate: (v) => setCount(Math.round(v)),
       onComplete: () => finish(),
     });
@@ -101,12 +198,10 @@ export default function Preloader() {
             <span className="opacity-80">{clock} IST</span>
           </div>
 
-          {/* center: counter + dynamic status line */}
+          {/* center: Running Pikachu loader + dynamic status line */}
           <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-5 text-center sm:px-10">
-            <div className="font-display text-[14vw] font-bold leading-none tracking-tighter sm:text-[10vw]">
-              {String(count).padStart(3, "0")}
-              <span className="text-[#1738D5]">%</span>
-            </div>
+            <PikachuRunner />
+
             <div className="mt-4 sm:mt-6 min-h-[1.5rem] font-mono text-xs sm:text-sm md:text-base uppercase tracking-[0.2em] text-white/80">
               {isMounted && statusLine && (
                 <motion.span
