@@ -6,20 +6,20 @@ import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { PRELOADER } from "@/lib/data";
 
 const PIKACHU_FRAMES = [
-  "/images/pikachu-vector-frame-1.png",
-  "/images/pikachu-vector-frame-2.png",
-  "/images/pikachu-vector-frame-3.png",
-  "/images/pikachu-vector-frame-4.png",
+  "/images/pikachu-side-frame-1.png",
+  "/images/pikachu-side-frame-2.png",
+  "/images/pikachu-side-frame-3.png",
+  "/images/pikachu-side-frame-4.png",
 ];
 
 function PikachuRunner() {
   const [frameIndex, setFrameIndex] = useState(0);
 
   useEffect(() => {
-    // 110ms per frame produces a smooth 9 FPS natural running loop
+    // 100ms per frame produces a natural, energetic running gallop loop
     const timer = setInterval(() => {
       setFrameIndex((prev) => (prev + 1) % PIKACHU_FRAMES.length);
-    }, 110);
+    }, 100);
     return () => clearInterval(timer);
   }, []);
 
@@ -27,21 +27,21 @@ function PikachuRunner() {
     <div className="relative flex flex-col items-center justify-center py-2">
       {/* Speed lines & electric sparks */}
       <div className="relative flex items-center justify-center">
-        {/* Trailing speed dashes */}
+        {/* Trailing speed dashes on the left */}
         <div className="pointer-events-none absolute -bottom-1 -left-10 flex flex-col gap-1.5 opacity-80 sm:-left-16">
           {[0, 1, 2].map((i) => (
             <motion.span
               key={i}
               className="h-0.5 rounded-full bg-[#FFD400]"
               animate={{
-                width: ["28px", "8px", "0px"],
-                x: [0, -36],
+                width: ["30px", "10px", "0px"],
+                x: [0, -40],
                 opacity: [0.9, 0.3, 0],
               }}
               transition={{
                 repeat: Infinity,
                 duration: 0.38,
-                delay: i * 0.12,
+                delay: i * 0.11,
                 ease: "easeOut",
               }}
             />
@@ -57,7 +57,7 @@ function PikachuRunner() {
               rotate: [0, 45, 0],
             }}
             transition={{ repeat: Infinity, duration: 0.32 }}
-            className="block text-base text-[#FFD400]"
+            className="block text-lg text-[#FFD400]"
           >
             ⚡
           </motion.span>
@@ -76,7 +76,7 @@ function PikachuRunner() {
           </motion.span>
         </div>
 
-        {/* Crisp Vector Pikachu Running Frame Cycle */}
+        {/* Crisp Vector Pure Side-Profile Running Pikachu Frame Cycle */}
         <div className="relative h-28 w-44 sm:h-36 sm:w-56 md:h-44 md:w-64 select-none flex items-center justify-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -200,7 +200,7 @@ export default function Preloader() {
             <span className="opacity-80">{clock} IST</span>
           </div>
 
-          {/* center: Crisp HD Vector Running Pikachu loader + dynamic status line */}
+          {/* center: Crisp HD Pure Side-Profile Running Pikachu loader + dynamic status line */}
           <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-5 text-center sm:px-10">
             <PikachuRunner />
 
