@@ -33,7 +33,7 @@ function PikachuRunner() {
         </div>
 
         {/* Electric spark particles */}
-        <div className="pointer-events-none absolute -right-3 -top-2">
+        <div className="pointer-events-none absolute -right-4 -top-3">
           <motion.span
             animate={{
               scale: [0.6, 1.3, 0.6],
@@ -41,12 +41,12 @@ function PikachuRunner() {
               rotate: [0, 45, 0],
             }}
             transition={{ repeat: Infinity, duration: 0.32 }}
-            className="block text-sm text-[#FFD400]"
+            className="block text-base text-[#FFD400]"
           >
             ⚡
           </motion.span>
         </div>
-        <div className="pointer-events-none absolute -left-5 top-5">
+        <div className="pointer-events-none absolute -left-6 top-6">
           <motion.span
             animate={{
               scale: [1, 0.4, 1],
@@ -60,43 +60,29 @@ function PikachuRunner() {
           </motion.span>
         </div>
 
-        {/* Pikachu Character with energetic running physics */}
-        <motion.div
-          animate={{
-            y: [0, -12, 0, -7, 0],
-            rotate: [-2, 3, -2],
-            scaleX: [1, 1.03, 0.98, 1],
-          }}
-          transition={{
-            repeat: Infinity,
-            duration: 0.36,
-            ease: "easeInOut",
-          }}
-          className="relative h-32 w-32 sm:h-44 sm:w-44 md:h-52 md:w-52 select-none"
-        >
-          <Image
-            src="/images/pikachu-running.png"
+        {/* Authentic Animated Running Pikachu GIF */}
+        <div className="relative h-28 w-36 sm:h-36 sm:w-48 md:h-44 md:w-56 select-none flex items-center justify-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/pikachu-running.gif"
             alt="Pikachu Running"
-            fill
-            priority
-            sizes="(max-width: 768px) 176px, 208px"
-            className="object-contain drop-shadow-[0_0_30px_rgba(255,212,0,0.4)]"
+            className="h-full w-full object-contain drop-shadow-[0_0_25px_rgba(255,212,0,0.35)]"
           />
-        </motion.div>
+        </div>
       </div>
 
       {/* Ground contact shadow */}
       <motion.div
         animate={{
-          scaleX: [1, 0.7, 1],
-          opacity: [0.6, 0.25, 0.6],
+          scaleX: [1, 0.8, 1],
+          opacity: [0.6, 0.3, 0.6],
         }}
         transition={{
           repeat: Infinity,
-          duration: 0.36,
+          duration: 0.3,
           ease: "easeInOut",
         }}
-        className="mt-1 h-2.5 w-24 rounded-full bg-black/60 blur-[3px] sm:w-32"
+        className="mt-1 h-2 w-28 rounded-full bg-black/70 blur-[3px] sm:w-36"
       />
     </div>
   );
