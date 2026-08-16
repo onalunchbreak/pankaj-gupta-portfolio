@@ -53,3 +53,5 @@ server.log
 # Skills directory
 /skills/upload/
 upload/
+AGENTS.md
+CLAUDE.md
