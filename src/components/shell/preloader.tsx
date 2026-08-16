@@ -25,8 +25,8 @@ function PikachuRunner() {
 
   return (
     <div className="relative flex flex-col items-center justify-center py-2">
-      {/* Clean Vector Pikachu Side Profile Run Frame: 115px mobile, 90px tablet/desktop */}
-      <div className="relative h-[115px] w-[172px] sm:h-[90px] sm:w-[135px] select-none flex items-center justify-center">
+      {/* Clean Vector Pikachu Side Profile Run Frame: 90px on all screens */}
+      <div className="relative h-[90px] w-[135px] select-none flex items-center justify-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={PIKACHU_FRAMES[frameIndex]}
@@ -46,7 +46,7 @@ function PikachuRunner() {
           duration: 0.27,
           ease: "easeInOut",
         }}
-        className="mt-1 h-1.5 w-24 sm:w-20 rounded-full bg-black/70 blur-[2.5px]"
+        className="mt-1 h-1.5 w-20 rounded-full bg-black/70 blur-[2.5px]"
       />
     </div>
   );
