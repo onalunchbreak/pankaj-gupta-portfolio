@@ -265,15 +265,21 @@ Applying Popperian Critical Rationalism (problem-first analysis, severe stress-t
 
 ---
 
-## Part 3: Open Questions & Decisions for Pankaj
+## Part 3: Confirmed User Decisions & Architectural Specifications
 
-Before executing source code changes, please clarify the following items:
+The candidate (Pankaj) has explicitly approved and specified the following design & architectural requirements:
 
-1. **Phone Number Preference (`Point 16`)**:
-   - What phone number should be displayed in the contact section and `tel:` link? (e.g. `+91-XXXXXXXXXX`, or do you prefer a click-to-reveal / copy button for privacy?).
-2. **Career Metro Navigation Model (`Point 11`)**:
-   - Would you prefer **Option B** (keep the horizontal metro line on desktop, but add prominent visible `← Prev` and `Next →` buttons + direct clickable station dots) OR **Option C** (switch desktop to an immediate vertical/grid card layout like mobile)?
-3. **Closing CTA Wording (`Point 17`)**:
-   - Is this closing copy approved: *"Looking for deeper technical case studies or want to discuss a product role? I'd be glad to share my detailed résumé or connect over a brief call."*
-4. **Hero Skill Badges (`Point 4`)**:
-   - In addition to enlarging *Product Strategy, User Research, Applied AI, System Design*, would you like to add explicit tags for *A/B Testing, GTM, Roadmapping* on the desktop hero canvas?
+1. **Phone Number Preference (`Point 16`) — CONFIRMED**:
+   - Implement a **click-to-reveal phone number button** (e.g. `[ 📞 Reveal Phone Number ]` → unveils `+91-XXXXXXXXXX` with `tel:` link and copy action) for privacy and spam protection.
+
+2. **Career Metro Navigation Model (`Point 11`) — CONFIRMED**:
+   - **Desktop**: Implement an **automated, smooth auto-advancing carousel** with a **gentle, slow progression speed** and **pause on hover/interaction**, along with visible `← Prev` / `Next →` click controls and direct route station jump dots.
+   - **Mobile**: Strictly preserve the clean, vertical **stacked card layout with accordion deep-dives**.
+
+3. **Hero Skill Badges (`Point 4`) — CONFIRMED**:
+   - Enlarge the existing core skill badges (`Product Strategy`, `User Research`, `Applied AI`, `System Design`) to `11px–12px font-semibold` with elevated contrast and border presence on desktop & laptop screens.
+
+4. **Closing CTA & Résumé Access (`Point 17`) — CONFIRMED**:
+   - Use the approved message:
+     > *"Looking for deeper technical case studies or want to discuss a product role? I'd be glad to share my detailed résumé or connect over a brief call."*
+   - Add direct action button: `[ 📄 View Detailed Résumé ↗ ]` linking to Pankaj's shareable Google Drive résumé, plus `[ ✉ Email Me ]` and `[ 📞 Call Me ]`.
