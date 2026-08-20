@@ -1,7 +1,8 @@
 # Pankaj Gupta | Portfolio (Mr. Onalunchbreak)
 
-> **CLOUD ENVIRONMENT & AI AGENT GUIDE:**
-> For deep architectural context, component schemas, state isolation rules, and roadmap, please review [PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md).
+> **CLOUD ENVIRONMENT & AI AGENT GUIDE (Codex, Claude, etc.):**
+> 1. **System & Architecture:** For deep architectural context, component schemas, state isolation rules, and design tokens, review [PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md).
+> 2. **Recruiter Audit & Actionable Issues:** For the complete 21-point HR/Recruiter feedback breakdown, component locations, and before/after remediation plans, review [issues.context](./issues.context).
 
 > **Live Production:** [guptapankaj.vercel.app](https://guptapankaj.vercel.app)
 

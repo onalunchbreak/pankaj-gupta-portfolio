@@ -1,0 +1,279 @@
+# COMPREHENSIVE RECRUITER AUDIT & UX OVERHAUL DIRECTIVE (`issues.context`)
+
+> **DIRECTIVE FOR CODEX, CLAUDE, AUTONOMOUS AI AGENTS & DEVELOPERS:**
+> This document is the definitive, multi-layered single source of truth for the recruitment-readiness, typography standardization, and UX friction elimination overhaul of the Pankaj Gupta Portfolio.
+> **DO NOT GUESS OR ESTIMATE CHANGES.** Follow the exact strategic invariants, tactical information architecture, and operational code replacements specified below.
+
+---
+
+## Part 1: Epistemological & Multi-Layered Reasoning Framework
+
+### 1.1 Critical Reasoning: Conjectures & Refutations Analysis
+Applying Popperian Critical Rationalism (problem-first analysis, severe stress-testing of assumptions, and eliminating non-functional elements):
+
+| Previous Design Conjecture | Critical Refutation & Empirical Failure Mode (Audit Findings) | Hard-to-Vary Solution (Surviving Theory) |
+|---|---|---|
+| **Conjecture 1:** *"Sentence-long all-caps cursive headings give the site an expressive editorial voice."* | **Refuted:** 4-line cursive paragraphs (`origin.tsx`, `research-archive.tsx`) take 12–15 seconds of intense reading effort. Recruiters scanning at 3–5 seconds bounce or skip entire sections due to cognitive fatigue. | Replace with punchy 2–4 word headings in primary display font (`Space Grotesk`). Restrict cursive (`Caveat`) strictly to 1–4 word taglines. |
+| **Conjecture 2:** *"Locking vertical scroll and requiring arrow keys in Career Metro creates an immersive train simulation."* | **Refuted:** On laptop trackpads and mice, unexpected scroll-hijacking and a modal demanding `KEYBOARD REQUIRED ← →` causes frustration and high abandonment. | Implement dual-mode navigation: Keep the horizontal visual rail, but provide permanent visible `← Prev` / `Next →` click buttons, direct station jump dots, and trackpad swipe. |
+| **Conjecture 3:** *"Small 9px monospace skill tags preserve minimalist visual balance in Hero."* | **Refuted:** Laptop viewport inspection (1440×900) revealed skill badges are visually drowned out by large handwritten quotes. Core PM capabilities are missed. | Increase skill badge typography to `11px–12px font-semibold`, add padding, and elevate contrast against the blue stage. |
+| **Conjecture 4:** *"Email alone is sufficient for inbound recruiter contact."* | **Refuted:** High-urgency executive recruiters and hiring managers in fast-moving tech startups rely on immediate phone/WhatsApp outreach and direct LinkedIn connectivity. | Add formatted, clickable phone number (`tel:`) alongside email (`mailto:`), LinkedIn, and an explicit offer to share the full résumé. |
+
+---
+
+### 1.2 Layered Reasoning Decomposition (30,000 ft → 3,000 ft → 300 ft)
+
+```
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 30,000 ft — STRATEGIC LAYER (Core Principles & Invariants)               │
+│ • The portfolio is an executive sales pitch and career proof-of-work.     │
+│ • 30-second time-to-comprehension: Identity, skills, top work, contact.  │
+│ • Clarity over decorative complexity; outcomes over stylistic catchphrases.│
+└──────────────────────────────────────────────────────────────────────────┘
+                                     │
+                                     ▼
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 3,000 ft — TACTICAL LAYER (Information Architecture & System Design)      │
+│ • Strict 2-font system: Space Grotesk (Headings) + Inter (Body).         │
+│ • Standardize 2–4 word display headings across all 9 portfolio sections. │
+│ • Strategic keyword bolding for rapid recruiter vertical eye-scanning.   │
+│ • Layered disclosure: High-level bullets on landing page; deep dives in  │
+│   modals.                                                                │
+│ • Frictionless navigation: Visible controls, no mandatory keyboard traps. │
+└──────────────────────────────────────────────────────────────────────────┘
+                                     │
+                                     ▼
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 300 ft — OPERATIONAL LAYER (Code Implementation & File Modifications)     │
+│ • Update src/lib/data.ts: ORIGIN, ACHIEVEMENTS, CONTACT, METRO copy.     │
+│ • Update src/components/sections/origin.tsx: Fix mobile overlap & layout.│
+│ • Update src/components/sections/best-work-metro.tsx: Add nav arrows.   │
+│ • Update src/components/sections/research-archive.tsx: Metadata contrast.│
+│ • Update src/components/sections/hero.tsx: Laptop skill tag sizing.      │
+│ • Update src/components/sections/contact.tsx: Add tel: & closing CTA.    │
+└──────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Part 2: Complete 21-Point Actionable Issue Catalog
+
+### ── Point 1: Shorten & Standardize Major Section Headings
+- **Files**: `src/lib/data.ts`, `src/components/sections/origin.tsx`, `research-archive.tsx`, `achievements.tsx`
+- **Target**: Keep headings to 2–4 words maximum on a single line.
+- **Replacements**:
+  1. **Origin Section**:
+     - *Old:* `"I USED TO BUILD WHATEVER CAME TO MIND AND TACKLE THE TECHNICAL CHALLENGES AS THEY CAME. OVER TIME, I REALISED THE REAL HARD QUESTION WAS: SHOULD WE EVEN BE BUILDING THIS IN THE FIRST PLACE?"`
+     - *New Heading:* `The Beginning` (or `My Origin`)
+     - *New Subheading:* `From engineering foundations to product leadership.`
+  2. **Published Work Section**:
+     - *Old:* `"I SPENT A FEW YEARS EXPLORING HOW MODELS PROCESS DECEPTION, ADAPT ACROSS LANGUAGES, AND READ MULTIMODAL INTENT."`
+     - *New Heading:* `Published Work` (or `Research & Writing`)
+     - *New Subheading:* `Peer-reviewed papers on deception detection, multimodal AI, and cross-lingual NLP.`
+  3. **Milestones & Recognition Section**:
+     - *Old:* `"MILESTONES AND RECOGNITIONS EARNED ALONG THE WAY."`
+     - *New Heading:* `Milestones & Recognition`
+     - *New Subheading:* `Awards, global fellowships, and academic credentials.`
+
+---
+
+### ── Point 2: Reduce Text Density in "The Beginning"
+- **Files**: `src/lib/data.ts` (`ORIGIN` object), `src/components/sections/origin.tsx`
+- **Current Problem**: 3 dense narrative paragraphs taking ~45s of reading time.
+- **Operational Implementation**:
+  Replace narrative paragraphs with a structured, scannable timeline:
+  ```ts
+  export const ORIGIN = {
+    index: "01",
+    title: "THE BEGINNING",
+    headline: "The Beginning",
+    subtitle: "From engineering foundations to product leadership.",
+    points: [
+      {
+        tag: "01 · EDUCATION & FOUNDATIONS",
+        text: "Studied **Engineering Physics at DTU**, while leading campus debating, marketing initiatives, and developing early machine learning & AI systems."
+      },
+      {
+        tag: "02 · THE PIVOT TO PRODUCT",
+        text: "Realized the most critical engineering challenge wasn't just *how* to build, but discovering **what creates measurable human and business value**."
+      },
+      {
+        tag: "03 · CURRENT FOCUS",
+        text: "Building **applied AI products**, automated workflows, and high-impact developer tooling that solve ambiguous, real-world problems."
+      }
+    ]
+  };
+  ```
+
+---
+
+### ── Point 3: Strategic Keyword Bolding for High-Speed Skimming
+- **Files**: `src/lib/data.ts`
+- **Rule**: Bold key high-signal terms across all sections so that skimming the bold text alone provides an instant executive summary:
+  - **Academic & Credentials**: `**DTU (Delhi Technological University)**`, `**IIIT Delhi**`, `**NYU**`, `**8.69 / 10.00**`, `**Grade A**`.
+  - **Organizations & Workplaces**: `**Teach For India**`, `**Pratham Education**`, `**Bosch**`, `**Cambridge Judge Business School**`, `**CEGIS**`, `**SenseHQ**`.
+  - **Core Skills**: `**Product Strategy**`, `**User Research**`, `**Deception Detection**`, `**Multimodal AI**`, `**Workflow Automation**`.
+  - **Impact Metrics**: `**Top 1%**`, `**Among 30 Selected**`, `**4000+ Global Applicants**`, `**Grade 11–12**`.
+
+---
+
+### ── Point 4: Hero Section Skill Tag Visibility on Laptops
+- **File**: `src/components/sections/hero.tsx`
+- **Current Problem**: Skill badges rendered at `text-[9px]` with thin `border-white/40`.
+- **Operational Implementation**:
+  - Update `UNIFIED_CANVAS_BASELINE` tag font size to `fontSize: 11` (or `12`).
+  - In `renderStudioNode`, style tags with:
+    ```tsx
+    className="flex items-center gap-2 rounded-xs border border-white/60 bg-black/90 px-3 py-1.5 font-mono text-[11px] sm:text-[12px] font-semibold uppercase text-white shadow-xl"
+    ```
+
+---
+
+### ── Point 5 & 8: Typography Standardization & Cursive Usage Boundaries
+- **Files**: `src/app/globals.css`, `tailwind.config.ts`, all section components
+- **Rule Engine**:
+  - **Display Headings**: `font-display` (`Space Grotesk`, sans-serif, bold, tight tracking).
+  - **Body Text**: `font-sans` (`Inter`, sans-serif, regular/medium, relaxed line height).
+  - **Technical Meta & Badges**: `font-mono` (`Space Mono`, monospace, uppercase, tracked).
+  - **Handwritten Accents (`Caveat`)**: **MAXIMUM 1–4 WORDS ONLY** (e.g. *"curious by nature"*, *"plans changed."*). **NEVER** use for multi-line explanations or primary section headings.
+
+---
+
+### ── Point 6 & 7: Research Archive Legibility & Metadata Contrast
+- **File**: `src/components/sections/research-archive.tsx`
+- **Current Problem**: Supervisor and institution names render in `text-[#1a1a1a]/50 text-[10px]` monospace text on light paper backgrounds.
+- **Operational Implementation**:
+  - Change metadata typography to:
+    ```tsx
+    <div className="mt-3 border-l-2 border-[#1738D5] pl-3">
+      <p className="font-mono text-xs font-semibold uppercase text-[#1a1a1a]/90">
+        Advisor: {paper.supervisor}
+      </p>
+      <p className="font-mono text-[11px] text-[#1a1a1a]/70">
+        {paper.institution}
+      </p>
+    </div>
+    ```
+
+---
+
+### ── Point 9: Section-to-Section Continuity & Header Hierarchy
+- **Files**: All files in `src/components/sections/`
+- **Pattern**: Every section must follow the uniform header banner blueprint:
+  ```tsx
+  <div className="mb-8">
+    <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-[#1738D5] mb-2">
+      <span>{index}</span>
+      <span>/</span>
+      <span className="text-[#1a1a1a]/70">{category}</span>
+    </div>
+    <h2 className="text-3xl sm:text-5xl font-bold font-display tracking-tight text-[#1a1a1a]">
+      {headline}
+    </h2>
+    {subtitle && (
+      <p className="mt-2 text-sm sm:text-base text-[#1a1a1a]/70 font-sans max-w-2xl">
+        {subtitle}
+      </p>
+    )}
+  </div>
+  ```
+
+---
+
+### ── Point 10 & 11: Career Metro Usability & Navigation Overhaul
+- **File**: `src/components/sections/best-work-metro.tsx`
+- **Current Problem**: Mandatory keyboard prompt (`KEYBOARD REQUIRED ← →`) locks vertical scrolling and confuses trackpad/mouse users.
+- **Operational Implementation (Enhanced Dual-Mode Navigation)**:
+  1. **Permanent Visible Floating Arrow Controls**: Add high-contrast `[← PREV STATION]` and `[NEXT STATION →]` buttons pinned to the bottom corners of the track.
+  2. **Direct Clickable Station Route Dots**: Enable clicking any station node (`TEA`, `PRA`, `BOS`, `CAM`, `CEG`, `SEN`) on the top route line to jump directly to that station.
+  3. **Touch & Trackpad Horizontal Swiping**: Ensure smooth horizontal pan gestures without locking the page.
+
+---
+
+### ── Point 12: Fix Mobile Overlap Bug in "The Beginning"
+- **File**: `src/components/sections/origin.tsx`
+- **Current Bug**: Rotated taped note card (`PRODUCT ROADMAP? plans changed.`) is positioned absolutely at `top-4 right-2`, directly covering the first 3 lines of the heading on mobile screens (320px–430px).
+- **Operational Fix**:
+  - Replace absolute positioning on small viewports with responsive flow:
+    ```tsx
+    className="relative sm:absolute sm:top-6 sm:right-6 my-3 sm:my-0 self-end rotate-2"
+    ```
+
+---
+
+### ── Point 13: Preserve Fluid Mobile Experience
+- **Files**: `src/components/sections/hero.tsx`, `best-work-metro.tsx`
+- **Rule**: Maintain the 130% portrait scale, fluid shoulder tag placement, stacked card layout in Metro, and minimum 44×44px touch targets on mobile viewports.
+
+---
+
+### ── Point 14: Milestones & Recognition Section Title
+- **File**: `src/components/sections/achievements.tsx`
+- **Operational Fix**:
+  - Update `ACHIEVEMENTS.headline` to `"Milestones & Recognition"`.
+  - Style with standard `font-display` in a single line.
+
+---
+
+### ── Point 15, 16 & 17: Contact Section Overhaul & Clickable Phone Number
+- **Files**: `src/components/sections/contact.tsx`, `src/lib/data.ts` (`CONTACT`)
+- **Operational Implementation**:
+  1. **Add Clickable Phone Number**:
+     ```tsx
+     <a
+       href="tel:+91XXXXXXXXXX"
+       className="inline-flex items-center gap-2 border border-white/20 bg-white/5 px-4 py-2 font-mono text-xs uppercase tracking-wider text-white hover:border-[#FFD400] hover:text-[#FFD400]"
+     >
+       <Phone className="h-3.5 w-3.5" />
+       <span>+91-XXXXXXXXXX</span>
+     </a>
+     ```
+  2. **Add End-of-Page Closing Message**:
+     ```tsx
+     <div className="mt-8 border-t border-white/10 pt-6 text-center sm:text-left">
+       <p className="text-sm text-[#F4F1EA]/80 font-sans">
+         Looking for deeper technical case studies or want to discuss a product role? I'd be glad to share my detailed résumé or connect over a brief call.
+       </p>
+       <div className="mt-4 flex flex-wrap gap-4">
+         <a href="mailto:connectwithguptapankaj@gmail.com?subject=Pankaj%20Gupta%20-%20Resume%20Request" className="button-primary">
+           Request Full Résumé ↗
+         </a>
+         <a href="https://www.linkedin.com/in/gupta-pankaj/" target="_blank" rel="noreferrer" className="button-secondary">
+           View LinkedIn Profile ↗
+         </a>
+       </div>
+     </div>
+     ```
+
+---
+
+### ── Point 18 & 19: Portfolio vs. Résumé Layering
+- **Files**: `src/components/sections/best-work-metro.tsx`
+- **Guideline**: Landing page station cards display high-level context (Role, Problem Statement, 2–3 core bullets). In-depth execution metrics, system architectures, and methodologies remain accessible inside the "Step Out" deep-dive modal.
+
+---
+
+### ── Point 20 & 21: Verification Checklist & Acceptance Criteria
+- [ ] Every major heading is 2–4 words on a single line.
+- [ ] "The Beginning" is scannable in under 10 seconds.
+- [ ] High-signal entities are bolded across all body copy.
+- [ ] Hero skill badges are clearly legible on 13"–15" laptop screens (`11px–12px font-semibold`).
+- [ ] Supervisor metadata in research cards has crisp WCAG AA contrast (`#1a1a1a/85`).
+- [ ] Career Metro has visible, clickable next/prev buttons and direct station jump dots.
+- [ ] Rotated taped note card no longer overlaps text on mobile.
+- [ ] Contact section includes clickable phone (`tel:`), clickable email (`mailto:`), and résumé request CTA.
+- [ ] `npm run build` compiles with 0 errors.
+
+---
+
+## Part 3: Open Questions & Decisions for Pankaj
+
+Before executing source code changes, please clarify the following items:
+
+1. **Phone Number Preference (`Point 16`)**:
+   - What phone number should be displayed in the contact section and `tel:` link? (e.g. `+91-XXXXXXXXXX`, or do you prefer a click-to-reveal / copy button for privacy?).
+2. **Career Metro Navigation Model (`Point 11`)**:
+   - Would you prefer **Option B** (keep the horizontal metro line on desktop, but add prominent visible `← Prev` and `Next →` buttons + direct clickable station dots) OR **Option C** (switch desktop to an immediate vertical/grid card layout like mobile)?
+3. **Closing CTA Wording (`Point 17`)**:
+   - Is this closing copy approved: *"Looking for deeper technical case studies or want to discuss a product role? I'd be glad to share my detailed résumé or connect over a brief call."*
+4. **Hero Skill Badges (`Point 4`)**:
+   - In addition to enlarging *Product Strategy, User Research, Applied AI, System Design*, would you like to add explicit tags for *A/B Testing, GTM, Roadmapping* on the desktop hero canvas?
