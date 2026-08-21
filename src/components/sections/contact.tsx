@@ -1,11 +1,12 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Mail, Lock, Phone, FileText } from "lucide-react";
+import { Check, Mail, Lock, Phone, FileText, Volume2, VolumeX } from "lucide-react";
 import { Reveal } from "@/components/sections/_shared";
 import { CONTACT } from "@/lib/data";
 import { hasLink } from "@/lib/links";
 import { useSound } from "@/hooks/use-sound";
+import { useMuteStore } from "@/hooks/use-mute";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -28,9 +29,24 @@ export default function Contact() {
   const [copied, setCopied] = useState(false);
   const [phoneRevealed, setPhoneRevealed] = useState(false);
 
+  const muted = useMuteStore((s) => s.muted);
+  const armed = useMuteStore((s) => s.armed);
+  const toggleMuted = useMuteStore((s) => s.toggle);
+  const armSound = useMuteStore((s) => s.arm);
+
   const revealPhone = () => {
     setPhoneRevealed(true);
     play("confirm");
+  };
+
+  const handleMuteClick = () => {
+    if (!armed) {
+      armSound();
+      play("confirm");
+      return;
+    }
+    toggleMuted();
+    play("tick");
   };
 
   /* Split "Talk Product With Me" into two stacked lines so the
@@ -257,11 +273,25 @@ export default function Contact() {
       <footer className="env-paper paper-texture relative w-full border-t border-black/10 py-10 sm:py-14">
         <div className="mx-auto w-full max-w-[1200px] px-5 sm:px-8 lg:px-12">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-            {/* Left Column: Signoff */}
+            {/* Left Column: Signoff + Sound toggle */}
             <div className="max-w-xl">
               <p className="font-mono text-xs italic leading-relaxed text-[#2a2a2a]/85 sm:text-sm">
                 {CONTACT.signoff}
               </p>
+              <button
+                type="button"
+                onClick={handleMuteClick}
+                aria-label={muted ? "Unmute sound" : "Mute sound"}
+                data-cursor-label={muted ? "unmute" : "mute"}
+                className="group mt-5 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.2em] text-[#2a2a2a]/70 hover:text-[#1738D5] transition-colors cursor-pointer"
+              >
+                {muted ? (
+                  <VolumeX className="h-3.5 w-3.5" />
+                ) : (
+                  <Volume2 className="h-3.5 w-3.5" />
+                )}
+                <span>{muted ? "Sound Off" : "Sound On"}</span>
+              </button>
             </div>
 
             {/* Right block: on mobile the arrow lives on the LEFT edge as its own

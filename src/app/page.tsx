@@ -4,10 +4,8 @@ import Nav from "@/components/shell/nav";
 import Cursor from "@/components/shell/cursor";
 import Grain from "@/components/shell/grain";
 import SoundManager from "@/components/shell/sound-manager";
-import MuteToggle from "@/components/shell/mute-toggle";
 import KeyboardRouter from "@/components/shell/keyboard-router";
 import SectionReachTracker from "@/components/shell/section-reach-tracker";
-import ScrollToTop from "@/components/shell/scroll-to-top";
 import HashScrollOnLoad from "@/components/shell/hash-scroll-on-load";
 
 import Hero from "@/components/sections/hero";
@@ -28,11 +26,9 @@ export default function Home() {
       <Grain />
       <Cursor />
       <SoundManager />
-      <MuteToggle />
       <Nav />
       <KeyboardRouter />
       <SectionReachTracker />
-      <ScrollToTop />
       <HashScrollOnLoad />
 
       {/* main flow — blue → black → black → paper → black → paper → black → paper → black+paper */}
