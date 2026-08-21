@@ -276,7 +276,7 @@ A gamified career journey modeled as the iconic **Delhi Metro Yellow Line**.
 - **Role**: Frictionless direct communication portal.
 - **Split Environment**:
   - **Upper Half (Deep Black)**: Massive Caveat display headline ("Talk Product" in off-white + "With Me" in electric blue with drop shadow), body copy, and a stacked action card — **Email Me** (copies address to clipboard, no `mailto:` redirect), **Reveal Phone Number** (click-to-reveal, then a `tel:` link), **View Detailed Resume** (external link) — in that order. Social links (LinkedIn/GitHub) sit below the action card on mobile, beside the body copy on desktop (grid `order`/`row-start` control the two layouts independently).
-  - **Lower Half (Warm Paper)**: Handwritten signoff (left) and right-aligned signature (no blinking cursor). On mobile the footer's own return-to-top control splits into a standalone arrow on the left edge and a "Return to Top" text label beside the signature on the right; on desktop it collapses into one inline arrow+label button. The global floating scroll-to-top button (bottom-right) auto-hides via `IntersectionObserver` once the footer scrolls into view, so only one scroll-to-top control is ever visible at once.
+  - **Lower Half (Warm Paper)**: Handwritten signoff (left, with a static "Sound On/Off" toggle beneath it) and right-aligned signature (no blinking cursor). On mobile the footer's own return-to-top control splits into a standalone arrow on the left edge and a "Return to Top" text label beside the signature on the right; on desktop it collapses into one inline arrow+label button. There is no floating scroll-to-top or mute button anywhere else on the page — both controls live only in the footer, since the floating versions used to collide with the Career Metro's own bottom-anchored Prev/Next buttons.
 
 ---
 
@@ -315,7 +315,7 @@ export function getSfx(): Record<string, string> {
 ```
 
 - **Autoplay Compliance**: The `SoundManager` component arms the audio context on the first user interaction gesture (`pointerdown`, `keydown`, `touchstart`).
-- **Mute Persistence**: Sound state is saved to `localStorage` via `useMuteStore`, toggled via the fixed bottom-left mute button (`mute-toggle.tsx`).
+- **Mute Persistence**: Sound state is saved to `localStorage` via `useMuteStore`, toggled via a static "Sound On/Off" control in the Contact footer (`contact.tsx`) — there is no floating mute button.
 
 ---
 

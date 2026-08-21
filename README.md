@@ -35,7 +35,7 @@ A high-performance personal portfolio, interactive product showcase, and career 
 
 ### 4. Zero-Asset Web Audio Engine (`sfx.ts`, `use-sound.ts`)
 - **Pure Math Audio Waveform Synthesis**: Pure PCM audio generation (`encodeWav`) producing Base64 Data URIs on the fly (`tick`, `confirm`, `whoosh`, `blip`, `door`). No external MP3/WAV files required.
-- **Autoplay Handling & Mute Persistence**: Gesture-based audio arming with persistent Zustand state (`useMuteStore`), controlled via a fixed bottom-left mute button (`mute-toggle.tsx`).
+- **Autoplay Handling & Mute Persistence**: Gesture-based audio arming with persistent Zustand state (`useMuteStore`), controlled via a "Sound On/Off" toggle in the Contact footer.
 
 ### 5. Command Palette (`command-palette.tsx`)
 - **Fuzzy Subsequence Search (`⌘K`)**: Instant modal navigation indexing sections, metro stations, research publications, and side projects with keyboard routing (`ArrowUp`, `ArrowDown`, `Enter`, `Esc`).
@@ -52,7 +52,7 @@ A high-performance personal portfolio, interactive product showcase, and career 
 ### 9. Contact (`contact.tsx`)
 - **Dual-Tone Split**: Deep black upper stage with massive Caveat display headline + warm paper footer with handwritten signature.
 - **Stacked Action Card**: Email Me (copies address to clipboard, no mail-app redirect) → Reveal Phone Number → View Detailed Resume, stacked vertically in one card, no page-space penalty.
-- **Footer Return-to-Top**: on mobile, a standalone arrow sits on the left edge of the footer while the signature and "Return to Top" label sit on the right; the global floating scroll-to-top button hides once the footer is in view to avoid a duplicate control.
+- **Footer Return-to-Top**: on mobile, a standalone arrow sits on the left edge of the footer while the signature and "Return to Top" label sit on the right; there is no floating scroll-to-top button elsewhere on the page — this is the only control, avoiding clutter over other sections (e.g. the Career Metro's own Prev/Next buttons).
 
 ---
 
@@ -112,7 +112,7 @@ A high-performance personal portfolio, interactive product showcase, and career 
 │   │   │   ├── product-lab.tsx  # Side project showcase
 │   │   │   ├── achievements.tsx # Snap carousel deck & education
 │   │   │   └── contact.tsx      # Split dark/paper contact & action card
-│   │   ├── shell/               # Global overlays: preloader, nav, cursor, sound/mute, scroll-to-top
+│   │   ├── shell/               # Global overlays: preloader, nav, cursor, sound manager
 │   │   └── ui/                  # Reusable UI primitives
 │   ├── hooks/                   # Custom hooks (sound, session stats, mute, boot)
 │   └── lib/
