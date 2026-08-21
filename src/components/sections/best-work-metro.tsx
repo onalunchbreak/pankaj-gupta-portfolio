@@ -420,7 +420,7 @@ export default function BestWorkMetro() {
         <div ref={outerRef} className="relative w-full">
           <div
             ref={viewportRef}
-            className="relative h-screen min-h-[640px] max-h-[850px] w-full overflow-hidden bg-[#0A0A0A]"
+            className="relative h-screen min-h-[640px] max-h-[780px] w-full overflow-hidden bg-[#0A0A0A]"
             onMouseEnter={pauseAutoplay}
             onMouseLeave={scheduleResume}
           >
