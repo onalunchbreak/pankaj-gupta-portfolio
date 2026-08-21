@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Mail, Lock, Phone, FileText, Volume2, VolumeX } from "lucide-react";
 import { Reveal } from "@/components/sections/_shared";
@@ -29,10 +29,17 @@ export default function Contact() {
   const [copied, setCopied] = useState(false);
   const [phoneRevealed, setPhoneRevealed] = useState(false);
 
-  const muted = useMuteStore((s) => s.muted);
+  const storeMuted = useMuteStore((s) => s.muted);
   const armed = useMuteStore((s) => s.armed);
   const toggleMuted = useMuteStore((s) => s.toggle);
   const armSound = useMuteStore((s) => s.arm);
+
+  // useMuteStore's initial value depends on localStorage, which isn't
+  // available during SSR — read it as its server-side default (muted)
+  // until after mount to avoid a hydration mismatch.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const muted = mounted ? storeMuted : true;
 
   const revealPhone = () => {
     setPhoneRevealed(true);

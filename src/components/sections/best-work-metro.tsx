@@ -686,7 +686,7 @@ function StationPanel({
 
   return (
     <article
-      className="relative flex h-full w-full shrink-0 items-start justify-center pt-28 pb-44 px-8 sm:px-12"
+      className="relative flex h-full w-full shrink-0 items-center justify-center pt-[96px] pb-[212px] px-8 sm:px-12"
       data-cursor-label={station.name}
     >
       <div className="flex w-full max-w-2xl flex-col items-start gap-8 sm:gap-10">
