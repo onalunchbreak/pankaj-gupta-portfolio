@@ -1,285 +1,108 @@
-# COMPREHENSIVE RECRUITER AUDIT & UX OVERHAUL DIRECTIVE (`issues.context`)
+# PORTFOLIO OVERHAUL — CHANGES MADE (SUMMARY)
 
-> **DIRECTIVE FOR CODEX, CLAUDE, AUTONOMOUS AI AGENTS & DEVELOPERS:**
-> This document is the definitive, multi-layered single source of truth for the recruitment-readiness, typography standardization, and UX friction elimination overhaul of the Pankaj Gupta Portfolio.
-> **DO NOT GUESS OR ESTIMATE CHANGES.** Follow the exact strategic invariants, tactical information architecture, and operational code replacements specified below.
+> This file replaces the previous `issues.context` recruiter-audit directive. That directive proposed 21 points; each was independently verified against the live code before acting on it — several turned out to be stale or inaccurate (noted below). The changes actually implemented were decided interactively with the site owner, section by section, and this document records what was actually done, not what was originally proposed.
 
 ---
 
-## Part 1: Epistemological & Multi-Layered Reasoning Framework
+## 01 · Hero (`src/components/sections/hero.tsx`)
+- Mobile skill-badge text bumped from 9px → 11px (desktop was already 12px, unaffected).
+- Consolidated the duplicate mobile-tag rendering: the live mobile fallback badges (previously `text-[8.5px] sm:text-[10px]`) bumped to `text-[10px] sm:text-[11px]` and bolded.
+- Bolded the 7 desktop skill tags (Workflow Automation, Product Strategy, User Research, Roadmapping, System Design, Product Discovery, Storytelling) and all 6 mobile tags — applied via a single shared class change so both canvas paths stay in sync.
+- Bolded the "Best Work / Side Projects / Contact" quick-links in the top metadata bar.
 
-### 1.1 Critical Reasoning: Conjectures & Refutations Analysis
-Applying Popperian Critical Rationalism (problem-first analysis, severe stress-testing of assumptions, and eliminating non-functional elements):
+## 02 · Table of Contents (`src/components/sections/nav-index.tsx`, `data.ts`)
+- Shortened the cursive "quick note" sticky from a 16-word sentence to "Short on time? Jump to Best Work."
+- Removed the "Directly click on the section name you want to inspect." instruction line entirely.
 
-| Previous Design Conjecture | Critical Refutation & Empirical Failure Mode (Audit Findings) | Hard-to-Vary Solution (Surviving Theory) |
-|---|---|---|
-| **Conjecture 1:** *"Sentence-long all-caps cursive headings give the site an expressive editorial voice."* | **Refuted:** 4-line cursive paragraphs (`origin.tsx`, `research-archive.tsx`) take 12–15 seconds of intense reading effort. Recruiters scanning at 3–5 seconds bounce or skip entire sections due to cognitive fatigue. | Replace with punchy 2–4 word headings in primary display font (`Space Grotesk`). Restrict cursive (`Caveat`) strictly to 1–4 word taglines. |
-| **Conjecture 2:** *"Locking vertical scroll and requiring arrow keys in Career Metro creates an immersive train simulation."* | **Refuted:** On laptop trackpads and mice, unexpected scroll-hijacking and a modal demanding `KEYBOARD REQUIRED ← →` causes frustration and high abandonment. | Implement dual-mode navigation: Keep the horizontal visual rail, but provide permanent visible `← Prev` / `Next →` click buttons, direct station jump dots, and trackpad swipe. |
-| **Conjecture 3:** *"Small 9px monospace skill tags preserve minimalist visual balance in Hero."* | **Refuted:** Laptop viewport inspection (1440×900) revealed skill badges are visually drowned out by large handwritten quotes. Core PM capabilities are missed. | Increase skill badge typography to `11px–12px font-semibold`, add padding, and elevate contrast against the blue stage. |
-| **Conjecture 4:** *"Email alone is sufficient for inbound recruiter contact."* | **Refuted:** High-urgency executive recruiters and hiring managers in fast-moving tech startups rely on immediate phone/WhatsApp outreach and direct LinkedIn connectivity. | Add formatted, clickable phone number (`tel:`) alongside email (`mailto:`), LinkedIn, and an explicit offer to share the full résumé. |
+## 03 · Scrolling ticker (`src/components/sections/brand-marquee.tsx`)
+- Fixed a data/render mismatch: the ticker now reads from `MARQUEE_ITEMS` in `data.ts` instead of a hardcoded, disconnected local array. No visual change; future content edits now actually take effect.
 
----
+## 04 · "The Beginning" (`src/components/sections/origin.tsx`, `data.ts`)
+- Replaced the 32-word cursive sentence heading with a one-line subtitle: "From engineering foundations to product leadership."
+- Replaced the 3 dense paragraphs with 3 short, bolded bullets (Education & Curiosity / The Research Click / The Pivot to Product), grounded in the original resume copy.
+- Removed the large cursive headline entirely (per later request) and removed the "PRODUCT ROADMAP? / plans changed." motif stamp entirely (distracting, unnecessary).
+- The mobile heading/motif-overlap issue is moot now that both elements are gone.
 
-### 1.2 Layered Reasoning Decomposition (30,000 ft → 3,000 ft → 300 ft)
+## 05 · Career Metro (`src/components/sections/best-work-metro.tsx`) — full rebuild
+- Replaced the scroll-driven GSAP `ScrollTrigger` pin with a normal-flow, timer-driven auto-advancing carousel: advances every 6s, pauses instantly on hover or any manual interaction, resumes 4s after the last interaction.
+- Added visible Prev/Next buttons; rewired the existing station dots and keyboard arrow/Home/End nav to a single `goToStation` state mutator shared with autoplay.
+- Autoplay pauses while the deep-dive case-study modal is open and never runs for reduced-motion or mobile users (mobile stacked cards are untouched).
+- **Bug found and fixed post-implementation** (caught via the site owner's live testing): the initial track tween used `xPercent`, which GSAP resolves against the track's own total width (600% for 6 panels), not the viewport — causing massive overshoot and the "black sliding portion" / erratic-jump behavior reported. Fixed by switching to pixel-based `x` translation (`-activeIndex * panelWidth`), verified pixel-exact via direct DOM/transform inspection and a rapid-click repro test matching the reported bug.
+- A follow-on fix to the above (a `max-w-2xl` cap added to the panel itself) broke the uniform-panel-width assumption the pixel math depends on; corrected by moving the width cap to an inner content wrapper instead, keeping the outer panel at a clean `w-full`.
+- Station content (heading + Step Out button) is now centered as a unit within each full-width panel instead of left-hugging with a large empty gap on the right (station panels are wider now that the 850px cap was removed for correct tweening).
+- Reversed the bottom photo marquee's scroll direction from right-to-left to left-to-right per request.
 
-```
-┌──────────────────────────────────────────────────────────────────────────┐
-│ 30,000 ft — STRATEGIC LAYER (Core Principles & Invariants)               │
-│ • The portfolio is an executive sales pitch and career proof-of-work.     │
-│ • 30-second time-to-comprehension: Identity, skills, top work, contact.  │
-│ • Clarity over decorative complexity; outcomes over stylistic catchphrases.│
-└──────────────────────────────────────────────────────────────────────────┘
-                                     │
-                                     ▼
-┌──────────────────────────────────────────────────────────────────────────┐
-│ 3,000 ft — TACTICAL LAYER (Information Architecture & System Design)      │
-│ • Strict 2-font system: Space Grotesk (Headings) + Inter (Body).         │
-│ • Standardize 2–4 word display headings across all 9 portfolio sections. │
-│ • Strategic keyword bolding for rapid recruiter vertical eye-scanning.   │
-│ • Layered disclosure: High-level bullets on landing page; deep dives in  │
-│   modals.                                                                │
-│ • Frictionless navigation: Visible controls, no mandatory keyboard traps. │
-└──────────────────────────────────────────────────────────────────────────┘
-                                     │
-                                     ▼
-┌──────────────────────────────────────────────────────────────────────────┐
-│ 300 ft — OPERATIONAL LAYER (Code Implementation & File Modifications)     │
-│ • Update src/lib/data.ts: ORIGIN, ACHIEVEMENTS, CONTACT, METRO copy.     │
-│ • Update src/components/sections/origin.tsx: Fix mobile overlap & layout.│
-│ • Update src/components/sections/best-work-metro.tsx: Add nav arrows.   │
-│ • Update src/components/sections/research-archive.tsx: Metadata contrast.│
-│ • Update src/components/sections/hero.tsx: Laptop skill tag sizing.      │
-│ • Update src/components/sections/contact.tsx: Add tel: & closing CTA.    │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+## 06 · Published Work (`src/components/sections/research-archive.tsx`, `data.ts`)
+- Removed the long sentence heading entirely — just the "Published Work" title remains.
+- Bolded the supervisor name and institution on each paper card.
+- Removed the category tags from every paper card (contrast claim from the old audit was stale — metadata was already legible, no change needed there).
 
----
+## 07 · Product Lab (`src/components/sections/product-lab.tsx`, `data.ts`)
+- Deleted the entire unused "44-word collage + 10 skill-tag hover preview" system (`WORD_SPECS`, `PREVIEWS`, `POSITIONS`, related state/handlers) — it was fully coded but never rendered, and had a latent bug (3 of 10 tags had no matching hover shape). Previewed for the site owner, who did not want the design; removed rather than fixed.
+- Removed the category-chip tags from the 4 side-project cards. Side-project cards, links, and status badges are otherwise unchanged.
 
-## Part 2: Complete 21-Point Actionable Issue Catalog
+## 08 · Honors & Recognition (`src/components/sections/achievements.tsx`, `data.ts`)
+- Removed the "MILESTONES AND RECOGNITIONS EARNED ALONG THE WAY." sentence entirely. Title stays "Honors & Recognition."
 
-### ── Point 1: Shorten & Standardize Major Section Headings
-- **Files**: `src/lib/data.ts`, `src/components/sections/origin.tsx`, `research-archive.tsx`, `achievements.tsx`
-- **Target**: Keep headings to 2–4 words maximum on a single line.
-- **Replacements**:
-  1. **Origin Section**:
-     - *Old:* `"I USED TO BUILD WHATEVER CAME TO MIND AND TACKLE THE TECHNICAL CHALLENGES AS THEY CAME. OVER TIME, I REALISED THE REAL HARD QUESTION WAS: SHOULD WE EVEN BE BUILDING THIS IN THE FIRST PLACE?"`
-     - *New Heading:* `The Beginning` (or `My Origin`)
-     - *New Subheading:* `From engineering foundations to product leadership.`
-  2. **Published Work Section**:
-     - *Old:* `"I SPENT A FEW YEARS EXPLORING HOW MODELS PROCESS DECEPTION, ADAPT ACROSS LANGUAGES, AND READ MULTIMODAL INTENT."`
-     - *New Heading:* `Published Work` (or `Research & Writing`)
-     - *New Subheading:* `Peer-reviewed papers on deception detection, multimodal AI, and cross-lingual NLP.`
-  3. **Milestones & Recognition Section**:
-     - *Old:* `"MILESTONES AND RECOGNITIONS EARNED ALONG THE WAY."`
-     - *New Heading:* `Milestones & Recognition`
-     - *New Subheading:* `Awards, global fellowships, and academic credentials.`
+## 09 · Contact (`src/components/sections/contact.tsx`, `data.ts`, `src/components/shell/scroll-to-top.tsx`)
+- Added a click-to-reveal phone button (`tel:` link) and a "View Detailed Résumé ↗" CTA + closing message, alongside existing email/LinkedIn/GitHub.
+- Moved the floating "scroll to top" button from bottom-left to bottom-right — it was overlapping the "Pankaj Gupta" signature in the footer on mobile.
+
+## Cross-cutting
+- Added a reusable `renderBold()` helper (`_shared.tsx`) that parses `**text**` into `<strong>` — used across Origin, Achievements-adjacent copy, and Research Archive metadata.
+- `SectionShell` consolidation was scoped down after investigation: `SectionShell` is hardcoded for dark/black sections. Origin and Achievements are paper (light) sections, so forcing them onto it would have broken their colors — matching an existing pattern already established in `research-archive.tsx`, which hand-rolls a paper-safe equivalent instead of using `SectionShell` directly. Left as-is to avoid a visual regression.
+
+## Verification performed
+- `npm run build` — compiles successfully.
+- `npx tsc --noEmit` — zero new type errors introduced (8 pre-existing errors confirmed via git stash comparison, unrelated to this work: `achievements.tsx` SFX type, `best-work-metro.tsx` missing `extras` field on `MetroStation`, `hero.tsx` undefined `addNewNode` in the dev-only Studio editor).
+- Dev server compiled cleanly through every edit (checked after each file).
+- Metro carousel functionally verified in-browser: autoplay cadence, pause-on-interaction, and dot/button navigation all confirmed correct.
 
 ---
 
-### ── Point 2: Reduce Text Density in "The Beginning"
-- **Files**: `src/lib/data.ts` (`ORIGIN` object), `src/components/sections/origin.tsx`
-- **Current Problem**: 3 dense narrative paragraphs taking ~45s of reading time.
-- **Operational Implementation**:
-  Replace narrative paragraphs with a structured, scannable timeline:
-  ```ts
-  export const ORIGIN = {
-    index: "01",
-    title: "THE BEGINNING",
-    headline: "The Beginning",
-    subtitle: "From engineering foundations to product leadership.",
-    points: [
-      {
-        tag: "01 · EDUCATION & FOUNDATIONS",
-        text: "Studied **Engineering Physics at DTU**, while leading campus debating, marketing initiatives, and developing early machine learning & AI systems."
-      },
-      {
-        tag: "02 · THE PIVOT TO PRODUCT",
-        text: "Realized the most critical engineering challenge wasn't just *how* to build, but discovering **what creates measurable human and business value**."
-      },
-      {
-        tag: "03 · CURRENT FOCUS",
-        text: "Building **applied AI products**, automated workflows, and high-impact developer tooling that solve ambiguous, real-world problems."
-      }
-    ]
-  };
-  ```
+# ROUND 2 — FOLLOW-UP REFINEMENTS
 
----
+A further round of section-by-section feedback after Round 1 shipped. Same verification discipline (build + `tsc --noEmit` + in-browser DOM checks after each change).
 
-### ── Point 3: Strategic Keyword Bolding for High-Speed Skimming
-- **Files**: `src/lib/data.ts`
-- **Rule**: Bold key high-signal terms across all sections so that skimming the bold text alone provides an instant executive summary:
-  - **Academic & Credentials**: `**DTU (Delhi Technological University)**`, `**IIIT Delhi**`, `**NYU**`, `**8.69 / 10.00**`, `**Grade A**`.
-  - **Organizations & Workplaces**: `**Teach For India**`, `**Pratham Education**`, `**Bosch**`, `**Cambridge Judge Business School**`, `**CEGIS**`, `**SenseHQ**`.
-  - **Core Skills**: `**Product Strategy**`, `**User Research**`, `**Deception Detection**`, `**Multimodal AI**`, `**Workflow Automation**`.
-  - **Impact Metrics**: `**Top 1%**`, `**Among 30 Selected**`, `**4000+ Global Applicants**`, `**Grade 11–12**`.
+## 10 · Contact action card (`contact.tsx`, `data.ts`)
+- Reordered/simplified to: **Email Me** (copies address, no icon, no `mailto:` redirect) → **Reveal Phone Number** → **View Detailed Resume**.
+- Removed the arrow (↗) and the accented "Résumé" spelling — plain "Resume", no arrow.
+- Removed the "No Forms, No Funnels, No Friction" annotation line entirely (also removed `CONTACT.annotation` from `data.ts`).
+- On mobile, moved LinkedIn/GitHub links to sit *below* the action card (was above) via independent `order-*` grid classes, decoupled from the desktop column layout.
 
----
+## 11 · Footer (`contact.tsx`)
+- Removed the blinking cursor next to the "Pankaj Gupta" signature.
+- On mobile, the return-to-top control now splits: a standalone arrow button sits on the **left** edge of the footer, while the signature + "Return to Top" text sit on the **right**. Desktop keeps one inline arrow+label button, unchanged.
+- Fixed a duplicate-control bug this split briefly introduced: the global floating scroll-to-top button (bottom-right, `scroll-to-top.tsx`) now hides via `IntersectionObserver` once the footer is in view, so only one scroll-to-top control is ever visible at a time.
 
-### ── Point 4: Hero Section Skill Tag Visibility on Laptops
-- **File**: `src/components/sections/hero.tsx`
-- **Current Problem**: Skill badges rendered at `text-[9px]` with thin `border-white/40`.
-- **Operational Implementation**:
-  - Update `UNIFIED_CANVAS_BASELINE` tag font size to `fontSize: 11` (or `12`).
-  - In `renderStudioNode`, style tags with:
-    ```tsx
-    className="flex items-center gap-2 rounded-xs border border-white/60 bg-black/90 px-3 py-1.5 font-mono text-[11px] sm:text-[12px] font-semibold uppercase text-white shadow-xl"
-    ```
+## 12 · Achievements education strip (`achievements.tsx`)
+- Centered the school-name headers (DTU / IIIT Delhi / NYU) on mobile only; the left-border-rail + left-aligned layout is preserved from `sm:` up.
 
----
+## 13 · Table of Contents → Brand Marquee spacing (`nav-index.tsx`)
+- Tightened the gap between the last TOC item and the ticker below it (asymmetric `pt-*`/`pb-*` split instead of symmetric padding). Verified 0px stray gap via DOM measurement.
 
-### ── Point 5 & 8: Typography Standardization & Cursive Usage Boundaries
-- **Files**: `src/app/globals.css`, `tailwind.config.ts`, all section components
-- **Rule Engine**:
-  - **Display Headings**: `font-display` (`Space Grotesk`, sans-serif, bold, tight tracking).
-  - **Body Text**: `font-sans` (`Inter`, sans-serif, regular/medium, relaxed line height).
-  - **Technical Meta & Badges**: `font-mono` (`Space Mono`, monospace, uppercase, tracked).
-  - **Handwritten Accents (`Caveat`)**: **MAXIMUM 1–4 WORDS ONLY** (e.g. *"curious by nature"*, *"plans changed."*). **NEVER** use for multi-line explanations or primary section headings.
+## 14 · Brand Marquee (`brand-marquee.tsx`, `data.ts`)
+- `MARQUEE_ITEMS` reverted back to the original PM-methodology keyword list (Rapid Prototyping, Product Discovery, Market Research, etc.) per site-owner preference — a prior edit had replaced it with a shorter, less representative list.
+- Removed scroll-velocity-driven direction reversal: the ticker now always scrolls left-to-right regardless of scroll direction; only its *speed* still reacts to scroll velocity.
 
----
+## 15 · Origin → Brand Marquee gap (`origin.tsx`)
+- Reduced the top padding to close the visible gap between the ticker and the "01 / THE BEGINNING" section start. Verified 0px stray gap via DOM measurement.
 
-### ── Point 6 & 7: Research Archive Legibility & Metadata Contrast
-- **File**: `src/components/sections/research-archive.tsx`
-- **Current Problem**: Supervisor and institution names render in `text-[#1a1a1a]/50 text-[10px]` monospace text on light paper backgrounds.
-- **Operational Implementation**:
-  - Change metadata typography to:
-    ```tsx
-    <div className="mt-3 border-l-2 border-[#1738D5] pl-3">
-      <p className="font-mono text-xs font-semibold uppercase text-[#1a1a1a]/90">
-        Advisor: {paper.supervisor}
-      </p>
-      <p className="font-mono text-[11px] text-[#1a1a1a]/70">
-        {paper.institution}
-      </p>
-    </div>
-    ```
+## 16 · Career Metro spacing (`best-work-metro.tsx`)
+- Switched the station panel from vertically-centered content to top-aligned content, then tuned top padding directly — the previous centered layout made the route-bar-to-"PLATFORM 0X" gap a side effect of content height rather than a controllable value. Gap reduced from ~114px to a consistent ~30px across all stations, verified with no overlap into the bottom photo marquee (checked across 5 stations, up to 412px of content height).
 
----
+## 17 · Dead-code sweep (repo-wide)
+Removed code confirmed to have zero live references (verified via grep + build + `tsc --noEmit` before and after):
+- `contact.tsx`: unused `ArrowRight` icon import (left over from the deleted magnetic-CTA cluster).
+- `origin.tsx`: a dead GSAP `ScrollTrigger` SVG-path-draw effect whose `pathRef` was never attached to any DOM element — it ran against `null` on every render and did nothing. Removed the effect, `PATH_D`, `ANNOTATION_POSITIONS`, and the now-unused `gsap`/`ScrollTrigger`/`useRef`/`useEffect` imports.
+- `best-work-metro.tsx`: an unreachable `station.extras` render block — no station in `METRO_STATIONS` ever sets `.extras` (it isn't even part of the `MetroStation` type), so this was a pre-existing dead branch *and* a pre-existing TypeScript error. Deleting it fixed 3 of the session's 8 baseline TS errors.
+- `search-index.ts` / `command-palette.tsx`: the "work experiences" command-palette search entries pointed at `target: "work-log"`, an element id that doesn't exist anywhere in the DOM — clicking one silently did nothing. Removed the dead search-entry generator along with the now-fully-unused `EXPERIENCES` array and `Experience` type in `data.ts` (~110 lines).
+- `data.ts`: trimmed to only the fields each consuming component actually reads — removed `IDENTITY` (unused anywhere), `CASE_CLOSE` (unused anywhere), `PHILOSOPHY_QUOTE` (its only consumer was an orphaned file, see below), and unused fields on `PRELOADER`, `ORIGIN`, `METRO_INTRO`, `RESEARCH`, `LAB`, `CONTACT`.
+- Deleted 6 orphaned files never imported by anything in the render tree: `philosophy-quote.tsx`, `shortcuts-overlay.tsx` + its sole dependent hook `use-keyboard-shortcuts.ts` (fully built "?" shortcuts-help panel with no trigger anywhere — `keyboard-router.tsx` only wires ⌘K), `shortcut-hint.tsx` (already a stub, its own comment says "permanently removed per user directive"), `session-stats-hud.tsx` and `side-rail.tsx` (decorative widgets whose underlying tracking/data hooks stay live via other, actually-rendered components).
+- **Exception, not deleted**: `mute-toggle.tsx` was also unrendered, but its backing state (`useMuteStore`) is actively wired into `sound-manager.tsx` and gates every `play()` call site-wide — meaning sound was playing throughout the site with no way for a visitor to mute it. Flagged to the site owner, who chose to re-add the button rather than delete it; it's now wired into `page.tsx` (bottom-left, matching its own original styling).
 
-### ── Point 9: Section-to-Section Continuity & Header Hierarchy
-- **Files**: All files in `src/components/sections/`
-- **Pattern**: Every section must follow the uniform header banner blueprint:
-  ```tsx
-  <div className="mb-8">
-    <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-[#1738D5] mb-2">
-      <span>{index}</span>
-      <span>/</span>
-      <span className="text-[#1a1a1a]/70">{category}</span>
-    </div>
-    <h2 className="text-3xl sm:text-5xl font-bold font-display tracking-tight text-[#1a1a1a]">
-      {headline}
-    </h2>
-    {subtitle && (
-      <p className="mt-2 text-sm sm:text-base text-[#1a1a1a]/70 font-sans max-w-2xl">
-        {subtitle}
-      </p>
-    )}
-  </div>
-  ```
-
----
-
-### ── Point 10 & 11: Career Metro Usability & Navigation Overhaul
-- **File**: `src/components/sections/best-work-metro.tsx`
-- **Current Problem**: Mandatory keyboard prompt (`KEYBOARD REQUIRED ← →`) locks vertical scrolling and confuses trackpad/mouse users.
-- **Operational Implementation (Enhanced Dual-Mode Navigation)**:
-  1. **Permanent Visible Floating Arrow Controls**: Add high-contrast `[← PREV STATION]` and `[NEXT STATION →]` buttons pinned to the bottom corners of the track.
-  2. **Direct Clickable Station Route Dots**: Enable clicking any station node (`TEA`, `PRA`, `BOS`, `CAM`, `CEG`, `SEN`) on the top route line to jump directly to that station.
-  3. **Touch & Trackpad Horizontal Swiping**: Ensure smooth horizontal pan gestures without locking the page.
-
----
-
-### ── Point 12: Fix Mobile Overlap Bug in "The Beginning"
-- **File**: `src/components/sections/origin.tsx`
-- **Current Bug**: Rotated taped note card (`PRODUCT ROADMAP? plans changed.`) is positioned absolutely at `top-4 right-2`, directly covering the first 3 lines of the heading on mobile screens (320px–430px).
-- **Operational Fix**:
-  - Replace absolute positioning on small viewports with responsive flow:
-    ```tsx
-    className="relative sm:absolute sm:top-6 sm:right-6 my-3 sm:my-0 self-end rotate-2"
-    ```
-
----
-
-### ── Point 13: Preserve Fluid Mobile Experience
-- **Files**: `src/components/sections/hero.tsx`, `best-work-metro.tsx`
-- **Rule**: Maintain the 130% portrait scale, fluid shoulder tag placement, stacked card layout in Metro, and minimum 44×44px touch targets on mobile viewports.
-
----
-
-### ── Point 14: Milestones & Recognition Section Title
-- **File**: `src/components/sections/achievements.tsx`
-- **Operational Fix**:
-  - Update `ACHIEVEMENTS.headline` to `"Milestones & Recognition"`.
-  - Style with standard `font-display` in a single line.
-
----
-
-### ── Point 15, 16 & 17: Contact Section Overhaul & Clickable Phone Number
-- **Files**: `src/components/sections/contact.tsx`, `src/lib/data.ts` (`CONTACT`)
-- **Operational Implementation**:
-  1. **Add Clickable Phone Number**:
-     ```tsx
-     <a
-       href="tel:+91XXXXXXXXXX"
-       className="inline-flex items-center gap-2 border border-white/20 bg-white/5 px-4 py-2 font-mono text-xs uppercase tracking-wider text-white hover:border-[#FFD400] hover:text-[#FFD400]"
-     >
-       <Phone className="h-3.5 w-3.5" />
-       <span>+91-XXXXXXXXXX</span>
-     </a>
-     ```
-  2. **Add End-of-Page Closing Message**:
-     ```tsx
-     <div className="mt-8 border-t border-white/10 pt-6 text-center sm:text-left">
-       <p className="text-sm text-[#F4F1EA]/80 font-sans">
-         Looking for deeper technical case studies or want to discuss a product role? I'd be glad to share my detailed résumé or connect over a brief call.
-       </p>
-       <div className="mt-4 flex flex-wrap gap-4">
-         <a href="mailto:connectwithguptapankaj@gmail.com?subject=Pankaj%20Gupta%20-%20Resume%20Request" className="button-primary">
-           Request Full Résumé ↗
-         </a>
-         <a href="https://www.linkedin.com/in/gupta-pankaj/" target="_blank" rel="noreferrer" className="button-secondary">
-           View LinkedIn Profile ↗
-         </a>
-       </div>
-     </div>
-     ```
-
----
-
-### ── Point 18 & 19: Portfolio vs. Résumé Layering
-- **Files**: `src/components/sections/best-work-metro.tsx`
-- **Guideline**: Landing page station cards display high-level context (Role, Problem Statement, 2–3 core bullets). In-depth execution metrics, system architectures, and methodologies remain accessible inside the "Step Out" deep-dive modal.
-
----
-
-### ── Point 20 & 21: Verification Checklist & Acceptance Criteria
-- [ ] Every major heading is 2–4 words on a single line.
-- [ ] "The Beginning" is scannable in under 10 seconds.
-- [ ] High-signal entities are bolded across all body copy.
-- [ ] Hero skill badges are clearly legible on 13"–15" laptop screens (`11px–12px font-semibold`).
-- [ ] Supervisor metadata in research cards has crisp WCAG AA contrast (`#1a1a1a/85`).
-- [ ] Career Metro has visible, clickable next/prev buttons and direct station jump dots.
-- [ ] Rotated taped note card no longer overlaps text on mobile.
-- [ ] Contact section includes clickable phone (`tel:`), clickable email (`mailto:`), and résumé request CTA.
-- [ ] `npm run build` compiles with 0 errors.
-
----
-
-## Part 3: Confirmed User Decisions & Architectural Specifications
-
-The candidate (Pankaj) has explicitly approved and specified the following design & architectural requirements:
-
-1. **Phone Number Preference (`Point 16`) — CONFIRMED**:
-   - Implement a **click-to-reveal phone number button** (e.g. `[ 📞 Reveal Phone Number ]` → unveils `+91-XXXXXXXXXX` with `tel:` link and copy action) for privacy and spam protection.
-
-2. **Career Metro Navigation Model (`Point 11`) — CONFIRMED**:
-   - **Desktop**: Implement an **automated, smooth auto-advancing carousel** with a **gentle, slow progression speed** and **pause on hover/interaction**, along with visible `← Prev` / `Next →` click controls and direct route station jump dots.
-   - **Mobile**: Strictly preserve the clean, vertical **stacked card layout with accordion deep-dives**.
-
-3. **Hero Skill Badges (`Point 4`) — CONFIRMED**:
-   - Enlarge the existing core skill badges (`Product Strategy`, `User Research`, `Applied AI`, `System Design`) to `11px–12px font-semibold` with elevated contrast and border presence on desktop & laptop screens.
-
-4. **Closing CTA & Résumé Access (`Point 17`) — CONFIRMED**:
-   - Use the approved message:
-     > *"Looking for deeper technical case studies or want to discuss a product role? I'd be glad to share my detailed résumé or connect over a brief call."*
-   - Add direct action button: `[ 📄 View Detailed Résumé ↗ ]` linking to Pankaj's shareable Google Drive résumé, plus `[ ✉ Email Me ]` and `[ 📞 Call Me ]`.
+## Verification performed (Round 2)
+- `npm run build` — compiles successfully after every change.
+- `npx tsc --noEmit` — 5 errors remain, all pre-existing and unrelated (down from 8; the 3 fixed were the `station.extras` dead block above).
+- Dev server restarted clean (fresh `.next` cache) after the data.ts/search-index.ts edits to rule out stale Turbopack HMR state; confirmed via server log + DOM inspection that the build is genuinely error-free, not just visually appearing to work.
+- In-browser DOM verification for every spacing/layout change (gap measurements via `getBoundingClientRect`), plus functional checks: footer arrow click scrolls to top, mute button renders and toggles, ⌘K command palette still opens and searches correctly with the experience entries removed.

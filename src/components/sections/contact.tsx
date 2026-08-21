@@ -1,12 +1,7 @@
 "use client";
-import { useRef, useState } from "react";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from "framer-motion";
-import { Copy, Check, Mail, ArrowRight, Lock } from "lucide-react";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Check, Mail, Lock, Phone, FileText } from "lucide-react";
 import { Reveal } from "@/components/sections/_shared";
 import { CONTACT } from "@/lib/data";
 import { hasLink } from "@/lib/links";
@@ -15,71 +10,34 @@ import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/* Magnetic pull tuning:
-   - PULL_RADIUS: how far away the cursor starts influencing the button (px)
-   - MAX_PULL:    maximum translation the button undergoes (px) */
-const PULL_RADIUS = 160;
-const MAX_PULL = 12;
-
 /* ============================================================
    CONTACT — split layout: BLACK upper + WARM PAPER footer.
    Upper:  stacked handwritten heading (white + blue overlap),
-           body, magnetic mailto CTA, annotation, social row
-           (EMAIL enabled · LINKEDIN/GITHUB rendered as disabled
-           "LINK_UNAVAILABLE" when their href is empty — never
-           fabricated), visible email + copy-to-clipboard button.
+           body, annotation, social row (EMAIL enabled ·
+           LINKEDIN/GITHUB rendered as disabled "LINK_UNAVAILABLE"
+           when their href is empty — never fabricated), and a
+           stacked action card: Email Me (copies to clipboard),
+           click-to-reveal phone, résumé link.
    Footer: handwritten signoff, right-aligned blue signature with
            blinking cursor, system status mono label, EOF terminal.
    ============================================================ */
 export default function Contact() {
   const { play } = useSound();
   const reduced = usePrefersReducedMotion();
-  const mailto = `mailto:${CONTACT.mail}`;
+  const telHref = `tel:${CONTACT.phone.replace(/\s+/g, "")}`;
   const [copied, setCopied] = useState(false);
+  const [phoneRevealed, setPhoneRevealed] = useState(false);
+
+  const revealPhone = () => {
+    setPhoneRevealed(true);
+    play("confirm");
+  };
 
   /* Split "Talk Product With Me" into two stacked lines so the
      blue overlap reads cleanly. */
   const titleWords = CONTACT.title.split(" ");
   const titleFirst = titleWords.slice(0, 2).join(" "); // "Talk Product"
   const titleSecond = titleWords.slice(2).join(" "); // "With Me"
-
-  /* ---- Magnetic CTA: pointer-driven pull on the button ---- */
-  const ctaRef = useRef<HTMLAnchorElement | null>(null);
-  const ctaX = useMotionValue(0);
-  const ctaY = useMotionValue(0);
-  // Spring-smoothed translation so the pull feels organic.
-  const springX = useSpring(ctaX, { stiffness: 220, damping: 18, mass: 0.5 });
-  const springY = useSpring(ctaY, { stiffness: 220, damping: 18, mass: 0.5 });
-  // Arrow nudges a touch further than the button for parallax depth.
-  const arrowX = useTransform(springX, [-MAX_PULL, MAX_PULL], [-MAX_PULL * 1.8, MAX_PULL * 1.8]);
-  const arrowY = useTransform(springY, [-MAX_PULL, MAX_PULL], [-MAX_PULL * 1.8, MAX_PULL * 1.8]);
-
-  const onCtaMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (reduced) return;
-    const el = ctaRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = e.clientX - cx;
-    const dy = e.clientY - cy;
-    const dist = Math.hypot(dx, dy);
-    if (dist > PULL_RADIUS) {
-      ctaX.set(0);
-      ctaY.set(0);
-      return;
-    }
-    const pull = 1 - dist / PULL_RADIUS;
-    const tx = (dx / (dist || 1)) * pull * MAX_PULL;
-    const ty = (dy / (dist || 1)) * pull * MAX_PULL;
-    ctaX.set(tx);
-    ctaY.set(ty);
-  };
-
-  const onCtaLeave = () => {
-    ctaX.set(0);
-    ctaY.set(0);
-  };
 
   const copyEmail = async () => {
     let ok = false;
@@ -157,95 +115,29 @@ export default function Contact() {
             )}
           </motion.div>
 
-          {/* ---- Split 2-Column Content (utilizes both left and right space) ---- */}
-          <div className="mt-6 sm:mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
-            {/* LEFT COLUMN: Body + Social Links & Annotation */}
-            <div className="lg:col-span-7 flex flex-col justify-between gap-6">
+          {/* ---- Split 2-Column Content (utilizes both left and right space) ----
+               Mobile stacking order: body -> action card -> social links.
+               Desktop: unchanged 2-column layout (body+links left, card right). */}
+          <div className="mt-6 sm:mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-x-12 lg:gap-y-8">
+            {/* Body copy */}
+            <div className="order-1 lg:order-none lg:col-start-1 lg:col-span-7 lg:row-start-1">
               <Reveal delay={0.15}>
                 <p className="font-display text-lg leading-relaxed text-[#F4F1EA]/80 sm:text-xl max-w-xl">
                   {CONTACT.body}
                 </p>
               </Reveal>
-
-              {/* LINKS & ANNOTATION ROW — LINKEDIN, GITHUB + "no forms, no funnels, no friction" */}
-              <Reveal delay={0.35}>
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs uppercase tracking-[0.2em] text-[#A3A3A3]">
-                  <nav aria-label="Social links" className="flex items-center gap-3">
-                    {CONTACT.links.map((link, i) => {
-                      const isMail = link.href.startsWith("mailto:");
-                      const available = hasLink(link.href);
-                      return (
-                        <span key={link.label} className="flex items-center gap-3">
-                          {i > 0 && (
-                            <span aria-hidden className="text-[#A3A3A3]">
-                              ·
-                            </span>
-                          )}
-                          {available ? (
-                            <a
-                              href={link.href}
-                              onMouseEnter={() => play("tick")}
-                              data-cursor-label={link.label.toLowerCase()}
-                              className="group/link flex items-center gap-2 border-b border-transparent font-mono text-xs uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors duration-200 hover:border-[#FFD400] hover:text-[#FFD400] sm:text-sm"
-                              {...(!isMail
-                                ? { target: "_blank", rel: "noopener noreferrer" }
-                                : {})}
-                            >
-                              <span
-                                aria-hidden
-                                className="h-1 w-1 rounded-full bg-[#A3A3A3] transition-colors duration-200 group-hover/link:bg-[#FFD400]"
-                              />
-                              <span className="inline-block transition-transform duration-200 group-hover/link:-translate-y-0.5">
-                                {link.label}
-                              </span>
-                            </a>
-                          ) : (
-                            <span
-                              aria-disabled="true"
-                              className="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#A3A3A3]/60 cursor-not-allowed"
-                            >
-                              <Lock className="h-3 w-3" aria-hidden />
-                              <span>{link.label.toLowerCase()}_unavailable</span>
-                            </span>
-                          )}
-                        </span>
-                      );
-                    })}
-                  </nav>
-
-                  <span aria-hidden className="text-[#A3A3A3]">
-                    ·
-                  </span>
-
-                  {/* Annotation with proper commas */}
-                  <p className="text-[#A3A3A3]">
-                    {CONTACT.annotation}
-                  </p>
-                </div>
-              </Reveal>
             </div>
 
-            {/* RIGHT COLUMN: Email Address Block & Copy Button */}
-            <div className="lg:col-span-5 flex flex-col justify-end">
+            {/* Action card: Email Me / Reveal Phone / Resume */}
+            <div className="order-2 lg:order-none lg:col-start-8 lg:col-span-5 lg:row-start-1 lg:row-span-2 flex flex-col justify-end">
               <Reveal delay={0.25}>
                 <div className="flex flex-col gap-3 rounded-sm border border-white/15 bg-[#0E0E0E] p-4 sm:p-5 shadow-xl transition-all duration-300 hover:border-[#FFD400]/40">
-                  <div className="flex items-center gap-2 text-[#FFD400]">
-                    <Mail className="h-4 w-4 shrink-0" aria-hidden />
-                    <a
-                      href={mailto}
-                      onMouseEnter={() => play("tick")}
-                      data-cursor-label="mail"
-                      className="truncate font-mono text-xs sm:text-sm text-[#F4F1EA] transition-colors hover:text-[#FFD400] underline-offset-2 hover:underline"
-                    >
-                      {CONTACT.mail}
-                    </a>
-                  </div>
                   <button
                     type="button"
                     onClick={copyEmail}
                     onMouseEnter={() => play("tick")}
-                    data-cursor-label={copied ? "copied" : "copy"}
-                    className="group mt-1 flex w-full items-center justify-center gap-2 border border-white/20 bg-[#141414] px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] text-[#F4F1EA] transition-colors hover:border-[#FFD400] hover:text-[#FFD400] focus-ring"
+                    data-cursor-label={copied ? "copied" : "email me"}
+                    className="group flex w-full items-center justify-center gap-2 border border-white/20 bg-[#141414] px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] text-[#F4F1EA] transition-colors hover:border-[#FFD400] hover:text-[#FFD400] focus-ring"
                     aria-label="Copy email address to clipboard"
                   >
                     {copied ? (
@@ -255,12 +147,95 @@ export default function Contact() {
                       </>
                     ) : (
                       <>
-                        <Copy className="h-3.5 w-3.5" aria-hidden />
-                        <span>COPY</span>
+                        <Mail className="h-3.5 w-3.5" aria-hidden />
+                        <span>Email Me</span>
                       </>
                     )}
                   </button>
+
+                  {phoneRevealed ? (
+                    <a
+                      href={telHref}
+                      onMouseEnter={() => play("tick")}
+                      data-cursor-label="call"
+                      className="group flex w-full items-center justify-center gap-2 border border-[#FFD400]/50 bg-[#141414] px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400] transition-colors hover:border-[#FFD400] focus-ring"
+                    >
+                      <Phone className="h-3.5 w-3.5" aria-hidden />
+                      <span>{CONTACT.phone}</span>
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={revealPhone}
+                      onMouseEnter={() => play("tick")}
+                      data-cursor-label="reveal phone"
+                      className="group flex w-full items-center justify-center gap-2 border border-white/20 bg-[#141414] px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] text-[#F4F1EA] transition-colors hover:border-[#FFD400] hover:text-[#FFD400] focus-ring"
+                    >
+                      <Phone className="h-3.5 w-3.5" aria-hidden />
+                      <span>Reveal Phone Number</span>
+                    </button>
+                  )}
+
+                  <a
+                    href={CONTACT.resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onMouseEnter={() => play("tick")}
+                    data-cursor-label="resume"
+                    className="group flex w-full items-center justify-center gap-2 border border-white/20 bg-[#141414] px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] text-[#F4F1EA] transition-colors hover:border-[#FFD400] hover:text-[#FFD400] focus-ring"
+                  >
+                    <FileText className="h-3.5 w-3.5" aria-hidden />
+                    <span>View Detailed Resume</span>
+                  </a>
                 </div>
+              </Reveal>
+            </div>
+
+            {/* Social links */}
+            <div className="order-3 lg:order-none lg:col-start-1 lg:col-span-7 lg:row-start-2 lg:self-end">
+              <Reveal delay={0.35}>
+                <nav aria-label="Social links" className="flex flex-wrap items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-[#A3A3A3]">
+                  {CONTACT.links.map((link, i) => {
+                    const isMail = link.href.startsWith("mailto:");
+                    const available = hasLink(link.href);
+                    return (
+                      <span key={link.label} className="flex items-center gap-3">
+                        {i > 0 && (
+                          <span aria-hidden className="text-[#A3A3A3]">
+                            ·
+                          </span>
+                        )}
+                        {available ? (
+                          <a
+                            href={link.href}
+                            onMouseEnter={() => play("tick")}
+                            data-cursor-label={link.label.toLowerCase()}
+                            className="group/link flex items-center gap-2 border-b border-transparent font-mono text-xs uppercase tracking-[0.25em] text-[#F4F1EA]/70 transition-colors duration-200 hover:border-[#FFD400] hover:text-[#FFD400] sm:text-sm"
+                            {...(!isMail
+                              ? { target: "_blank", rel: "noopener noreferrer" }
+                              : {})}
+                          >
+                            <span
+                              aria-hidden
+                              className="h-1 w-1 rounded-full bg-[#A3A3A3] transition-colors duration-200 group-hover/link:bg-[#FFD400]"
+                            />
+                            <span className="inline-block transition-transform duration-200 group-hover/link:-translate-y-0.5">
+                              {link.label}
+                            </span>
+                          </a>
+                        ) : (
+                          <span
+                            aria-disabled="true"
+                            className="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#A3A3A3]/60 cursor-not-allowed"
+                          >
+                            <Lock className="h-3 w-3" aria-hidden />
+                            <span>{link.label.toLowerCase()}_unavailable</span>
+                          </span>
+                        )}
+                      </span>
+                    );
+                  })}
+                </nav>
               </Reveal>
             </div>
           </div>
@@ -289,26 +264,44 @@ export default function Contact() {
               </p>
             </div>
 
-            {/* Right Column: Signature + Return to Top */}
-            <div className="flex flex-col items-start md:items-end gap-3">
-              <div className="flex items-center gap-2">
-                <p className="hand-display text-3xl text-[#1738D5] sm:text-5xl whitespace-nowrap">
-                  {CONTACT.signature}
-                </p>
-                <span
-                  aria-hidden
-                  className="blink inline-block h-4 w-[6px] bg-[#1738D5]"
-                />
-              </div>
-
+            {/* Right block: on mobile the arrow lives on the LEFT edge as its own
+                button, with "Pankaj Gupta" / "Return to Top" text on the right.
+                On desktop it collapses back into one inline button. */}
+            <div className="flex w-full flex-row items-center justify-between gap-3 md:w-auto md:flex-col md:items-end">
+              {/* Standalone arrow — mobile only, left side of this row */}
               <button
                 type="button"
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="group flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.2em] text-[#2a2a2a]/70 hover:text-[#1738D5] transition-colors cursor-pointer"
+                aria-label="Return to top"
+                className="group flex items-center justify-center text-[#2a2a2a]/70 hover:text-[#1738D5] transition-colors cursor-pointer md:hidden"
               >
-                <span>Return to Top</span>
-                <span className="transition-transform group-hover:-translate-y-0.5">↑</span>
+                <span className="text-xl transition-transform group-hover:-translate-y-0.5">↑</span>
               </button>
+
+              <div className="flex flex-col items-end gap-3">
+                <p className="hand-display text-3xl text-[#1738D5] sm:text-5xl whitespace-nowrap">
+                  {CONTACT.signature}
+                </p>
+
+                {/* Desktop: single inline button, arrow + label together */}
+                <button
+                  type="button"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  className="group hidden items-center gap-1.5 font-mono text-xs uppercase tracking-[0.2em] text-[#2a2a2a]/70 hover:text-[#1738D5] transition-colors cursor-pointer md:flex"
+                >
+                  <span className="transition-transform group-hover:-translate-y-0.5">↑</span>
+                  <span>Return to Top</span>
+                </button>
+
+                {/* Mobile: text-only label (arrow already stands alone on the left) */}
+                <button
+                  type="button"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  className="font-mono text-xs uppercase tracking-[0.2em] text-[#2a2a2a]/70 hover:text-[#1738D5] transition-colors cursor-pointer md:hidden"
+                >
+                  Return to Top
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -1,11 +1,11 @@
 "use client";
-import { NAV_ITEMS, METRO_STATIONS, EXPERIENCES, RESEARCH, LAB } from "@/lib/data";
+import { NAV_ITEMS, METRO_STATIONS, RESEARCH, LAB } from "@/lib/data";
 
 export type SearchEntry = {
   id: string;
   label: string;
   sub: string;
-  type: "section" | "station" | "experience" | "paper" | "project";
+  type: "section" | "station" | "paper" | "project";
   target: string; // element id to scroll to
   keywords: string;
 };
@@ -38,18 +38,6 @@ export function buildSearchIndex(): SearchEntry[] {
       type: "station",
       target: "best-work",
       keywords: `${station.name} ${station.theme} ${station.role} ${station.tag}`.toLowerCase(),
-    });
-  });
-
-  // Work experiences
-  EXPERIENCES.forEach((exp) => {
-    entries.push({
-      id: `exp-${exp.id}`,
-      label: exp.company,
-      sub: `Experience · ${exp.role}`,
-      type: "experience",
-      target: "work-log",
-      keywords: `${exp.company} ${exp.role} ${exp.systemType.join(" ")}`.toLowerCase(),
     });
   });
 

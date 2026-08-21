@@ -1,6 +1,5 @@
 "use client";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ExternalLink, Wrench } from "lucide-react";
 import { Reveal } from "@/components/sections/_shared";
 import { LAB } from "@/lib/data";
@@ -13,12 +12,8 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 
 /* ============================================================
    PRODUCT LAB
-   Black environment. Three sub-systems:
-     (1) Word cloud — 44-word deterministic collage.
-     (2) Skill tags — 10 scattered tags, hover → scale + accent
-         glow + whoosh SFX + faded preview shape behind.
-     (3) Side projects — 4 cards with name, desc, category chips,
-         status badge, and conditional OPEN PROJECT / INSPECT BUILD.
+   Black environment. Side projects — 4 cards with name, desc,
+   status badge, and conditional OPEN PROJECT / INSPECT BUILD.
    ============================================================ */
 
 /* Map a side-project id → its URL from links.ts (no fabrication). */
@@ -28,128 +23,6 @@ const PROJECT_URLS: Record<string, string> = {
   "skill-tracer": links.projects.skillTracer,
   "hitchhikers-guide": links.projects.modernDataSolutions,
 };
-
-/* ---- Word cloud deterministic specs ------------------------------
-   44 hand-tuned positions. Each word gets a fixed:
-     - position (top/left %)
-     - font-size class
-     - rotation in degrees
-     - colour variant: "cream" | "blue" | "yellow" | "muted"
-   The arrangement is deliberately crowded so it reads as a
-   collage, not a gallery. */
-type WordSpec = {
-  top: string;
-  left?: string;
-  right?: string;
-  size: string;
-  rotate: number;
-  color: "cream" | "blue" | "yellow" | "muted";
-  weight?: "bold" | "normal";
-  tier?: "focal" | "medium" | "small";
-};
-
-const WORD_SPECS: WordSpec[] = [
-  // 3-tier hierarchy: focal (text-5xl/6xl, bold, blue/yellow), medium (text-3xl/4xl), small (text-xl/2xl).
-  // Right-side words use `right` anchoring so long words grow leftward, never overflowing.
-  // Focal row (top) — Product, AI, Systems, Research
-  { top: "3%",  left: "3%",  size: "text-4xl sm:text-6xl",    rotate: -3, color: "blue",   weight: "bold", tier: "focal" },   // 00 Product
-  { top: "7%",  left: "26%", size: "text-xl sm:text-3xl",     rotate: 4,  color: "cream",  tier: "medium" },                  // 01 AI
-  { top: "5%",  left: "40%", size: "text-base sm:text-xl",    rotate: -2, color: "muted",  tier: "small" },                   // 02 Systems
-  { top: "9%",  left: "54%", size: "text-3xl sm:text-5xl",    rotate: 2,  color: "yellow", weight: "bold", tier: "focal" },   // 03 Research
-  { top: "13%", right: "3%", size: "text-sm sm:text-lg",      rotate: -4, color: "cream",  tier: "small" },                   // 04 Customer Journeys
-  // Row 2 — Roadmaps, Experimentation, Adoption, Automation, Analytics
-  { top: "21%", left: "5%",  size: "text-2xl sm:text-4xl",    rotate: -4, color: "blue",   weight: "bold", tier: "focal" },   // 05 Roadmaps
-  { top: "23%", left: "24%", size: "text-lg sm:text-2xl",     rotate: 3,  color: "cream",  tier: "medium" },                  // 06 Experimentation
-  { top: "19%", left: "46%", size: "text-sm sm:text-lg",      rotate: -2, color: "muted",  tier: "small" },                   // 07 Adoption
-  { top: "21%", left: "60%", size: "text-lg sm:text-2xl",     rotate: 5,  color: "cream",  tier: "medium" },                  // 08 Automation
-  { top: "17%", right: "3%", size: "text-sm sm:text-lg",      rotate: -3, color: "muted",  tier: "small" },                   // 09 Analytics
-  // Row 3 — B2B SaaS, GovTech, Computer Vision, NLP, Multimodal AI
-  { top: "33%", left: "3%",  size: "text-xl sm:text-3xl",     rotate: 3,  color: "yellow", weight: "bold", tier: "focal" },   // 10 B2B SaaS
-  { top: "37%", left: "20%", size: "text-sm sm:text-lg",      rotate: -3, color: "cream",  tier: "small" },                   // 11 GovTech
-  { top: "35%", left: "34%", size: "text-lg sm:text-2xl",     rotate: 2,  color: "blue",   weight: "bold", tier: "medium" },  // 12 Computer Vision
-  { top: "39%", left: "58%", size: "text-xl sm:text-3xl",     rotate: -2, color: "cream",  tier: "medium" },                  // 13 NLP
-  { top: "37%", right: "3%", size: "text-sm sm:text-lg",      rotate: 3,  color: "muted",  tier: "small" },                   // 14 Multimodal AI
-  // Row 4 — Data Pipelines, Prototyping, APIs, Jira, Figma, Miro
-  { top: "49%", left: "5%",  size: "text-base sm:text-xl",    rotate: 4,  color: "cream",  tier: "small" },                   // 15 Data Pipelines
-  { top: "51%", left: "22%", size: "text-sm sm:text-lg",      rotate: -2, color: "cream",  tier: "small" },                   // 16 Prototyping
-  { top: "47%", left: "38%", size: "text-2xl sm:text-4xl",    rotate: 2,  color: "blue",   weight: "bold", tier: "focal" },   // 17 APIs
-  { top: "53%", left: "58%", size: "text-sm sm:text-lg",      rotate: -3, color: "muted",  tier: "small" },                   // 18 Jira
-  { top: "49%", right: "8%", size: "text-base sm:text-xl",    rotate: 3,  color: "cream",  tier: "small" },                   // 19 Figma
-  { top: "55%", left: "14%", size: "text-sm sm:text-lg",      rotate: -2, color: "cream",  tier: "small" },                   // 20 Miro
-  // Row 5 — Amplitude, Sigma BI, Python, SQL, Git, Tableau
-  { top: "63%", left: "6%",  size: "text-lg sm:text-2xl",     rotate: 2,  color: "cream",  tier: "medium" },                  // 21 Amplitude
-  { top: "65%", left: "22%", size: "text-sm sm:text-lg",      rotate: -3, color: "muted",  tier: "small" },                   // 22 Sigma BI
-  { top: "61%", left: "38%", size: "text-4xl sm:text-6xl",    rotate: 1,  color: "yellow", weight: "bold", tier: "focal" },   // 23 Python ← focal
-  { top: "67%", left: "62%", size: "text-base sm:text-xl",    rotate: -2, color: "cream",  tier: "small" },                   // 24 SQL
-  { top: "63%", right: "5%", size: "text-sm sm:text-lg",      rotate: 4,  color: "muted",  tier: "small" },                   // 25 Git
-  { top: "71%", left: "10%", size: "text-sm sm:text-lg",      rotate: -2, color: "cream",  tier: "small" },                   // 26 Tableau
-  // Row 6 — n8n, OKRs, KPIs, Sprint Planning, UAT, Cross-Functional
-  { top: "75%", left: "24%", size: "text-base sm:text-xl",    rotate: 3,  color: "cream",  tier: "small" },                   // 27 n8n
-  { top: "77%", left: "40%", size: "text-xl sm:text-3xl",     rotate: -2, color: "blue",   weight: "bold", tier: "medium" },  // 28 OKRs
-  { top: "73%", left: "58%", size: "text-sm sm:text-lg",      rotate: 3,  color: "cream",  tier: "small" },                   // 29 KPIs
-  { top: "79%", right: "5%", size: "text-base sm:text-xl",    rotate: -3, color: "cream",  tier: "small" },                   // 30 Sprint Planning
-  { top: "83%", left: "8%",  size: "text-sm sm:text-lg",      rotate: 2,  color: "muted",  tier: "small" },                   // 31 UAT
-  { top: "85%", left: "24%", size: "text-sm sm:text-lg",      rotate: -2, color: "cream",  tier: "small" },                   // 32 Cross-Functional
-  // Row 7 — Education/brand tail + signature
-  { top: "87%", left: "42%", size: "text-base sm:text-xl",    rotate: 3,  color: "cream",  tier: "small" },                   // 33 Engineering Physics
-  { top: "91%", left: "58%", size: "text-4xl sm:text-6xl",    rotate: -2, color: "yellow", weight: "bold", tier: "focal" },   // 34 DTU ← focal
-  { top: "89%", right: "5%", size: "text-base sm:text-xl",    rotate: 2,  color: "cream",  tier: "small" },                   // 35 NextLeap
-  { top: "93%", left: "8%",  size: "text-sm sm:text-lg",      rotate: -3, color: "muted",  tier: "small" },                   // 36 NYU
-  // Extras — scattered brand words + signature
-  { top: "27%", left: "14%", size: "text-sm sm:text-lg",      rotate: 4,  color: "muted",  tier: "small" },                   // 37 Cambridge
-  { top: "45%", left: "10%", size: "text-sm sm:text-lg",      rotate: -2, color: "muted",  tier: "small" },                   // 38 Bosch
-  { top: "59%", left: "32%", size: "text-sm sm:text-lg",      rotate: -2, color: "cream",  tier: "small" },                   // 39 CEGIS
-  { top: "71%", left: "44%", size: "text-2xl sm:text-4xl",    rotate: 3,  color: "blue",   weight: "bold", tier: "focal" },   // 40 SenseHQ ← focal
-  { top: "29%", left: "46%", size: "text-2xl sm:text-4xl",    rotate: -1, color: "blue",   weight: "bold", tier: "focal" },   // 41 Still Building ← focal
-  { top: "59%", right: "12%", size: "text-sm sm:text-lg",     rotate: 2,  color: "cream",  tier: "small" },                   // 42 Too Many Tabs
-  { top: "93%", left: "24%", size: "text-xl sm:text-3xl",     rotate: -3, color: "yellow", weight: "bold", tier: "medium" },  // 43 Mr. Onalunchbreak
-];
-
-const COLOR_CLASSES: Record<WordSpec["color"], string> = {
-  cream: "text-[#F4F1EA]",
-  blue: "text-[#1738D5]",
-  yellow: "text-[#FFD400]",
-  muted: "text-[#A3A3A3]",
-};
-
-/* ---- Skill-tag preview specs ------------------------------------
-   On hover (or mobile tap), the active tag fades a faded abstract
-   shape behind the scatter. */
-type PreviewSpec = {
-  shape: "blob" | "ring" | "bar";
-  color: "blue" | "yellow";
-  pos: string;
-  size: string;
-};
-
-const PREVIEWS: Record<string, PreviewSpec> = {
-  "Product Strategy":         { shape: "blob", color: "blue",   pos: "left-[8%] top-[12%]",   size: "h-64 w-64" },
-  "AI Products":              { shape: "ring", color: "yellow", pos: "right-[6%] top-[8%]",   size: "h-72 w-72" },
-  "Customer Journey Mapping": { shape: "bar",  color: "blue",   pos: "left-[26%] top-[42%]",  size: "h-[6px] w-72" },
-  "Workflow Automation":      { shape: "blob", color: "yellow", pos: "right-[14%] top-[40%]", size: "h-56 w-56" },
-  "Product Analytics":        { shape: "blob", color: "blue",   pos: "left-[14%] bottom-[10%]", size: "h-72 w-72" },
-  "Rapid Prototyping":        { shape: "ring", color: "yellow", pos: "left-[44%] bottom-[14%]", size: "h-60 w-60" },
-  "Applied AI":               { shape: "bar",  color: "yellow", pos: "right-[20%] bottom-[28%]", size: "h-[6px] w-64" },
-  "Research":                 { shape: "blob", color: "blue",   pos: "right-[6%] bottom-[6%]", size: "h-64 w-64" },
-  "Data Systems":             { shape: "ring", color: "blue",   pos: "left-[10%] top-[36%]",  size: "h-56 w-56" },
-  "Experimentation":          { shape: "blob", color: "yellow", pos: "right-[34%] top-[16%]", size: "h-56 w-56" },
-};
-
-/* ---- Scattered grid positions for the 10 skill tags on sm+ ----- */
-type ScatterPos = { col: string; row: string; ty: string };
-
-const POSITIONS: ScatterPos[] = [
-  { col: "sm:col-start-2",  row: "sm:row-start-1", ty: "sm:translate-y-2"   }, // Product Strategy
-  { col: "sm:col-start-8",  row: "sm:row-start-1", ty: "sm:translate-y-10"  }, // AI Products
-  { col: "sm:col-start-4",  row: "sm:row-start-2", ty: "sm:-translate-y-1"  }, // Customer Journey Mapping
-  { col: "sm:col-start-10", row: "sm:row-start-2", ty: "sm:-translate-y-5"  }, // Workflow Automation
-  { col: "sm:col-start-2",  row: "sm:row-start-4", ty: "sm:translate-y-6"   }, // Product Analytics
-  { col: "sm:col-start-7",  row: "sm:row-start-4", ty: "sm:-translate-y-3"  }, // Rapid Prototyping
-  { col: "sm:col-start-10", row: "sm:row-start-5", ty: "sm:translate-y-2"   }, // Applied AI
-  { col: "sm:col-start-4",  row: "sm:row-start-6", ty: "sm:translate-y-1"   }, // Research
-  { col: "sm:col-start-8",  row: "sm:row-start-6", ty: "sm:-translate-y-2"  }, // Data Systems
-  { col: "sm:col-start-2",  row: "sm:row-start-7", ty: "sm:translate-y-4"   }, // Experimentation
-];
 
 /* ---- Status badge colours for side projects -------------------- */
 const STATUS_STYLES: Record<string, string> = {
@@ -235,26 +108,6 @@ export default function ProductLab() {
   const { play } = useSound();
   const reduced = usePrefersReducedMotion();
   const visitSideProject = useSessionStats((s) => s.visitSideProject);
-  const [hovered, setHovered] = useState<string | null>(null);
-  const [tapped, setTapped] = useState<string | null>(null);
-  const activeLabel = hovered ?? tapped;
-  const activePreview = activeLabel ? PREVIEWS[activeLabel] : null;
-
-  const onTagActivate = (label: string) => {
-    if (hovered === label) return;
-    setHovered(label);
-    play("whoosh");
-  };
-
-  const onTagTap = (label: string) => {
-    if (tapped === label) {
-      setTapped(null);
-      play("tick");
-      return;
-    }
-    setTapped(label);
-    play("whoosh");
-  };
 
   return (
     <section
@@ -338,18 +191,6 @@ export default function ProductLab() {
                   <p className={`mt-3 text-[13px] leading-relaxed ${theme.inkMuted}`}>
                     {project.desc}
                   </p>
-
-                  {/* Category chips */}
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    {project.categories.map((cat) => (
-                      <span
-                        key={cat}
-                        className={`border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] ${theme.chip}`}
-                      >
-                        {cat}
-                      </span>
-                    ))}
-                  </div>
 
                   {/* Spacer */}
                   <div className="flex-1" />

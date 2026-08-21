@@ -80,33 +80,21 @@ function PaperSheet({
         </span>
       </div>
 
-      {/* Metadata — supervisor & institution */}
+      {/* Metadata — supervisor & institution, bolded for skim-legibility */}
       {(paper.supervisor || paper.institution) && (
         <div className="mt-5 border-l-2 border-[#1738D5]/30 pl-3 transition-colors duration-300 group-hover:border-[#1738D5]">
           {paper.supervisor && (
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/85 transition-colors duration-300 group-hover:text-[#1a1a1a] sm:text-xs">
+            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#1a1a1a]/85 transition-colors duration-300 group-hover:text-[#1a1a1a] sm:text-xs">
               Supervisor: {paper.supervisor}
             </p>
           )}
           {paper.institution && (
-            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-[#1a1a1a]/65 transition-colors duration-300 group-hover:text-[#1a1a1a]/80 sm:text-[11px]">
+            <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[#1a1a1a]/65 transition-colors duration-300 group-hover:text-[#1a1a1a]/80 sm:text-[11px]">
               {paper.institution}
             </p>
           )}
         </div>
       )}
-
-      {/* Domain / Tags */}
-      <div className="mt-5 flex flex-wrap gap-1.5">
-        {(paper.tags || []).map((d: string) => (
-          <span
-            key={d}
-            className="border border-[#1a1a1a]/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1a1a1a]/65"
-          >
-            {d}
-          </span>
-        ))}
-      </div>
 
       {/* Spacer so the action sits at the bottom */}
       <div className="flex-1" />
@@ -150,13 +138,11 @@ function PaperSheet({
 }
 
 export default function ResearchArchive() {
-  const reduced = usePrefersReducedMotion();
-
   return (
     <section
       id="research"
       className="env-paper paper-texture relative w-full overflow-hidden"
-      aria-labelledby="research-heading"
+      aria-label="Published work"
       data-cursor-label="research archive"
     >
       <div className="mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
@@ -174,21 +160,8 @@ export default function ResearchArchive() {
           <ShareButton sectionId="research" />
         </motion.div>
 
-        {/* Headline — handwritten/display, large, dark ink */}
-        <motion.h2
-          id="research-heading"
-          className="hand-display max-w-5xl text-[10vw] leading-[0.85] tracking-tight text-[#1a1a1a] sm:text-[7vw] lg:text-7xl"
-          initial={reduced ? false : { opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.8, ease: EASE }}
-        >
-          {RESEARCH.headline}
-        </motion.h2>
-
-
         {/* Papers grid — 4 sheets with rotation correction + staggered offset */}
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:mt-16 sm:grid-cols-2 sm:gap-7 lg:grid-cols-4 lg:gap-5">
+        <div className="mt-6 grid grid-cols-1 gap-6 sm:mt-8 sm:grid-cols-2 sm:gap-7 lg:grid-cols-4 lg:gap-5">
           {RESEARCH.papers.map((paper, i) => (
             <PaperSheet key={paper.id} paper={paper} index={i} />
           ))}

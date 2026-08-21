@@ -104,7 +104,7 @@ const MOBILE_CANVAS_BASELINE: StudioNode[] = [
     y: 72,
     scale: 1,
     rotation: -2,
-    fontSize: 9,
+    fontSize: 11,
     fontFamily: "mono",
     color: "#F7F4ED",
     highlight: false,
@@ -117,7 +117,7 @@ const MOBILE_CANVAS_BASELINE: StudioNode[] = [
     y: 92,
     scale: 1,
     rotation: 0,
-    fontSize: 9,
+    fontSize: 11,
     fontFamily: "mono",
     color: "#F7F4ED",
     highlight: false,
@@ -130,7 +130,7 @@ const MOBILE_CANVAS_BASELINE: StudioNode[] = [
     y: 215,
     scale: 1,
     rotation: 0,
-    fontSize: 9,
+    fontSize: 11,
     fontFamily: "mono",
     color: "#F7F4ED",
     highlight: false,
@@ -143,7 +143,7 @@ const MOBILE_CANVAS_BASELINE: StudioNode[] = [
     y: 270,
     scale: 1,
     rotation: 0,
-    fontSize: 9,
+    fontSize: 11,
     fontFamily: "mono",
     color: "#F7F4ED",
     highlight: false,
@@ -156,7 +156,7 @@ const MOBILE_CANVAS_BASELINE: StudioNode[] = [
     y: 445,
     scale: 1,
     rotation: 0,
-    fontSize: 9,
+    fontSize: 11,
     fontFamily: "mono",
     color: "#F7F4ED",
     highlight: false,
@@ -169,7 +169,7 @@ const MOBILE_CANVAS_BASELINE: StudioNode[] = [
     y: 495,
     scale: 1,
     rotation: 0,
-    fontSize: 9,
+    fontSize: 11,
     fontFamily: "mono",
     color: "#F7F4ED",
     highlight: false,
@@ -1008,7 +1008,7 @@ export default function Hero() {
           <StudioArrow node={node} />
         ) : node.type === "tag" ? (
           <div
-            className="flex items-center gap-1 rounded-xs border border-white/40 bg-black/40 backdrop-blur-xs px-2.5 py-1 font-mono uppercase tracking-wider text-white shadow-xs hover:border-[#FFD400] select-none"
+            className="flex items-center gap-1 rounded-xs border border-white/40 bg-black/40 backdrop-blur-xs px-2.5 py-1 font-mono font-bold uppercase tracking-wider text-white shadow-xs hover:border-[#FFD400] select-none"
             style={{ fontSize: `${node.fontSize}px`, color: node.color }}
           >
             <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
@@ -1113,7 +1113,7 @@ export default function Hero() {
                     <button
                       key={part}
                       onClick={() => scrollTo(targetId)}
-                      className="block w-full text-right text-white hover:text-[#FFD400] transition-colors focus:outline-none focus-ring select-none cursor-pointer"
+                      className="block w-full text-right font-bold text-white hover:text-[#FFD400] transition-colors focus:outline-none focus-ring select-none cursor-pointer"
                     >
                       ↓ {part}
                     </button>
@@ -1240,7 +1240,7 @@ export default function Hero() {
                 selectedId === "mob-tag-strategy" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] rounded-xs" : ""
               }`}
             >
-              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono text-[8.5px] sm:text-[10px] uppercase text-white shadow-xl -rotate-2">
+              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono font-bold text-[10px] sm:text-[11px] uppercase text-white shadow-xl -rotate-2">
                 <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
                 <span className="border-b border-[#FFD400] whitespace-nowrap">PRODUCT STRATEGY</span>
               </span>
@@ -1261,7 +1261,7 @@ export default function Hero() {
                 selectedId === "mob-tag-storytelling" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] rounded-xs" : ""
               }`}
             >
-              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono text-[8.5px] sm:text-[10px] uppercase text-white shadow-xl">
+              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono font-bold text-[10px] sm:text-[11px] uppercase text-white shadow-xl">
                 <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
                 <span className="border-b border-[#FFD400] whitespace-nowrap">STORYTELLING</span>
               </span>
@@ -1282,7 +1282,7 @@ export default function Hero() {
                 selectedId === "mob-tag-research" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] rounded-xs" : ""
               }`}
             >
-              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono text-[8.5px] sm:text-[10px] uppercase text-white shadow-xl">
+              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono font-bold text-[10px] sm:text-[11px] uppercase text-white shadow-xl">
                 <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
                 <span className="border-b border-[#FFD400] whitespace-nowrap">USER RESEARCH</span>
               </span>
@@ -1303,7 +1303,7 @@ export default function Hero() {
                 selectedId === "mob-tag-ai" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] rounded-xs" : ""
               }`}
             >
-              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono text-[8.5px] sm:text-[10px] uppercase text-white shadow-xl">
+              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono font-bold text-[10px] sm:text-[11px] uppercase text-white shadow-xl">
                 <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
                 <span className="border-b border-[#FFD400] whitespace-nowrap">APPLIED AI</span>
               </span>
@@ -1342,7 +1342,7 @@ export default function Hero() {
                 selectedId === "mob-tag-automation" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] rounded-xs" : ""
               }`}
             >
-              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono text-[8.5px] sm:text-[10px] uppercase text-white shadow-xl">
+              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono font-bold text-[10px] sm:text-[11px] uppercase text-white shadow-xl">
                 <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
                 <span className="border-b border-[#FFD400] whitespace-nowrap">WORKFLOW AUTOMATION</span>
               </span>
@@ -1363,7 +1363,7 @@ export default function Hero() {
                 selectedId === "mob-tag-system" && layoutMode && isDev ? "outline outline-2 outline-[#FFD400] rounded-xs" : ""
               }`}
             >
-              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono text-[8.5px] sm:text-[10px] uppercase text-white shadow-xl">
+              <span className="flex items-center gap-1.5 rounded-xs border border-white/40 bg-black/80 backdrop-blur-md px-2.5 py-1 font-mono font-bold text-[10px] sm:text-[11px] uppercase text-white shadow-xl">
                 <Sparkles className="h-3 w-3 text-[#FFD400] shrink-0" />
                 <span className="border-b border-[#FFD400] whitespace-nowrap">SYSTEM DESIGN</span>
               </span>

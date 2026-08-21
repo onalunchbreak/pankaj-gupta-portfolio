@@ -4,6 +4,7 @@ import Nav from "@/components/shell/nav";
 import Cursor from "@/components/shell/cursor";
 import Grain from "@/components/shell/grain";
 import SoundManager from "@/components/shell/sound-manager";
+import MuteToggle from "@/components/shell/mute-toggle";
 import KeyboardRouter from "@/components/shell/keyboard-router";
 import SectionReachTracker from "@/components/shell/section-reach-tracker";
 import ScrollToTop from "@/components/shell/scroll-to-top";
@@ -27,6 +28,7 @@ export default function Home() {
       <Grain />
       <Cursor />
       <SoundManager />
+      <MuteToggle />
       <Nav />
       <KeyboardRouter />
       <SectionReachTracker />

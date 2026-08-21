@@ -49,7 +49,7 @@ export default function NavIndex() {
       {/* subtle scanline texture for editorial density */}
       <div className="bg-scanlines pointer-events-none absolute inset-0 opacity-40" aria-hidden />
 
-      <div className="relative mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 pt-16 pb-8 sm:px-8 sm:pt-20 sm:pb-10 lg:px-12">
         {/* We use a flex-col layout on mobile, and CSS Grid on desktop. */}
         <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_auto] lg:items-start lg:gap-x-16 lg:gap-y-8">
           
@@ -69,7 +69,7 @@ export default function NavIndex() {
 
           {/* ---- Quick note card (Vertically Centered in right column) ---- */}
           <motion.aside
-            className="order-2 relative mx-auto w-full max-w-[280px] sm:max-w-[300px] lg:order-none lg:col-start-2 lg:row-start-3 lg:self-center lg:my-auto lg:sticky lg:top-36"
+            className="order-2 relative mx-auto w-full max-w-[280px] sm:max-w-[300px] lg:order-none lg:col-start-2 lg:row-start-2 lg:self-center lg:my-auto lg:sticky lg:top-36"
             initial={{ opacity: 0, y: 20, rotate: 0 }}
             whileInView={{ opacity: 1, y: 0, rotate: -3 }}
             viewport={{ once: true, margin: "-12% 0px" }}
@@ -95,20 +95,9 @@ export default function NavIndex() {
             </div>
           </motion.aside>
 
-          {/* ---- Top Table of Contents Hint / Instruction ---- */}
-          <motion.div
-            className="order-3 lg:order-none lg:col-span-full lg:row-start-2 text-center font-mono text-[11px] uppercase tracking-[0.25em] text-white/80 sm:text-[12px]"
-            initial={{ opacity: 0, y: -10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: EASE }}
-          >
-            {NAV_INDEX.bottomMicrocopy}
-          </motion.div>
-
           {/* ---- The link list ---- */}
           <nav
-            className="order-4 lg:order-none lg:col-start-1 lg:row-start-3 group/list relative"
+            className="order-4 lg:order-none lg:col-start-1 lg:row-start-2 group/list relative"
             aria-label={NAV_INDEX.title}
             onMouseLeave={() => setHovered(null)}
           >

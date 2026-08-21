@@ -2,7 +2,7 @@
 
 > **CLOUD ENVIRONMENT & AI AGENT GUIDE (Codex, Claude, etc.):**
 > 1. **System & Architecture:** For deep architectural context, component schemas, state isolation rules, and design tokens, review [PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md).
-> 2. **Recruiter Audit & Actionable Issues:** For the complete 21-point HR/Recruiter feedback breakdown, component locations, and before/after remediation plans, review [issues.context](./issues.context).
+> 2. **Change History:** For a section-by-section record of the most recent recruiter-readiness overhaul (what changed, why, and what was verified), review [issues.context](./issues.context).
 
 > **Live Production:** [guptapankaj.vercel.app](https://guptapankaj.vercel.app)
 
@@ -10,7 +10,7 @@
 
 ## Overview
 
-A high-performance personal portfolio, interactive product showcase, and career retrospective built for **Pankaj Gupta** (*Mr. Onalunchbreak*). Designed with a brutalist-editorial aesthetic featuring four alternating visual environments, custom Web Audio synthesis, interactive GSAP pinned timelines, a live Hero Studio canvas editor, and responsive storytelling systems.
+A high-performance personal portfolio, interactive product showcase, and career retrospective built for **Pankaj Gupta** (*Mr. Onalunchbreak*). Designed with a brutalist-editorial aesthetic featuring four alternating visual environments, custom Web Audio synthesis, an auto-advancing GSAP-driven career carousel, a live Hero Studio canvas editor, and responsive storytelling systems.
 
 ---
 
@@ -21,11 +21,13 @@ A high-performance personal portfolio, interactive product showcase, and career 
 - **In-Place Source Modification & Auto-Commit**: Hit save to serialize canvas layout nodes directly to `hero.tsx` via regex and trigger an automated git commit via `/api/save-hero-layout`.
 - **Dual Silhouette Geometry**: Independent baselines for Desktop (`PORTRAIT_BASELINE` 100%) and Mobile (`MOBILE_PORTRAIT_BASELINE` 130%).
 
-### 2. Best Work Delhi Metro (`best-work-metro.tsx`)
-- **Pinned Horizontal Rail**: Desktop experience transforms vertical scrolling into a horizontal rail journey across 6 stations along the Delhi Metro Yellow Line.
+### 2. Career Metro (`best-work-metro.tsx`)
+- **Auto-Advancing Carousel**: Desktop experience is a self-playing horizontal rail across 6 stations along the Delhi Metro Yellow Line — advances automatically every ~6s, pauses instantly on hover or any manual interaction (buttons, dots, arrow keys), resumes a few seconds after you stop.
+- **Full Manual Control**: Prev/Next buttons, clickable station-route dots, and keyboard arrow/Home/End navigation all drive the same shared state as autoplay.
 - **Station Platforms**: Teach For India, Pratham Education, Bosch, Cambridge JBS, CEGIS, and SenseHQ.
-- **Deep-Dive Modal Overlays**: "Step Out ↗" opens comprehensive problem/system/impact case studies with animated `CountUp` numbers and focus trapping.
-- **Photo Marquee Gallery**: High-res verified photo reel from past speaking engagements, hackathons, and team retreats.
+- **Deep-Dive Modal Overlays**: "Step Out ↗" opens comprehensive problem/system/impact case studies with animated `CountUp` numbers and focus trapping; autoplay pauses while a modal is open.
+- **Photo Marquee Gallery**: High-res verified photo reel from past speaking engagements, hackathons, and team retreats, scrolling left-to-right beneath the rail.
+- Mobile / reduced-motion: a clean stacked-card grid, no autoplay.
 
 ### 3. Pikachu Preloader (`preloader.tsx`)
 - **Running Sprite Animation**: 4-frame sprite animation sequence (90ms cycle, uniform 90px height).
@@ -33,7 +35,7 @@ A high-performance personal portfolio, interactive product showcase, and career 
 
 ### 4. Zero-Asset Web Audio Engine (`sfx.ts`, `use-sound.ts`)
 - **Pure Math Audio Waveform Synthesis**: Pure PCM audio generation (`encodeWav`) producing Base64 Data URIs on the fly (`tick`, `confirm`, `whoosh`, `blip`, `door`). No external MP3/WAV files required.
-- **Autoplay Handling & Mute Persistence**: Gesture-based audio arming with persistent Zustand state (`useMuteStore`).
+- **Autoplay Handling & Mute Persistence**: Gesture-based audio arming with persistent Zustand state (`useMuteStore`), controlled via a fixed bottom-left mute button (`mute-toggle.tsx`).
 
 ### 5. Command Palette (`command-palette.tsx`)
 - **Fuzzy Subsequence Search (`⌘K`)**: Instant modal navigation indexing sections, metro stations, research publications, and side projects with keyboard routing (`ArrowUp`, `ArrowDown`, `Enter`, `Esc`).
@@ -42,16 +44,15 @@ A high-performance personal portfolio, interactive product showcase, and career 
 - **Archival Document Sheets**: 4 peer-reviewed machine learning papers (EACL 2024, ECIR 2023, AAAI 2023, IEEE 2023) styled as printed document sheets with interactive hover straightening and verified DOI links.
 
 ### 7. Product Lab (`product-lab.tsx`)
-- **44-Word Collage**: Spatial word cloud with 3-tier hierarchy and zero text clipping.
-- **Hoverable Skill Tags**: 10 floating badges that trigger pulsing abstract geometric backdrops.
-- **Featured Projects**: Queen's Gambit (AI Chess), Daily Dose of AI, Skill Tracer, and Hitchhiker's Guide to Presenting Modern Data Solutions.
+- **Featured Projects**: Queen's Gambit (AI Chess), Daily Dose of AI, Skill Tracer, and Hitchhiker's Guide to Presenting Modern Data Solutions — 4 cards with name, description, status badge, and a live project link.
 
 ### 8. Achievements Deck (`achievements.tsx`)
 - **Snap-Scrolling Carousel**: Snap-mandatory slide deck with chevron controls, active indicators, and education summary (DTU, IIIT Delhi, NYU).
 
-### 9. Contact & Magnetic CTA (`contact.tsx`)
-- **Dual-Tone Split**: Deep black upper stage with massive Caveat display headline + warm paper footer with blinking terminal signature.
-- **Spring-Damped Magnetic Pull**: Pointer-reactive CTA button with parallax arrow motion and 1-click clipboard copy.
+### 9. Contact (`contact.tsx`)
+- **Dual-Tone Split**: Deep black upper stage with massive Caveat display headline + warm paper footer with handwritten signature.
+- **Stacked Action Card**: Email Me (copies address to clipboard, no mail-app redirect) → Reveal Phone Number → View Detailed Resume, stacked vertically in one card, no page-space penalty.
+- **Footer Return-to-Top**: on mobile, a standalone arrow sits on the left edge of the footer while the signature and "Return to Top" label sit on the right; the global floating scroll-to-top button hides once the footer is in view to avoid a duplicate control.
 
 ---
 
@@ -63,7 +64,7 @@ A high-performance personal portfolio, interactive product showcase, and career 
 | **UI Runtime** | React | `19.0.0` | Concurrent UI rendering and Server Actions |
 | **Language** | TypeScript | `^5.0.0` | Strict type safety across all schemas |
 | **Styling** | Tailwind CSS | `v4.0.0` | CSS theme variable engine (`@theme inline`) |
-| **Scroll Animation** | GSAP / ScrollTrigger | `3.15.0` | Pinned horizontal track, scrubbed text, SVG drawing |
+| **Motion Engine** | GSAP | `3.15.0` | Career Metro auto-advance tweening, SVG drawing, scrub effects |
 | **Physics & Gestures** | Framer Motion | `12.23.2` | Spring animations, drag gestures, velocity tracking |
 | **Smooth Scrolling** | Lenis | `1.3.25` | Hardware-accelerated smooth scrolling singleton |
 | **Sound System** | Web Audio API / Howler | `2.2.4` | Zero-asset base64 PCM WAV synthesis |
@@ -77,8 +78,8 @@ A high-performance personal portfolio, interactive product showcase, and career 
 | Shortcut | Action | Scope |
 |---|---|---|
 | <kbd>⌘</kbd> + <kbd>K</kbd> / <kbd>Ctrl</kbd> + <kbd>K</kbd> | Open Command Palette | Global |
-| <kbd>→</kbd> / <kbd>←</kbd> | Navigate Next / Previous Station | Delhi Metro (when in view) |
-| <kbd>Home</kbd> / <kbd>End</kbd> | Jump to First / Last Station | Delhi Metro (when in view) |
+| <kbd>→</kbd> / <kbd>←</kbd> | Navigate Next / Previous Station (also pauses autoplay) | Career Metro (when in view) |
+| <kbd>Home</kbd> / <kbd>End</kbd> | Jump to First / Last Station | Career Metro (when in view) |
 | <kbd>Esc</kbd> | Close Modal / Overlay / Palette | Active Dialog |
 | <kbd>Enter</kbd> | Select active item / Trigger CTA | Focus state |
 
@@ -106,12 +107,12 @@ A high-performance personal portfolio, interactive product showcase, and career 
 │   │   │   ├── nav-index.tsx    # Table of contents
 │   │   │   ├── brand-marquee.tsx# Kinetic velocity marquee
 │   │   │   ├── origin.tsx       # Narrative & SVG line drawing
-│   │   │   ├── best-work-metro.tsx # GSAP pinned Delhi Metro rail & modals
+│   │   │   ├── best-work-metro.tsx # Auto-advancing Career Metro rail & modals
 │   │   │   ├── research-archive.tsx # Archival research papers
-│   │   │   ├── product-lab.tsx  # 44-word collage & side projects
+│   │   │   ├── product-lab.tsx  # Side project showcase
 │   │   │   ├── achievements.tsx # Snap carousel deck & education
-│   │   │   └── contact.tsx      # Split dark/paper contact & magnetic CTA
-│   │   ├── shell/               # Global overlays, preloader, HUDs, sound manager
+│   │   │   └── contact.tsx      # Split dark/paper contact & action card
+│   │   ├── shell/               # Global overlays: preloader, nav, cursor, sound/mute, scroll-to-top
 │   │   └── ui/                  # Reusable UI primitives
 │   ├── hooks/                   # Custom hooks (sound, session stats, mute, boot)
 │   └── lib/

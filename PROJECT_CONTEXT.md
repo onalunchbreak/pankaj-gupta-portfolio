@@ -22,12 +22,12 @@ This project is a high-performance, brutalist-editorial personal portfolio and i
 │  01. Hero & Hero Studio Editor        (Canvas drag-drop / AST Sync)    │
 │  02. NavIndex & Table of Contents     (Editorial navigation index)     │
 │  03. Brand Marquee                    (Velocity-modulated ticker)      │
-│  04. Origin Story                     (GSAP scrub word & SVG draw)     │
-│  05. Best Work Delhi Metro            (GSAP pinned rail / Deep-Dive)   │
+│  04. Origin Story                     (Short bullets & SVG draw)       │
+│  05. Career Metro                     (Auto-advance rail / Deep-Dive)  │
 │  06. Research Archive                 (Archival papers / DOI links)    │
-│  07. Product Lab & Insomniac Space    (44-word collage / Side projects)│
+│  07. Product Lab & Insomniac Space    (Side projects showcase)         │
 │  08. Achievements & Honors            (Snap carousel deck / Education) │
-│  09. Contact                          (Split dark/paper / Magnetic CTA)│
+│  09. Contact                          (Split dark/paper / Action card) │
 └────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
@@ -46,7 +46,7 @@ This project is a high-performance, brutalist-editorial personal portfolio and i
 | **UI Library** | React & React DOM | `19.0.0` | React 19 concurrent rendering, Server Actions, modern hooks |
 | **Language** | TypeScript | `^5.0.0` (Strict mode) | Type safety across schemas, stores, and components |
 | **Styling Engine** | Tailwind CSS | `v4.0.0` (`@tailwindcss/postcss`) | CSS theme variables, `@theme inline`, brutalist utility tokens |
-| **Scroll Animations** | GSAP & ScrollTrigger | `3.15.0` | Pinned horizontal metro track, word-by-word text scrubs, SVG drawing |
+| **Motion Engine** | GSAP & ScrollTrigger | `3.15.0` | Career Metro auto-advance tweening, Origin SVG path drawing |
 | **Component Motion** | Framer Motion | `12.23.2` | Spring physics, layout animations, gestures, velocity tracking |
 | **Smooth Scrolling** | Lenis | `1.3.25` | Hardware-accelerated smooth scrolling with central singleton |
 | **Audio Engine** | Web Audio API / Howler | `2.2.4` + Custom WAV Synth | Pure-math PCM audio synthesis (Zero external audio assets) |
@@ -193,9 +193,8 @@ export interface StudioNode {
 ### 3.4. Origin Story (`src/components/sections/origin.tsx`)
 
 - **Role**: Narrative overview of Pankaj's journey from Engineering Physics at DTU to Applied AI research and Product Management.
-- **GSAP Scrubbed Text Reveal**: Word-by-word opacity transition (`0.18` → `1.0`) linked to the scroll position using `ScrollTrigger.scrub`.
+- **Headline**: short cursive title ("The Beginning") + one-line subtitle, followed by 3 short bolded bullets (Education & Curiosity / The Research Click / The Pivot to Product) — replaced an earlier 32-word cursive sentence heading and 3 dense paragraphs for scannability.
 - **Dynamic SVG Drawing**: A hand-drawn SVG ink line (`PATH_D`) draws itself via `strokeDashoffset` as the user navigates the section.
-- **Motif Stamp**: The iconic `"PRODUCT ROADMAP?"` stamp with `"ROADMAP"` struck through and `"plans changed."` handwritten underneath appears at key narrative beats.
 
 ---
 
@@ -215,8 +214,8 @@ A gamified career journey modeled as the iconic **Delhi Metro Yellow Line**.
 ```
 
 #### Dual-Mode Architecture
-1. **Desktop (>1024px, Standard Motion)**: Horizontal pinned track powered by GSAP `ScrollTrigger.pin`. As the user scrolls vertically, the track slides horizontally through all 6 station platforms.
-2. **Mobile / Reduced Motion**: Responsive stacked 2-column card grid with direct modal access.
+1. **Desktop (>1024px, Standard Motion)**: Normal in-flow section — NOT scroll-pinned. A GSAP tween (`x: -activeIndex * panelWidth`) auto-advances the horizontal rail every ~6s, pausing instantly on hover or any manual interaction (Prev/Next buttons, station-route dots, arrow/Home/End keys) and resuming ~4s after the last interaction. Autoplay also pauses while the deep-dive overlay is open. Single source of truth is a `goToStation(idx, opts)` mutator that all four input methods (autoplay, dots, buttons, keyboard) funnel through.
+2. **Mobile / Reduced Motion**: Responsive stacked 2-column card grid with direct modal access, no autoplay.
 
 #### Station Details
 1. **Teach For India**: Community teaching volunteer; 50+ students reached, 100% remote learning continuity during pandemic lockdowns.
@@ -248,9 +247,7 @@ A gamified career journey modeled as the iconic **Delhi Metro Yellow Line**.
 ### 3.7. Product Lab & Insomniac Space (`src/components/sections/product-lab.tsx`)
 
 - **Role**: Showcase of side projects, experiments, and technical versatility.
-- **44-Word Collage Geometry**: A hand-tuned spatial word cloud categorized into 3 visual hierarchy tiers (focal, medium, small) with zero overflow.
-- **10 Interactive Skill Tags**: Floating tags with `tagPulse` animation that trigger abstract preview backdrops (blobs, rings, bars) and `whoosh` sound effects on hover.
-- **Side Projects**:
+- **Side Projects** (the section's only content — a prior word-cloud/skill-tag hover feature was fully built but never rendered, had a data-mismatch bug, and was deleted entirely rather than fixed after review):
   1. **Queen's Gambit**: Personalized chess platform blending classical tournament aesthetics with modern AI.
   2. **Daily Dose of AI**: Curated updates on applied artificial intelligence and technology.
   3. **Skill Tracer**: Developer workflow recorder generating structured `skills.md` via AI models.
@@ -278,9 +275,8 @@ A gamified career journey modeled as the iconic **Delhi Metro Yellow Line**.
 
 - **Role**: Frictionless direct communication portal.
 - **Split Environment**:
-  - **Upper Half (Deep Black)**: Massive Caveat display headline ("Talk Product" in off-white + "With Me" in electric blue with drop shadow), email card, and one-click copy button with clipboard fallback.
-  - **Lower Half (Warm Paper)**: Handwritten signoff, right-aligned signature with blinking terminal cursor, and smooth scroll-to-top button.
-- **Magnetic CTA**: Pointer-reactive button translation using Framer Motion springs (`stiffness: 220`, `damping: 18`) with parallax arrow movement.
+  - **Upper Half (Deep Black)**: Massive Caveat display headline ("Talk Product" in off-white + "With Me" in electric blue with drop shadow), body copy, and a stacked action card — **Email Me** (copies address to clipboard, no `mailto:` redirect), **Reveal Phone Number** (click-to-reveal, then a `tel:` link), **View Detailed Resume** (external link) — in that order. Social links (LinkedIn/GitHub) sit below the action card on mobile, beside the body copy on desktop (grid `order`/`row-start` control the two layouts independently).
+  - **Lower Half (Warm Paper)**: Handwritten signoff (left) and right-aligned signature (no blinking cursor). On mobile the footer's own return-to-top control splits into a standalone arrow on the left edge and a "Return to Top" text label beside the signature on the right; on desktop it collapses into one inline arrow+label button. The global floating scroll-to-top button (bottom-right) auto-hides via `IntersectionObserver` once the footer scrolls into view, so only one scroll-to-top control is ever visible at once.
 
 ---
 
@@ -319,7 +315,7 @@ export function getSfx(): Record<string, string> {
 ```
 
 - **Autoplay Compliance**: The `SoundManager` component arms the audio context on the first user interaction gesture (`pointerdown`, `keydown`, `touchstart`).
-- **Mute Persistence**: Sound state is saved to `localStorage` via `useMuteStore`.
+- **Mute Persistence**: Sound state is saved to `localStorage` via `useMuteStore`, toggled via the fixed bottom-left mute button (`mute-toggle.tsx`).
 
 ---
 
@@ -334,7 +330,7 @@ export function getSfx(): Record<string, string> {
 ### 4.4. Command Palette (`src/components/shell/command-palette.tsx`, `src/lib/search-index.ts`)
 
 - **Shortcut**: Triggered via `⌘K` or `Ctrl+K`.
-- **Search Index**: Dynamic flat index generated across all 7 main sections, 6 metro stations, 4 work experiences, 4 research papers, and 4 side projects.
+- **Search Index**: Dynamic flat index generated across all 7 main sections, 6 metro stations, 4 research papers, and 4 side projects.
 - **Fuzzy Matching**: Subsequence scoring with word-boundary priority.
 
 ---

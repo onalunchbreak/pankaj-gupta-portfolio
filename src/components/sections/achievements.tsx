@@ -177,7 +177,7 @@ function EducationStripItem({
   const reduced = usePrefersReducedMotion();
   return (
     <motion.div
-      className="flex flex-col gap-1.5 border-l-2 border-[#1738D5]/40 pl-4 transition-colors duration-300 hover:border-[#1738D5]"
+      className="flex flex-col items-center gap-1.5 text-center transition-colors duration-300 sm:items-start sm:border-l-2 sm:border-[#1738D5]/40 sm:pl-4 sm:text-left sm:hover:border-[#1738D5]"
       initial={reduced ? false : { opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-8% 0px" }}
@@ -200,13 +200,11 @@ function EducationStripItem({
    MAIN SECTION COMPONENT (CAROUSEL DECK DEFAULT)
    ============================================================ */
 export default function Achievements() {
-  const reduced = usePrefersReducedMotion();
-
   return (
     <section
       id="achievements"
       className="env-paper paper-texture relative w-full overflow-hidden"
-      aria-labelledby="achievements-heading"
+      aria-label="Honors and recognition"
       data-cursor-label="achievements"
     >
       <div className="mx-auto w-full max-w-[1200px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
@@ -223,18 +221,6 @@ export default function Achievements() {
           <span className="ml-auto" />
           <ShareButton sectionId="achievements" />
         </motion.div>
-
-        {/* Headline — handwritten, large, dark ink */}
-        <motion.h2
-          id="achievements-heading"
-          className="hand-display max-w-5xl text-[9vw] leading-[0.85] tracking-tight text-[#1a1a1a] sm:text-[6vw] lg:text-6xl"
-          initial={reduced ? false : { opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.8, ease: EASE }}
-        >
-          {ACHIEVEMENTS.headline}
-        </motion.h2>
 
         {/* Sole & Default View: Carousel Deck */}
         <CarouselDeck cards={ACHIEVEMENTS.cards} />

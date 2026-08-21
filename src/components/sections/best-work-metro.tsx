@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CountUp } from "@/components/sections/_shared";
 import ShareButton from "@/components/shell/share-button";
 import {
@@ -117,11 +116,14 @@ export default function BestWorkMetro() {
   const trackRef = useRef<HTMLDivElement>(null);
   const trainRef = useRef<HTMLDivElement>(null);
 
-  // Latest active index + play ref so the GSAP onUpdate closure can read
-  // fresh values without re-subscribing on every render.
-  const progressRef = useRef(0);
+  // Latest active index + play ref so effects/closures can read fresh
+  // values without re-subscribing on every render.
   const activeRef = useRef(0);
   const playRef = useRef(play);
+
+  // Autoplay pause/resume bookkeeping.
+  const isPausedRef = useRef(false);
+  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Track the trigger button so focus can be restored when the deep-dive
   // overlay closes.
@@ -138,8 +140,6 @@ export default function BestWorkMetro() {
 
   const openStation =
     METRO_STATIONS.find((s) => s.id === openStationId) ?? null;
-  const nextStation =
-    METRO_STATIONS[(activeIndex + 1) % METRO_STATIONS.length];
 
   // Lock scroll + trap focus while the deep-dive overlay is open.
   useBodyScrollLock(openStationId !== null);
@@ -154,9 +154,7 @@ export default function BestWorkMetro() {
     return () => mq.removeEventListener("change", update);
   }, []);
 
-  /* ---- section-in-view tracking for keyboard nav ---- */
-  // Uses a generous rootMargin so keyboard nav activates as soon as the
-  // metro section is approaching the viewport, not just when it's 15% visible.
+  /* ---- section-in-view tracking — arms autoplay + keyboard nav ---- */
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -164,8 +162,8 @@ export default function BestWorkMetro() {
       ([entry]) => {
         setInView(entry.isIntersecting);
         if (entry.isIntersecting) {
-          // Show the prominent keyboard hint the first time the user enters
-          // the metro section, then auto-dismiss after 5s.
+          // Show a brief nav hint the first time the user enters the
+          // metro section, then auto-dismiss after 5s.
           setShowKeyHint(true);
           setTimeout(() => setShowKeyHint(false), 5000);
         }
@@ -176,142 +174,110 @@ export default function BestWorkMetro() {
     return () => io.disconnect();
   }, []);
 
-  /* ---- GSAP pinned horizontal track (desktop + not reduced) ---- */
-  useEffect(() => {
-    if (!showPinned) return;
-    const outer = outerRef.current;
-    const viewport = viewportRef.current;
-    const track = trackRef.current;
-    if (!outer || !viewport || !track) return;
+  /* ---- autoplay pause / resume ----
+     Any manual interaction (hover, dot/button click, keyboard) pauses
+     the auto-advance and reschedules its resume 4s after the last
+     interaction. The deep-dive overlay also pauses it while open. */
+  const pauseAutoplay = useCallback(() => {
+    isPausedRef.current = true;
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+  }, []);
 
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      const getDistance = () =>
-        Math.max(0, track.scrollWidth - window.innerWidth);
-
-      gsap.to(track, {
-        x: () => -getDistance(),
-        ease: "none",
-        scrollTrigger: {
-          trigger: outer,
-          start: "top top",
-          end: () => "+=" + (getDistance() + window.innerHeight),
-          scrub: 1,
-          pin: viewport,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            progressRef.current = self.progress;
-            const idx = Math.min(
-              METRO_STATIONS.length - 1,
-              Math.floor(self.progress * METRO_STATIONS.length)
-            );
-            // State guard: only fire door chime + state update when the
-            // active index actually changes. Prevents repeated sound firing
-            // during minor scrub reversals.
-            if (idx !== activeRef.current) {
-              activeRef.current = idx;
-              setActiveIndex(idx);
-              playRef.current("door");
-            }
-            // Train marker ● travels along the line with progress.
-            if (trainRef.current) {
-              const tx = self.progress * (window.innerWidth - 40);
-              trainRef.current.style.transform = `translate3d(${tx}px, -50%, 0)`;
-            }
-          },
-          onLeaveBack: () => {
-            // Reset to the first station when scrolling back above the section.
-            if (activeRef.current !== 0) {
-              activeRef.current = 0;
-              setActiveIndex(0);
-            }
-            if (trainRef.current) {
-              trainRef.current.style.transform = "translate3d(0, -50%, 0)";
-            }
-          },
-        },
-      });
-
-      ScrollTrigger.refresh();
-    }, outer);
-
-    const onResize = () => ScrollTrigger.refresh();
-    window.addEventListener("resize", onResize);
-
-    return () => {
-      window.removeEventListener("resize", onResize);
-      ctx.revert();
-    };
-  }, [showPinned]);
-
-  /* ---- keyboard nav (←/→) active only when section in view + pinned ---- */
-  const scrollToStation = useCallback((idx: number) => {
-    const outer = outerRef.current;
-    const track = trackRef.current;
-    if (!outer || !track) return;
-    const outerTop = outer.getBoundingClientRect().top + window.scrollY;
-    const distance = Math.max(0, track.scrollWidth - window.innerWidth);
-    const totalScroll = distance + window.innerHeight;
-    const stationScroll = totalScroll * (idx / (METRO_STATIONS.length - 1));
-    const targetTop = outerTop + stationScroll;
-    const lenis = getLenis();
-    if (lenis) {
-      lenis.scrollTo(targetTop, { duration: 0.8 });
-    } else {
-      window.scrollTo({ top: targetTop, behavior: "smooth" });
-    }
+  const scheduleResume = useCallback(() => {
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+    resumeTimeoutRef.current = setTimeout(() => {
+      isPausedRef.current = false;
+    }, 4000);
   }, []);
 
   useEffect(() => {
+    if (openStationId) {
+      pauseAutoplay();
+    } else {
+      scheduleResume();
+    }
+  }, [openStationId, pauseAutoplay, scheduleResume]);
+
+  /* ---- single source of truth for the current station ----
+     Dots, Prev/Next buttons, keyboard nav, and autoplay all funnel
+     through this instead of touching activeIndex directly. */
+  const goToStation = useCallback((idx: number, opts?: { userInitiated?: boolean }) => {
+    const clamped = ((idx % METRO_STATIONS.length) + METRO_STATIONS.length) % METRO_STATIONS.length;
+    if (clamped === activeRef.current) return;
+    activeRef.current = clamped;
+    setActiveIndex(clamped);
+    playRef.current(opts?.userInitiated ? "blip" : "door");
+    if (opts?.userInitiated) {
+      pauseAutoplay();
+      scheduleResume();
+    }
+  }, [pauseAutoplay, scheduleResume]);
+
+  /* ---- Auto-advancing carousel (desktop + not reduced) ----
+     Advances every 6s, wraps around, pauses on hover/interaction/open
+     modal. Gated on showPinned, so reduced-motion and mobile users
+     never get autoplay. */
+  useEffect(() => {
+    if (!showPinned || !inView) return;
+    const id = setInterval(() => {
+      if (isPausedRef.current) return;
+      const next = (activeRef.current + 1) % METRO_STATIONS.length;
+      activeRef.current = next;
+      setActiveIndex(next);
+      playRef.current("door");
+    }, 6000);
+    return () => clearInterval(id);
+  }, [showPinned, inView]);
+
+  /* ---- Track tween: moves the horizontal rail + train marker to the
+     current station whenever activeIndex changes. This is the only
+     place that actually animates the DOM — dots/buttons/keyboard/
+     autoplay all just set activeIndex via goToStation. ---- */
+  useEffect(() => {
+    if (!showPinned) return;
+    const track = trackRef.current;
+    const viewport = viewportRef.current;
+    if (!track || !viewport) return;
+    // Pixel-based, not xPercent: xPercent is relative to the track's OWN
+    // width (which is N panels wide), not the viewport, so xPercent math
+    // would overshoot by a factor of N. Each panel is exactly one
+    // viewport-width, so translate by activeIndex * viewportWidth.
+    const panelWidth = viewport.clientWidth;
+    gsap.to(track, {
+      x: -activeIndex * panelWidth,
+      duration: 1.1,
+      ease: "power2.inOut",
+    });
+    if (trainRef.current) {
+      const progress = activeIndex / (METRO_STATIONS.length - 1);
+      gsap.to(trainRef.current, {
+        x: progress * (window.innerWidth - 40),
+        duration: 1.1,
+        ease: "power2.inOut",
+      });
+    }
+  }, [activeIndex, showPinned]);
+
+  /* ---- keyboard nav (←/→, Home/End) — active only when the section is
+     in view and the rail is showing. Everything funnels through
+     goToStation. ---- */
+  useEffect(() => {
     if (!inView || !showPinned || openStationId) return;
-    let isScrolling = false;
 
     const navigate = (dir: "left" | "right") => {
       setShowKeyHint(false);
-      if (isScrolling) return;
-      const delta = dir === "right" ? 1 : -1;
-      const target = Math.max(
-        0,
-        Math.min(METRO_STATIONS.length - 1, activeRef.current + delta)
-      );
-      if (target === activeRef.current) return;
-      activeRef.current = target;
-      setActiveIndex(target);
-      playRef.current("blip");
-      isScrolling = true;
-      scrollToStation(target);
-      setTimeout(() => { isScrolling = false; }, 150);
+      goToStation(activeRef.current + (dir === "right" ? 1 : -1), { userInitiated: true });
     };
 
-    // Direct keydown listener for maximum reliability — one press = one station.
-    // Does NOT rely on the keyboard-router's custom event chain.
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
         e.preventDefault();
         navigate(e.key === "ArrowRight" ? "right" : "left");
       }
     };
-    const onHome = () => {
-      if (activeRef.current === 0 || isScrolling) return;
-      activeRef.current = 0;
-      setActiveIndex(0);
-      playRef.current("blip");
-      isScrolling = true;
-      scrollToStation(0);
-      setTimeout(() => { isScrolling = false; }, 150);
-    };
-    const onEnd = () => {
-      if (activeRef.current === METRO_STATIONS.length - 1 || isScrolling) return;
-      const last = METRO_STATIONS.length - 1;
-      activeRef.current = last;
-      setActiveIndex(last);
-      playRef.current("blip");
-      isScrolling = true;
-      scrollToStation(last);
-      setTimeout(() => { isScrolling = false; }, 150);
-    };
+    const onHome = () => goToStation(0, { userInitiated: true });
+    const onEnd = () => goToStation(METRO_STATIONS.length - 1, { userInitiated: true });
+
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("portfolio:metro-home", onHome);
     window.addEventListener("portfolio:metro-end", onEnd);
@@ -320,7 +286,7 @@ export default function BestWorkMetro() {
       window.removeEventListener("portfolio:metro-home", onHome);
       window.removeEventListener("portfolio:metro-end", onEnd);
     };
-  }, [inView, showPinned, openStationId, scrollToStation]);
+  }, [inView, showPinned, openStationId, goToStation]);
 
   /* ---- Esc closes the deep-dive overlay ---- */
   useEffect(() => {
@@ -373,8 +339,8 @@ export default function BestWorkMetro() {
       {/* CSS keyframes for the Hindi ticker marquee */}
       <style>{`
         @keyframes pankajMetroTicker {
-          from { transform: translate3d(0, 0, 0); }
-          to   { transform: translate3d(-50%, 0, 0); }
+          from { transform: translate3d(-50%, 0, 0); }
+          to   { transform: translate3d(0, 0, 0); }
         }
       `}</style>
 
@@ -455,6 +421,8 @@ export default function BestWorkMetro() {
           <div
             ref={viewportRef}
             className="relative h-screen min-h-[640px] max-h-[850px] w-full overflow-hidden bg-[#0A0A0A]"
+            onMouseEnter={pauseAutoplay}
+            onMouseLeave={scheduleResume}
           >
 
 
@@ -487,9 +455,9 @@ export default function BestWorkMetro() {
               </div>
             </div>
 
-            {/* PROMINENT KEYBOARD HINT OVERLAY — appears the first time the
-                user enters the metro section, then auto-dismisses. Makes it
-                clear that arrow keys navigate the slowly-sliding stations. */}
+            {/* BRIEF NAV HINT — appears the first time the user enters the
+                metro section, then auto-dismisses. The rail plays itself;
+                this just points out you can also steer it. */}
             <AnimatePresence>
               {showKeyHint && inView && showPinned && !openStationId && (
                 <motion.div
@@ -500,31 +468,12 @@ export default function BestWorkMetro() {
                   transition={{ duration: 0.4 }}
                   aria-hidden
                 >
-                  <div className="flex flex-col items-center gap-4 rounded-lg border border-[#FFD400]/40 bg-[#0A0A0A]/90 px-8 py-6 backdrop-blur-md">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
-                      {"KEYBOARD REQUIRED"}
-                    </p>
-                    <div className="flex items-center gap-3">
-                      <motion.div
-                        className="flex h-14 w-14 items-center justify-center rounded-lg border-2 border-[#FFD400] bg-[#FFD400]/10 font-mono text-2xl text-[#FFD400]"
-                        animate={{ scale: [1, 1.15, 1], opacity: [0.7, 1, 0.7] }}
-                        transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
-                      >
-                        ←
-                      </motion.div>
-                      <motion.div
-                        className="flex h-14 w-14 items-center justify-center rounded-lg border-2 border-[#FFD400] bg-[#FFD400]/10 font-mono text-2xl text-[#FFD400]"
-                        animate={{ scale: [1, 1.15, 1], opacity: [0.7, 1, 0.7] }}
-                        transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
-                      >
-                        →
-                      </motion.div>
-                    </div>
+                  <div className="flex flex-col items-center gap-3 rounded-lg border border-[#FFD400]/40 bg-[#0A0A0A]/90 px-8 py-5 backdrop-blur-md">
                     <p className="text-center font-display text-lg font-bold tracking-tight text-[#F4F1EA]">
-                      USE ARROW KEYS
+                      SIT BACK, OR TAKE THE WHEEL
                     </p>
                     <p className="text-center font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">
-                      to navigate between stations
+                      arrow keys, the buttons, or the dots below all steer
                     </p>
                   </div>
                 </motion.div>
@@ -554,10 +503,7 @@ export default function BestWorkMetro() {
                     <button
                       key={s.id}
                       type="button"
-                      onClick={() => {
-                        playRef.current("blip");
-                        scrollToStation(i);
-                      }}
+                      onClick={() => goToStation(i, { userInitiated: true })}
                       onMouseEnter={() => playRef.current("tick")}
                       data-cursor-label={s.name}
                       className="group relative z-10 flex flex-1 flex-col items-center gap-1 focus-ring"
@@ -614,6 +560,28 @@ export default function BestWorkMetro() {
                 />
               ))}
             </div>
+
+            {/* Prev / Next station buttons */}
+            <button
+              type="button"
+              onClick={() => goToStation(activeIndex - 1, { userInitiated: true })}
+              onMouseEnter={() => playRef.current("tick")}
+              data-cursor-label="prev station"
+              aria-label="Previous station"
+              className="group absolute bottom-48 left-4 z-20 flex h-10 w-10 items-center justify-center border border-white/20 bg-[#0A0A0A]/80 text-[#F4F1EA] backdrop-blur-sm transition-colors hover:border-[#FFD400] hover:text-[#FFD400] focus-ring sm:bottom-56 sm:left-6"
+            >
+              <span aria-hidden>←</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => goToStation(activeIndex + 1, { userInitiated: true })}
+              onMouseEnter={() => playRef.current("tick")}
+              data-cursor-label="next station"
+              aria-label="Next station"
+              className="group absolute bottom-48 right-4 z-20 flex h-10 w-10 items-center justify-center border border-white/20 bg-[#0A0A0A]/80 text-[#F4F1EA] backdrop-blur-sm transition-colors hover:border-[#FFD400] hover:text-[#FFD400] focus-ring sm:bottom-56 sm:right-6"
+            >
+              <span aria-hidden>→</span>
+            </button>
 
             {/* Bottom Scrolling Photo Marquee Gallery */}
             <div className="absolute bottom-0 left-0 right-0 z-20 border-t border-white/10 bg-[#0A0A0A]/95 py-4 backdrop-blur-md">
@@ -718,53 +686,55 @@ function StationPanel({
 
   return (
     <article
-      className="relative flex h-full w-[85vw] max-w-[850px] shrink-0 flex-col justify-center pt-24 pb-44 gap-8 sm:gap-10 px-8 sm:px-12"
+      className="relative flex h-full w-full shrink-0 items-start justify-center pt-28 pb-44 px-8 sm:px-12"
       data-cursor-label={station.name}
     >
-      {/* TOP HALF — platform signboard & station name */}
-      <div className="flex flex-col items-start gap-5 sm:gap-6">
-        {/* Platform signboard — only PLATFORM 01 */}
-        <div className="border border-white/15 bg-[#0E0E0E] px-3.5 py-1.5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-            {`PLATFORM 0${index + 1}`}
+      <div className="flex w-full max-w-2xl flex-col items-start gap-8 sm:gap-10">
+        {/* TOP HALF — platform signboard & station name */}
+        <div className="flex flex-col items-start gap-5 sm:gap-6">
+          {/* Platform signboard — only PLATFORM 01 */}
+          <div className="border border-white/15 bg-[#0E0E0E] px-3.5 py-1.5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
+              {`PLATFORM 0${index + 1}`}
+            </p>
+          </div>
+
+          {/* Big station name */}
+          <h3
+            className={`font-display text-6xl font-bold leading-[0.92] tracking-tight transition-colors duration-300 lg:text-7xl ${
+              active ? "text-[#F4F1EA]" : "text-[#F4F1EA]/60"
+            }`}
+          >
+            {station.name}
+          </h3>
+
+          {/* Role line */}
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400]/80">
+            {station.role}
+          </p>
+
+          {/* Headline — the case study thesis */}
+          <p
+            className={`max-w-xl font-display text-base leading-relaxed transition-colors duration-300 sm:text-lg mt-1 ${
+              active ? "text-[#F4F1EA]/85" : "text-[#F4F1EA]/50"
+            }`}
+          >
+            {station.headline}
           </p>
         </div>
 
-        {/* Big station name */}
-        <h3
-          className={`font-display text-6xl font-bold leading-[0.92] tracking-tight transition-colors duration-300 lg:text-7xl ${
-            active ? "text-[#F4F1EA]" : "text-[#F4F1EA]/60"
-          }`}
-        >
-          {station.name}
-        </h3>
-
-        {/* Role line */}
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#FFD400]/80">
-          {station.role}
-        </p>
-
-        {/* Headline — the case study thesis */}
-        <p
-          className={`max-w-xl font-display text-base leading-relaxed transition-colors duration-300 sm:text-lg mt-1 ${
-            active ? "text-[#F4F1EA]/85" : "text-[#F4F1EA]/50"
-          }`}
-        >
-          {station.headline}
-        </p>
-      </div>
-
-      {/* BOTTOM HALF — Step Out button */}
-      <div className="pt-2 sm:pt-4">
-        <button
-          type="button"
-          onClick={onStepOut}
-          onMouseEnter={() => play("tick")}
-          data-cursor-label="step out"
-          className="group inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.25em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
-        >
-          <span>Step Out ↗</span>
-        </button>
+        {/* BOTTOM HALF — Step Out button */}
+        <div className="pt-2 sm:pt-4">
+          <button
+            type="button"
+            onClick={onStepOut}
+            onMouseEnter={() => play("tick")}
+            data-cursor-label="step out"
+            className="group inline-flex w-fit items-center gap-3 border-2 border-[#FFD400] bg-transparent px-5 py-3 font-mono text-xs uppercase tracking-[0.25em] text-[#FFD400] transition-colors hover:bg-[#FFD400] hover:text-[#0A0A0A] focus-ring"
+          >
+            <span>Step Out ↗</span>
+          </button>
+        </div>
       </div>
     </article>
   );
@@ -960,32 +930,6 @@ function DeepDiveOverlay({
           </div>
 
 
-
-          {/* Extras — labelled lists (papers, themes, side projects, etc.) */}
-          {station.extras && station.extras.length > 0 && (
-            <div className="mt-10 space-y-8 border-t border-white/10 pt-7">
-              {station.extras.map((extra) => (
-                <div key={extra.label}>
-                  <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-[#FFD400]">
-                    {extra.label}
-                  </p>
-                  <ul
-                    className="flex flex-wrap gap-2"
-                    role="list"
-                  >
-                    {extra.items.map((item) => (
-                      <li
-                        key={item}
-                        className="border border-white/15 bg-[#0A0A0A] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-[#F4F1EA]/80"
-                      >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          )}
 
           {/* Learning — highlighted note */}
           {station.learning && (

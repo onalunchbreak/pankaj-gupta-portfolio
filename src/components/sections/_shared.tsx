@@ -1,9 +1,23 @@
 "use client";
 import { motion } from "framer-motion";
-import { useRef, type ReactNode } from "react";
+import { Fragment, useRef, type ReactNode } from "react";
 import { useCountUp } from "@/hooks/use-count-up";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import ShareButton from "@/components/shell/share-button";
+
+/* ---------- Bold-keyword renderer ----------
+   Parses "**text**" segments into <strong> so content data can mark
+   high-signal keywords (names, credentials, skills, metrics) without
+   dangerouslySetInnerHTML. */
+export function renderBold(text: string): ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i} className="font-semibold">{part.slice(2, -2)}</strong>;
+    }
+    return <Fragment key={i}>{part}</Fragment>;
+  });
+}
 
 /* ---------- Section shell with consistent index label ---------- */
 export function SectionShell({

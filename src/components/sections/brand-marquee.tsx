@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
   motion,
   useScroll,
@@ -11,6 +11,7 @@ import {
 } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { useSound } from "@/hooks/use-sound";
+import { MARQUEE_ITEMS } from "@/lib/data";
 
 /**
  * Wrap a value into a [min, max) range. Used to make the marquee's translateX
@@ -21,17 +22,6 @@ function wrap(min: number, max: number, v: number): number {
   const mod = (((v - min) % range) + range) % range;
   return mod + min;
 }
-
-const PRODUCT_KEYWORDS = [
-  "Rapid Prototyping",
-  "Product Discovery",
-  "Market Research",
-  "User Interviews",
-  "A/B Testing",
-  "Roadmapping",
-  "Stakeholder Alignment",
-  "Go-To-Market",
-];
 
 /**
  * Brand marquee — full-bleed black strip.
@@ -54,13 +44,11 @@ export default function BrandMarquee() {
   // Map absolute scroll velocity (px/s) → speed multiplier in [0.5, 1.5].
   const speed = useTransform(smoothVelocity, [0, 1500], [1, 1.5], { clamp: true });
 
-  const direction = useRef(1);
-
+  // Direction is fixed (always left-to-right) regardless of scroll direction —
+  // only the SPEED reacts to scroll velocity, never the direction.
   useAnimationFrame((_, delta) => {
     if (paused || reduced) return;
-    let moveBy = direction.current * (delta / 1000) * -1.2; // base ~1.2%/s
-    if (smoothVelocity.get() < -10) direction.current = -1;
-    else if (smoothVelocity.get() > 10) direction.current = 1;
+    let moveBy = (delta / 1000) * 1.2; // base ~1.2%/s, always left-to-right
     const mult = speed.get();
     moveBy *= Math.max(0.5, Math.min(mult, 1.5));
     baseX.set(baseX.get() + moveBy);
@@ -70,10 +58,10 @@ export default function BrandMarquee() {
 
   // 4× duplication guarantees the -50% wrap is seamless on any viewport.
   const items = [
-    ...PRODUCT_KEYWORDS,
-    ...PRODUCT_KEYWORDS,
-    ...PRODUCT_KEYWORDS,
-    ...PRODUCT_KEYWORDS,
+    ...MARQUEE_ITEMS,
+    ...MARQUEE_ITEMS,
+    ...MARQUEE_ITEMS,
+    ...MARQUEE_ITEMS,
   ];
 
   // Alternating color cycle: yellow, white, blue, gray

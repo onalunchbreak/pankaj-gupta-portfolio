@@ -13,7 +13,6 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 const TYPE_LABELS: Record<SearchEntry["type"], string> = {
   section: "SECTION",
   station: "STATION",
-  experience: "EXPERIENCE",
   paper: "PAPER",
   project: "PROJECT",
 };
@@ -21,7 +20,6 @@ const TYPE_LABELS: Record<SearchEntry["type"], string> = {
 const TYPE_COLORS: Record<SearchEntry["type"], string> = {
   section: "text-[#1738D5]",
   station: "text-[#FFD400]",
-  experience: "text-[#1738D5]",
   paper: "text-[#FFD400]",
   project: "text-[#1738D5]",
 };
