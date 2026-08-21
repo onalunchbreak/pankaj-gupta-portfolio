@@ -106,3 +106,36 @@ Removed code confirmed to have zero live references (verified via grep + build +
 - `npx tsc --noEmit` — 5 errors remain, all pre-existing and unrelated (down from 8; the 3 fixed were the `station.extras` dead block above).
 - Dev server restarted clean (fresh `.next` cache) after the data.ts/search-index.ts edits to rule out stale Turbopack HMR state; confirmed via server log + DOM inspection that the build is genuinely error-free, not just visually appearing to work.
 - In-browser DOM verification for every spacing/layout change (gap measurements via `getBoundingClientRect`), plus functional checks: footer arrow click scrolls to top, mute button renders and toggles, ⌘K command palette still opens and searches correctly with the experience entries removed.
+
+---
+
+# ROUND 3 — SECURITY FIX, METRO REBALANCE, MOVED CONTROLS INTO FOOTER, DEPENDENCY CLEANUP
+
+## 18 · Security: exposed database credential (`.env`)
+- Found `.env` tracked in git since the repo's initial commit, containing a `DATABASE_URL` — publicly visible the entire time, since this repo is public. Confirmed the credential isn't referenced anywhere in the live app (its only consumer, `src/lib/db.ts`, was never imported — see §20).
+- Site owner authorized a full history rewrite rather than a forward-only removal. Backed up `.git` locally, used `git filter-repo --path .env --invert-paths` to strip the file from all 238 commits, verified zero remaining references (`git log --all --full-history -- .env`, blob search), re-added the `origin` remote (filter-repo removes it as a safety measure), and force-pushed to `main`. Confirmed via GitHub's API that the current tree and commit history no longer contain the file.
+- Site owner separately advised to rotate the actual credential — removing it from git does not undo the fact it was public; treat it as compromised regardless of the history rewrite.
+
+## 19 · Career Metro spacing — rebalanced (follow-up to §16)
+- §16's top-alignment fix kept the route-bar-to-content gap constant (good) but let the gap between content and the bottom photo marquee scale directly with each station's content length — 43px for the longest station (Pratham) up to 152px for the shortest (Bosch), which read as an oversized dead zone on the shorter stations even though the longest one looked right.
+- Switched back to vertical centering, tuned tightly (96px top / 212px bottom padding) so the leftover space splits across both sides of the content instead of collecting entirely below it. No single gap now exceeds ~90px on any of the 6 stations, and the previously-approved station (Pratham) is effectively unchanged (37px / 43px vs. the prior 30px / 43px).
+
+## 20 · Moved mute + scroll-to-top controls into the footer
+- The fixed bottom-left mute button and bottom-right scroll-to-top button were colliding with the Career Metro's own bottom-anchored Prev/Next buttons and cluttering the page everywhere else.
+- Deleted both floating components (`mute-toggle.tsx`, `scroll-to-top.tsx`) entirely. Added a static "Sound On/Off" toggle to the Contact footer, next to the existing footer return-to-top control — both utilities now live only at the end of the page.
+- **Bug caught and fixed during this change**: the inline footer mute button caused a real hydration mismatch — `useMuteStore` reads `localStorage`, which isn't available during SSR, so the server always rendered the "muted" default while the client could render a different stored preference, and React's dev overlay surfaced a genuine "Hydration failed" error. Fixed with the standard mounted-gate pattern: the button's displayed state matches the server's default on the first client render, then swaps to the real stored preference immediately after mount (a normal post-hydration update, not a mismatch). Verified against both a fresh visitor (no stored preference) and a returning one (stored preference present) — no error in either case.
+
+## 21 · Dependency & dead-scaffolding cleanup
+This repo was originally generated from a generic full-stack starter template and had accumulated a large amount of never-wired-in scaffolding. Verified zero live-app usage (grep across `src/app`, `src/components/sections`, `src/components/shell`, `src/hooks`, `src/lib`, plus every root config file) before removing anything:
+- **Entire `src/components/ui/` folder** (40 shadcn/ui primitive files) — none were imported by any section, shell component, or layout. The only two that were technically mounted (`toast.tsx` / `toaster.tsx` via `<Toaster />` in `layout.tsx`) were never actually triggered anywhere (`useToast`/`toast()` calls: zero), so they were dead in practice even though "used."
+- `src/hooks/use-toast.ts`, `src/lib/utils.ts` (the `cn()` helper — only ever imported by the now-deleted `ui/` files), `src/lib/db.ts` (a Prisma client with no `prisma/schema.prisma` anywhere in the repo and zero importers), and `components.json` (the shadcn CLI config, meaningless without `ui/`).
+- Removed `<Toaster />` from `layout.tsx` and the leftover `allowedDevOrigins: ["*.space-z.ai", ...]` block from `next.config.ts` (a dev-preview domain from the original template platform, unrelated to this project or Vercel).
+- Removed `bun.lock` — the project's scripts and docs use `npm`; having both lockfiles risked an inconsistent package manager being auto-detected by Vercel.
+- Trimmed `package.json` dependencies from 60+ packages down to the 12 the app actually imports (Tailwind Animate, Framer Motion, GSAP, Howler + types, Lenis, Lucide, Next, React/React-DOM, Sharp, Zustand) plus matching devDependencies. Removed: the entire `@radix-ui/*` set, `@dnd-kit/*`, `@mdxeditor/editor`, `@prisma/client` + `prisma`, `@reactuses/core`, `@tanstack/react-query` + `react-table`, `class-variance-authority`, `clsx`, `cmdk`, `date-fns`, `embla-carousel-react`, `input-otp`, `next-auth`, `next-intl`, `next-themes`, `react-day-picker`, `react-hook-form` + `@hookform/resolvers`, `react-markdown`, `react-resizable-panels`, `react-syntax-highlighter`, `recharts`, `sonner`, `tailwind-merge`, `uuid`, `vaul`, `z-ai-web-dev-sdk`, `zod`, and the devDependencies `bun-types` and `puppeteer-core`.
+- `npm install` after the trim removed 496 packages from `node_modules` (~870 → ~375). While reinstalling, `npm audit` flagged a high-severity CVE already present in the pinned `sharp` version (libvips vulnerabilities); bumped `sharp` to the patched `^0.35.3` as part of the same pass — `npm audit` now reports 0 vulnerabilities.
+
+## Verification performed (Round 3)
+- `.env` history scrub verified via local `git log --all --full-history` (no results) and the GitHub API (current tree has no `.env`, HEAD commit sha matches the rewritten history).
+- `npm run build` and `npx tsc --noEmit` (same 5 pre-existing, unrelated errors) both clean after the dependency trim and every subsequent edit.
+- Dev server restarted clean (fresh `.next` cache) after the trim; confirmed via server log (zero errors) and DOM inspection (all 9 page sections present, no Next.js error overlay) rather than trusting the browser console alone, which has shown stale buffered errors from earlier in this session on multiple occasions.
+- Career Metro gap re-measured across all 6 stations via `getBoundingClientRect` before and after the rebalance.

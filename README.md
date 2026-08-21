@@ -56,6 +56,10 @@ A high-performance personal portfolio, interactive product showcase, and career 
 
 ---
 
+## Repo Hygiene
+
+This project started from a generic full-stack starter template and carried a large amount of unused scaffolding — a 40-component shadcn/ui library, a Prisma client with no schema, an auth/i18n/theming stack, and ~50 npm packages, none of it reachable from the actual page. All of it has been removed: `dependencies` went from 60+ packages down to the 12 the site actually imports (Tailwind CSS, GSAP, Framer Motion, Lenis, Howler, Zustand, Lucide, plus Next/React/Sharp), and `npm install` now pulls ~370 packages instead of ~870. The Tech Stack Matrix below reflects only what ships.
+
 ## Tech Stack Matrix
 
 | Category | Technology | Version | Purpose |
@@ -112,8 +116,7 @@ A high-performance personal portfolio, interactive product showcase, and career 
 │   │   │   ├── product-lab.tsx  # Side project showcase
 │   │   │   ├── achievements.tsx # Snap carousel deck & education
 │   │   │   └── contact.tsx      # Split dark/paper contact & action card
-│   │   ├── shell/               # Global overlays: preloader, nav, cursor, sound manager
-│   │   └── ui/                  # Reusable UI primitives
+│   │   └── shell/               # Global overlays: preloader, nav, cursor, sound manager
 │   ├── hooks/                   # Custom hooks (sound, session stats, mute, boot)
 │   └── lib/
 │       ├── data.ts              # Resume-grounded portfolio content & schemas

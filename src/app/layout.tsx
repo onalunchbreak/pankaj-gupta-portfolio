@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Space_Mono, Inter, Noto_Sans_Devanagari, Caveat } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -76,7 +75,6 @@ export default function RootLayout({
         className={`${spaceGrotesk.variable} ${spaceMono.variable} ${inter.variable} ${notoDeva.variable} ${caveat.variable} antialiased bg-background text-foreground`}
       >
         {children}
-        <Toaster />
       </body>
     </html>
   );
